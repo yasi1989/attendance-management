@@ -5,6 +5,7 @@ sequenceDiagram
     participant Frontend as フロントエンド(Next.js)
     participant Backend as バックエンド(Hono)
     participant DB as データベース(Neon DB)
+    participant JordanAPI as ジョルダンAPI
     
     alt 有給申請フロー
         Employee->>Frontend: 有給申請画面アクセス
@@ -46,9 +47,13 @@ sequenceDiagram
         alt ジョルダンAPI連携
             Employee->>Frontend: ジョルダン連携選択
             Frontend->>Backend: ジョルダンAPI認証
-            Backend->>Frontend: 認証情報要求
+            Backend->>JordanAPI: 認証リクエスト
+            JordanAPI->>Backend: 認証情報応答
+            Backend->>Frontend: 認証情報送信
             Frontend->>Backend: ジョルダンAPI呼び出し
-            Backend->>Frontend: 経路情報返却
+            Backend->>JordanAPI: 経路情報リクエスト
+            JordanAPI->>Backend: 経路情報返却
+            Backend->>Frontend: 経路情報送信
             Frontend->>Employee: 経路情報表示
             Employee->>Frontend: 経路確認・申請
         else 手動入力/レシートアップロード
