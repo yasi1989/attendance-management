@@ -1,0 +1,136 @@
+<mxfile host="65bd71144e">
+    <diagram id="attendance_system_architecture" name="勤怠管理システム アーキテクチャ">
+        <mxGraphModel dx="1392" dy="607" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="frontend_container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="10" width="310" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="frontend_title" value="フロントエンド" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="20" width="160" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend_container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="10" width="310" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend_title" value="バックエンド" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#0050ef;" parent="1" vertex="1">
+                    <mxGeometry x="505" y="20" width="160" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="infra_container" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="780" y="10" width="310" height="420" as="geometry"/>
+                </mxCell>
+                <mxCell id="infra_title" value="インフラ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#D79B00;" parent="1" vertex="1">
+                    <mxGeometry x="855" y="20" width="160" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="next_js" value="Next.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="60" width="250" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="next_js_desc1" value="ページルーティング" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="95" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="next_js_desc2" value="サーバーコンポーネント" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="115" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="tailwind" value="TailwindCSS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="163" width="250" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="tailwind_desc" value="スタイリング" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="198" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="shadcn" value="shadcn/ui" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="243" width="250" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="shadcn_desc" value="UIコンポーネント" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="278" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="nextauth" value="NextAuth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="323" width="250" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="nextauth_desc" value="Credential + OAuth認証" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="155" y="363" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="hono" value="Hono" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#0050ef;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="60" width="250" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="hono_desc1" value="APIルーティング" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="505" y="95" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="hono_desc2" value="ミドルウェア" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="505" y="116" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_endpoints" value="API エンドポイント" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#0050ef;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="162" width="250" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_attendance" value="・勤怠記録API" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="199" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_leave" value="・有給申請API" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="224" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_expense" value="・経費申請API" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="249" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_approval" value="・承認フローAPI" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="274" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="api_ekinet" value="・ジョルダン連携API" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470" y="299" width="230" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="ext_api" value="外部API連携" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#0050ef;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="342" width="250" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ext_api_desc" value="ジョルダンAPI" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="505" y="377" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="deployment" value="デプロイ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#D79B00;" parent="1" vertex="1">
+                    <mxGeometry x="810" y="60" width="250" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="deployment_desc1" value="Vercel" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="855" y="95" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="deployment_desc2" value="Cloudflare Workers" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="855" y="113" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="neondb" value="Neon DB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=2;fontSize=16;fontStyle=1;verticalAlign=top;spacingTop=5;fontColor=#D79B00;" parent="1" vertex="1">
+                    <mxGeometry x="810" y="163" width="250" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="neondb_desc" value="PostgreSQLベース" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="855" y="198" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="fe_to_be" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;strokeWidth=2;" parent="1" source="next_js" target="hono" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="370" y="100" as="sourcePoint"/>
+                        <mxPoint x="450" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="fe_to_be_text" value="APIリクエスト" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="fe_to_be" vertex="1" connectable="0">
+                    <mxGeometry x="-0.0608" y="-1" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="be_to_deploy" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;strokeWidth=2;" parent="1" source="hono" target="deployment" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="720" y="100" as="sourcePoint"/>
+                        <mxPoint x="800" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="be_to_deploy_text" value="デプロイ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="be_to_deploy" vertex="1" connectable="0">
+                    <mxGeometry x="-0.0608" y="-1" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="be_to_db" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;strokeWidth=2;" parent="1" source="api_endpoints" target="neondb" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="720" y="250" as="sourcePoint"/>
+                        <mxPoint x="800" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="be_to_db_text" value="データ操作" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="be_to_db" vertex="1" connectable="0">
+                    <mxGeometry x="-0.1209" y="-1" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
