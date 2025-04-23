@@ -2,7 +2,6 @@
 erDiagram
     users ||--o{ accounts : has
     users ||--o{ sessions : has
-    users ||--o{ attendances : creates
     users ||--|| role : belongs_to
     users {
         uuid id PK "ユーザーID"
@@ -22,6 +21,7 @@ erDiagram
         timestamp updated_at "更新日時"
     }
     accounts {
+        uuid id PK "アカウントID"
         uuid user_id FK "ユーザーID"
         text provider PK "認証プロバイダー"
         text provider_account_id PK "プロバイダーアカウントID"
@@ -37,15 +37,6 @@ erDiagram
         text session_token PK "セッショントークン"
         uuid user_id FK "ユーザーID"
         timestamp expires "有効期限"
-        timestamp created_at "作成日時"
-        timestamp updated_at "更新日時"
-    }
-    attendances {
-        uuid id PK "勤怠ID"
-        uuid user_id FK "ユーザーID"
-        date date "日付"
-        timestamp check_in "出勤時間"
-        timestamp check_out "退勤時間"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }

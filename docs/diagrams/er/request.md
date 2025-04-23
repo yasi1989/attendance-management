@@ -1,9 +1,13 @@
 ```mermaid
 erDiagram
-    users ||--o{ leave_requests : submits
+    users ||--o{ attendances : creates
     users ||--o{ expense_requests : submits
-    expense_requests ||--o| route_info : contains
-    leave_requests ||--|| status : belongs_to
+    users ||--o| leave_balance : has
+    attendances ||--|| attendance_type : has
+    attendances ||--|| status : belongs_to
+    attendances ||--o{ approvals : requires
+    expense_requests ||--o{ approvals : requires
+    expense_requests ||--o{ route_info : contains
     expense_requests ||--|| status : belongs_to
     users {
         uuid id PK "ユーザーID"
@@ -16,14 +20,30 @@ erDiagram
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
-    leave_requests {
-        uuid id PK "休暇申請ID"
+    attendances {
+        uuid id PK "勤怠ID"
         uuid user_id FK "ユーザーID"
-        date request_date "申請日"
-        date start_date "開始日"
-        date end_date "終了日"
+        date date "勤務日"
+        timestamp check_in "出勤時間"
+        timestamp check_out "退勤時間"
+        uuid attendance_type_id FK "勤怠種別ID"
+        boolean is_half_day "半休フラグ"
+        text period "時間帯（例：MORNING, AFTERNOON）"
+        text reason "理由（有給申請時）"
         uuid status_id FK "状態ID"
-        integer leave_days "休暇日数"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
+    }
+    attendance_type {
+        uuid id PK "勤怠種別ID"
+        text name "種別名 (例: WORK, PAID_LEAVE, ABSENCE, SPECIAL)"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
+    }
+    leave_balance {
+        uuid id PK "残日数ID"
+        uuid user_id FK "ユーザーID"
+        decimal balance_days "残日数"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
@@ -48,7 +68,17 @@ erDiagram
     }
     status {
         uuid id PK "状態ID"
-        text name "状態名 (例: PENDING, APPROVED, REJECTED)"
+        text name "状態名 (例: DRAFT, PENDING, APPROVED, REJECTED)"
+        timestamp created_at "作成日時"
+        timestamp updated_at "更新日時"
+    }
+    approvals {
+        uuid id PK "承認ID"
+        uuid approver_id FK "承認者ID"
+        uuid attendance_id FK "勤怠ID"
+        uuid expense_request_id FK "経費申請ID"
+        uuid status_id FK "状態ID"
+        text comment "コメント"
         timestamp created_at "作成日時"
         timestamp updated_at "更新日時"
     }
