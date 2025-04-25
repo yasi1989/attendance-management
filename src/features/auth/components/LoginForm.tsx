@@ -21,11 +21,11 @@ const LoginForm = () => {
 		<Card className="w-full shadow-lg border-0">
 			<CardHeader className="space-y-1">
 				<CardTitle className="text-2xl text-center font-bold">YASM 勤怠管理</CardTitle>
-				<CardDescription className="text-center">sign in to access your account</CardDescription>
+				<CardDescription className="text-center">Sign in to access your account.</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Tabs defaultValue="signin" value={activeTab} onValueChange={setActiveTab}>
-					<TabsList className="grid grid-cols-2 w-full">
+					<TabsList className="grid grid-cols-2 w-full mb-4">
 						<TabsTrigger value="signin">Sign In</TabsTrigger>
 						<TabsTrigger value="signup">Sign Up</TabsTrigger>
 					</TabsList>
