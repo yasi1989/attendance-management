@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSignUpForm } from "../hooks/useLoginForm";
 import InputFormField from "@/lib/InputFormField";
+import LoginButton from "./LoginButton";
 
 const SignUpForm = () => {
 	const { form, onSubmit, isPending } = useSignUpForm();
@@ -42,13 +43,7 @@ const SignUpForm = () => {
 					type="password"
 					maxLength={10}
 				/>
-				<Button
-					type="submit"
-					className="w-full"
-					disabled={isPending}
-				>
-					Sign Up
-				</Button>
+				<LoginButton label="Sign Up" isPending={isPending} />
 			</form>
 		</Form>
 	);

@@ -9,6 +9,7 @@ import {
 import { useSignInForm } from "../hooks/useLoginForm";
 import { Button } from "@/components/ui/button";
 import InputFormField from "@/lib/InputFormField";
+import LoginButton from "./LoginButton";
 
 const SignInForm = () => {
 	const { form, onSubmit, isPending } = useSignInForm();
@@ -34,9 +35,7 @@ const SignInForm = () => {
 					type="password"
 					maxLength={10}
 				/>
-				<Button type="submit" className="w-full" disabled={isPending}>
-					Sign In
-				</Button>
+				<LoginButton label="Sign In" isPending={isPending} />
 			</form>
 		</Form>
 	);
