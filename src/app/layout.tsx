@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "【YASM】勤怠管理",
+  title: "Yasm",
   description: "無料で使える勤怠管理システム。従業員の勤怠管理を自動化します。",
 };
 

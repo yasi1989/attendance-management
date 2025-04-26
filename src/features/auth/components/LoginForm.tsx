@@ -11,20 +11,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import SeparatorInMessage from "@/components/SeparatorInMessage";
 
 const LoginForm = () => {
 	const [activeTab, setActiveTab] = useState<string>("signin");
 	return (
 		<Card className="w-full shadow-lg border-0">
 			<CardHeader className="space-y-1">
-				<CardTitle className="text-2xl text-center font-bold">YASM 勤怠管理</CardTitle>
-				<CardDescription className="text-center">Sign in to access your account.</CardDescription>
+				<CardTitle className="text-2xl text-center font-bold">Yasm</CardTitle>
+				<CardDescription className="text-center">
+					勤怠管理アプリケーション
+				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<Tabs defaultValue="signin" value={activeTab} onValueChange={setActiveTab}>
+				<Tabs
+					defaultValue="signin"
+					value={activeTab}
+					onValueChange={setActiveTab}
+				>
 					<TabsList className="grid grid-cols-2 w-full mb-4">
 						<TabsTrigger value="signin">Sign In</TabsTrigger>
 						<TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -36,7 +42,7 @@ const LoginForm = () => {
 						<SignUpForm />
 					</TabsContent>
 				</Tabs>
-				<Separator className="my-4" />
+				<SeparatorInMessage message="別の方法でログイン" />
 				<div className="flex flex-col gap-2">
 					<Button variant="outline" type="button">
 						<FontAwesomeIcon icon={faGithub} className="mr-2 h-4 w-4" />
