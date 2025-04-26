@@ -6,8 +6,6 @@ import {
 	FormMessage,
 	FormControl,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useSignUpForm } from "../hooks/useLoginForm";
 import InputFormField from "@/lib/InputFormField";
 import LoginButton from "./LoginButton";
