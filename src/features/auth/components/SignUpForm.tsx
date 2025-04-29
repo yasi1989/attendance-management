@@ -7,8 +7,8 @@ import {
 	FormControl,
 } from "@/components/ui/form";
 import { useSignUpForm } from "../hooks/useLoginForm";
-import InputFormField from "@/lib/InputFormField";
-import LoginButton from "./LoginButton";
+import InputFormField from "@/components/InputFormField";
+import AuthButton from "./AuthButton";
 
 const SignUpForm = () => {
 	const { form, onSubmit, isPending } = useSignUpForm();
@@ -39,9 +39,9 @@ const SignUpForm = () => {
 					label="Password"
 					placeholder="********"
 					type="password"
-					maxLength={10}
+					maxLength={20}
 				/>
-				<LoginButton label="Sign Up" isPending={isPending} />
+				<AuthButton label="Sign Up" isPending={isPending} />
 			</form>
 		</Form>
 	);
