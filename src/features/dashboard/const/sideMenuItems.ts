@@ -1,9 +1,4 @@
-import {
-  Calendar,
-  Settings,
-  UserCheck,
-  UsersRound,
-} from 'lucide-react';
+import { Calendar, UserCheck, UsersRound } from 'lucide-react';
 
 export const data = {
   user: {
@@ -54,17 +49,6 @@ export const data = {
       items: [
         {
           title: 'ユーザ管理',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: '設定',
-      url: '#',
-      icon: Settings,
-      items: [
-        {
-          title: 'アカウント管理',
           url: '#',
         },
       ],
