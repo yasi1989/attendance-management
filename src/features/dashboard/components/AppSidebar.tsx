@@ -10,11 +10,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { data } from "./sideMenuItems"
 import { NavMain } from "./NavMain"
 import { NavUser } from "./NavUser"
 import Link from "next/link"
 import Image from "next/image"
+import { data } from "../const/sideMenuItems"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
