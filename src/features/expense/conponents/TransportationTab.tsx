@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { RouteFormItem } from './RouteFormItem';
 import { PlusIcon } from 'lucide-react';
-import { ExpenseFormSchema } from '@/lib/formSchema';
+import { ExpenseFormSchema } from '@/features/auth/lib/formSchema';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';

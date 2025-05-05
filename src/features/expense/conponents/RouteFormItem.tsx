@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Trash2Icon } from "lucide-react";
 import { z } from "zod";
-import { ExpenseFormSchema } from "@/lib/formSchema";
+import { ExpenseFormSchema } from "@/features/auth/lib/formSchema";
 
 interface RouteFormItemProps {
   index: number;
@@ -14,6 +14,21 @@ interface RouteFormItemProps {
 }
 
 export function RouteFormItem({ index, onRemove, isRemovable }: RouteFormItemProps) {
+  const form = useForm<z.infer<typeof ExpenseFormSchema>>({
+    resolver: zodResolver(ExpenseFormSchema),
+    defaultValues: {
+      requestDate: new Date(),
+      amount: 0,
+      description: '',
+      receiptUrl: '',
+      routes: [{ from: '', to: '', fare: 0 }],
+    },
+    mode: 'onChange',
+  });
+
+  async function onSubmit(data: z.infer<typeof ExpenseFormSchema>) {
+    console.log(data);
+  }
   const { control, watch, setValue } = useFormContext<z.infer<typeof ExpenseFormSchema>>();
   
   // Watch fare values to update total amount
