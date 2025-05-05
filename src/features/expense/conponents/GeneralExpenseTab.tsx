@@ -1,28 +1,13 @@
-import { z } from 'zod';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputCalenderFormField from '@/components/InputCalenderFormField';
 import { Form } from '@/components/ui/form';
 import ExpenseFormFooter from './ExpenseFormFooter';
 import InputFileFormField from '@/components/InputFileFormField';
-import { GeneralExpenseFormSchema } from '@/features/expense/lib/formSchema';
+import { useGeneralExpenseForm } from '../hooks/useExpenseForm';
+import { FormProvider } from 'react-hook-form';
 export function GeneralExpenseTab() {
-  const form = useForm<z.infer<typeof GeneralExpenseFormSchema>>({
-    resolver: zodResolver(GeneralExpenseFormSchema),
-    defaultValues: {
-      requestDate: new Date(),
-      amount: 0,
-      description: '',
-      receiptFile: undefined,
-    },
-    mode: 'onChange',
-  });
-
-  async function onSubmit(data: z.infer<typeof GeneralExpenseFormSchema>) {
-    console.log(data);
-  }
+  const { form, onSubmit } = useGeneralExpenseForm();
   return (
     <FormProvider {...form}>
       <Form {...form}>
