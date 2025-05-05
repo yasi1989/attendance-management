@@ -19,11 +19,11 @@ export const data = {
         },
         {
           title: '経費申請',
-          url: '#',
+          url: '/expense/add',
         },
         {
           title: '経費履歴',
-          url: '#',
+          url: '/expense',
         },
       ],
     },

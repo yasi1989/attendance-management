@@ -12,11 +12,7 @@ export default async function DashboardLayout({
       <AppSidebar variant="inset" />
       <SidebarInset>
         <Header />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 md:px-6">{children}</div>
-          </div>
-        </div>
+        <div className="container mx-auto py-10 max-w-5xl animate-in fade-in-50 duration-300">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
