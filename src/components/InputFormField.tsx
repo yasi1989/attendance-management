@@ -14,6 +14,7 @@ type InputFormFieldProps<T extends Record<string, unknown>> = {
   maxLength?: number;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
+  disabled?: boolean;
 };
 const InputFormField = <T extends Record<string, unknown>>({
   form,
@@ -27,6 +28,7 @@ const InputFormField = <T extends Record<string, unknown>>({
   rules,
   maxLength,
   description,
+  disabled = false,
 }: InputFormFieldProps<T>) => {
   return (
     <FormField
@@ -48,6 +50,7 @@ const InputFormField = <T extends Record<string, unknown>>({
                 onBlur={field.onBlur}
                 className={className}
                 maxLength={maxLength}
+                disabled={disabled}
               />
               {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
             </div>
