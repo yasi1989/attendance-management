@@ -20,8 +20,12 @@ const LoginForm = () => {
       <CardContent>
         <Tabs defaultValue="signin" value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid grid-cols-2 w-full mb-4">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="signin" className="cursor-pointer">
+              Sign In
+            </TabsTrigger>
+            <TabsTrigger value="signup" className="cursor-pointer">
+              Sign Up
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="signin">
             <SignInForm />
@@ -32,11 +36,11 @@ const LoginForm = () => {
         </Tabs>
         <SeparatorInMessage message="別の方法でログイン" />
         <div className="flex flex-col gap-2">
-          <Button variant="outline" type="button">
+          <Button variant="outline" type="button" className="cursor-pointer">
             <FontAwesomeIcon icon={faGithub} className="mr-2 h-4 w-4" />
             GitHub
           </Button>
-          <Button variant="outline" type="button">
+          <Button variant="outline" type="button" className="cursor-pointer">
             <FontAwesomeIcon icon={faGoogle} className="mr-2 h-4 w-4" />
             Google
           </Button>

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { SignInSchema, SignUpSchema } from '@/lib/formSchema';
+import { SignInSchema, SignUpSchema } from '@/features/auth/lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useTransition } from 'react';
