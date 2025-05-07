@@ -9,7 +9,7 @@ import { TransportationTab } from './TransportationTab';
 export function ExpenseRequestForm() {
   const [activeTab, setActiveTab] = useState('general');
   return (
-    <Card className="shadow-lg border-0s">
+    <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
         <CardTitle className="text-xl">経費申請フォーム</CardTitle>
         <CardDescription>交通費や会社の経費を申請するためのフォームです。</CardDescription>
