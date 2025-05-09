@@ -4,6 +4,7 @@ import CalendarHeader from './CalendarHeader';
 import { useCalendar } from '../hooks/useCalendar';
 import WeekDayHeader from './WeekDayHeader';
 import CalendarDateCell from './CalendarDateCell';
+import CalendarFooter from './CalendarFooter';
 
 const CalendarPage = () => {
   const { currentDate, previousMonth, nextMonth, goToToday, weeks } = useCalendar();
@@ -24,6 +25,7 @@ const CalendarPage = () => {
           )}
         </div>
       </CardContent>
+      <CalendarFooter />
     </Card>
   );
 };
