@@ -2,7 +2,7 @@ import { CardHeader } from "@/components/ui/card";
 import { CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import { MONTHS_EN } from "../const/const";
+import { MONTHS_EN } from "../const/calendarConst";
 
 interface CalendarHeaderProps {
   currentDate: Date;

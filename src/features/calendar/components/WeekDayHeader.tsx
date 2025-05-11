@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { WEEKDAYS_JP } from '../const/const';
+import { WEEKDAYS_JP } from '../const/calendarConst';
 
 const WeekDayHeader = () => {
   return (
