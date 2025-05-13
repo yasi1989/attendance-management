@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { parseISOStringToDate } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
-import InputFormField from "@/components/InputFormField";
 
 const AttendanceFormSchema = z.object({
     date: z.date(),
@@ -36,7 +35,7 @@ const AttendanceTab = ({ dateString }: AttendanceTabProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-6">
-              <InputCalender
+              <InputCa
             </div>
           </form>
         </Form>
