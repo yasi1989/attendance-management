@@ -5,7 +5,6 @@ export const AttendanceFormSchema = z.object({
     check_in: z.string().min(1, { message: '出勤時間は必須です' }),
     check_out: z.string().min(1, { message: '退勤時間は必須です' }),
     rest: z.string().min(1, { message: '休憩時間は必須です' }),
-    attendanceType: z.enum(['WORK'], { required_error: '勤務形態は必須です' }),
     comment: z.string().optional(),
 }).refine((data) => {
     const checkInTime = new Date(`2000-01-01T${data.check_in}`);

@@ -13,7 +13,6 @@ export const useAttendance = (dateString: string) => {
       check_in: '08:45',
       check_out: '17:30',
       rest: '00:45',
-      attendanceType: 'WORK',
       comment: '',
     },
     mode: 'onChange',
