@@ -1,8 +1,7 @@
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
-import { TabsTrigger } from '@radix-ui/react-tabs';
 import AttendanceTab from './AttendanceTab';
 import LeaveTab from './LeaveTab';
 
