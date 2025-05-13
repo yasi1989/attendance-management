@@ -1,35 +1,31 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
+import { Textarea } from './ui/textarea';
 
-type InputFormFieldProps<T extends Record<string, unknown>> = {
+type InputTextFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
   placeholder?: string;
-  type?: string;
-  moneyField?: boolean;
   required?: boolean;
   className?: string;
   maxLength?: number;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
-  disabled?: boolean;
+  row?: number;
 };
-const InputFormField = <T extends Record<string, unknown>>({
+const InputTextFormField = <T extends Record<string, unknown>>({
   form,
   name,
   label,
   placeholder = '',
-  type = 'text',
-  moneyField = false,
   required = false,
   className = '',
   rules,
   maxLength,
   description,
-  disabled = false,
-}: InputFormFieldProps<T>) => {
+  row,
+}: InputTextFormFieldProps<T>) => {
   return (
     <FormField
       control={form.control}
@@ -41,19 +37,15 @@ const InputFormField = <T extends Record<string, unknown>>({
             {label} {required && <span className="text-destructive">*</span>}
           </FormLabel>
           <FormControl>
-            <div className="relative">
-              <Input
-                type={type}
-                placeholder={placeholder}
-                value={field.value as string | number | readonly string[] | undefined}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                className={className}
-                maxLength={maxLength}
-                disabled={disabled}
-              />
-              {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
-            </div>
+            <Textarea
+              placeholder={placeholder}
+              value={field.value as string | undefined}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              className={className}
+              maxLength={maxLength}
+              rows={row}
+            />
           </FormControl>
           {description && <FormDescription className="text-xs">{description}</FormDescription>}
           <FormMessage />
@@ -63,4 +55,4 @@ const InputFormField = <T extends Record<string, unknown>>({
   );
 };
 
-export default InputFormField;
+export default InputTextFormField;

@@ -1,4 +1,4 @@
-import { CardHeader } from "@/components/ui/card";
+import { CardHeader, CardDescription } from "@/components/ui/card";
 import { CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
@@ -35,6 +35,7 @@ const CalendarHeader = ({ currentDate, previousMonth, nextMonth, goToToday }: Ca
           </Button>
         </div>
       </div>
+      <CardDescription className="text-sm">日付をクリックすると詳細な勤怠情報の入力ができます。</CardDescription>
     </CardHeader>
   )
 }
