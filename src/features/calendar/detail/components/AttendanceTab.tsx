@@ -1,46 +1,41 @@
 'use client';
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { parseISOStringToDate } from "@/lib/utils";
-import { Form } from "@/components/ui/form";
-
-const AttendanceFormSchema = z.object({
-    date: z.date(),
-    check_in: z.date(),
-    check_out: z.date(),
-    attendanceType: z.enum(['WORK', 'PAID_LEAVE', 'ABSENCE', 'SPECIAL']),
-  });
+import { FormProvider } from 'react-hook-form';
+import { Form } from '@/components/ui/form';
+import InputFormField from '@/components/InputFormField';
+import CalendarDetailFooter from './CalendarDetailFooter';
+import InputTextFormField from '@/components/InputTextFormField';
+import { useAttendance } from '@/features/calendar/detail/hooks/useAttendance';
 
 type AttendanceTabProps = {
-    dateString: string;
-}
-  
+  dateString: string;
+};
+
 const AttendanceTab = ({ dateString }: AttendanceTabProps) => {
-    const form = useForm<z.infer<typeof AttendanceFormSchema>>({
-      resolver: zodResolver(AttendanceFormSchema),
-      defaultValues: {
-        date: parseISOStringToDate(dateString),
-        check_in: '',
-        check_out: '',
-        attendanceType: 'WORK',
-      },
-    });
+  const { form, onSubmit } = useAttendance(dateString);
 
-    const onSubmit = () => {
-    }
-
-    return (
-      <FormProvider {...form}>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="space-y-6">
-              <InputCa
-            </div>
-          </form>
-        </Form>
-      </FormProvider>
-    )
-}
+  return (
+    <FormProvider {...form}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
+            <InputFormField form={form} name="date" label="勤務日" disabled />
+            <InputFormField form={form} name="check_in" label="出勤時間" type="time" required />
+            <InputFormField form={form} name="check_out" label="退勤時間" type="time" required />
+            <InputFormField form={form} name="rest" label="休憩時間" type="time" required />
+            <InputTextFormField
+              form={form}
+              name="comment"
+              label="備考"
+              row={4}
+              maxLength={100}
+              className="resize-none"
+            />
+          </div>
+          <CalendarDetailFooter form={form} />
+        </form>
+      </Form>
+    </FormProvider>
+  );
+};
 
 export default AttendanceTab;

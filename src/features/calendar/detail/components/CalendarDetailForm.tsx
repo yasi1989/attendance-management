@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList } from '@/components/ui/tabs';
 import { useState } from 'react';
 import { TabsTrigger } from '@radix-ui/react-tabs';
 import AttendanceTab from './AttendanceTab';
+import LeaveTab from './LeaveTab';
 
 type CalendarDetailFormProps = {
   dateString: string;
@@ -14,7 +15,7 @@ const CalendarDetailForm = ({ dateString }: CalendarDetailFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
-        <CardTitle className="text-xl">勤務情報 / {dateString}</CardTitle>
+        <CardTitle className="text-xl">勤務情報</CardTitle>
         <CardDescription>勤務形態や時間を選択して勤務情報を申請してください。</CardDescription>
       </CardHeader>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -26,7 +27,9 @@ const CalendarDetailForm = ({ dateString }: CalendarDetailFormProps) => {
           <TabsContent value="attendance">
             <AttendanceTab dateString={dateString} />
           </TabsContent>
-          <TabsContent value="leave"></TabsContent>
+          <TabsContent value="leave">
+            <LeaveTab dateString={dateString} />
+          </TabsContent>
         </CardContent>
       </Tabs>
     </Card>

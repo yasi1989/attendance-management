@@ -13,3 +13,4 @@ export const formatDateToISOString = (date: Date, formatString = 'yyyy-MM-dd'): 
 export const parseISOStringToDate = (dateString: string): Date => {
   return parseISO(dateString);
 };
+
