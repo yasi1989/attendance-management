@@ -7,7 +7,7 @@ import { ja } from 'date-fns/locale';
 import { format } from 'date-fns';
 import { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 
-type InputFormFieldProps<T extends Record<string, unknown>> = {
+type InputCalendarFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
@@ -17,7 +17,7 @@ type InputFormFieldProps<T extends Record<string, unknown>> = {
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
 };
-const InputFormField = <T extends Record<string, unknown>>({
+const InputCalendarFormField = <T extends Record<string, unknown>>({
   form,
   name,
   label,
@@ -26,7 +26,7 @@ const InputFormField = <T extends Record<string, unknown>>({
   className = '',
   rules,
   description,
-}: InputFormFieldProps<T>) => {
+}: InputCalendarFormFieldProps<T>) => {
   return (
     <>
       <FormField
@@ -71,4 +71,4 @@ const InputFormField = <T extends Record<string, unknown>>({
   );
 };
 
-export default InputFormField;
+export default InputCalendarFormField;
