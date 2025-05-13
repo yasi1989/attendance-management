@@ -26,3 +26,27 @@ export const useAttendance = (dateString: string) => {
 
   return { form, onSubmit, isPending };
 };
+
+export const useLeave = (dateString: string) => {
+    const [isPending, startTransition] = useTransition();
+    const form = useForm<z.infer<typeof AttendanceFormSchema>>({
+      resolver: zodResolver(AttendanceFormSchema),
+      defaultValues: {
+        date: dateString,
+        check_in: '08:45',
+        check_out: '17:30',
+        rest: '00:45',
+        attendanceType: 'WORK',
+        comment: '',
+      },
+      mode: 'onChange',
+    });
+    const onSubmit = (data: z.infer<typeof AttendanceFormSchema>) => {
+      startTransition(async () => {
+        console.log(data);
+      });
+    };
+  
+    return { form, onSubmit, isPending };
+  };
+  
