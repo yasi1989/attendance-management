@@ -23,7 +23,7 @@ export const data = {
         },
         {
           title: '経費履歴',
-          url: '/expense',
+          url: '/expense/history',
         },
       ],
     },
