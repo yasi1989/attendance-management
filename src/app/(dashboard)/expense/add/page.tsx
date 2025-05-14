@@ -1,4 +1,4 @@
-import { ExpenseRequestForm } from '@/features/expense/conponents/ExpenseRequestForm';
+import { ExpenseRequestForm } from '@/features/expense/components/ExpenseRequestForm';
 
 const AddExpense = () => {
   return <ExpenseRequestForm />;

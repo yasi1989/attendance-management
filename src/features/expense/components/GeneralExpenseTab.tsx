@@ -11,8 +11,8 @@ export function GeneralExpenseTab() {
   return (
     <FormProvider {...form}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
             <InputCalenderFormField form={form} name="requestDate" label="申請日" placeholder="日付を選択" required />
             <InputFormField
               form={form}
@@ -35,7 +35,7 @@ export function GeneralExpenseTab() {
               row={4}
               className="resize-none"
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" required />
+            <InputFileFormField form={form} name="receiptFile" label="領収書" />
           </div>
           <ExpenseFormFooter form={form} />
         </form>
