@@ -8,7 +8,7 @@ type AuthButtonProps = {
 
 const AuthButton = ({ label, isPending = false }: AuthButtonProps) => {
   return (
-    <Button type="submit" className="w-full" disabled={isPending}>
+    <Button type="submit" className="w-full cursor-pointer" disabled={isPending} >
       {isPending ? <Loader2 className="animate-spin" /> : label}
     </Button>
   );
