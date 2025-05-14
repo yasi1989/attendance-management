@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useFieldArray } from 'react-hook-form';
 import { RouteFormItem } from './RouteFormItem';
 import { FormProvider } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -13,18 +11,7 @@ import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 
 export function TransportationTab() {
-  const { form, onSubmit } = useTransportationExpenseForm();
-
-  const { fields, append, remove } = useFieldArray({
-    name: 'routes',
-    control: form.control,
-  });
-
-  useEffect(() => {
-    if (fields.length === 0) {
-      append({ from: '', to: '', fare: 0 });
-    }
-  }, [append, fields.length]);
+  const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm();
 
   return (
     <FormProvider {...form}>

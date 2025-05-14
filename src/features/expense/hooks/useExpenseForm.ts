@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { GeneralExpenseFormSchema, TransportationExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
@@ -46,5 +46,10 @@ export const useTransportationExpenseForm = () => {
     });
   };
 
-  return { form, onSubmit, isPending };
+  const { fields, append, remove } = useFieldArray({
+    name: 'routes',
+    control: form.control,
+  });
+
+  return { form, onSubmit, isPending, fields, append, remove };
 };
