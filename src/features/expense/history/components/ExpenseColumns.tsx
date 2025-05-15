@@ -118,20 +118,24 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
           >
             <FileText className="h-4 w-4 text-slate-600" />
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
-          >
-            <Edit className="h-4 w-4 text-blue-600" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full bg-red-50 hover:bg-red-100 transition-colors"
-          >
-            <Trash2 className="h-4 w-4 text-red-600" />
-          </Button>
+          {row.original.status_id !== 'Approved' && (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
+              >
+                <Edit className="h-4 w-4 text-blue-600" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full bg-red-50 hover:bg-red-100 transition-colors"
+              >
+                <Trash2 className="h-4 w-4 text-red-600" />
+              </Button>
+            </>
+          )}
         </div>
       );
     },
