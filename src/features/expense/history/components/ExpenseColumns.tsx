@@ -120,13 +120,12 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
           </Link>
           {row.original.status_id !== 'Approved' && (
             <>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
+              <Link
+                href={`/expense/edit/${row.original.id}`}
+                className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
               >
                 <Edit className="h-4 w-4 text-blue-600" />
-              </Button>
+              </Link>
               <Button
                 variant="ghost"
                 size="icon"

@@ -12,5 +12,5 @@ export type ExpenseType = {
 export type RouteInfoType = {
   id: string;
   expense_request_id: string;
-  route_details: { from: string; to: string; fare: number };
+  route_details: { from: string; to: string; fare: number }[];
 };

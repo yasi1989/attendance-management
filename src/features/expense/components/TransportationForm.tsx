@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { RouteFormItem } from './RouteFormItem';
@@ -11,9 +13,16 @@ import ExpenseFormFooter from './ExpenseFormFooter';
 import { useTransportationExpenseForm } from '../hooks/useExpenseForm';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
+import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
 
-export function TransportationTab() {
-  const { form, onSubmit } = useTransportationExpenseForm();
+type TransportationFormProps = {
+  type: 'add' | 'edit';
+  expense?: ExpenseType | undefined;
+  routeInfo?: RouteInfoType | undefined;
+}
+
+export function TransportationForm({ type, expense, routeInfo }: TransportationFormProps) {
+  const { form, onSubmit } = useTransportationExpenseForm({ type, expense, routeInfo });
 
   const { fields, append, remove } = useFieldArray({
     name: 'routes',
@@ -74,7 +83,7 @@ export function TransportationTab() {
               className="pl-8"
               disabled={true}
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" />
+            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receipt_url}/>
           </div>
           <ExpenseFormFooter form={form} />
         </form>

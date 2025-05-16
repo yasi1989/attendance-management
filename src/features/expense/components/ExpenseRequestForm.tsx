@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { GeneralExpenseTab } from './GeneralExpenseTab';
-import { TransportationTab } from './TransportationTab';
+import { GeneralExpenseForm } from './GeneralExpenseForm';
+import { TransportationForm } from './TransportationForm';
 
 export function ExpenseRequestForm() {
+  const type = 'add';
   const [activeTab, setActiveTab] = useState('general');
   return (
-    <Card className="shadow-lg border-0s">
+    <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
         <CardTitle className="text-xl">経費申請フォーム</CardTitle>
         <CardDescription>交通費や会社の経費を申請するためのフォームです。</CardDescription>
@@ -23,11 +24,11 @@ export function ExpenseRequestForm() {
           </TabsList>
 
           <TabsContent value="general">
-            <GeneralExpenseTab />
+            <GeneralExpenseForm type={type}/>
           </TabsContent>
 
           <TabsContent value="transportation">
-            <TransportationTab /> 
+            <TransportationForm type={type}/> 
           </TabsContent>
         </CardContent>
       </Tabs>
