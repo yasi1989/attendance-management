@@ -22,6 +22,7 @@ export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormPr
       description: expense.description,
       receiptFile: undefined,
     } : {
+      id: '',
       requestDate: new Date(),
       amount: 0,
       description: '',
@@ -62,6 +63,8 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
         fare: routeDetail.fare,
       })) : [{ from: '', to: '', fare: 0 }],
     } : {
+      id: '',
+      expense_request_id: '',
       requestDate: new Date(),
       amount: 0,
       description: '',
