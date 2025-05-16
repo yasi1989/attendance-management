@@ -1,13 +1,14 @@
 'use client';
 
 import { ExpenseType } from '../type/expenseType';
-import { ArrowUpDown, FileText, Edit, Trash2 } from 'lucide-react';
+import { ArrowUpDown, FileText, Edit } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { formatDateToISOString } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { truncateString } from '@/lib/utils';
 import Link from 'next/link';
+import ExpenseDeleteDialog from './ExpenseDeleteDialog';
 
 export const expenseColumns: ColumnDef<ExpenseType>[] = [
   {
@@ -126,13 +127,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
               >
                 <Edit className="h-4 w-4 text-blue-600" />
               </Link>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full bg-red-50 hover:bg-red-100 transition-colors"
-              >
-                <Trash2 className="h-4 w-4 text-red-600" />
-              </Button>
+              <ExpenseDeleteDialog />
             </>
           )}
         </div>
