@@ -51,6 +51,10 @@ export const data = {
           title: 'ユーザ管理',
           url: '#',
         },
+        {
+          title: '会社コード一覧',
+          url: '/admin/company',
+        },
       ],
     },
   ],
