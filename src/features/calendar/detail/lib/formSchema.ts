@@ -45,7 +45,6 @@ export const AttendanceFormSchema = z
     if (data.attendanceType === 'WORK' || (data.isHalfDay && data.attendanceType === 'PAID_LEAVE')) {
       const checkInTime = new Date(`2000-01-01T${data.check_in}`);
       const checkOutTime = new Date(`2000-01-01T${data.check_out}`);
-      console.log(checkInTime, checkOutTime);
       if (checkInTime >= checkOutTime) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
