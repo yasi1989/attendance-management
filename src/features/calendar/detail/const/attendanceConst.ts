@@ -1,4 +1,8 @@
-export const LEAVE_TYPES = [
+export const ATTENDANCE_TYPES = [
+  {
+    value: 'WORK',
+    label: '出勤',
+  },
   {
     value: 'PAID_LEAVE',
     label: '有給休暇',

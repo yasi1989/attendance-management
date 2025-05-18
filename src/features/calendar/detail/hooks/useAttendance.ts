@@ -1,8 +1,8 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AttendanceFormSchema, LeaveFormSchema } from '@/features/calendar/detail/lib/formSchema';
+import { AttendanceFormSchema } from '@/features/calendar/detail/lib/formSchema';
 import { z } from 'zod';
-import { useTransition } from 'react';
+import { useCallback, useEffect, useTransition } from 'react';
 
 export const useAttendance = (dateString: string) => {
   const [isPending, startTransition] = useTransition();
@@ -10,9 +10,12 @@ export const useAttendance = (dateString: string) => {
     resolver: zodResolver(AttendanceFormSchema),
     defaultValues: {
       date: dateString,
-      check_in: '08:45',
-      check_out: '17:30',
-      rest: '00:45',
+      attendanceType: 'WORK',
+      isHalfDay: false,
+      halfDayType: 'AM',
+      check_in: '',
+      check_out: '',
+      rest: '',
       comment: '',
     },
     mode: 'onChange',
@@ -22,33 +25,53 @@ export const useAttendance = (dateString: string) => {
       console.log(data);
     });
   };
-
-  return { form, onSubmit, isPending };
-};
-
-export const useLeave = (dateString: string) => {
-  const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof LeaveFormSchema>>({
-    resolver: zodResolver(LeaveFormSchema),
-    defaultValues: {
-      date: dateString,
-      attendanceType: 'PAID_LEAVE',
-      isHalfDay: false,
-      halfDayType: '',
-      comment: '',
-    },
-    mode: 'onChange',
+  const attendanceType = useWatch({
+    control: form.control,
+    name: 'attendanceType',
   });
-  const onSubmit = (data: z.infer<typeof LeaveFormSchema>) => {
-    startTransition(async () => {
-      console.log(data);
-    });
-  };
   const isHalfDay = useWatch({
     control: form.control,
     name: 'isHalfDay',
-    defaultValue: false,
   });
 
-  return { form, onSubmit, isHalfDay, isPending };
+  const resetAttendanceForm = useCallback(() => {
+    form.reset(
+      {
+        ...form.getValues(),
+        isHalfDay: false,
+        halfDayType: 'AM',
+        check_in: '',
+        check_out: '',
+        rest: '',
+        comment: '',
+      },
+      { keepDefaultValues: true },
+    );
+  }, [form.reset, form.getValues]);
+
+  const resetHalfDayForm = useCallback(() => {
+    form.reset(
+      {
+        ...form.getValues(),
+        halfDayType: 'AM',
+        check_in: '',
+        check_out: '',
+        rest: '',
+        comment: '',
+      },
+      { keepDefaultValues: true },
+    );
+  }, [form.reset, form.getValues]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    resetAttendanceForm();
+  }, [attendanceType]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    resetHalfDayForm();
+  }, [isHalfDay]);
+
+  return { form, onSubmit, attendanceType, isHalfDay, isPending };
 };
