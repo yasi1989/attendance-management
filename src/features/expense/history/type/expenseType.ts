@@ -1,7 +1,7 @@
 export type ExpenseType = {
   id: string;
   user_id: string;
-  request_date: Date;
+  request_date: string;
   expenseType: string;
   amount: number;
   description: string;

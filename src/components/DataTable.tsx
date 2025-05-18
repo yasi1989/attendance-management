@@ -1,69 +1,104 @@
-"use client"
- 
+'use client';
+
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
-} from "@tanstack/react-table"
- 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import React from "react"
+} from '@tanstack/react-table';
+
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { FilterableColumnsType } from '@/type/filterableColumnsType';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Input } from './ui/input';
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  filterableColumns?: FilterableColumnsType[];
 }
- 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+
+export function DataTable<TData, TValue>({ columns, data, filterableColumns = [] }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [filterColumn, setFilterColumn] = useState<string>('');
+
   const table = useReactTable({
     data,
     columns,
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
     getCoreRowModel: getCoreRowModel(),
-  })
-  
+  });
+
+  const handleColumnChange = (value: string) => {
+    if (filterColumn) {
+      table.getColumn(filterColumn)?.setFilterValue('');
+    }
+    setFilterColumn(value);
+  };
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    table.getColumn(filterColumn)?.setFilterValue(value);
+  };
+
   return (
     <div className="rounded-lg border border-slate-200 shadow-sm bg-white dark:bg-slate-900 dark:border-slate-700 overflow-hidden">
+      {filterableColumns.length > 0 && (
+        <div className="p-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+          <>
+            <Select value={filterColumn} onValueChange={handleColumnChange}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="フィルター列を選択" />
+              </SelectTrigger>
+              <SelectContent>
+                {filterableColumns.map((column) => (
+                  <SelectItem key={column.filter} value={column.filter}>
+                    {column.header}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Input
+              placeholder={`Filter ${filterableColumns.find((column) => column.filter === filterColumn)?.header || ''}...`}
+              value={(filterColumn && (table.getColumn(filterColumn)?.getFilterValue() as string)) || ''}
+              onChange={handleFilterChange}
+              className="max-w-sm"
+              disabled={!filterColumn}
+            />
+          </>
+        </div>
+      )}
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-slate-50 dark:bg-slate-800">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow 
-                key={headerGroup.id} 
-                className="border-b border-slate-200 dark:border-slate-700"
-              >
+              <TableRow key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead 
+                    <TableHead
                       key={header.id}
                       className="py-4 px-4 text-sm font-medium text-slate-700 dark:text-slate-300"
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -73,19 +108,16 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                   className={`
                     hover:bg-slate-50 dark:hover:bg-slate-800/60 
                     transition-colors
-                    ${index % 2 === 0 ? "bg-white dark:bg-slate-900" : "bg-slate-50/50 dark:bg-slate-800/20"}
+                    ${index % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-slate-50/50 dark:bg-slate-800/20'}
                     border-b border-slate-100 dark:border-slate-800
                   `}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell 
-                      key={cell.id}
-                      className="py-3 px-4"
-                    >
+                    <TableCell key={cell.id} className="py-3 px-4">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -93,10 +125,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell 
-                  colSpan={columns.length} 
-                  className="h-24 text-center text-slate-500 dark:text-slate-400"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center text-slate-500 dark:text-slate-400">
                   <div className="flex flex-col items-center justify-center space-y-2 py-6">
                     <p>データが見つかりませんでした</p>
                   </div>
@@ -106,11 +135,21 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {table.getRowModel().rows?.length > 0 && (
-        <div className="flex items-center justify-end px-4 py-3 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-500 dark:text-slate-400">
-          {`全 ${table.getRowModel().rows.length} 件のデータを表示`}
+      <div className="flex items-center justify-end px-4 py-3 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-500 dark:text-slate-400">
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            Next
+          </Button>
         </div>
-      )}
+      </div>
     </div>
-  )
+  );
 }

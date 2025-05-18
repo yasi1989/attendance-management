@@ -3,7 +3,6 @@
 import { ExpenseType } from '../type/expenseType';
 import { ArrowUpDown, FileText, Edit } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
-import { formatDateToISOString } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { truncateString } from '@/lib/utils';
@@ -23,7 +22,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{formatDateToISOString(row.original.request_date)}</div>,
+    cell: ({ row }) => <div className="font-medium">{row.original.request_date}</div>,
   },
   {
     accessorKey: 'expenseType',
@@ -39,12 +38,10 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     },
     cell: ({ row }) => {
       const expenseType = row.original.expenseType;
-      const expenseTypeInfo = expenseTypeToJapanese[expenseType];
+      const color = expenseTypeBadgeColor[expenseType];
       return (
         <div className="flex items-center justify-center">
-          <Badge className={`${expenseTypeInfo.className} px-2 py-1 text-xs font-medium rounded-full shadow-sm`}>
-            {expenseTypeInfo.label}
-          </Badge>
+          <Badge className={`${color} px-2 py-1 text-xs font-medium rounded-full shadow-sm`}>{expenseType}</Badge>
         </div>
       );
     },
@@ -77,12 +74,10 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     },
     cell: ({ row }) => {
       const status = row.original.status_id;
-      const statusInfo = statusToJapanese[status];
+      const color = statusBadgeColor[status];
       return (
         <div className="flex items-center justify-center">
-          <Badge className={`${statusInfo.className} px-2 py-1 text-xs font-medium rounded-full shadow-sm`}>
-            {statusInfo.label}
-          </Badge>
+          <Badge className={`${color} px-2 py-1 text-xs font-medium rounded-full shadow-sm`}>{status}</Badge>
         </div>
       );
     },
@@ -136,32 +131,14 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
   },
 ];
 
-const statusToJapanese: Record<string, { label: string; className: string }> = {
-  Pending: {
-    label: '申請中',
-    className: 'bg-blue-100 text-blue-700 border border-blue-200',
-  },
-  Approved: {
-    label: '承認済み',
-    className: 'bg-green-100 text-green-700 border border-green-200',
-  },
-  Rejected: {
-    label: '却下',
-    className: 'bg-red-100 text-red-700 border border-red-200',
-  },
+const statusBadgeColor: Record<string, string> = {
+  Pending: 'bg-blue-100 text-blue-700 border border-blue-200',
+  Approved: 'bg-green-100 text-green-700 border border-green-200',
+  Rejected: 'bg-red-100 text-red-700 border border-red-200',
 };
 
-const expenseTypeToJapanese: Record<string, { label: string; className: string }> = {
-  Transport: {
-    label: '交通費',
-    className: 'bg-orange-100 text-orange-700 border border-orange-200',
-  },
-  General: {
-    label: '一般経費',
-    className: 'bg-purple-100 text-purple-700 border border-purple-200',
-  },
-  Other: {
-    label: 'その他',
-    className: 'bg-slate-100 text-slate-700 border border-slate-200',
-  },
+const expenseTypeBadgeColor: Record<string, string> = {
+  Transport: 'bg-orange-100 text-orange-700 border border-orange-200',
+  General: 'bg-purple-100 text-purple-700 border border-purple-200',
+  Other: 'bg-slate-100 text-slate-700 border border-slate-200',
 };
