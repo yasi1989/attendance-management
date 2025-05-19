@@ -1,7 +1,4 @@
 'use client';
-
-import { useEffect } from 'react';
-import { useFieldArray } from 'react-hook-form';
 import { RouteFormItem } from './RouteFormItem';
 import { FormProvider } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -22,18 +19,7 @@ type TransportationFormProps = {
 }
 
 export function TransportationForm({ type, expense, routeInfo }: TransportationFormProps) {
-  const { form, onSubmit } = useTransportationExpenseForm({ type, expense, routeInfo });
-
-  const { fields, append, remove } = useFieldArray({
-    name: 'routes',
-    control: form.control,
-  });
-
-  useEffect(() => {
-    if (fields.length === 0) {
-      append({ from: '', to: '', fare: 0 });
-    }
-  }, [append, fields.length]);
+  const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm({ type, expense, routeInfo });
 
   return (
     <FormProvider {...form}>
