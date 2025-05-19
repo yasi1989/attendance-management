@@ -1,3 +1,6 @@
+'use client';
+
+import InputFormField from '@/components/InputFormField';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -8,43 +11,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PlusCircle } from 'lucide-react';
+import { Form } from '@/components/ui/form';
+import { useCompanyCode } from '../hooks/useCompanyCode';
+import { CompanyType } from '../type/companyType';
 
-export function CompanyCodeDialog() {
+type CompanyCodeDialogProps = {
+  type: 'add' | 'edit';
+  data?: CompanyType;
+  children: React.ReactNode;
+};
+
+export function CompanyCodeDialog({ type, data, children }: CompanyCodeDialogProps) {
+  const { form, onSubmit, isPending } = useCompanyCode({ type, data });
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="flex items-center gap-2 whitespace-nowrap self-start sm:self-center">
-          <PlusCircle size={18} />
-          会社コード登録
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>会社コード登録</DialogTitle>
-          <DialogDescription>会社コードを登録します。</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="code" className="text-right">
-              会社コード
-            </Label>
-            <Input id="code" value="" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              会社名
-            </Label>
-            <Input id="name" value="" className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button variant="outline">キャンセル</Button>
-          <Button type="submit">登録</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <Dialog>
+          <DialogTrigger asChild>{children}</DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>{type === 'add' ? '会社コード登録' : '会社コード編集'}</DialogTitle>
+              <DialogDescription>{`会社コードを${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4">
+              <InputFormField name="code" label="会社コード" form={form} />
+              <InputFormField name="name" label="会社名" form={form} />
+            </div>
+            <DialogFooter>
+              <Button variant="outline">キャンセル</Button>
+              <Button type="submit" disabled={isPending}>
+                {type === 'add' ? '登録' : '編集'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </form>
+    </Form>
   );
 }

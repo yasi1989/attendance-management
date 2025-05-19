@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import CompanyCodeTable from './CompanyCodeTable';
 import { CompanyType } from '../type/companyType';
 import { CompanyCodeDialog } from './CompanyCodeDialog';
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
 
 type CreateCompanyCodeFormProps = {
   data: CompanyType[];
@@ -17,7 +19,12 @@ const CreateCompanyCodeForm = ({ data }: CreateCompanyCodeFormProps) => {
 
       <CardContent className="space-y-4">
         <div className="flex items-center justify-start">
-          <CompanyCodeDialog />
+          <CompanyCodeDialog type="add">
+            <Button className="flex items-center gap-2 whitespace-nowrap self-start sm:self-center">
+              <PlusCircle size={18} />
+              会社コード登録
+            </Button>
+          </CompanyCodeDialog>
         </div>
         <div className="overflow-x-auto">
           <CompanyCodeTable data={data} />

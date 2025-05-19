@@ -3,9 +3,9 @@
 import { ArrowUpDown, Edit } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import CompanyCodeDeleteDialog from './CompanyCodeDeleteDialog';
 import { CompanyType } from '../type/companyType';
+import { CompanyCodeDialog } from './CompanyCodeDialog';
 
 export const companyCodeColumns: ColumnDef<CompanyType>[] = [
   {
@@ -62,12 +62,11 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1">
-          <Link
-            href={`/expense/edit/${row.original.id}`}
-            className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
-          >
-            <Edit className="h-4 w-4 text-blue-600" />
-          </Link>
+          <CompanyCodeDialog type="edit" data={row.original}>
+            <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
+              <Edit className="h-4 w-4 text-blue-600" />
+            </Button>
+          </CompanyCodeDialog>
           <CompanyCodeDeleteDialog />
         </div>
       );
