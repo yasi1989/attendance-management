@@ -3,32 +3,35 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { GeneralExpenseFormSchema, TransportationExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
 import { formatDateToISOString } from '@/lib/utils';
 
 type useGeneralExpenseFormProps = {
   type: 'add' | 'edit';
   expense?: ExpenseType | undefined;
-}
+};
 
 export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormProps) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof GeneralExpenseFormSchema>>({
     resolver: zodResolver(GeneralExpenseFormSchema),
-    defaultValues: type === 'edit' && expense ? {
-      id: expense.id,
-      requestDate: expense.request_date,
-      amount: expense.amount,
-      description: expense.description,
-      receiptFile: undefined,
-    } : {
-      id: '',
-      requestDate:  formatDateToISOString(new Date(), 'yyyy-MM-dd'),
-      amount: 0,
-      description: '',
-      receiptFile: undefined,
-    },
+    defaultValues:
+      type === 'edit' && expense
+        ? {
+            id: expense.id,
+            requestDate: expense.request_date,
+            amount: expense.amount,
+            description: expense.description,
+            receiptFile: undefined,
+          }
+        : {
+            id: '',
+            requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+            amount: 0,
+            description: '',
+            receiptFile: undefined,
+          },
     mode: 'onChange',
   });
 
@@ -45,33 +48,38 @@ type UseTransportationExpenseFormProps = {
   type: 'add' | 'edit';
   expense?: ExpenseType | undefined;
   routeInfo?: RouteInfoType | undefined;
-}
+};
 
 export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTransportationExpenseFormProps) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof TransportationExpenseFormSchema>>({
     resolver: zodResolver(TransportationExpenseFormSchema),
-    defaultValues: type === 'edit' && expense ? {
-      id: expense.id,
-      expense_request_id: routeInfo?.id ?? '',
-      requestDate: expense.request_date,
-      amount: expense.amount,
-      description: expense.description,
-      receiptFile: undefined,
-      routes: routeInfo?.route_details ? routeInfo.route_details.map((routeDetail) => ({
-        from: routeDetail.from,
-        to: routeDetail.to,
-        fare: routeDetail.fare,
-      })) : [{ from: '', to: '', fare: 0 }],
-    } : {
-      id: '',
-      expense_request_id: '',
-      requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
-      amount: 0,
-      description: '',
-      receiptFile: undefined,
-      routes: [{ from: '', to: '', fare: 0 }],
-    },
+    defaultValues:
+      type === 'edit' && expense
+        ? {
+            id: expense.id,
+            expense_request_id: routeInfo?.id ?? '',
+            requestDate: expense.request_date,
+            amount: expense.amount,
+            description: expense.description,
+            receiptFile: undefined,
+            routes: routeInfo?.route_details
+              ? routeInfo.route_details.map((routeDetail) => ({
+                  from: routeDetail.from,
+                  to: routeDetail.to,
+                  fare: routeDetail.fare,
+                }))
+              : [{ from: '', to: '', fare: 0 }],
+          }
+        : {
+            id: '',
+            expense_request_id: '',
+            requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+            amount: 0,
+            description: '',
+            receiptFile: undefined,
+            routes: [{ from: '', to: '', fare: 0 }],
+          },
     mode: 'onChange',
   });
 
@@ -85,6 +93,17 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
     name: 'routes',
     control: form.control,
   });
+
+  useEffect(() => {
+    const watchRoutes = form.watch((value, { name }) => {
+      if (name?.startsWith('routes')) {
+        const routes = value.routes || [];
+        const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
+        form.setValue('amount', totalFare);
+      }
+    });
+    return () => watchRoutes.unsubscribe();
+  }, [form]);
 
   return { form, onSubmit, isPending, fields, append, remove };
 };
