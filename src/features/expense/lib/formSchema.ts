@@ -12,7 +12,7 @@ export const RouteInfoSchema = z.object({
 });
 
 export const GeneralExpenseFormSchema = z.object({
-  requestDate: z.date({
+  requestDate: z.string({
     required_error: '申請日は必須です',
   }),
   amount: z.coerce
@@ -34,7 +34,7 @@ export const GeneralExpenseFormSchema = z.object({
 });
 
 export const TransportationExpenseFormSchema = z.object({
-  requestDate: z.date({
+  requestDate: z.string({
     required_error: '申請日は必須です',
   }),
   amount: z.coerce
