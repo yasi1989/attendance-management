@@ -1,10 +1,11 @@
 'use client';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { GeneralExpenseFormSchema, TransportationExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useTransition } from 'react';
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
+import { formatDateToISOString } from '@/lib/utils';
 
 type useGeneralExpenseFormProps = {
   type: 'add' | 'edit';
@@ -23,7 +24,7 @@ export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormPr
       receiptFile: undefined,
     } : {
       id: '',
-      requestDate: new Date(),
+      requestDate:  formatDateToISOString(new Date(), 'yyyy-MM-dd'),
       amount: 0,
       description: '',
       receiptFile: undefined,
@@ -65,7 +66,7 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
     } : {
       id: '',
       expense_request_id: '',
-      requestDate: new Date(),
+      requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
       amount: 0,
       description: '',
       receiptFile: undefined,
@@ -80,5 +81,10 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
     });
   };
 
-  return { form, onSubmit, isPending };
+  const { fields, append, remove } = useFieldArray({
+    name: 'routes',
+    control: form.control,
+  });
+
+  return { form, onSubmit, isPending, fields, append, remove };
 };

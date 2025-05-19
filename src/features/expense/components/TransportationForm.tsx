@@ -1,7 +1,10 @@
+<<<<<<< HEAD:src/features/expense/components/TransportationForm.tsx
 'use client';
 
 import { useEffect } from 'react';
 import { useFieldArray } from 'react-hook-form';
+=======
+>>>>>>> expense_rireki:src/features/expense/components/TransportationTab.tsx
 import { RouteFormItem } from './RouteFormItem';
 import { FormProvider } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -13,6 +16,7 @@ import ExpenseFormFooter from './ExpenseFormFooter';
 import { useTransportationExpenseForm } from '../hooks/useExpenseForm';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
+<<<<<<< HEAD:src/features/expense/components/TransportationForm.tsx
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
 
 type TransportationFormProps = {
@@ -28,12 +32,23 @@ export function TransportationForm({ type, expense, routeInfo }: TransportationF
     name: 'routes',
     control: form.control,
   });
+=======
+import { useEffect } from 'react';
+
+export function TransportationTab() {
+  const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm();
+>>>>>>> expense_rireki:src/features/expense/components/TransportationTab.tsx
 
   useEffect(() => {
-    if (fields.length === 0) {
-      append({ from: '', to: '', fare: 0 });
-    }
-  }, [append, fields.length]);
+    const watchRoutes = form.watch((value, { name }) => {
+      if (name?.startsWith('routes')) {
+        const routes = value.routes || [];
+        const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
+        form.setValue('amount', totalFare);
+      }
+    });
+    return () => watchRoutes.unsubscribe();
+  }, [form]);
 
   return (
     <FormProvider {...form}>

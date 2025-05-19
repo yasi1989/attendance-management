@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
@@ -14,14 +13,6 @@ interface RouteFormItemProps {
 
 export function RouteFormItem({ index, onRemove, isRemovable }: RouteFormItemProps) {
   const form = useFormContext<z.infer<typeof TransportationExpenseFormSchema>>();
-  const fare = form.watch(`routes.${index}.fare`);
-  useEffect(() => {
-    if (fare) {
-      const routes = form.watch('routes');
-      const totalFare = routes.reduce((sum, route) => sum + (Number(route.fare) || 0), 0);
-      form.setValue('amount', totalFare);
-    }
-  }, [fare, form]);
 
   return (
     <div className="flex flex-col bg-muted/20 p-4 rounded-lg space-y-4 relative">
