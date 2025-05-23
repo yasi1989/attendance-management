@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useEffect, useTransition } from 'react';
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
-import { formatDateToISOString } from '@/lib/utils';
 
 type useGeneralExpenseFormProps = {
   type: 'add' | 'edit';
@@ -20,14 +19,14 @@ export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormPr
       type === 'edit' && expense
         ? {
             id: expense.id,
-            requestDate: expense.request_date,
+            requestDate: expense.requestDate,
             amount: expense.amount,
             description: expense.description,
             receiptFile: undefined,
           }
         : {
             id: '',
-            requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+            requestDate: new Date(),
             amount: 0,
             description: '',
             receiptFile: undefined,
@@ -59,12 +58,12 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
         ? {
             id: expense.id,
             expense_request_id: routeInfo?.id ?? '',
-            requestDate: expense.request_date,
+            requestDate: expense.requestDate,
             amount: expense.amount,
             description: expense.description,
             receiptFile: undefined,
-            routes: routeInfo?.route_details
-              ? routeInfo.route_details.map((routeDetail) => ({
+            routes: routeInfo?.routeDetails
+              ? routeInfo.routeDetails.map((routeDetail) => ({
                   from: routeDetail.from,
                   to: routeDetail.to,
                   fare: routeDetail.fare,
@@ -74,7 +73,7 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
         : {
             id: '',
             expense_request_id: '',
-            requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+            requestDate: new Date(),
             amount: 0,
             description: '',
             receiptFile: undefined,

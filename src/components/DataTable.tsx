@@ -15,17 +15,24 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { FilterableColumnsType } from '@/type/filterableColumnsType';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Input } from './ui/input';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  filterableColumns?: FilterableColumnsType[];
+interface ColumnDataMeta {
+  enableFilter?: boolean;
+  japaneseLabel?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data, filterableColumns = [] }: DataTableProps<TData, TValue>) {
+type ColumnDefWithMeta<TData, TValue> = ColumnDef<TData, TValue> & {
+  meta?: ColumnDataMeta;
+};
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDefWithMeta<TData, TValue>[];
+  data: TData[];
+}
+
+export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filterColumn, setFilterColumn] = useState<string>('');
@@ -45,21 +52,23 @@ export function DataTable<TData, TValue>({ columns, data, filterableColumns = []
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const { getRowModel, getHeaderGroups, getColumn, previousPage, getCanPreviousPage, nextPage, getCanNextPage } = table;
+
   const handleColumnChange = (value: string) => {
     if (filterColumn) {
-      table.getColumn(filterColumn)?.setFilterValue('');
+      getColumn(filterColumn)?.setFilterValue('');
     }
     setFilterColumn(value);
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    table.getColumn(filterColumn)?.setFilterValue(value);
+    getColumn(filterColumn)?.setFilterValue(value);
   };
 
   return (
     <div className="rounded-lg border border-slate-200 shadow-sm bg-white dark:bg-slate-900 dark:border-slate-700 overflow-hidden">
-      {filterableColumns.length > 0 && (
+      {columns.filter((column) => column.meta?.enableFilter).length > 0 && (
         <div className="p-4 flex flex-col gap-2 sm:flex-row sm:items-center">
           <>
             <Select value={filterColumn} onValueChange={handleColumnChange}>
@@ -67,17 +76,19 @@ export function DataTable<TData, TValue>({ columns, data, filterableColumns = []
                 <SelectValue placeholder="フィルター列を選択" />
               </SelectTrigger>
               <SelectContent>
-                {filterableColumns.map((column) => (
-                  <SelectItem key={column.filter} value={column.filter}>
-                    {column.header}
-                  </SelectItem>
-                ))}
+                {columns
+                  .filter((column) => column.meta?.enableFilter)
+                  .map((column) => (
+                    <SelectItem key={column.id} value={column.id || ''}>
+                      {column.meta?.japaneseLabel}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
 
             <Input
-              placeholder={`Filter ${filterableColumns.find((column) => column.filter === filterColumn)?.header || ''}...`}
-              value={(filterColumn && (table.getColumn(filterColumn)?.getFilterValue() as string)) || ''}
+              placeholder={`Filter ${columns.find((column) => column.id === filterColumn)?.meta?.japaneseLabel || ''}...`}
+              value={(filterColumn && (getColumn(filterColumn)?.getFilterValue() as string)) || ''}
               onChange={handleFilterChange}
               className="max-w-sm"
               disabled={!filterColumn}
@@ -88,7 +99,7 @@ export function DataTable<TData, TValue>({ columns, data, filterableColumns = []
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-slate-50 dark:bg-slate-800">
-            {table.getHeaderGroups().map((headerGroup) => (
+            {getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-b border-slate-200 dark:border-slate-700">
                 {headerGroup.headers.map((header) => {
                   return (
@@ -104,8 +115,8 @@ export function DataTable<TData, TValue>({ columns, data, filterableColumns = []
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
+            {getRowModel().rows?.length ? (
+              getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
@@ -137,15 +148,10 @@ export function DataTable<TData, TValue>({ columns, data, filterableColumns = []
       </div>
       <div className="flex items-center justify-end px-4 py-3 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-500 dark:text-slate-400">
         <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
+          <Button variant="outline" size="sm" onClick={() => previousPage()} disabled={!getCanPreviousPage()}>
             Previous
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button variant="outline" size="sm" onClick={() => nextPage()} disabled={!getCanNextPage()}>
             Next
           </Button>
         </div>
