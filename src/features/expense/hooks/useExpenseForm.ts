@@ -3,14 +3,13 @@ import { GeneralExpenseFormSchema, TransportationExpenseFormSchema } from '../li
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useTransition } from 'react';
-import { formatDateToISOString } from '@/lib/utils';
 
 export const useGeneralExpenseForm = () => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof GeneralExpenseFormSchema>>({
     resolver: zodResolver(GeneralExpenseFormSchema),
     defaultValues: {
-      requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+      requestDate: new Date(),
       amount: 0,
       description: '',
       receiptFile: undefined,
@@ -32,7 +31,7 @@ export const useTransportationExpenseForm = () => {
   const form = useForm<z.infer<typeof TransportationExpenseFormSchema>>({
     resolver: zodResolver(TransportationExpenseFormSchema),
     defaultValues: {  
-      requestDate: formatDateToISOString(new Date(), 'yyyy-MM-dd'),
+      requestDate: new Date(),
       amount: 0,
       description: '',
       receiptFile: undefined,

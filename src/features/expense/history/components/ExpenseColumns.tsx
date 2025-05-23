@@ -5,12 +5,13 @@ import { ArrowUpDown, FileText, Edit, Trash2 } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { truncateString } from '@/lib/utils';
 import Link from 'next/link';
+import { formatDateToISOString } from '@/lib/dateFormatter';
 
 export const expenseColumns: ColumnDef<ExpenseType>[] = [
   {
-    accessorKey: 'request_date',
+    accessorKey: 'requestDate',
+    id: 'requestDate',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -21,10 +22,22 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{row.original.request_date}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium">{formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd')}</div>
+    ),
+    meta: {
+      japaneseLabel: '申請日',
+      enableFilter: true,
+    },
+    filterFn: (row, id, value) => {
+      const requestDate = row.getValue(id) as Date;
+      const formattedDate = formatDateToISOString(requestDate, 'yyyy-MM-dd');
+      return formattedDate.includes(value);
+    },
   },
   {
     accessorKey: 'expenseType',
+    id: 'expenseType',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -44,9 +57,14 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
         </div>
       );
     },
+    meta: {
+      japaneseLabel: '経費',
+      enableFilter: true,
+    },
   },
   {
     accessorKey: 'amount',
+    id: 'amount',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -58,9 +76,14 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
       );
     },
     cell: ({ row }) => <div className="font-medium text-right">¥ {row.original.amount.toLocaleString()}</div>,
+    meta: {
+      japaneseLabel: '金額',
+      enableFilter: false,
+    },
   },
   {
-    accessorKey: 'status_id',
+    accessorKey: 'statusId',
+    id: 'statusId',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -72,7 +95,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.original.status_id;
+      const status = row.original.statusId;
       const color = statusBadgeColor[status];
       return (
         <div className="flex items-center justify-center">
@@ -80,9 +103,14 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
         </div>
       );
     },
+    meta: {
+      japaneseLabel: '状態',
+      enableFilter: true,
+    },
   },
   {
     accessorKey: 'description',
+    id: 'description',
     header: () => {
       return (
         <div className="flex items-center justify-center">
@@ -93,6 +121,38 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     cell: ({ row }) => (
       <div className="max-w-xs text-sm text-slate-600">{truncateString(row.original.description, 20)}</div>
     ),
+    meta: {
+      japaneseLabel: '説明',
+      enableFilter: false,
+    },
+  },
+  {
+    accessorKey: 'receiptUrl',
+    id: 'receiptUrl',
+    header: () => {
+      return (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">領収証</Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="flex items-center justify-center">
+        {row.original.receiptUrl && row.original.receiptUrl !== '' && (
+          <Link
+            href={row.original.receiptUrl}
+            target="_blank"
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
+          >
+            <FileText className="h-4 w-4 text-slate-600" />
+          </Link>
+        )}
+      </div>
+    ),
+    meta: {
+      japaneseLabel: '領収証',
+      enableFilter: false,
+    },
   },
   {
     id: 'actions',
@@ -106,14 +166,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1">
-          <Link
-            href={row.original.receipt_url}
-            target="_blank"
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
-          >
-            <FileText className="h-4 w-4 text-slate-600" />
-          </Link>
-          {row.original.status_id !== 'Approved' && (
+          {row.original.statusId !== 'Approved' && (
             <>
               <Button
                 variant="ghost"
@@ -134,6 +187,10 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
         </div>
       );
     },
+    meta: {
+      japaneseLabel: '操作',
+      enableFilter: false,
+    },
   },
 ];
 
@@ -147,4 +204,8 @@ const expenseTypeBadgeColor: Record<string, string> = {
   Transport: 'bg-orange-100 text-orange-700 border border-orange-200',
   General: 'bg-purple-100 text-purple-700 border border-purple-200',
   Other: 'bg-slate-100 text-slate-700 border border-slate-200',
+};
+
+const truncateString = (str: string, maxLength: number): string => {
+  return str.length <= maxLength ? str : str.substring(0, maxLength) + '...';
 };
