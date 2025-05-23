@@ -1,6 +1,5 @@
 import { DataTable } from '@/components/DataTable';
 import { companyCodeColumns } from './CompanyCodeColumns';
-import { filterCompanyCodeColumns } from '../const/filterCompanyCodeColumns';
 import { CompanyType } from '../type/companyType';
 
 type CompanyCodeTableProps = {
@@ -8,7 +7,7 @@ type CompanyCodeTableProps = {
 };
 
 const CompanyCodeTable = ({ data }: CompanyCodeTableProps) => {
-  return <DataTable columns={companyCodeColumns} data={data} filterableColumns={filterCompanyCodeColumns} />;
+  return <DataTable columns={companyCodeColumns} data={data} />;
 };
 
 export default CompanyCodeTable;

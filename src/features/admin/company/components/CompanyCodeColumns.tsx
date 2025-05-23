@@ -10,6 +10,7 @@ import { CompanyCodeDialog } from './CompanyCodeDialog';
 export const companyCodeColumns: ColumnDef<CompanyType>[] = [
   {
     accessorKey: 'code',
+    id: 'code',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -21,9 +22,14 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
       );
     },
     cell: ({ row }) => <div className="font-medium">{row.original.code}</div>,
+    meta: {
+      enableFilter: true,
+      japaneseLabel: '会社コード',
+    },
   },
   {
     accessorKey: 'name',
+    id: 'name',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -35,9 +41,14 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
       );
     },
     cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
+    meta: {
+      enableFilter: true,
+      japaneseLabel: '会社名',
+    },
   },
   {
     accessorKey: 'createdAt',
+    id: 'createdAt',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -49,6 +60,10 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
       );
     },
     cell: ({ row }) => <div className="font-medium">{row.original.createdAt}</div>,
+    meta: {
+      enableFilter: true,
+      japaneseLabel: '作成日',
+    },
   },
   {
     id: 'actions',
@@ -70,6 +85,10 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
           <CompanyCodeDeleteDialog />
         </div>
       );
+    },
+    meta: {
+      enableFilter: false,
+      japaneseLabel: '操作',
     },
   },
 ];
