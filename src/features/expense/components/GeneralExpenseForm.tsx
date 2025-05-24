@@ -1,3 +1,5 @@
+'use client';
+
 import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputCalenderFormField from '@/components/InputCalenderFormField';
@@ -6,8 +8,15 @@ import ExpenseFormFooter from './ExpenseFormFooter';
 import InputFileFormField from '@/components/InputFileFormField';
 import { useGeneralExpenseForm } from '../hooks/useExpenseForm';
 import { FormProvider } from 'react-hook-form';
-export function GeneralExpenseTab() {
-  const { form, onSubmit } = useGeneralExpenseForm();
+import { ExpenseType } from '../history/type/expenseType';
+
+type GeneralExpenseFormProps = {
+  type: 'add' | 'edit';
+  expense?: ExpenseType | undefined;
+};
+
+export function GeneralExpenseForm({ type, expense }: GeneralExpenseFormProps) {
+  const { form, onSubmit } = useGeneralExpenseForm({ type, expense });
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -35,7 +44,7 @@ export function GeneralExpenseTab() {
               row={4}
               className="resize-none"
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" />
+            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receipt_url} />
           </div>
           <ExpenseFormFooter form={form} />
         </form>
