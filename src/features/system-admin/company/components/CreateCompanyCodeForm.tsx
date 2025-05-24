@@ -13,7 +13,7 @@ const CreateCompanyCodeForm = ({ data }: CreateCompanyCodeFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
-        <CardTitle className="text-xl">会社コード一覧</CardTitle>
+        <CardTitle className="text-xl">会社管理</CardTitle>
         <CardDescription>登録されている会社コードを確認・管理できます。</CardDescription>
       </CardHeader>
 

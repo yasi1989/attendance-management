@@ -34,11 +34,11 @@ export const data = {
       items: [
         {
           title: '承認待ち一覧',
-          url: '#',
+          url: '/approval/pending',
         },
         {
           title: '承認履歴',
-          url: '#',
+          url: '/approval/history',
         },
       ],
     },
@@ -49,15 +49,15 @@ export const data = {
       items: [
         {
           title: '社員管理',
-          url: '/admin/users',
+          url: '/company-admin/employees',
         },
         {
           title: '部署・役職管理',
-          url: '/admin/organization',
+          url: '/company-admin/organization',
         },
         {
           title: '休日カレンダー',
-          url: '/admin/holiday',
+          url: '/company-admin/holiday',
         },
       ],
     },
@@ -68,11 +68,11 @@ export const data = {
       items: [
         {
           title: 'ユーザ管理',
-          url: '/admin/users',
+          url: '/system-admin/users',
         },
         {
           title: '会社管理',
-          url: '/admin/company',
+          url: '/system-admin/company',
         },
       ],
     },
