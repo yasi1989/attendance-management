@@ -1,5 +1,5 @@
-import { sampleCompanyCodes } from "../const/mockData";
+import { company } from "../const/mockData";
 
 export const fetchCompanyCode = () => {
-  return sampleCompanyCodes;
+  return company;
 }
