@@ -38,10 +38,20 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
               <DialogDescription>ユーザの権限及び所属会社を編集します。</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="lastName" label="姓" form={form} disabled />
-              <InputFormField name="firstName" label="名前" form={form} disabled />
-              <InputSelectFormField name="roleId" label="権限" form={form} data={roles?.map(role => ({ value: role.id, label: role.roleName })) || []} />
-              <InputSelectFormField name="companyId" label="所属会社" form={form} data={companies?.map(company => ({ value: company.id, label: company.name })) || []} />
+              <InputFormField name="lastName" label="姓" form={form} maxLength={20} />
+              <InputFormField name="firstName" label="名前" form={form} maxLength={20} />
+              <InputSelectFormField
+                name="roleId"
+                label="権限"
+                form={form}
+                data={roles?.map((role) => ({ value: role.id, label: role.roleName })) || []}
+              />
+              <InputSelectFormField
+                name="companyId"
+                label="所属会社"
+                form={form}
+                data={companies?.map((company) => ({ value: company.id, label: company.name })) || []}
+              />
             </div>
             <DialogFooter>
               <Button variant="outline">キャンセル</Button>

@@ -13,43 +13,61 @@ import UserDeleteDialog from './UserDeleteDialog';
 
 export const userColumns: ColumnDef<UserType>[] = [
   {
-    accessorKey: 'id',
-    id: 'id',
+    accessorKey: 'companyName',
+    id: 'companyName',
     header: ({ column }) => (
       <div className="flex items-center justify-center">
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          ID
+          会社名
           <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
         </Button>
       </div>
     ),
-    cell: ({ row }) => <div className="font-medium">{row.original.id}</div>,
+    cell: ({ row }) => {
+      const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
+      return <div className="font-medium">{company ? company.name : '未設定'}</div>;
+    },
     meta: {
       enableFilter: true,
-      japaneseLabel: 'ID',
+      japaneseLabel: '会社名',
+    },
+    filterFn: (row, _id, filterValue) => {
+      const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
+      return company ? company.name.includes(filterValue) : false;
     },
   },
   {
-    accessorKey: 'name',
-    id: 'name',
+    accessorKey: 'lastName',
+    id: 'lastName',
     header: ({ column }) => (
       <div className="flex items-center justify-center">
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          氏名
+          姓
           <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
         </Button>
       </div>
     ),
-    cell: ({ row }) => <div className="font-medium">{`${row.original.lastName} ${row.original.firstName}`}</div>,
+    cell: ({ row }) => <div className="font-medium">{`${row.original.lastName}`}</div>,
     meta: {
       enableFilter: true,
-      japaneseLabel: '氏名',
+      japaneseLabel: '姓',
     },
-    filterFn: (row, _id, filterValue) => {
-      const lastName = row.getValue('lastName') as string;
-      const firstName = row.getValue('firstName') as string;
-      const name = lastName + firstName;
-      return name.includes(filterValue);
+  },
+  {
+    accessorKey: 'firstName',
+    id: 'firstName',
+    header: ({ column }) => (
+      <div className="flex items-center justify-center">
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          名
+          <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+        </Button>
+      </div>
+    ),
+    cell: ({ row }) => <div className="font-medium">{`${row.original.firstName}`}</div>,
+    meta: {
+      enableFilter: true,
+      japaneseLabel: '名',
     },
   },
   {
@@ -71,26 +89,9 @@ export const userColumns: ColumnDef<UserType>[] = [
       enableFilter: true,
       japaneseLabel: '権限',
     },
-  },
-  {
-    accessorKey: 'companyName',
-    id: 'companyName',
-    header: ({ column }) => (
-      <div className="flex items-center justify-center">
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          会社名
-          <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => {
-      const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-      company ? company.name : '未設定';
-      return <div className="font-medium">{company ? company.name : '未設定'}</div>;
-    },
-    meta: {
-      enableFilter: true,
-      japaneseLabel: '会社名',
+    filterFn: (row, _id, filterValue) => {
+      const role = roles.find((r: RoleType) => r.id === row.original.roleId);
+      return role ? role.roleName.includes(filterValue) : false;
     },
   },
   {

@@ -1,4 +1,5 @@
-import { cn, formatDateToISOString } from '@/lib/utils';
+import { formatDateToISOString } from '@/lib/dateFormatter';
+import { cn } from '@/lib/utils';
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
 import Link from 'next/link';
 
