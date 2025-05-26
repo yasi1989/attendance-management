@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
-const CustomUserPage = () => {
+const UsersManagementPage = () => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
@@ -14,4 +14,4 @@ const CustomUserPage = () => {
   )
 }
 
-export default CustomUserPage
+export default UsersManagementPage

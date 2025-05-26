@@ -112,7 +112,6 @@ export const departments: DepartmentType[] = [
 export const users: UserType[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
-    employeeCode: 'EMP001',
     email: 'admin@sample.co.jp',
     passwordHash: 'hashed_admin_password',
     firstName: '太郎',
@@ -125,7 +124,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440002',
-    employeeCode: 'EMP002',
     email: 'sales_mgr@sample.co.jp',
     passwordHash: 'hashed_sales_mgr_password',
     firstName: '次郎',
@@ -138,7 +136,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440003',
-    employeeCode: 'EMP003',
     email: 'sales1_mgr@sample.co.jp',
     passwordHash: 'hashed_sales1_mgr_password',
     firstName: '三郎',
@@ -151,7 +148,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    employeeCode: 'EMP004',
     email: 'sales2_mgr@sample.co.jp',
     passwordHash: 'hashed_sales2_mgr_password',
     firstName: '四郎',
@@ -164,7 +160,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    employeeCode: 'EMP005',
     email: 'dev_mgr@sample.co.jp',
     passwordHash: 'hashed_dev_mgr_password',
     firstName: '五郎',
@@ -177,7 +172,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
-    employeeCode: 'EMP006',
     email: 'dev1_mgr@sample.co.jp',
     passwordHash: 'hashed_dev1_mgr_password',
     firstName: '六郎',
@@ -190,7 +184,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440007',
-    employeeCode: 'EMP007',
     email: 'dev2_mgr@sample.co.jp',
     passwordHash: 'hashed_dev2_mgr_password',
     firstName: '七郎',
@@ -203,7 +196,6 @@ export const users: UserType[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440008',
-    employeeCode: 'EMP008',
     email: 'individual@sample.co.jp',
     passwordHash: 'hashed_individual_password',
     firstName: '八郎',

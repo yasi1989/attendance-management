@@ -1,6 +1,5 @@
 export type UserType = {
   id: string;
-  employeeCode: string;
   email: string;
   passwordHash: string;
   firstName: string;
