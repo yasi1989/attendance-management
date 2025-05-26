@@ -10,6 +10,7 @@ import { companies } from '../../company/const/mockData';
 import { CompanyType } from '../../company/type/companyType';
 import { UserEditDialog } from './UserEditDialog';
 import UserDeleteDialog from './UserDeleteDialog';
+import { Badge } from '@/components/ui/badge';
 
 export const userColumns: ColumnDef<UserType>[] = [
   {
@@ -83,7 +84,12 @@ export const userColumns: ColumnDef<UserType>[] = [
     ),
     cell: ({ row }) => {
       const role = roles.find((r: RoleType) => r.id === row.original.roleId);
-      return <div className="font-medium">{role ? role.roleName : '未設定'}</div>;
+      const color = role ? roleBadgeColor[role.roleCode] : '';
+      return (
+        <div className="flex items-center justify-center">
+          <Badge className={`${color} px-2 py-1 text-xs font-medium rounded-full shadow-sm`}>{role?.roleName}</Badge>
+        </div>
+      );
     },
     meta: {
       enableFilter: true,
@@ -117,3 +123,11 @@ export const userColumns: ColumnDef<UserType>[] = [
     },
   },
 ];
+
+const roleBadgeColor: Record<string, string> = {
+  SYSTEM_ADMIN: 'bg-blue-100 text-blue-700 border border-blue-200',
+  COMPANY_ADMIN: 'bg-green-100 text-green-700 border border-green-200',
+  MANAGER: 'bg-red-100 text-red-700 border border-red-200',
+  EMPLOYEE: 'bg-yellow-100 text-yellow-700 border border-yellow-200',
+  INDIVIDUAL: 'bg-pink-100 text-pink-700 border border-pink-200',
+};
