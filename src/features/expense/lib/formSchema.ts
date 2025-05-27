@@ -36,7 +36,7 @@ export const GeneralExpenseFormSchema = z.object({
 
 export const TransportationExpenseFormSchema = z.object({
   id: z.string(),
-  expense_request_id: z.string(),
+  expenseRequestId: z.string(),
   requestDate: z.date({
     required_error: '申請日は必須です',
   }),
