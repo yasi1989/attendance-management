@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { GeneralExpenseFormSchema, TransportationExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
@@ -30,7 +30,7 @@ export const useTransportationExpenseForm = () => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof TransportationExpenseFormSchema>>({
     resolver: zodResolver(TransportationExpenseFormSchema),
-    defaultValues: {
+    defaultValues: {  
       requestDate: new Date(),
       amount: 0,
       description: '',
@@ -46,5 +46,10 @@ export const useTransportationExpenseForm = () => {
     });
   };
 
-  return { form, onSubmit, isPending };
+  const { fields, append, remove } = useFieldArray({
+    name: 'routes',
+    control: form.control,
+  });
+
+  return { form, onSubmit, isPending, fields, append, remove };
 };
