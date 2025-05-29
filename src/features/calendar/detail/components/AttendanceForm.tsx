@@ -16,7 +16,7 @@ type AttendanceTabProps = {
 };
 
 const AttendanceTab = ({ dateString }: AttendanceTabProps) => {
-  const { form, onSubmit, attendanceType, isHalfDay } = useAttendance(dateString);
+  const { form, onSubmit, resetAttendanceForm, resetHalfDayForm, attendanceType, isHalfDay } = useAttendance(dateString);
 
   return (
     <FormProvider {...form}>
@@ -24,10 +24,10 @@ const AttendanceTab = ({ dateString }: AttendanceTabProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-6">
             <InputFormField form={form} name="date" label="勤務日" disabled />
-            <InputSelectFormField form={form} name="attendanceType" label="勤怠種別" data={ATTENDANCE_TYPES} />
-            {attendanceType === 'PAID_LEAVE' && <InputCheckboxFormField form={form} name="isHalfDay" label="半休申請" />}
+            <InputSelectFormField form={form} name="attendanceType" label="勤怠種別" data={ATTENDANCE_TYPES} onValueChange={resetAttendanceForm} />
+            {attendanceType === 'PAID_LEAVE' && <InputCheckboxFormField form={form} name="isHalfDay" label="半休申請" onValueChange={resetHalfDayForm} />}
             {isHalfDay && (
-              <InputRadioFormField form={form} name="halfDayType" label="半休種別" data={HALF_DAY_TYPES} />
+              <InputRadioFormField form={form} name="halfDayType" label="半休種別" options={HALF_DAY_TYPES} />
             )}
             {(attendanceType === 'WORK' || isHalfDay) && <CalendarTimeField form={form} />}
             <InputTextFormField
