@@ -11,6 +11,7 @@ type InputSelectFormFieldProps<T extends Record<string, unknown>> = {
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
   data: Record<string, string>[];
+  onValueChange?: (value: string) => void;
 };
 const InputSelectFormField = <T extends Record<string, unknown>>({
   form,
@@ -21,6 +22,7 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
   rules,
   description,
   data,
+  onValueChange,
 }: InputSelectFormFieldProps<T>) => {
   return (
     <FormField
@@ -32,7 +34,15 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
           <FormLabel>
             {label} {required && <span className="text-destructive">*</span>}
           </FormLabel>
-          <Select onValueChange={field.onChange} value={field.value as string}>
+          <Select
+            onValueChange={(value) => {
+              field.onChange(value);
+              if (onValueChange) {
+                onValueChange(value);
+              }
+            }}
+            value={field.value as string}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />

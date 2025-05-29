@@ -2,6 +2,11 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
+export type SelectOption = {
+  value: string;
+  label: string;
+};
+
 type InputRadioFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
@@ -9,7 +14,7 @@ type InputRadioFormFieldProps<T extends Record<string, unknown>> = {
   required?: boolean;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
-  data: Record<string, string>[];
+  options: SelectOption[];
 };
 const InputRadioFormField = <T extends Record<string, unknown>>({
   form,
@@ -18,7 +23,7 @@ const InputRadioFormField = <T extends Record<string, unknown>>({
   required = false,
   rules,
   description,
-  data,
+  options,
 }: InputRadioFormFieldProps<T>) => {
   return (
     <FormField
@@ -32,7 +37,7 @@ const InputRadioFormField = <T extends Record<string, unknown>>({
           </FormLabel>
           <FormControl>
             <RadioGroup onValueChange={field.onChange} defaultValue={field.value as string} className="flex space-x-2">
-              {data.map((item) => (
+              {options.map((item) => (
                 <FormItem key={item.value} className="flex items-center space-x-1">
                   <RadioGroupItem value={item.value} />
                   <FormLabel>{item.label}</FormLabel>
