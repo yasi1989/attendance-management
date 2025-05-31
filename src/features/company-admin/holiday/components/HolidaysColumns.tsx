@@ -74,30 +74,6 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     },
   },
   {
-    accessorKey: 'createdAt',
-    id: 'createdAt',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            作成日
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => <div className="font-medium">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
-    meta: {
-      enableFilter: true,
-      japaneseLabel: '作成日',
-    },
-    filterFn: (row, id, value) => {
-      const createdAt = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(createdAt, 'yyyy-MM-dd');
-      return formattedDate.includes(value);
-    },
-  },
-  {
     id: 'actions',
     header: () => {
       return (
