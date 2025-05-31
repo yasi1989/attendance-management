@@ -1,5 +1,6 @@
-import { sampleCompanyCodes } from "../const/mockData";
+import { sampleCompanyCodes } from '../const/mockData';
+import { CompanyType } from '../type/companyType';
 
-export const fetchCompanyCode = () => {
+export const fetchCompanyCode = (): CompanyType[] => {
   return sampleCompanyCodes;
-}
+};

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import CompanyCodeDeleteDialog from './CompanyCodeDeleteDialog';
 import { CompanyType } from '../type/companyType';
 import { CompanyCodeDialog } from './CompanyCodeDialog';
+import { formatDateToISOString } from '@/lib/dateFormatter';
 
 export const companyCodeColumns: ColumnDef<CompanyType>[] = [
   {
@@ -59,10 +60,15 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{row.original.createdAt}</div>,
+    cell: ({ row }) => <div className="font-medium">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
     meta: {
       enableFilter: true,
       japaneseLabel: '作成日',
+    },
+    filterFn: (row, id, value) => {
+      const createdAt = row.getValue(id) as Date;
+      const formattedDate = formatDateToISOString(createdAt, 'yyyy-MM-dd');
+      return formattedDate.includes(value);
     },
   },
   {
