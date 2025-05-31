@@ -126,8 +126,11 @@ export const userColumns: ColumnDef<UserType>[] = [
 
 const roleBadgeColor: Record<string, string> = {
   SYSTEM_ADMIN: 'bg-blue-100 text-blue-700 border border-blue-200',
-  COMPANY_ADMIN: 'bg-green-100 text-green-700 border border-green-200',
-  MANAGER: 'bg-red-100 text-red-700 border border-red-200',
-  EMPLOYEE: 'bg-yellow-100 text-yellow-700 border border-yellow-200',
-  INDIVIDUAL: 'bg-pink-100 text-pink-700 border border-pink-200',
+  EXECUTIVE: 'bg-green-100 text-green-700 border border-green-200',
+  HR_ADMIN: 'bg-red-100 text-red-700 border border-red-200',
+  DEPARTMENT_HEAD: 'bg-yellow-100 text-yellow-700 border border-yellow-200',
+  SECTION_MANAGER: 'bg-pink-100 text-pink-700 border border-pink-200',
+  TEAM_LEADER: 'bg-orange-100 text-orange-700 border border-orange-200',
+  EMPLOYEE: 'bg-purple-100 text-purple-700 border border-purple-200',
+  INDIVIDUAL: 'bg-slate-100 text-slate-700 border border-slate-200',
 };

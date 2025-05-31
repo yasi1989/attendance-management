@@ -3,8 +3,7 @@ export type DepartmentType = {
   companyId: string;
   departmentCode: string;
   departmentName: string;
-  parentDepartmentId: string;
-  managerUserId: string;
+  parentDepartmentId?: string;
   level: number;
   createdAt: Date;
   updatedAt: Date;
