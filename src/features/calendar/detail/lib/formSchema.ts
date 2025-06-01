@@ -1,13 +1,19 @@
 import { z } from 'zod';
 import { ATTENDANCE_TYPES, HALF_DAY_TYPES } from '../const/attendanceConst';
 import { HalfDayTypeValue, LeaveTypeValue } from '../type/attendanceType';
+import { isValid } from 'date-fns';
+import { parseDateStringToTimestamp, parseISOStringToDate } from '@/lib/dateFormatter';
 
 const attendanceTypeValues = ATTENDANCE_TYPES.map((type) => type.value) as [LeaveTypeValue, ...LeaveTypeValue[]];
 const halfDayTypeValues = HALF_DAY_TYPES.map((type) => type.value) as [HalfDayTypeValue, ...HalfDayTypeValue[]];
 
 export const AttendanceFormSchema = z
   .object({
-    date: z.string(),
+    date: z.string({
+      required_error: '勤務日を設定してください',
+    }).refine((date) => isValid(parseISOStringToDate(date)), {
+      message: '勤務日の形式が不正です。',
+    }),
     attendanceType: z.enum(attendanceTypeValues, { required_error: '勤怠種別を選択してください' }),
     isHalfDay: z.boolean().optional(),
     halfDayType: z.enum(halfDayTypeValues).optional(),
@@ -42,9 +48,9 @@ export const AttendanceFormSchema = z
     }
   })
   .superRefine((data, ctx) => {
-    if (data.attendanceType === 'WORK' || (data.isHalfDay && data.attendanceType === 'PAID_LEAVE')) {
-      const checkInTime = new Date(`2000-01-01T${data.check_in}`);
-      const checkOutTime = new Date(`2000-01-01T${data.check_out}`);
+    if (data.check_in && data.check_out) {
+      const checkInTime = parseDateStringToTimestamp(data.date, data.check_in);
+      const checkOutTime = parseDateStringToTimestamp(data.date, data.check_out);
       if (checkInTime >= checkOutTime) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
