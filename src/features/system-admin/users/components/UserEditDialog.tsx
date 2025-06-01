@@ -44,13 +44,13 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
                 name="roleId"
                 label="権限"
                 form={form}
-                data={roles?.map((role) => ({ value: role.id, label: role.roleName })) || []}
+                options={roles?.map((role) => ({ value: role.id, label: role.roleName })) || []}
               />
               <InputSelectFormField
                 name="companyId"
                 label="所属会社"
                 form={form}
-                data={companies?.map((company) => ({ value: company.id, label: company.name })) || []}
+                options={companies?.map((company) => ({ value: company.id, label: company.name })) || []}
               />
             </div>
             <DialogFooter>

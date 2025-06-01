@@ -4,7 +4,6 @@ export type DepartmentType = {
   departmentCode: string;
   departmentName: string;
   parentDepartmentId?: string;
-  level: number;
   createdAt: Date;
   updatedAt: Date;
 };
