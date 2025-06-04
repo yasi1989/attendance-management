@@ -1,3 +1,4 @@
+'use client';
 import { RouteFormItem } from './RouteFormItem';
 import { FormProvider } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -6,24 +7,19 @@ import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputFileFormField from '@/components/InputFileFormField';
 import ExpenseFormFooter from './ExpenseFormFooter';
-import { useTransportationExpenseForm } from '../hooks/useExpenseForm';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
+import { useTransportationExpenseForm } from '../hooks/useTransportationExpenseForm';
 
-export function TransportationTab() {
-  const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm();
+type TransportationFormProps = {
+  type: 'add' | 'edit';
+  expense?: ExpenseType | undefined;
+  routeInfo?: RouteInfoType | undefined;
+};
 
-  useEffect(() => {
-    const watchRoutes = form.watch((value, { name }) => {
-      if (name?.startsWith('routes')) {
-        const routes = value.routes || [];
-        const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
-        form.setValue('amount', totalFare);
-      }
-    });
-    return () => watchRoutes.unsubscribe();
-  }, [form]);
+export function TransportationForm({ type, expense, routeInfo }: TransportationFormProps) {
+  const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm({ type, expense, routeInfo });
 
   return (
     <FormProvider {...form}>
@@ -73,7 +69,7 @@ export function TransportationTab() {
               className="pl-8"
               disabled={true}
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" />
+            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receiptUrl} />
           </div>
           <ExpenseFormFooter form={form} />
         </form>
