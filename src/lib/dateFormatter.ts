@@ -1,14 +1,22 @@
 import { format, isValid, parse, parseISO } from 'date-fns';
 
 export const formatDateToISOString = (date: Date, formatString = 'yyyy-MM-dd'): string => {
-  return format(date, formatString);
+  return isValid(date) ? format(date, formatString) : '';
 };
 
-export const parseISOStringToDate = (dateString: string): Date => {
-  return parseISO(dateString);
+export const parseISOStringToDate = (dateString: string): Date | undefined => {
+  const date = parseISO(dateString);
+  return isValid(date) ? date : undefined;
 };
 
-export const parseDateStringToTimestamp = (date: string, time: string): number => {
-  const dateTime = parse(`${date} ${time}`, 'yyyy-MM-dd HH:mm', new Date());
-  return isValid(dateTime) ? dateTime.getTime() : Number.NaN;
+export const timeStringToTimestamp = (timeString: string | undefined, baseDate: Date): number | undefined => {
+  if (!timeString) return undefined;
+  const time = parse(timeString, 'HH:mm', baseDate);
+  return isValid(time) ? time.getTime() : undefined;
+};
+
+export const timestampToTimeString = (timestamp: number | undefined): string => {
+  if (!timestamp) return '';
+  const date = new Date(timestamp);
+  return isValid(date) ? format(date, 'HH:mm') : '';
 };
