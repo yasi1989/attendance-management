@@ -6,5 +6,5 @@ export const fetchExpenseById = (id: string): ExpenseType | undefined => {
 };
 
 export const fetchRouteInfoById = (id: string): RouteInfoType | undefined => {
-  return routeInfoData.find((routeInfo) => routeInfo.expense_request_id === id);
+  return routeInfoData.find((routeInfo) => routeInfo.expenseRequestId === id);
 };

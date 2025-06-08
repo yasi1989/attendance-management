@@ -44,7 +44,7 @@ export function GeneralExpenseForm({ type, expense }: GeneralExpenseFormProps) {
               row={4}
               className="resize-none"
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receipt_url} />
+            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receiptUrl} />
           </div>
           <ExpenseFormFooter form={form} />
         </form>
