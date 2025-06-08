@@ -29,7 +29,7 @@ const AttendanceTab = ({ dateString }: AttendanceTabProps) => {
               form={form}
               name="attendanceType"
               label="勤怠種別"
-              data={ATTENDANCE_TYPES}
+              options={ATTENDANCE_TYPES}
               onValueChange={resetAttendanceForm}
             />
             {attendanceType === 'PAID_LEAVE' && (
