@@ -1,35 +1,30 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
+import { formatDateToISOString, parseISOStringToDate } from '@/lib/dateFormatter';
 
-type InputFormFieldProps<T extends Record<string, unknown>> = {
+type InputDateFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
   placeholder?: string;
-  type?: string;
-  moneyField?: boolean;
   required?: boolean;
   className?: string;
-  maxLength?: number;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
   disabled?: boolean;
 };
-const InputFormField = <T extends Record<string, unknown>>({
+const InputDateFormField = <T extends Record<string, unknown>>({
   form,
   name,
   label,
   placeholder = '',
-  type = 'text',
-  moneyField = false,
   required = false,
   className = '',
   rules,
-  maxLength,
   description,
   disabled = false,
-}: InputFormFieldProps<T>) => {
+}: InputDateFormFieldProps<T>) => {
   return (
     <FormField
       control={form.control}
@@ -43,16 +38,17 @@ const InputFormField = <T extends Record<string, unknown>>({
           <FormControl>
             <div className="relative">
               <Input
+                type="date"
                 placeholder={placeholder}
-                type={type}
                 className={className}
                 disabled={disabled}
-                maxLength={maxLength}
-                value={field.value as string | number | readonly string[] | undefined}
-                onChange={field.onChange}
+                value={formatDateToISOString(field.value as Date)}
+                onChange={(e) => {
+                  const date = parseISOStringToDate(e.target.value);
+                  field.onChange(date);
+                }}
                 onBlur={field.onBlur}
               />
-              {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
             </div>
           </FormControl>
           {description && <FormDescription className="text-xs">{description}</FormDescription>}
@@ -63,4 +59,4 @@ const InputFormField = <T extends Record<string, unknown>>({
   );
 };
 
-export default InputFormField;
+export default InputDateFormField;

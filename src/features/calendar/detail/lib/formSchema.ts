@@ -7,13 +7,15 @@ const halfDayTypeValues = HALF_DAY_TYPES.map((type) => type.value) as [HalfDayTy
 
 export const AttendanceFormSchema = z
   .object({
-    date: z.string(),
+    date: z.date({
+      required_error: '勤務日を設定してください',
+    }),
     attendanceType: z.enum(attendanceTypeValues, { required_error: '勤怠種別を選択してください' }),
     isHalfDay: z.boolean().optional(),
     halfDayType: z.enum(halfDayTypeValues).optional(),
-    check_in: z.string().optional(),
-    check_out: z.string().optional(),
-    rest: z.string().optional(),
+    check_in: z.number().optional(),
+    check_out: z.number().optional(),
+    rest: z.number().optional(),
     comment: z.string().optional(),
   })
   .superRefine((data, ctx) => {
@@ -42,10 +44,8 @@ export const AttendanceFormSchema = z
     }
   })
   .superRefine((data, ctx) => {
-    if (data.attendanceType === 'WORK' || (data.isHalfDay && data.attendanceType === 'PAID_LEAVE')) {
-      const checkInTime = new Date(`2000-01-01T${data.check_in}`);
-      const checkOutTime = new Date(`2000-01-01T${data.check_out}`);
-      if (checkInTime >= checkOutTime) {
+    if (data.check_in && data.check_out) {
+      if (data.check_in >= data.check_out) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: '出勤時間は退勤時間よりも前に設定してください',

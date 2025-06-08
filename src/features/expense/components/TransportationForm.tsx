@@ -7,16 +7,16 @@ import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputFileFormField from '@/components/InputFileFormField';
 import ExpenseFormFooter from './ExpenseFormFooter';
-import { useTransportationExpenseForm } from '../hooks/useExpenseForm';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
+import { useTransportationExpenseForm } from '../hooks/useTransportationExpenseForm';
 
 type TransportationFormProps = {
   type: 'add' | 'edit';
   expense?: ExpenseType | undefined;
   routeInfo?: RouteInfoType | undefined;
-}
+};
 
 export function TransportationForm({ type, expense, routeInfo }: TransportationFormProps) {
   const { form, onSubmit, fields, append, remove } = useTransportationExpenseForm({ type, expense, routeInfo });
@@ -69,7 +69,7 @@ export function TransportationForm({ type, expense, routeInfo }: TransportationF
               className="pl-8"
               disabled={true}
             />
-            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receipt_url}/>
+            <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receiptUrl} />
           </div>
           <ExpenseFormFooter form={form} />
         </form>
