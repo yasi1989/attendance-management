@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const OrganizationSchema = z.object({
+export const DepartmentSchema = z.object({
   departmentCode: z
     .string()
     .min(1, {

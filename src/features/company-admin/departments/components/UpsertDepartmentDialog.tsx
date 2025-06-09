@@ -12,24 +12,24 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { useOrganization } from '../hooks/useOrganization';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
 import InputSelectFormField from '@/components/InputSelectFormField';
+import { useDepartments } from '../hooks/useDepartments';
 
-type UpsertOrganizationDialogProps = {
+type UpsertDepartmentDialogProps = {
   type: 'add' | 'edit';
   userDepartment?: DepartmentType;
   allDepartments: DepartmentType[];
   children: React.ReactNode;
 };
 
-export function UpsertOrganizationDialog({
+export function UpsertDepartmentDialog({
   type,
   userDepartment,
   allDepartments,
   children,
-}: UpsertOrganizationDialogProps) {
-  const { form, onSubmit, isPending } = useOrganization({ type, userDepartment });
+}: UpsertDepartmentDialogProps) {
+  const { form, onSubmit, isPending } = useDepartments({ type, userDepartment });
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

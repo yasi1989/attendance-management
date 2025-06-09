@@ -1,18 +1,18 @@
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { OrganizationSchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
+import { DepartmentSchema } from '../lib/formSchema';
 
-type UseOrganizationProps = {
+type UseDepartmentsProps = {
   type: 'add' | 'edit';
   userDepartment?: DepartmentType;
 };
 
-export const useOrganization = ({ type, userDepartment }: UseOrganizationProps) => {
+export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) => {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof OrganizationSchema>>({
+  const form = useForm<z.infer<typeof DepartmentSchema>>({
     defaultValues:
       type === 'edit' && userDepartment
         ? {
@@ -25,9 +25,9 @@ export const useOrganization = ({ type, userDepartment }: UseOrganizationProps) 
             departmentName: '',
             parentDepartmentId: '',
           },
-    resolver: zodResolver(OrganizationSchema),
+    resolver: zodResolver(DepartmentSchema),
   });
-  const onSubmit = (data: z.infer<typeof OrganizationSchema>) => {
+  const onSubmit = (data: z.infer<typeof DepartmentSchema>) => {
     startTransition(() => {
       console.log(data);
     });
