@@ -27,8 +27,6 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
       ),
       cell: ({ row }) => {
         const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-        console.log(row.original.companyId)
-        console.log(companies)
         return <div className="font-medium">{company ? company.name : '未設定'}</div>;
       },
       meta: {
