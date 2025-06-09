@@ -1,8 +1,8 @@
-import { fetchCompany } from '@/features/system-admin/company/services/fetchCompany';
 import CompaniesForm from '@/features/system-admin/company/components/CompaniesForm';
+import { fetchCompanies } from '@/features/system-admin/company/services/fetchCompanies';
 
 const page = () => {
-  const companies = fetchCompany();
+  const companies = fetchCompanies();
   return <CompaniesForm companies={companies} />;
 };
 
