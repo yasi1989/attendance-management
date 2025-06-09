@@ -16,11 +16,9 @@ export const useCompanyCode = ({ type, data }: UseCompanyCodeProps) => {
     defaultValues:
       type === 'edit' && data
         ? {
-            code: data.code,
             name: data.name,
           }
         : {
-            code: '',
             name: '',
           },
     resolver: zodResolver(CompanyCodeSchema),

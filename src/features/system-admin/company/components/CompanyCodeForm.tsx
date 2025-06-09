@@ -5,16 +5,16 @@ import { CompanyCodeDialog } from './CompanyCodeDialog';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 
-type CreateCompanyCodeFormProps = {
+type CompanyCodeFormProps = {
   data: CompanyType[];
 };
 
-const CreateCompanyCodeForm = ({ data }: CreateCompanyCodeFormProps) => {
+const CompanyCodeForm = ({ data }: CompanyCodeFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
         <CardTitle className="text-xl">会社管理</CardTitle>
-        <CardDescription>登録されている会社コードを確認・管理できます。</CardDescription>
+        <CardDescription>登録されている会社を確認・管理できます。</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -22,7 +22,7 @@ const CreateCompanyCodeForm = ({ data }: CreateCompanyCodeFormProps) => {
           <CompanyCodeDialog type="add">
             <Button className="flex items-center gap-2 whitespace-nowrap self-start sm:self-center">
               <PlusCircle size={18} />
-              会社コード登録
+              会社登録
             </Button>
           </CompanyCodeDialog>
         </div>
@@ -34,4 +34,4 @@ const CreateCompanyCodeForm = ({ data }: CreateCompanyCodeFormProps) => {
   );
 };
 
-export default CreateCompanyCodeForm;
+export default CompanyCodeForm;

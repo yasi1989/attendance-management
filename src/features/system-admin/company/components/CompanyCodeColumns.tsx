@@ -10,25 +10,6 @@ import { formatDateToISOString } from '@/lib/dateFormatter';
 
 export const companyCodeColumns: ColumnDef<CompanyType>[] = [
   {
-    accessorKey: 'code',
-    id: 'code',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            会社コード
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => <div className="font-medium">{row.original.code}</div>,
-    meta: {
-      enableFilter: true,
-      japaneseLabel: '会社コード',
-    },
-  },
-  {
     accessorKey: 'name',
     id: 'name',
     header: ({ column }) => {

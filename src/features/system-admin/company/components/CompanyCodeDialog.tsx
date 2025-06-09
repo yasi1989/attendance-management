@@ -30,12 +30,11 @@ export function CompanyCodeDialog({ type, data, children }: CompanyCodeDialogPro
           <DialogTrigger asChild>{children}</DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>{type === 'add' ? '会社コード登録' : '会社コード編集'}</DialogTitle>
-              <DialogDescription>{`会社コードを${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
+              <DialogTitle>{type === 'add' ? '会社登録' : '会社編集'}</DialogTitle>
+              <DialogDescription>{`会社を${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="code" label="会社コード" form={form} />
-              <InputFormField name="name" label="会社名" form={form} />
+              <InputFormField name="name" label="会社名" form={form} maxLength={100} />
             </div>
             <DialogFooter>
               <Button variant="outline">キャンセル</Button>
