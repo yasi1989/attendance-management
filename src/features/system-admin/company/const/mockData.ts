@@ -1,6 +1,6 @@
 import { CompanyType } from '../type/companyType';
 
-export const sampleCompanyCodes: CompanyType[] = [
+export const sampleCompanies: CompanyType[] = [
   {
     id: 'a3b8f042-3c6e-4e7b-9f8a-1b2c3d4e5f6g',
     name: '株式会社テックワールド',

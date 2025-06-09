@@ -12,17 +12,17 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { useCompanyCode } from '../hooks/useCompanyCode';
+import { useCompany } from '../hooks/useCompany';
 import { CompanyType } from '../type/companyType';
 
-type CompanyCodeDialogProps = {
+type UpsertCompanyDialogProps = {
   type: 'add' | 'edit';
   data?: CompanyType;
   children: React.ReactNode;
 };
 
-export function CompanyCodeDialog({ type, data, children }: CompanyCodeDialogProps) {
-  const { form, onSubmit, isPending } = useCompanyCode({ type, data });
+export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialogProps) {
+  const { form, onSubmit, isPending } = useCompany({ type, data });
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

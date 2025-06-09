@@ -1,18 +1,18 @@
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { CompanyCodeSchema } from '../lib/formSchema';
+import { CompanySchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CompanyType } from '../type/companyType';
 
-type UseCompanyCodeProps = {
+type UseCompanyProps = {
   type: 'add' | 'edit';
   data?: CompanyType;
 };
 
-export const useCompanyCode = ({ type, data }: UseCompanyCodeProps) => {
+export const useCompany = ({ type, data }: UseCompanyProps) => {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof CompanyCodeSchema>>({
+  const form = useForm<z.infer<typeof CompanySchema>>({
     defaultValues:
       type === 'edit' && data
         ? {
@@ -21,9 +21,9 @@ export const useCompanyCode = ({ type, data }: UseCompanyCodeProps) => {
         : {
             name: '',
           },
-    resolver: zodResolver(CompanyCodeSchema),
+    resolver: zodResolver(CompanySchema),
   });
-  const onSubmit = (data: z.infer<typeof CompanyCodeSchema>) => {
+  const onSubmit = (data: z.infer<typeof CompanySchema>) => {
     startTransition(() => {
       console.log(data);
     });
