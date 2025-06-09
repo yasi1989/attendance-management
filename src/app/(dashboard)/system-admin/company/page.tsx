@@ -1,9 +1,9 @@
-import CreateCompanyCodeForm from '@/features/system-admin/company/components/CreateCompanyCodeForm';
-import { fetchCompanyCode } from '@/features/system-admin/company/services/fetchCompanyCode';
+import CompaniesForm from '@/features/system-admin/company/components/CompaniesForm';
+import { fetchCompanies } from '@/features/system-admin/company/services/fetchCompanies';
 
 const page = () => {
-  const companyCodes = fetchCompanyCode();
-  return <CreateCompanyCodeForm data={companyCodes} />;
+  const companies = fetchCompanies();
+  return <CompaniesForm companies={companies} />;
 };
 
 export default page;

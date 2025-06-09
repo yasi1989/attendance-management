@@ -1,11 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import UserTable from './UserTable';
 import { UserType } from '../type/userType';
-type UsersEditPageProps = {
+import { CompanyType } from '../../company/type/companyType';
+import { RoleType } from '../type/roleType';
+import UsersListTable from './UsersListTable';
+type UsersFormProps = {
   users: UserType[];
+  companies: CompanyType[];
+  roles: RoleType[];
 };
 
-const UsersEditPage = ({ users }: UsersEditPageProps) => {
+const UsersForm = ({ users, companies, roles }: UsersFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
@@ -13,10 +17,10 @@ const UsersEditPage = ({ users }: UsersEditPageProps) => {
         <CardDescription>登録されているユーザを確認・管理できます。</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <UserTable users={users} />
+        <UsersListTable users={users} companies={companies} roles={roles} />
       </CardContent>
     </Card>
   );
 };
 
-export default UsersEditPage;
+export default UsersForm;
