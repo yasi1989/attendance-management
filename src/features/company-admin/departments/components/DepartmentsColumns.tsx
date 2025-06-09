@@ -10,25 +10,6 @@ import DeleteDepartmentDialog from './DeleteDepartmentDialog';
 export const columnsDef = (departments: DepartmentType[]) => {
   const columns: ColumnDef<DepartmentType>[] = [
     {
-      accessorKey: 'departmentCode',
-      id: 'departmentCode',
-      header: ({ column }) => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-              部署コード
-              <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-            </Button>
-          </div>
-        );
-      },
-      cell: ({ row }) => <div className="font-medium">{row.original.departmentCode}</div>,
-      meta: {
-        enableFilter: true,
-        japaneseLabel: '部署コード',
-      },
-    },
-    {
       accessorKey: 'departmentName',
       id: 'departmentName',
       header: ({ column }) => {
@@ -84,7 +65,7 @@ export const columnsDef = (departments: DepartmentType[]) => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex space-x-1">
+          <div className="flex space-x-1 items-center justify-center">
             <UpsertDepartmentDialog type="edit" userDepartment={row.original} allDepartments={departments}>
               <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
                 <Edit className="h-4 w-4 text-blue-600" />

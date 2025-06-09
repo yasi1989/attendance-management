@@ -3,31 +3,12 @@
 import { ArrowUpDown, Edit } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import CompanyCodeDeleteDialog from './CompanyCodeDeleteDialog';
 import { CompanyType } from '../type/companyType';
-import { CompanyCodeDialog } from './CompanyCodeDialog';
 import { formatDateToISOString } from '@/lib/dateFormatter';
+import { UpsertCompanyDialog } from './UpsertCompanyDialog';
+import DeleteCompanyDialog from './DeleteCompanyDialog';
 
-export const companyCodeColumns: ColumnDef<CompanyType>[] = [
-  {
-    accessorKey: 'code',
-    id: 'code',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            会社コード
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => <div className="font-medium">{row.original.code}</div>,
-    meta: {
-      enableFilter: true,
-      japaneseLabel: '会社コード',
-    },
-  },
+export const companyColumns: ColumnDef<CompanyType>[] = [
   {
     accessorKey: 'name',
     id: 'name',
@@ -60,7 +41,7 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
+    cell: ({ row }) => <div className="font-medium text-center">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
     meta: {
       enableFilter: true,
       japaneseLabel: '作成日',
@@ -82,13 +63,13 @@ export const companyCodeColumns: ColumnDef<CompanyType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-1">
-          <CompanyCodeDialog type="edit" data={row.original}>
+        <div className="flex space-x-1 items-center justify-center">
+          <UpsertCompanyDialog type="edit" data={row.original}>
             <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
               <Edit className="h-4 w-4 text-blue-600" />
             </Button>
-          </CompanyCodeDialog>
-          <CompanyCodeDeleteDialog />
+          </UpsertCompanyDialog>
+          <DeleteCompanyDialog />
         </div>
       );
     },

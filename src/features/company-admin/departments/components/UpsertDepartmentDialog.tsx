@@ -41,8 +41,7 @@ export function UpsertDepartmentDialog({
               <DialogDescription>{`部署を${userDepartment ? '編集' : '登録'}します。`}</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="departmentCode" label="部署コード" form={form} required />
-              <InputFormField name="departmentName" label="部署名" form={form} required />
+              <InputFormField name="departmentName" label="部署名" form={form} required maxLength={100} />
               <InputSelectFormField
                 name="parentDepartmentId"
                 label="親部署"

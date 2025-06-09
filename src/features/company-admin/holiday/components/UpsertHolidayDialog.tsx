@@ -35,9 +35,8 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
               <DialogDescription>{`休日を${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="code" label="休日コード" form={form} />
-              <InputFormField name="name" label="休日名" form={form} />
-              <InputCalendarFormField name="holidayDate" label="休日日付" form={form} />
+              <InputFormField name="name" label="休日名" form={form} maxLength={100} required />
+              <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
             </div>
             <DialogFooter>
               <Button variant="outline">キャンセル</Button>

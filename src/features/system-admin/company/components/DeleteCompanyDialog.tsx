@@ -2,7 +2,7 @@ import ActionDialog from '@/components/ActionDialog';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
-const CompanyCodeDeleteDialog = () => {
+const DeleteCompanyDialog = () => {
   return (
     <ActionDialog
       title="本当に削除しますか？"
@@ -18,4 +18,4 @@ const CompanyCodeDeleteDialog = () => {
   );
 };
 
-export default CompanyCodeDeleteDialog;
+export default DeleteCompanyDialog;

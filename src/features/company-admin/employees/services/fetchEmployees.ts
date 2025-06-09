@@ -10,10 +10,14 @@ export const fetchEmployees = () => {
   if (!user) {
     throw new Error('ユーザが見つかりません');
   }
+  // 自分の所属会社を取得
   const company = companies.find((company) => company.id === user?.companyId);
+  if (!company) {
+    throw new Error('所属会社が見つかりません');
+  }
   // 自社に紐づくユーザと部署を取得
-  const sampleUsers = users.filter((user) => user.companyId === company?.id);
-  const sampleDepartments = departments.filter((department) => department.companyId === company?.id);
+  const sampleUsers = users.filter((user) => user.companyId === company.id);
+  const sampleDepartments = departments.filter((department) => department.companyId === company.id);
   return {
     users: sampleUsers,
     departments: sampleDepartments,

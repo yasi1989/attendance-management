@@ -10,32 +10,13 @@ import DeleteHolidayDialog from './DeleteHolidayDialog';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [
   {
-    accessorKey: 'code',
-    id: 'code',
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            休日コード
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => <div className="font-medium">{row.original.code}</div>,
-    meta: {
-      enableFilter: true,
-      japaneseLabel: '休日コード',
-    },
-  },
-  {
     accessorKey: 'name',
     id: 'name',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
           <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            休日名
+            祝日名
             <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
           </Button>
         </div>
@@ -44,7 +25,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
     meta: {
       enableFilter: true,
-      japaneseLabel: '休日名',
+      japaneseLabel: '祝日名',
     },
   },
   {
@@ -54,18 +35,18 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       return (
         <div className="flex items-center justify-center">
           <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            休日日付
+            日付
             <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="font-medium">{formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd')}</div>
+      <div className="flex font-medium items-center justify-center">{formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd')}</div>
     ),
     meta: {
       enableFilter: true,
-      japaneseLabel: '休日日付',
+      japaneseLabel: '日付',
     },
     filterFn: (row, id, value) => {
       const holidayDate = row.getValue(id) as Date;
@@ -84,7 +65,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-1">
+        <div className="flex space-x-1 items-center justify-center">
           <UpsertHolidayDialog type="edit" data={row.original}>
             <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
               <Edit className="h-4 w-4 text-blue-600" />

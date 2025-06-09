@@ -16,12 +16,10 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
     defaultValues:
       type === 'edit' && userDepartment
         ? {
-            departmentCode: userDepartment.departmentCode,
             departmentName: userDepartment.departmentName,
             parentDepartmentId: userDepartment.parentDepartmentId,
           }
         : {
-            departmentCode: '',
             departmentName: '',
             parentDepartmentId: '',
           },
