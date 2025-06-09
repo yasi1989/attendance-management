@@ -28,7 +28,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field: { value, onChange, ...fieldProps } }) => (
+      render={({ field: { onChange, value, ...fieldProps } }) => (
         <FormItem>
           <FormLabel className="flex gap-4 justify-start items-center">
             <div>
