@@ -43,8 +43,8 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
       },
     },
     {
-      accessorKey: 'lastName',
-      id: 'lastName',
+      accessorKey: 'name',
+      id: 'name',
       header: ({ column }) => (
         <div className="flex items-center justify-center">
           <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
@@ -65,6 +65,23 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
       filterFn: (row, _id, filterValue) => {
         const name = `${row.original.lastName} ${row.original.firstName}`;
         return name.includes(filterValue);
+      },
+    },
+    {
+      accessorKey: 'email',
+      id: 'email',
+      header: ({ column }) => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+            メールアドレス
+            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => <div className="font-medium">{row.original.email}</div>,
+      meta: {
+        enableFilter: true,
+        japaneseLabel: 'メールアドレス',
       },
     },
     {
@@ -103,7 +120,7 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
         </div>
       ),
       cell: ({ row }) => (
-        <div className="flex space-x-1">
+        <div className="flex space-x-1 items-center justify-center">
           <UserEditDialog user={row.original} companies={companies} roles={roles}>
             <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
               <Edit className="h-4 w-4 text-blue-600" />

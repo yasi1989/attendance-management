@@ -18,6 +18,7 @@ export const useUsers = ({ user }: UseUsersProps) => {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
+            email: user.email,
             roleId: user.roleId,
             companyId: user.companyId,
           }
@@ -25,6 +26,7 @@ export const useUsers = ({ user }: UseUsersProps) => {
             id: '',
             firstName: '',
             lastName: '',
+            email: '',
             roleId: '',
             companyId: '',
           },

@@ -38,8 +38,9 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
               <DialogDescription>ユーザの権限及び所属会社を編集します。</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="lastName" label="姓" form={form} maxLength={20} />
-              <InputFormField name="firstName" label="名前" form={form} maxLength={20} />
+              <InputFormField name="lastName" label="姓" form={form} maxLength={20} required/>
+              <InputFormField name="firstName" label="名前" form={form} maxLength={20} required/>
+              <InputFormField name="email" label="メールアドレス" form={form} maxLength={255} required/>
               <InputSelectFormField
                 name="roleId"
                 label="権限"
