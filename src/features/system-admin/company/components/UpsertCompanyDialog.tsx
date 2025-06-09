@@ -34,7 +34,8 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
               <DialogDescription>{`会社を${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
-              <InputFormField name="name" label="会社名" form={form} maxLength={100} />
+              <InputFormField name="name" label="会社名" form={form} maxLength={100} required />
+              <InputFormField name="domain" label="ドメイン" form={form} maxLength={255} required />
             </div>
             <DialogFooter>
               <Button variant="outline">キャンセル</Button>

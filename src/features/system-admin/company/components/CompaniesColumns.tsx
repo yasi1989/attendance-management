@@ -29,6 +29,25 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     },
   },
   {
+    accessorKey: 'domain',
+    id: 'domain',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+            ドメイン
+            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => <div className="font-medium">{row.original.domain}</div>,
+    meta: {
+      enableFilter: true,
+      japaneseLabel: 'ドメイン',
+    },
+  },
+  {
     accessorKey: 'createdAt',
     id: 'createdAt',
     header: ({ column }) => {

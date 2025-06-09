@@ -17,9 +17,11 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
       type === 'edit' && data
         ? {
             name: data.name,
+            domain: data.domain,
           }
         : {
             name: '',
+            domain: '',
           },
     resolver: zodResolver(CompanySchema),
   });
