@@ -1,8 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserType } from '@/features/system-admin/users/type/userType';
-import { Button } from '@/components/ui/button';
-import { PlusCircle } from 'lucide-react';
-import { UpsertEmployeeDialog } from './UpdateEmployeeDialog';
 import EmployeesListTable from './EmployeesListTable';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
 import { RoleType } from '@/features/system-admin/users/type/roleType';
@@ -22,14 +19,6 @@ const EmployeesForm = ({ users, departments, roles }: EmployeesFormProps) => {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="flex items-center justify-start">
-          <UpsertEmployeeDialog type="add" departments={departments} roles={roles}>
-            <Button className="flex items-center gap-2 whitespace-nowrap self-start sm:self-center">
-              <PlusCircle size={18} />
-              社員登録
-            </Button>
-          </UpsertEmployeeDialog>
-        </div>
         <div className="overflow-x-auto">
           <EmployeesListTable users={users} departments={departments} roles={roles} />
         </div>

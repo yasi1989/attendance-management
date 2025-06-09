@@ -6,7 +6,7 @@ import { DepartmentType } from '@/features/system-admin/users/type/departmentTyp
 import { RoleType } from '@/features/system-admin/users/type/roleType';
 import { Edit } from 'lucide-react';
 import { getDepartmentPath } from '../lib/departmentUtils';
-import { UpsertEmployeeDialog } from './UpdateEmployeeDialog';
+import { UpdateEmployeeDialog } from './UpdateEmployeeDialog';
 import DeleteEmployeeDialog from './DeleteEmployeeDialog';
 
 type EmployeesColumnsProps = {
@@ -125,11 +125,11 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
       cell: ({ row }) => {
         return (
           <div className="flex space-x-1">
-            <UpsertEmployeeDialog type="edit" user={row.original} departments={departments} roles={roles}>
+            <UpdateEmployeeDialog user={row.original} departments={departments} roles={roles}>
               <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
                 <Edit className="h-4 w-4 text-blue-600" />
               </Button>
-            </UpsertEmployeeDialog>
+            </UpdateEmployeeDialog>
             <DeleteEmployeeDialog />
           </div>
         );

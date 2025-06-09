@@ -20,15 +20,14 @@ import { RoleType } from '@/features/system-admin/users/type/roleType';
 import { getDepartmentPath } from '../lib/departmentUtils';
 
 type UpsertEmployeeDialogProps = {
-  type: 'add' | 'edit';
-  user?: UserType;
+  user: UserType;
   departments: DepartmentType[];
   roles: RoleType[];
   children: React.ReactNode;
 };
 
-export function UpsertEmployeeDialog({ type, user, departments, roles, children }: UpsertEmployeeDialogProps) {
-  const { form, onSubmit, isPending } = useEmployee({ type, user });
+export function UpdateEmployeeDialog({ user, departments, roles, children }: UpsertEmployeeDialogProps) {
+  const { form, onSubmit, isPending } = useEmployee({ user });
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -36,8 +35,8 @@ export function UpsertEmployeeDialog({ type, user, departments, roles, children 
           <DialogTrigger asChild>{children}</DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>{user ? '社員編集' : '社員登録'}</DialogTitle>
-              <DialogDescription>{`社員を${user ? '編集' : '登録'}します。`}</DialogDescription>
+              <DialogTitle>社員編集</DialogTitle>
+              <DialogDescription>社員を編集します。</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
               <InputFormField name="lastName" label="姓" form={form} maxLength={20} required />
@@ -59,7 +58,7 @@ export function UpsertEmployeeDialog({ type, user, departments, roles, children 
             <DialogFooter>
               <Button variant="outline">キャンセル</Button>
               <Button type="submit" disabled={isPending}>
-                {type === 'add' ? '登録' : '編集'}
+                編集
               </Button>
             </DialogFooter>
           </DialogContent>
