@@ -6,7 +6,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'HQ001',
     departmentName: '本部',
     parentDepartmentId: undefined,
     level: 0,
@@ -16,7 +15,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd2a2b3c4-5d6e-789f-a1b2-c3d4e5f67891',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'SALES001',
     departmentName: '営業部',
     parentDepartmentId: 'd1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     level: 1,
@@ -26,7 +24,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd3a2b3c4-5d6e-789f-a1b2-c3d4e5f67892',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'SALES101',
     departmentName: '営業1課',
     parentDepartmentId: 'd2a2b3c4-5d6e-789f-a1b2-c3d4e5f67891',
     level: 2,
@@ -36,7 +33,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd4a2b3c4-5d6e-789f-a1b2-c3d4e5f67893',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'SALES1011',
     departmentName: '営業1係',
     parentDepartmentId: 'd3a2b3c4-5d6e-789f-a1b2-c3d4e5f67892',
     level: 3,
@@ -46,7 +42,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd5a2b3c4-5d6e-789f-a1b2-c3d4e5f67894',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'TECH001',
     departmentName: '技術部',
     parentDepartmentId: 'd1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     level: 1,
@@ -56,7 +51,6 @@ export const departments: DepartmentType[] = [
   {
     id: 'd6a2b3c4-5d6e-789f-a1b2-c3d4e5f67895',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
-    departmentCode: 'TECH101',
     departmentName: '技術1課',
     parentDepartmentId: 'd5a2b3c4-5d6e-789f-a1b2-c3d4e5f67894',
     level: 2,

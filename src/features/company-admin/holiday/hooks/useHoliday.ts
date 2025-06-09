@@ -16,12 +16,10 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
     defaultValues:
       type === 'edit' && data
         ? {
-            code: data.code,
             name: data.name,
             holidayDate: data.holidayDate,
           }
         : {
-            code: '',
             name: '',
             holidayDate: new Date(),
           },
