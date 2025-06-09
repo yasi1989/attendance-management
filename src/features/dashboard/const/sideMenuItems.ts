@@ -53,7 +53,7 @@ export const data = {
         },
         {
           title: '部署・役職管理',
-          url: '/company-admin/organization',
+          url: '/company-admin/departments',
         },
         {
           title: '休日カレンダー',
