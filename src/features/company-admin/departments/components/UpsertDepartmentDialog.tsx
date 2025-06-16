@@ -15,11 +15,13 @@ import { Form } from '@/components/ui/form';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
 import InputSelectFormField from '@/components/InputSelectFormField';
 import { useDepartments } from '../hooks/useDepartments';
+import { UserType } from '@/features/system-admin/users/type/userType';
 
 type UpsertDepartmentDialogProps = {
   type: 'add' | 'edit';
   userDepartment?: DepartmentType;
   allDepartments: DepartmentType[];
+  users: UserType[];
   children: React.ReactNode;
 };
 
@@ -27,6 +29,7 @@ export function UpsertDepartmentDialog({
   type,
   userDepartment,
   allDepartments,
+  users,
   children,
 }: UpsertDepartmentDialogProps) {
   const { form, onSubmit, isPending } = useDepartments({ type, userDepartment });
@@ -47,6 +50,12 @@ export function UpsertDepartmentDialog({
                 label="親部署"
                 form={form}
                 options={allDepartments.map((d) => ({ value: d.id, label: d.departmentName }))}
+              />
+              <InputSelectFormField
+                name="managerUserId"
+                label="部門責任者"
+                form={form}
+                options={users.map((d) => ({ value: d.id, label: `${d.firstName} ${d.lastName}` }))}
               />
             </div>
             <DialogFooter>

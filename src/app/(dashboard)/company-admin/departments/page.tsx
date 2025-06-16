@@ -2,8 +2,8 @@ import DepartmentsForm from '@/features/company-admin/departments/components/Dep
 import { fetchDepartments } from '@/features/company-admin/departments/services/fetchDepartments';
 
 const DepartmentsPage = () => {
-  const departments = fetchDepartments();
-  return <DepartmentsForm departments={departments} />;
+  const { department, users } = fetchDepartments();
+  return <DepartmentsForm departments={department} users={users} />;
 };
 
 export default DepartmentsPage;

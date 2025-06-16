@@ -4,12 +4,14 @@ import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import DepartmentsListTable from './DepartmentsListTable';
+import { UserType } from '@/features/system-admin/users/type/userType';
 
 type DepartmentsFormProps = {
   departments: DepartmentType[];
+  users: UserType[];
 };
 
-const DepartmentsForm = ({ departments }: DepartmentsFormProps) => {
+const DepartmentsForm = ({ departments, users }: DepartmentsFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
@@ -19,7 +21,7 @@ const DepartmentsForm = ({ departments }: DepartmentsFormProps) => {
 
       <CardContent className="space-y-4">
         <div className="flex items-center justify-start">
-          <UpsertDepartmentDialog type="add" allDepartments={departments}>
+          <UpsertDepartmentDialog type="add" allDepartments={departments} users={users}>
             <Button className="flex items-center gap-2 whitespace-nowrap self-start sm:self-center">
               <PlusCircle size={18} />
               部署・役職登録
@@ -27,7 +29,7 @@ const DepartmentsForm = ({ departments }: DepartmentsFormProps) => {
           </UpsertDepartmentDialog>
         </div>
         <div className="overflow-x-auto">
-          <DepartmentsListTable departments={departments} />
+          <DepartmentsListTable departments={departments} users={users} />
         </div>
       </CardContent>
     </Card>

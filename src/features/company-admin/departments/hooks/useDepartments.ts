@@ -18,10 +18,12 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
         ? {
             departmentName: userDepartment.departmentName,
             parentDepartmentId: userDepartment.parentDepartmentId,
+            managerUserId: userDepartment.managerUserId,
           }
         : {
             departmentName: '',
             parentDepartmentId: '',
+            managerUserId: '',
           },
     resolver: zodResolver(DepartmentSchema),
   });

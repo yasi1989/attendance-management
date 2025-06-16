@@ -3,6 +3,7 @@ export type DepartmentType = {
   companyId: string;
   departmentName: string;
   parentDepartmentId?: string;
+  managerUserId?: string;
   createdAt: Date;
   updatedAt: Date;
 };
