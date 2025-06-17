@@ -2,7 +2,7 @@ export type ExpenseType = {
   id: string;
   userId: string;
   requestDate: Date;
-  expenseType: string;
+  expenseCategoryId: string;
   amount: number;
   description: string;
   statusId: string;
