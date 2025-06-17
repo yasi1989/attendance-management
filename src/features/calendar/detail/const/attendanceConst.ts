@@ -1,6 +1,4 @@
-import { SelectOption } from '@/components/InputRadioFormField';
-
-export const ATTENDANCE_TYPES: SelectOption[] = [
+export const ATTENDANCE_TYPES: { value: string; label: string }[] = [
   {
     value: 'WORK',
     label: '出勤',
@@ -19,7 +17,7 @@ export const ATTENDANCE_TYPES: SelectOption[] = [
   },
 ];
 
-export const HALF_DAY_TYPES: SelectOption[] = [
+export const HALF_DAY_TYPES: { value: string; label: string }[] = [
   {
     value: 'AM',
     label: '午前',
