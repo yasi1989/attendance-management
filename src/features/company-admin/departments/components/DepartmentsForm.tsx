@@ -16,7 +16,7 @@ const DepartmentsForm = ({ departments, users }: DepartmentsFormProps) => {
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
         <CardTitle className="text-xl">部署・役職管理</CardTitle>
-        <CardDescription>登録されている部署・役職を確認・管理できます。</CardDescription>
+        <CardDescription>登録されている部署・役職情報を確認・管理できます。</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">

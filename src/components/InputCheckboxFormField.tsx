@@ -6,7 +6,7 @@ type InputCheckboxFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   label: string;
-  onValueChange?: (value: boolean) => void;
+  onValueChange?: () => void;
   rules?: RegisterOptions<T, Path<T>>;
 };
 const InputCheckboxFormField = <T extends Record<string, unknown>>({
@@ -28,7 +28,7 @@ const InputCheckboxFormField = <T extends Record<string, unknown>>({
               onCheckedChange={(value) => {
                 field.onChange(value);
                 if (onValueChange) {
-                  onValueChange(value as boolean);
+                  onValueChange();
                 }
               }}
               checked={field.value as boolean}

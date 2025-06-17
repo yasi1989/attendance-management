@@ -1,20 +1,10 @@
 'use client';
 
 import InputFormField from '@/components/InputFormField';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Form } from '@/components/ui/form';
 import { HolidayType } from '../type/holidayType';
 import InputCalendarFormField from '@/components/InputCalendarFormField';
 import { useHoliday } from '../hooks/useHoliday';
+import CommonDialog, { DialogConfig } from '@/components/CommonDialog';
 
 type UpsertHolidayDialogProps = {
   type: 'add' | 'edit';
@@ -24,29 +14,26 @@ type UpsertHolidayDialogProps = {
 
 export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialogProps) {
   const { form, onSubmit, isPending } = useHoliday({ type, data });
+  const dialogConfig: DialogConfig = {
+    title: type === 'add' ? '休日登録' : '休日編集',
+    description: `休日情報を${type === 'add' ? '登録' : '更新'}してください。`,
+    submitButtonLabel: type === 'add' ? '登録' : '更新',
+    cancelButtonLabel: 'キャンセル',
+  };
+  const formContent = (
+    <div className="flex flex-col gap-4">
+      <InputFormField name="name" label="休日名" form={form} maxLength={100} required />
+      <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
+    </div>
+  );
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Dialog>
-          <DialogTrigger asChild>{children}</DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{type === 'add' ? '休日登録' : '休日編集'}</DialogTitle>
-              <DialogDescription>{`休日を${type === 'add' ? '登録' : '編集'}します。`}</DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col gap-4">
-              <InputFormField name="name" label="休日名" form={form} maxLength={100} required />
-              <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
-            </div>
-            <DialogFooter>
-              <Button variant="outline">キャンセル</Button>
-              <Button type="submit" disabled={isPending}>
-                {type === 'add' ? '登録' : '編集'}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </form>
-    </Form>
+    <CommonDialog
+      config={dialogConfig}
+      form={form}
+      onSubmit={onSubmit}
+      isPending={isPending}
+      trigger={children}
+      formContent={formContent}
+    />
   );
 }
