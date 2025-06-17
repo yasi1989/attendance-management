@@ -14,8 +14,8 @@ const EmployeesForm = ({ users, departments, roles }: EmployeesFormProps) => {
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
-        <CardTitle className="text-xl">社員管理</CardTitle>
-        <CardDescription>登録されている社員を確認・管理できます。</CardDescription>
+        <CardTitle className="text-xl">社員情報管理</CardTitle>
+        <CardDescription>登録されている社員情報を確認・管理できます。</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">
