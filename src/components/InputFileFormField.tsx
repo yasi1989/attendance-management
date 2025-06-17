@@ -28,6 +28,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
       control={form.control}
       name={name}
       rules={rules}
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render={({ field: { value: _value, onChange, ...fieldProps } }) => (
         <FormItem>
           <FormLabel className="flex gap-4 justify-start items-center">
