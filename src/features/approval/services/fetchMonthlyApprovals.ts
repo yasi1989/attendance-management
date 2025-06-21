@@ -9,5 +9,6 @@ export const fetchMonthlyApprovals = ({ status }: FetchMonthlyApprovalsParams): 
   return {
     attendances: sampleMonthlyApprovals.attendances.filter((attendance) => attendance.status.statusCode === status),
     expenses: sampleMonthlyApprovals.expenses.filter((expense) => expense.status.statusCode === status),
+    myCompanyDepartments: sampleMonthlyApprovals.myCompanyDepartments,
   };
 };

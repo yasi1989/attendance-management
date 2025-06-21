@@ -1,8 +1,8 @@
 import MonthlyApprovalForm from '@/features/approval/components/MonthlyApprovalForm';
 import { fetchMonthlyApprovals } from '@/features/approval/services/fetchMonthlyApprovals';
 
-const PendingApprovalPage = () => {
-  const status = 'Pending';
+const ApprovedApprovalPage = () => {
+  const status = 'Approved';
   const { attendances, expenses, myCompanyDepartments } = fetchMonthlyApprovals({ status });
   return (
     <MonthlyApprovalForm
@@ -14,4 +14,4 @@ const PendingApprovalPage = () => {
   );
 };
 
-export default PendingApprovalPage;
+export default ApprovedApprovalPage;

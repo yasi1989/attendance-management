@@ -38,7 +38,7 @@ export const data = {
         },
         {
           title: '承認履歴',
-          url: '/approval/history',
+          url: '/approval/approved',
         },
       ],
     },

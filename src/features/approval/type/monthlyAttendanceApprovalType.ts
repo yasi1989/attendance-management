@@ -1,7 +1,7 @@
-import { DepartmentType } from "@/features/system-admin/users/type/departmentType";
-import { UserType } from "@/features/system-admin/users/type/userType";
-import { StatusType } from "./statusType";
-import { AttendanceCategoryType } from "./attendanceCategoryType";
+import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
+import { UserType } from '@/features/system-admin/users/type/userType';
+import { StatusType } from './statusType';
+import { ApprovalStepType } from './approvalStepType';
 
 export type MonthlyAttendanceApprovalType = {
   id: string;
@@ -9,17 +9,16 @@ export type MonthlyAttendanceApprovalType = {
   user: UserType & {
     department: DepartmentType;
   };
+  year: string;
   month: string;
-  attendanceCategories: AttendanceCategoryType[];
   status: StatusType;
   totalWorkDays: number;
   actualWorkDays: number;
   totalWorkHours: number;
   regularHours: number;
   overtimeHours: number;
-  categoryBreakdown: Record<string, number>;
+  categoryBreakdown: Record<string, { name: string; count: number }>;
   submittedAt: string;
   issues: string[];
-  approvalOrder: number;
-  totalSteps: number;
+  approvalSteps: ApprovalStepType[];
 };
