@@ -3,17 +3,22 @@ import { MonthlyAttendanceApprovalType } from '../type/monthlyAttendanceApproval
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
 import { columnsDef } from './AttendanceApprovalsColumns';
 import BulkApprovalsForm from './BulkApprovalsForm';
+import { StatusType } from '@/features/shared/type/statusType';
 
 type MonthlyAttendanceApprovalsTableProps = {
-  status: 'Pending' | 'Approved';
+  status: StatusType;
   attendances: MonthlyAttendanceApprovalType[];
   departments: DepartmentType[];
 };
 
-const MonthlyAttendanceApprovalsTable = ({ status, attendances, departments }: MonthlyAttendanceApprovalsTableProps) => {
-  const columns = columnsDef(status, departments);
+const MonthlyAttendanceApprovalsTable = ({
+  status,
+  attendances,
+  departments,
+}: MonthlyAttendanceApprovalsTableProps) => {
+  const columns = columnsDef({ status, departments });
   const renderBulkActions = (selectedIds: string[]) => <BulkApprovalsForm selectedIds={selectedIds} />;
-  return <DataTable columns={columns} data={attendances} enableSelection renderBulkActions={renderBulkActions} />;
+  return <DataTable columns={columns} data={attendances} enableSelection enableFilter renderBulkActions={renderBulkActions} />;
 };
 
 export default MonthlyAttendanceApprovalsTable;

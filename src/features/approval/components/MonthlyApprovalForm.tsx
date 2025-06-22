@@ -9,9 +9,10 @@ import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
 import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
 import { Clock, DollarSign } from 'lucide-react';
+import { StatusType } from '@/features/shared/type/statusType';
 
 type MonthlyApprovalFormProps = {
-  status: 'Pending' | 'Approved';
+  status: StatusType;
   attendances: MonthlyAttendanceApprovalType[];
   expenses: MonthlyExpenseApprovalType[];
   myCompanyDepartments: DepartmentType[];
@@ -22,10 +23,8 @@ const MonthlyApprovalForm = ({ status, attendances, expenses, myCompanyDepartmen
   return (
     <Card className="shadow-lg border-0">
       <CardHeader className="border-b bg-muted/20">
-        <CardTitle className="text-xl">{status === 'Pending' ? '承認待ち一覧' : '承認履歴'}</CardTitle>
-        <CardDescription>
-          {status === 'Pending' ? '承認待ちの月次申請を確認・管理できます。' : '承認済みの月次申請を確認できます。'}
-        </CardDescription>
+        <CardTitle className="text-xl">{renderTitle(status)}</CardTitle>
+        <CardDescription>{renderDescription(status)}</CardDescription>
       </CardHeader>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -42,7 +41,11 @@ const MonthlyApprovalForm = ({ status, attendances, expenses, myCompanyDepartmen
           </TabsList>
 
           <TabsContent value="attendance">
-            <MonthlyAttendanceApprovalsTable status={status} attendances={attendances} departments={myCompanyDepartments} />
+            <MonthlyAttendanceApprovalsTable
+              status={status}
+              attendances={attendances}
+              departments={myCompanyDepartments}
+            />
           </TabsContent>
 
           <TabsContent value="expense">
@@ -52,6 +55,28 @@ const MonthlyApprovalForm = ({ status, attendances, expenses, myCompanyDepartmen
       </Tabs>
     </Card>
   );
+};
+
+const renderTitle = (status: StatusType) => {
+  switch (status) {
+    case 'Pending':
+      return '承認待ち一覧';
+    case 'Approved':
+      return '承認済み一覧';
+    default:
+      return '差し戻し一覧';
+  }
+};
+
+const renderDescription = (status: StatusType) => {
+  switch (status) {
+    case 'Pending':
+      return '承認待ちの月次申請を確認・管理できます。';
+    case 'Approved':
+      return '承認済みの月次申請を確認できます。';
+    default:
+      return '差し戻しの月次申請を確認できます。';
+  }
 };
 
 export default MonthlyApprovalForm;

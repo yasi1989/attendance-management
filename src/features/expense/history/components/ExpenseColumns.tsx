@@ -28,7 +28,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     ),
     meta: {
       japaneseLabel: '申請日',
-      enableFilter: true,
+      enableColumnFilter: true,
     },
     filterFn: (row, id, value) => {
       const requestDate = row.getValue(id) as Date;
@@ -60,7 +60,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     },
     meta: {
       japaneseLabel: '経費',
-      enableFilter: true,
+      enableColumnFilter: true,
     },
   },
   {
@@ -79,7 +79,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     cell: ({ row }) => <div className="font-medium text-right">¥ {row.original.amount.toLocaleString()}</div>,
     meta: {
       japaneseLabel: '金額',
-      enableFilter: false,
+      enableColumnFilter: false,
     },
   },
   {
@@ -106,7 +106,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     },
     meta: {
       japaneseLabel: '状態',
-      enableFilter: true,
+      enableColumnFilter: true,
     },
   },
   {
@@ -124,7 +124,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     ),
     meta: {
       japaneseLabel: '説明',
-      enableFilter: false,
+      enableColumnFilter: false,
     },
   },
   {
@@ -152,7 +152,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     ),
     meta: {
       japaneseLabel: '領収証',
-      enableFilter: false,
+      enableColumnFilter: false,
     },
   },
   {
@@ -183,7 +183,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
     },
     meta: {
       japaneseLabel: '操作',
-      enableFilter: false,
+      enableColumnFilter: false,
     },
   },
 ];

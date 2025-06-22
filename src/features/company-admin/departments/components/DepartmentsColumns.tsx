@@ -25,7 +25,7 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       },
       cell: ({ row }) => <div className="font-medium">{row.original.departmentName}</div>,
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '部署名',
       },
     },
@@ -47,7 +47,7 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
         return <div className="font-medium">{parentDepartment ? parentDepartment.departmentName : '未設定'}</div>;
       },
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '親部署',
       },
       filterFn: (row, _id, filterValue) => {
@@ -73,7 +73,7 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
         return <div className="font-medium">{managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定'}</div>;
       },
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '管理者',
       },
       filterFn: (row, _id, filterValue) => {
@@ -101,10 +101,6 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
             <DeleteDepartmentDialog />
           </div>
         );
-      },
-      meta: {
-        enableFilter: false,
-        japaneseLabel: '操作',
       },
     },
   ];

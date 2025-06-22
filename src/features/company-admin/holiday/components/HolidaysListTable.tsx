@@ -7,7 +7,7 @@ type HolidaysListTableProps = {
 };
 
 const HolidaysListTable = ({ data }: HolidaysListTableProps) => {
-  return <DataTable columns={holidaysColumns} data={data} />;
+  return <DataTable columns={holidaysColumns} data={data} enableFilter />;
 };
 
 export default HolidaysListTable;

@@ -24,7 +24,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     },
     cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
     meta: {
-      enableFilter: true,
+      enableColumnFilter: true,
       japaneseLabel: '会社名',
     },
   },
@@ -43,7 +43,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     },
     cell: ({ row }) => <div className="font-medium">{row.original.domain}</div>,
     meta: {
-      enableFilter: true,
+      enableColumnFilter: true,
       japaneseLabel: 'ドメイン',
     },
   },
@@ -62,7 +62,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     },
     cell: ({ row }) => <div className="font-medium text-center">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
     meta: {
-      enableFilter: true,
+      enableColumnFilter: true,
       japaneseLabel: '作成日',
     },
     filterFn: (row, id, value) => {
@@ -93,7 +93,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
       );
     },
     meta: {
-      enableFilter: false,
+      enableColumnFilter: false,
       japaneseLabel: '操作',
     },
   },

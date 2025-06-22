@@ -6,6 +6,7 @@ import {
   type IndividualApprovalType,
   type BatchApprovalType,
 } from '../lib/formSchema';
+import { ActionStatusType } from '../type/actionStatusType';
 
 // 個別承認用のフック
 export const useIndividualApproval = (itemId: string, onSubmit: (data: IndividualApprovalType) => Promise<void>) => {
@@ -16,7 +17,7 @@ export const useIndividualApproval = (itemId: string, onSubmit: (data: Individua
     },
   });
 
-  const handleIndividualApproval = async (action: 'approve' | 'reject') => {
+  const handleIndividualApproval = async (action: ActionStatusType) => {
     try {
       const formData = form.getValues();
 
@@ -50,7 +51,7 @@ export const useBatchApproval = (onSubmit: (data: BatchApprovalType, selectedIte
     },
   });
 
-  const handleBatchApproval = async (action: 'approve' | 'reject', selectedItemIds: string[]) => {
+  const handleBatchApproval = async (action: ActionStatusType, selectedItemIds: string[]) => {
     try {
       if (selectedItemIds.length === 0) {
         throw new Error('承認対象を選択してください');

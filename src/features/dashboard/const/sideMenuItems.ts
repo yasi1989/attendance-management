@@ -37,8 +37,12 @@ export const data = {
           url: '/approval/pending',
         },
         {
-          title: '承認履歴',
+          title: '承認済み一覧',
           url: '/approval/approved',
+        },
+        {
+          title: '差し戻し一覧',
+          url: '/approval/rejected',
         },
       ],
     },

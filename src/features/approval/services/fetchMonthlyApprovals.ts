@@ -1,8 +1,9 @@
 import { sampleMonthlyApprovals } from '../const/mockData';
 import { MonthlyApprovalsType } from '../type/monthlyApprovalsType';
+import { StatusType } from '@/features/shared/type/statusType';
 
 type FetchMonthlyApprovalsParams = {
-  status: 'Pending' | 'Approved';
+  status: StatusType;
 };
 
 export const fetchMonthlyApprovals = ({ status }: FetchMonthlyApprovalsParams): MonthlyApprovalsType => {

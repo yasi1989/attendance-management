@@ -12,7 +12,7 @@ type DepartmentsListTableProps = {
 
 const DepartmentsListTable = ({ departments, users }: DepartmentsListTableProps) => {
   const columns = columnsDef(departments, users);
-  return <DataTable columns={columns} data={departments} />;
+  return <DataTable columns={columns} data={departments} enableFilter />;
 };
 
 export default DepartmentsListTable;

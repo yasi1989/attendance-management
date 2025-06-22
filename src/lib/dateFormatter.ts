@@ -1,7 +1,7 @@
 import { format, isValid, parse, parseISO } from 'date-fns';
 
-export const formatDateToISOString = (date: Date, formatString = 'yyyy-MM-dd'): string => {
-  return isValid(date) ? format(date, formatString) : '';
+export const formatDateToISOString = (date: Date | undefined, formatString = 'yyyy-MM-dd'): string => {
+  return date && isValid(date) ? format(date, formatString) : '';
 };
 
 export const parseISOStringToDate = (dateString: string): Date | undefined => {

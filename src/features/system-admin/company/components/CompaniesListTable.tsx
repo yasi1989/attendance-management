@@ -7,7 +7,7 @@ type CompaniesListTableProps = {
 };
 
 const CompaniesListTable = ({ companies }: CompaniesListTableProps) => {
-  return <DataTable columns={companyColumns} data={companies} />;
+  return <DataTable columns={companyColumns} data={companies} enableFilter />;
 };
 
 export default CompaniesListTable;

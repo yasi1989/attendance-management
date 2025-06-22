@@ -4,7 +4,7 @@ import { expenseData } from "../const/mockData"
 
 const ExpenseHistoryTable = () => {
   return (
-    <DataTable columns={expenseColumns} data={expenseData}/>
+    <DataTable columns={expenseColumns} data={expenseData} enableFilter/>
   )
 }
 

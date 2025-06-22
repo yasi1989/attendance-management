@@ -14,7 +14,7 @@ type UsersListTableProps = {
 
 const UsersListTable = ({ users, companies, roles }: UsersListTableProps) => {
   const columns = columnsDef({ companies, roles });
-  return <DataTable data={users} columns={columns} />;
+  return <DataTable data={users} columns={columns} enableFilter />;
 };
 
 export default UsersListTable;

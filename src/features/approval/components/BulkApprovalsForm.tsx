@@ -44,7 +44,7 @@ const BulkApprovalsForm = ({ selectedIds }: BulkApprovalsFormProps) => {
             size="lg"
             className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isPending}
-            onClick={() => handleBatchApproval('approve', selectedIds)}
+            onClick={() => handleBatchApproval('Approve', selectedIds)}
           >
             {isPending ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
@@ -60,7 +60,7 @@ const BulkApprovalsForm = ({ selectedIds }: BulkApprovalsFormProps) => {
             size="lg"
             className="flex-1 text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isPending}
-            onClick={() => handleBatchApproval('reject', selectedIds)}
+            onClick={() => handleBatchApproval('Reject', selectedIds)}
           >
             {isPending ? (
               <div className="animate-spin h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full mr-2" />

@@ -29,7 +29,7 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
       ),
       cell: ({ row }) => <div className="font-medium">{`${row.original.lastName} ${row.original.firstName}`}</div>,
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '名前',
       },
       sortingFn: (row, _id, filterValue) => {
@@ -54,7 +54,7 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
       ),
       cell: ({ row }) => <div className="font-medium">{`${row.original.email}`}</div>,
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: 'メールアドレス',
       },
     },
@@ -73,7 +73,7 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
         return <div className="font-medium">{getDepartmentPath(departments, row.original.departmentId)}</div>;
       },
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '部署名',
       },
       filterFn: (row, _id, filterValue) => {
@@ -101,7 +101,7 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
         return <div className="font-medium">{role ? role.roleName : '未設定'}</div>;
       },
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '権限',
       },
       filterFn: (row, _id, filterValue) => {
@@ -133,10 +133,6 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
             <DeleteEmployeeDialog />
           </div>
         );
-      },
-      meta: {
-        enableFilter: false,
-        japaneseLabel: '操作',
       },
     },
   ];

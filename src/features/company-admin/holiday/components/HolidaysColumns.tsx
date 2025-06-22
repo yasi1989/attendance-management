@@ -24,7 +24,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     },
     cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
     meta: {
-      enableFilter: true,
+      enableColumnFilter: true,
       japaneseLabel: '祝日名',
     },
   },
@@ -45,7 +45,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       <div className="flex font-medium items-center justify-center">{formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd')}</div>
     ),
     meta: {
-      enableFilter: true,
+      enableColumnFilter: true,
       japaneseLabel: '日付',
     },
     filterFn: (row, id, value) => {
@@ -76,7 +76,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       );
     },
     meta: {
-      enableFilter: false,
+      enableColumnFilter: false,
       japaneseLabel: '操作',
     },
   },

@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Search, Filter, ChevronLeft, ChevronRight, Database, Users } from 'lucide-react';
 
 interface ColumnDataMeta {
-  enableFilter?: boolean;
+  enableColumnFilter?: boolean;
   japaneseLabel?: string;
 }
 
@@ -31,6 +31,7 @@ type ColumnDefWithMeta<TData, TValue> = ColumnDef<TData, TValue> & {
 interface DataTableProps<TData> {
   columns: ColumnDefWithMeta<TData, unknown>[];
   data: TData[];
+  enableFilter?: boolean;
   enableSelection?: boolean;
   getRowId?: (item: TData, index: number) => string;
   renderBulkActions?: (selectedIds: string[], selectedItems: TData[]) => React.ReactNode;
@@ -40,6 +41,7 @@ export function DataTable<TData>({
   columns,
   data,
   getRowId,
+  enableFilter = false,
   enableSelection = false,
   renderBulkActions,
 }: DataTableProps<TData>) {
@@ -74,7 +76,7 @@ export function DataTable<TData>({
 
   const selectedIds = useMemo(() => {
     if (!getRowId) {
-      return Object.keys(rowSelection).filter(key => rowSelection[key]);
+      return Object.keys(rowSelection).filter((key) => rowSelection[key]);
     }
     return selectedData.map((item, index) => getRowId(item, index));
   }, [selectedData, getRowId, rowSelection]);
@@ -99,7 +101,7 @@ export function DataTable<TData>({
   return (
     <div className="w-full space-y-4">
       {/* フィルター部分 */}
-      {columns.filter((column) => column.meta?.enableFilter).length > 0 && (
+      {enableFilter && columns.filter((column) => column.meta?.enableColumnFilter).length > 0 && (
         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-blue-50/50 dark:from-slate-900 dark:to-blue-900/20 rounded-xl border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
           <div className="flex items-center gap-2">
             <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg shadow-md">
@@ -118,7 +120,7 @@ export function DataTable<TData>({
               </SelectTrigger>
               <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg shadow-lg">
                 {columns
-                  .filter((column) => column.meta?.enableFilter)
+                  .filter((column) => column.meta?.enableColumnFilter)
                   .map((column) => (
                     <SelectItem
                       key={column.id}
@@ -170,7 +172,7 @@ export function DataTable<TData>({
                     return (
                       <TableHead
                         key={header.id}
-                        className="py-3 px-4 text-xs font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap"
+                        className="py-4 px-4 text-sm font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap"
                       >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
@@ -195,7 +197,7 @@ export function DataTable<TData>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="py-3 px-4 text-slate-900 dark:text-slate-100 whitespace-nowrap"
+                        className="py-4 px-4 text-sm text-slate-900 dark:text-slate-100 whitespace-nowrap"
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

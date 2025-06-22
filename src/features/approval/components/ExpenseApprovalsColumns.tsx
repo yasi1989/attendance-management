@@ -1,15 +1,20 @@
-import { ChevronsUpDown, User, Building2, Calendar, Clock, Timer, Settings } from 'lucide-react';
+import { User, Building2, Calendar, Clock, Timer, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { MonthlyExpenseApprovalType } from '../type/monthlyExpenseApprovalType';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/company-admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
-import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/lib/currencyUtils';
-import { ExpenseDetailDialog } from './ExpenseDetailDialog';
+import { ExpenseDetailDialog } from '../detail/components/ExpenseDetailDialog';
+import { StatusType } from '@/features/shared/type/statusType';
 
-export const columnsDef = (status: 'Pending' | 'Approved', departments: DepartmentType[]) => {
+type ExpenseApprovalsColumnsProps = {
+  status: StatusType;
+  departments: DepartmentType[];
+};
+
+export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps) => {
   const checkboxColumns: ColumnDef<MonthlyExpenseApprovalType>[] = [
     {
       id: 'select',
@@ -44,8 +49,8 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       id: 'name',
       header: () => (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 cursor-default">
-            <User className="mr-1 h-4 w-4" />
+          <Button variant="ghost">
+            <User />
             従業員
           </Button>
         </div>
@@ -59,7 +64,7 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
         </div>
       ),
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '従業員',
       },
       filterFn: (row, _id, filterValue) => {
@@ -70,16 +75,11 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
     {
       accessorKey: 'departmentName',
       id: 'departmentName',
-      header: ({ column }) => (
+      header: () => (
         <div className="flex items-center justify-center">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-          >
-            <Building2 className="mr-1 h-4 w-4" />
+          <Button variant="ghost">
+            <Building2 />
             所属
-            <ChevronsUpDown className="ml-1 h-4 w-4" />
           </Button>
         </div>
       ),
@@ -88,18 +88,18 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
         const pathParts = departmentPath.split(' > ');
 
         return (
-          <div className="w-32">
+          <div className="w-40">
             {pathParts.length > 1 ? (
               <div className="space-y-0.5">
-                <div className="text-xs font-medium text-slate-900 dark:text-slate-100 truncate" title={departmentPath}>
+                <div className="text-slate-900 dark:text-slate-100 truncate" title={departmentPath}>
                   {pathParts[pathParts.length - 1]}
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 truncate" title={departmentPath}>
+                <div className="text-slate-500 dark:text-slate-400 truncate" title={departmentPath}>
                   {pathParts.slice(0, -1).join(' > ')}
                 </div>
               </div>
             ) : (
-              <div className="text-xs font-medium text-slate-900 dark:text-slate-100 truncate" title={departmentPath}>
+              <div className="text-slate-900 dark:text-slate-100 truncate" title={departmentPath}>
                 {departmentPath}
               </div>
             )}
@@ -107,7 +107,7 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
         );
       },
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '所属',
       },
       filterFn: (row, _id, filterValue) => {
@@ -117,25 +117,15 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
           ? department.departmentName.includes(filterValue) || departmentPath.includes(filterValue)
           : false;
       },
-      sortingFn: (row, _id, filterValue) => {
-        const department = departments.find((d: DepartmentType) => d.id === row.original.user.departmentId);
-        return department ? department.departmentName.localeCompare(filterValue) : 0;
-      },
     },
     {
       accessorKey: 'month',
       id: 'month',
-      header: ({ column }) => {
+      header: () => {
         return (
           <div className="flex items-center justify-center">
-            <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-              className="h-8 px-3 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-            >
-              <Calendar className="ml-1 h-4 w-4" />
-              月
-              <ChevronsUpDown className="ml-1 h-4 w-4" />
+            <Button variant="ghost">
+              <Calendar />月
             </Button>
           </div>
         );
@@ -143,13 +133,13 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-sm text-slate-900 dark:text-slate-100">
-            <div className="text-xs font-medium text-slate-900 dark:text-slate-100">{row.original.month}月</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">{row.original.year}年</div>
+            <div className="text-slate-900 dark:text-slate-100">{row.original.month}月</div>
+            <div className="text-slate-500 dark:text-slate-400">{row.original.year}年</div>
           </div>
         </div>
       ),
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '対象月',
       },
     },
@@ -159,8 +149,8 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       header: () => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 cursor-default">
-              <Clock className="h-3 w-3" />
+            <Button variant="ghost">
+              <Clock />
               申請金額
             </Button>
           </div>
@@ -168,12 +158,11 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div className="text-slate-900 dark:text-slate-100">{row.original.totalAmount}</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">/{row.original.totalAmount}</div>
+          <div className="text-slate-900 dark:text-slate-100">{formatCurrency(row.original.totalAmount)}</div>
         </div>
       ),
       meta: {
-        enableFilter: true,
+        enableColumnFilter: true,
         japaneseLabel: '申請金額',
       },
     },
@@ -183,8 +172,8 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       header: () => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 cursor-default">
-              <Timer className="h-3 w-3" />
+            <Button variant="ghost">
+              <Timer />
               件数
             </Button>
           </div>
@@ -193,32 +182,6 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-slate-900 dark:text-slate-100">{row.original.itemCount}</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">({row.original.itemCount})</div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'categoryBreakdown',
-      id: 'categoryBreakdown',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost" className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 cursor-default">
-              内訳
-            </Button>
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="flex flex-wrap gap-1 w-24">
-          {Object.entries(row.original.categoryBreakdown).map(
-            ([category, data]) =>
-              data.count > 0 && (
-                <Badge key={category} variant="outline" className="text-xs">
-                  {data.name} {formatCurrency(data.amount)}
-                </Badge>
-              ),
-          )}
         </div>
       ),
     },
@@ -227,8 +190,8 @@ export const columnsDef = (status: 'Pending' | 'Approved', departments: Departme
       header: () => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" className="h-6 px-2 text-xs text-slate-700 dark:text-slate-300 cursor-default">
-              <Settings className="h-3 w-3" />
+            <Button variant="ghost">
+              <Settings />
               操作
             </Button>
           </div>
