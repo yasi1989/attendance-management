@@ -34,7 +34,7 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
             詳細
           </Button>
         </DialogTrigger>
-        <DialogContent className="min-w-3xl max-w-3xl">
+        <DialogContent  className="min-w-3xl max-w-3xl">
           <form>
             <DialogHeader>
               <DialogTitle>
