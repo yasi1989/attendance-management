@@ -4,7 +4,7 @@ import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputCalenderFormField from '@/components/InputCalendarFormField';
 import { Form } from '@/components/ui/form';
-import ExpenseFormFooter from './ExpenseFormFooter';
+import ExpenseFormActions from './ExpenseFormActions';
 import InputFileFormField from '@/components/InputFileFormField';
 import { useGeneralExpenseForm } from '../hooks/useExpenseForm';
 import { FormProvider } from 'react-hook-form';
@@ -46,7 +46,7 @@ export function GeneralExpenseForm({ type, expense }: GeneralExpenseFormProps) {
             />
             <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receiptUrl} />
           </div>
-          <ExpenseFormFooter form={form} />
+          <ExpenseFormActions form={form} />
         </form>
       </Form>
     </FormProvider>

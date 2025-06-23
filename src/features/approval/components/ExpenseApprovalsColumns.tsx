@@ -3,11 +3,11 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { MonthlyExpenseApprovalType } from '../type/monthlyExpenseApprovalType';
 import { Checkbox } from '@/components/ui/checkbox';
-import { getDepartmentPath } from '@/features/company-admin/employees/lib/departmentUtils';
-import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
-import { formatCurrency } from '@/lib/currencyUtils';
-import { ExpenseDetailDialog } from '../detail/components/ExpenseDetailDialog';
-import { StatusType } from '@/features/shared/type/statusType';
+import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { formatCurrency } from '@/lib/currency';
+import { StatusType } from '@/types/statusType';
+import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 
 type ExpenseApprovalsColumnsProps = {
   status: StatusType;

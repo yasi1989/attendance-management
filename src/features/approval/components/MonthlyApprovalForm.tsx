@@ -7,9 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
 import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
 import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
-import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { Clock, DollarSign } from 'lucide-react';
-import { StatusType } from '@/features/shared/type/statusType';
+import { StatusType } from '@/types/statusType';
 
 type MonthlyApprovalFormProps = {
   status: StatusType;

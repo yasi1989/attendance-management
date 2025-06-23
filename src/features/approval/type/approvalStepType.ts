@@ -1,5 +1,5 @@
-import { StatusType } from '@/features/shared/type/statusType';
-import { UserType } from '@/features/system-admin/users/type/userType';
+import { StatusType } from '@/types/statusType';
+import { UserType } from '@/features/system/users/type/userType';
 
 export type ApprovalStepType = {
   stepOrder: number;

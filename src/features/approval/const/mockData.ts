@@ -1,4 +1,4 @@
-import { departments, users } from '@/features/system-admin/users/const/mockData';
+import { departments, users } from '@/features/system/users/const/mockData';
 import { MonthlyApprovalsType } from '../type/monthlyApprovalsType';
 
 const getUserWithDepartment = (userId: string) => {

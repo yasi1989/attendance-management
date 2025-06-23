@@ -1,4 +1,7 @@
-import { FilterableColumnsType } from '@/type/filterableColumnsType';
+type FilterableColumnsType = {
+  filter: string;
+  header: string;
+};
 
 export const filterExpenseColumns: FilterableColumnsType[] = [
   {

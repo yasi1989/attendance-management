@@ -1,5 +1,5 @@
-import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
-import { UserType } from '@/features/system-admin/users/type/userType';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { UserType } from '@/features/system/users/type/userType';
 import { StatusType } from './statusType';
 import { ApprovalStepType } from './approvalStepType';
 

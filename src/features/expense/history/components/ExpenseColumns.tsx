@@ -6,7 +6,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { formatDateToISOString } from '@/lib/dateFormatter';
+import { formatDateToISOString } from '@/lib/date';
 import ExpenseDeleteDialog from './ExpenseDeleteDialog';
 
 export const expenseColumns: ColumnDef<ExpenseType>[] = [

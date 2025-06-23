@@ -1,9 +1,9 @@
 import { DataTable } from '@/components/DataTable';
 import { MonthlyAttendanceApprovalType } from '../type/monthlyAttendanceApprovalType';
-import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { columnsDef } from './AttendanceApprovalsColumns';
-import BulkApprovalsForm from './BulkApprovalsForm';
-import { StatusType } from '@/features/shared/type/statusType';
+import ApprovalBulkForm from './ApprovalBulkForm';
+import { StatusType } from '@/types/statusType';
 
 type MonthlyAttendanceApprovalsTableProps = {
   status: StatusType;
@@ -17,7 +17,7 @@ const MonthlyAttendanceApprovalsTable = ({
   departments,
 }: MonthlyAttendanceApprovalsTableProps) => {
   const columns = columnsDef({ status, departments });
-  const renderBulkActions = (selectedIds: string[]) => <BulkApprovalsForm selectedIds={selectedIds} />;
+  const renderBulkActions = (selectedIds: string[]) => <ApprovalBulkForm selectedIds={selectedIds} />;
   return <DataTable columns={columns} data={attendances} enableSelection enableFilter renderBulkActions={renderBulkActions} />;
 };
 

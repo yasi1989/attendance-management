@@ -6,7 +6,7 @@ import InputCalenderFormField from '@/components/InputCalendarFormField';
 import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputFileFormField from '@/components/InputFileFormField';
-import ExpenseFormFooter from './ExpenseFormFooter';
+import ExpenseFormActions from './ExpenseFormActions';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
@@ -71,7 +71,7 @@ export function TransportationForm({ type, expense, routeInfo }: TransportationF
             />
             <InputFileFormField form={form} name="receiptFile" label="領収書" existingFile={expense?.receiptUrl} />
           </div>
-          <ExpenseFormFooter form={form} />
+          <ExpenseFormActions form={form} />
         </form>
       </Form>
     </FormProvider>

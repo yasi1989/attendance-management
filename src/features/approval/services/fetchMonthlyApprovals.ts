@@ -1,6 +1,6 @@
 import { sampleMonthlyApprovals } from '../const/mockData';
 import { MonthlyApprovalsType } from '../type/monthlyApprovalsType';
-import { StatusType } from '@/features/shared/type/statusType';
+import { StatusType } from '@/types/statusType';
 
 type FetchMonthlyApprovalsParams = {
   status: StatusType;

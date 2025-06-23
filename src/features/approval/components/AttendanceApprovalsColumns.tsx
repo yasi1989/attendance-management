@@ -3,10 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { MonthlyAttendanceApprovalType } from '../type/monthlyAttendanceApprovalType';
 import { Checkbox } from '@/components/ui/checkbox';
-import { getDepartmentPath } from '@/features/company-admin/employees/lib/departmentUtils';
-import { DepartmentType } from '@/features/system-admin/users/type/departmentType';
-import { AttendanceDetailDialog } from '../detail/components/AttendanceDetailDialog';
-import { StatusType } from '@/features/shared/type/statusType';
+import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { StatusType } from '@/types/statusType';
+import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 
 type AttendanceApprovalsColumnsProps = {
   status: StatusType;
