@@ -11,7 +11,6 @@ export const data = {
       title: '勤怠・経費',
       url: '#',
       icon: Clock,
-      isActive: true,
       items: [
         {
           title: '勤怠入力',

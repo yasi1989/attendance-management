@@ -9,7 +9,7 @@ export default async function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <AppSidebar variant="inset" />
+      <AppSidebar/>
       <SidebarInset>
         <Header />
         <div className="container mx-auto py-10 max-w-5xl animate-in fade-in-50 duration-300">{children}</div>
