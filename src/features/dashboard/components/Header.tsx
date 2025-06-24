@@ -22,25 +22,17 @@ const Header = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const getPageTitle = (currentPath: string) => {
-    if (currentPath === '/') {
-      return 'ダッシュボード';
-    }
-
-    for (const mainItem of data.navMain) {
-      if (mainItem.url === currentPath) {
-        return mainItem.title;
-      }
-
-      if (mainItem.items) {
-        for (const subItem of mainItem.items) {
-          if (subItem.url === currentPath) {
-            return subItem.title;
-          }
-        }
-      }
-    }
-
+  const getPageTitle = (currentPath: string): string => {
+    if (currentPath === '/') return 'Dashboard';
+  
+    const mainItem = data.navMain.find(item => item.url === currentPath);
+    if (mainItem) return mainItem.title;
+  
+    const subItem = data.navMain
+      .flatMap(item => item.items || [])
+      .find(subItem => subItem.url === currentPath);
+    if (subItem) return subItem.title;
+  
     const segment = currentPath.split('/').pop();
     return segment ? segment.charAt(0).toUpperCase() + segment.slice(1) : '';
   };
