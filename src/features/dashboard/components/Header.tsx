@@ -3,7 +3,7 @@
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
-import { Clock, Briefcase } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { data } from '../const/sideMenuItems';
 import { AttendanceButton } from './AttendanceButton';
 import { useState, useEffect } from 'react';
@@ -24,15 +24,13 @@ const Header = () => {
 
   const getPageTitle = (currentPath: string): string => {
     if (currentPath === '/') return 'Dashboard';
-  
-    const mainItem = data.navMain.find(item => item.url === currentPath);
+
+    const mainItem = data.navMain.find((item) => item.url === currentPath);
     if (mainItem) return mainItem.title;
-  
-    const subItem = data.navMain
-      .flatMap(item => item.items || [])
-      .find(subItem => subItem.url === currentPath);
+
+    const subItem = data.navMain.flatMap((item) => item.items || []).find((subItem) => subItem.url === currentPath);
     if (subItem) return subItem.title;
-  
+
     const segment = currentPath.split('/').pop();
     return segment ? segment.charAt(0).toUpperCase() + segment.slice(1) : '';
   };
@@ -60,17 +58,14 @@ const Header = () => {
   };
 
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-[width,height] ease-linear sticky top-0 z-50">
+    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-[width,height] ease-linear sticky top-0 z-50">
       <div className="flex w-full items-center justify-between gap-4 px-4 lg:px-6">
         <div className="flex items-center gap-3">
           <SidebarTrigger className="-ml-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors p-1.5 rounded" />
           <Separator orientation="vertical" className="h-5 mx-1 bg-gray-300 dark:bg-gray-600" />
-          <div className="flex items-center gap-2">
-            <Briefcase className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-            <div className="flex flex-col">
-              <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100">{pageTitle}</h1>
-              {breadcrumb && <p className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">{breadcrumb}</p>}
-            </div>
+          <div className="flex flex-col">
+            <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100">{pageTitle}</h1>
+            {breadcrumb && <p className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">{breadcrumb}</p>}
           </div>
         </div>
 

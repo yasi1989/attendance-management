@@ -6,9 +6,9 @@ import { IndividualApprovalType } from '../../lib/formSchema';
 import { Form } from '@/components/ui/form';
 import { useTransition } from 'react';
 import { StatusType } from '@/types/statusType';
-import ApprovalActions from './ApprovalActions';
 import { DataTable } from '@/components/DataTable';
 import { columns } from '../../components/ApprovalStepsColumn';
+import ApprovalFooter from './ApprovalActions';
 
 type AttendanceDetailDialogProps = {
   status: StatusType;
@@ -34,19 +34,19 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
             詳細
           </Button>
         </DialogTrigger>
-        <DialogContent  className="min-w-3xl max-w-3xl">
+        <DialogContent className="w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form>
             <DialogHeader>
-              <DialogTitle>
+              <DialogTitle className="text-lg sm:text-xl">
                 {attendance.user.lastName}
                 {attendance.user.firstName} ({attendance.year}年{attendance.month}月)
               </DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col space-y-4">
-              <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="flex flex-col space-y-4 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <h4 className="font-medium">勤務実績</h4>
-                  <div className="bg-gray-50 p-3 rounded space-y-1 text-sm">
+                  <h4 className="font-medium text-sm sm:text-base">勤務実績</h4>
+                  <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded space-y-1 text-sm">
                     <div className="flex justify-between">
                       <span>出勤日数:</span>
                       <span>
@@ -66,8 +66,8 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-medium">勤怠内訳</h4>
-                  <div className="bg-blue-50 p-3 rounded space-y-1 text-sm">
+                  <h4 className="font-medium text-sm sm:text-base">勤怠内訳</h4>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded space-y-1 text-sm">
                     {Object.entries(attendance.categoryBreakdown).map(([category, item]) => (
                       <div key={category} className="flex justify-between">
                         <span>{item.name}:</span>
@@ -79,28 +79,30 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
               </div>
 
               {attendance.issues?.length > 0 && (
-                <div className="bg-yellow-50 p-3 rounded">
-                  <h4 className="font-medium text-yellow-800 mb-2">注意事項</h4>
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
+                  <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">注意事項</h4>
                   <ul className="space-y-1 text-sm">
                     {attendance.issues.includes('excessive_overtime') && (
-                      <li className="text-red-600">⚠ 残業時間が15時間を超えています</li>
+                      <li className="text-red-600 dark:text-red-400">⚠ 残業時間が15時間を超えています</li>
                     )}
                     {attendance.issues.includes('insufficient_hours') && (
-                      <li className="text-yellow-600">⚠ 所定労働時間に達していません</li>
+                      <li className="text-yellow-600 dark:text-yellow-400">⚠ 所定労働時間に達していません</li>
                     )}
                   </ul>
                 </div>
               )}
 
               {status === 'Pending' && (
-                <ApprovalActions
+                <ApprovalFooter
                   form={form}
                   handleIndividualApproval={(status) => handleIndividualApproval(status)}
                   isPending={isPending}
                 />
               )}
 
-              <DataTable columns={columns} data={attendance.approvalSteps} />
+              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                <DataTable columns={columns} data={attendance.approvalSteps} />
+              </div>
             </div>
           </form>
         </DialogContent>

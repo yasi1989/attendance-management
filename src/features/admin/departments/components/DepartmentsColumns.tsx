@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpDown, Edit } from 'lucide-react';
+import { ArrowUpDown, Building, Building2, Edit, Settings, User } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
@@ -16,14 +16,25 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       header: ({ column }) => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-              部署名
-              <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+            <Button
+              variant="ghost"
+              className="p-0 h-auto hover:bg-transparent"
+              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            >
+              <div className="flex items-center gap-1 md:gap-2">
+                <Building className="h-3 w-3 md:h-4 md:w-4" />
+                <span>部署名</span>
+                <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+              </div>
             </Button>
           </div>
         );
       },
-      cell: ({ row }) => <div className="font-medium">{row.original.departmentName}</div>,
+      cell: ({ row }) => (
+        <div className="text-slate-900 dark:text-slate-100 font-semibold" title={`${row.original.departmentName}`}>
+          {`${row.original.departmentName}`}
+        </div>
+      ),
       meta: {
         enableColumnFilter: true,
         japaneseLabel: '部署名',
@@ -35,16 +46,37 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       header: ({ column }) => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-              親部署
-              <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+            <Button
+              variant="ghost"
+              className="p-0 h-auto hover:bg-transparent"
+              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            >
+              <div className="flex items-center gap-1 md:gap-2">
+                <Building2 className="h-3 w-3 md:h-4 md:w-4" />
+                <span>親部署</span>
+                <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+              </div>
             </Button>
           </div>
         );
       },
       cell: ({ row }) => {
         const parentDepartment = departments.find((d) => d.id === row.original.parentDepartmentId);
-        return <div className="font-medium">{parentDepartment ? parentDepartment.departmentName : '未設定'}</div>;
+        const parentDepartmentName = parentDepartment ? parentDepartment.departmentName : '未設定';
+        return (
+          <div className="text-slate-900 dark:text-slate-100" title={`${parentDepartmentName}`}>
+            {parentDepartmentName}
+          </div>
+        );
+      },
+      sortingFn: (rowA, rowB) => {
+        const parentDepartmentA = departments.find((d) => d.id === rowA.original.parentDepartmentId);
+        const parentDepartmentB = departments.find((d) => d.id === rowB.original.parentDepartmentId);
+
+        const nameA = parentDepartmentA ? parentDepartmentA.departmentName : '未設定';
+        const nameB = parentDepartmentB ? parentDepartmentB.departmentName : '未設定';
+
+        return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
       meta: {
         enableColumnFilter: true,
@@ -61,24 +93,47 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       header: ({ column }) => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-              部門責任者
-              <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+            <Button
+              variant="ghost"
+              className="p-0 h-auto hover:bg-transparent"
+              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            >
+              <div className="flex items-center gap-1 md:gap-2">
+                <User className="h-3 w-3 md:h-4 md:w-4" />
+                <span>部門責任者</span>
+                <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+              </div>
             </Button>
           </div>
         );
       },
       cell: ({ row }) => {
         const managerUser = users.find((d) => d.id === row.original.managerUserId);
-        return <div className="font-medium">{managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定'}</div>;
+        const managerUserName = managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定';
+        return (
+          <div className="text-slate-900 dark:text-slate-100" title={`${managerUserName}`}>
+            {managerUserName}
+          </div>
+        );
+      },
+
+      sortingFn: (rowA, rowB) => {
+        const managerUserA = users.find((d) => d.id === rowA.original.managerUserId);
+        const managerUserB = users.find((d) => d.id === rowB.original.managerUserId);
+
+        const nameA = managerUserA ? `${managerUserA.firstName} ${managerUserA.lastName}` : '未設定';
+        const nameB = managerUserB ? `${managerUserB.firstName} ${managerUserB.lastName}` : '未設定';
+
+        return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
       meta: {
         enableColumnFilter: true,
-        japaneseLabel: '管理者',
+        japaneseLabel: '部門責任者',
       },
       filterFn: (row, _id, filterValue) => {
         const managerUser = users.find((d) => d.id === row.original.managerUserId);
-        return managerUser ? `${managerUser.firstName} ${managerUser.lastName}`.includes(filterValue) : false;
+        const managerUserName = managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定';
+        return managerUserName.includes(filterValue);
       },
     },
     {
@@ -86,16 +141,26 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       header: () => {
         return (
           <div className="flex items-center justify-center">
-            <Button variant="ghost">操作</Button>
+            <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+              <div className="flex items-center gap-1 md:gap-2">
+                <Settings className="h-3 w-3 md:h-4 md:w-4" />
+                <span>操作</span>
+              </div>
+            </Button>
           </div>
         );
       },
       cell: ({ row }) => {
         return (
           <div className="flex space-x-1 items-center justify-center">
-            <UpsertDepartmentDialog type="edit" userDepartment={row.original} allDepartments={departments} users={users}>
+            <UpsertDepartmentDialog
+              type="edit"
+              userDepartment={row.original}
+              allDepartments={departments}
+              users={users}
+            >
               <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-                <Edit className="h-4 w-4 text-blue-600" />
+                <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
               </Button>
             </UpsertDepartmentDialog>
             <DeleteDepartmentDialog />

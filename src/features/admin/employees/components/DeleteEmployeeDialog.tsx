@@ -12,7 +12,7 @@ const DeleteEmployeeDialog = () => {
       onAction={async () => {}}
     >
       <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-red-50 hover:bg-red-100 transition-colors">
-        <Trash2 className="h-4 w-4 text-red-600" />
+        <Trash2 className="h-3 w-3 md:h-4 md:w-4 text-red-600" />
       </Button>
     </ActionDialog>
   );

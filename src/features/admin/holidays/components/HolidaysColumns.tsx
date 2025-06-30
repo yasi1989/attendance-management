@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpDown, Edit } from 'lucide-react';
+import { ArrowUpDown, Edit, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { HolidayType } from '../type/holidayType';
@@ -15,17 +15,34 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            祝日名
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Gift className="h-3 w-3 md:h-4 md:w-4" />
+              <span>祝日名</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
+    cell: ({ row }) => (
+      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.name}>
+        {row.original.name}
+      </div>
+    ),
+    sortingFn: (rowA, rowB) => {
+      return rowA.original.name.localeCompare(rowB.original.name, 'ja', { numeric: true });
+    },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: '祝日名',
+    },
+    filterFn: (row, _id, filterValue) => {
+      return row.original.name.includes(filterValue);
     },
   },
   {
@@ -34,16 +51,33 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            日付
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+              <span>日付</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => (
-      <div className="flex font-medium items-center justify-center">{formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd')}</div>
-    ),
+    cell: ({ row }) => {
+      const formattedDate = formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd');
+      return (
+        <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
+          {formattedDate}
+        </div>
+      );
+    },
+    sortingFn: (rowA, rowB) => {
+      const dateA = new Date(rowA.original.holidayDate);
+      const dateB = new Date(rowB.original.holidayDate);
+      return dateA.getTime() - dateB.getTime();
+    },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: '日付',
@@ -59,7 +93,12 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     header: () => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">操作</Button>
+          <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+            <div className="flex items-center gap-1 md:gap-2">
+              <Settings className="h-3 w-3 md:h-4 md:w-4" />
+              <span>操作</span>
+            </div>
+          </Button>
         </div>
       );
     },
@@ -68,7 +107,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
         <div className="flex space-x-1 items-center justify-center">
           <UpsertHolidayDialog type="edit" data={row.original}>
             <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-              <Edit className="h-4 w-4 text-blue-600" />
+              <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
             </Button>
           </UpsertHolidayDialog>
           <DeleteHolidayDialog />

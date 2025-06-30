@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpDown, Edit } from 'lucide-react';
+import { ArrowUpDown, Edit, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { CompanyType } from '../type/companyType';
@@ -15,17 +15,34 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            会社名
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Building className="h-3 w-3 md:h-4 md:w-4" />
+              <span>会社名</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{row.original.name}</div>,
+    cell: ({ row }) => (
+      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.name}>
+        {row.original.name}
+      </div>
+    ),
+    sortingFn: (rowA, rowB) => {
+      return rowA.original.name.localeCompare(rowB.original.name, 'ja', { numeric: true });
+    },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: '会社名',
+    },
+    filterFn: (row, _id, filterValue) => {
+      return row.original.name.includes(filterValue);
     },
   },
   {
@@ -34,17 +51,34 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            ドメイン
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Globe className="h-3 w-3 md:h-4 md:w-4" />
+              <span>ドメイン</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium">{row.original.domain}</div>,
+    cell: ({ row }) => (
+      <div className="text-slate-900 dark:text-slate-100" title={row.original.domain}>
+        {row.original.domain}
+      </div>
+    ),
+    sortingFn: (rowA, rowB) => {
+      return rowA.original.domain.localeCompare(rowB.original.domain, 'en', { numeric: true });
+    },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: 'ドメイン',
+    },
+    filterFn: (row, _id, filterValue) => {
+      return row.original.domain.includes(filterValue);
     },
   },
   {
@@ -53,14 +87,33 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-            作成日
-            <ArrowUpDown className="ml-1 h-4 w-4 text-slate-500" />
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
+              <span>作成日</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium text-center">{formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd')}</div>,
+    cell: ({ row }) => {
+      const formattedDate = formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd');
+      return (
+        <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
+          {formattedDate}
+        </div>
+      );
+    },
+    sortingFn: (rowA, rowB) => {
+      const dateA = new Date(rowA.original.createdAt);
+      const dateB = new Date(rowB.original.createdAt);
+      return dateA.getTime() - dateB.getTime();
+    },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: '作成日',
@@ -76,7 +129,12 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     header: () => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">操作</Button>
+          <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+            <div className="flex items-center gap-1 md:gap-2">
+              <Settings className="h-3 w-3 md:h-4 md:w-4" />
+              <span>操作</span>
+            </div>
+          </Button>
         </div>
       );
     },
@@ -85,7 +143,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
         <div className="flex space-x-1 items-center justify-center">
           <UpsertCompanyDialog type="edit" data={row.original}>
             <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-              <Edit className="h-4 w-4 text-blue-600" />
+              <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
             </Button>
           </UpsertCompanyDialog>
           <DeleteCompanyDialog />

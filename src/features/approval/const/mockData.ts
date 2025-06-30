@@ -157,8 +157,8 @@ export const sampleMonthlyApprovals: MonthlyApprovalsType = {
       totalAmount: 45600,
       itemCount: 8,
       categoryBreakdown: {
-        TRANSPORT: { name: '交通費', amount: 28900, count: 5 },
-        GENERAL: { name: '一般経費', amount: 16700, count: 3 },
+        TRANSPORT: { name: '交通', amount: 28900, count: 5 },
+        GENERAL: { name: '一般', amount: 16700, count: 3 },
       },
       submittedAt: '2025-05-31T17:30:00',
       issues: ['high_amount'],
@@ -192,7 +192,7 @@ export const sampleMonthlyApprovals: MonthlyApprovalsType = {
       totalAmount: 3240,
       itemCount: 2,
       categoryBreakdown: {
-        TRANSPORT: { name: '交通費', amount: 3240, count: 2 },
+        TRANSPORT: { name: '交通', amount: 3240, count: 2 },
       },
       submittedAt: '2025-06-30T18:15:00',
       issues: [],
@@ -217,8 +217,8 @@ export const sampleMonthlyApprovals: MonthlyApprovalsType = {
       totalAmount: 12800,
       itemCount: 4,
       categoryBreakdown: {
-        TRANSPORT: { name: '交通費', amount: 8600, count: 3 },
-        GENERAL: { name: '一般経費', amount: 4200, count: 1 },
+        TRANSPORT: { name: '交通', amount: 8600, count: 3 },
+        GENERAL: { name: '一般', amount: 4200, count: 1 },
       },
       submittedAt: '2025-05-31T16:20:00',
       issues: [],

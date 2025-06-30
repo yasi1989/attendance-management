@@ -1,4 +1,4 @@
-import { User, Building2, Calendar, Clock, Timer, Settings } from 'lucide-react';
+import { User, Building2, Calendar, Clock, Timer, Settings, List } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { MonthlyExpenseApprovalType } from '../type/monthlyExpenseApprovalType';
@@ -8,6 +8,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { formatCurrency } from '@/lib/currency';
 import { StatusType } from '@/types/statusType';
 import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
+import { Badge } from '@/components/ui/badge';
 
 type ExpenseApprovalsColumnsProps = {
   status: StatusType;
@@ -57,7 +58,7 @@ export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps
       ),
       cell: ({ row }) => (
         <div
-          className="text-sm font-semibold text-slate-900 dark:text-slate-100"
+          className="font-semibold text-slate-900 dark:text-slate-100"
           title={`${row.original.user.lastName} ${row.original.user.firstName}`}
         >
           {`${row.original.user.lastName} ${row.original.user.firstName}`}
@@ -132,7 +133,7 @@ export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div className="text-sm text-slate-900 dark:text-slate-100">
+          <div className="text-slate-900 dark:text-slate-100">
             <div className="text-slate-900 dark:text-slate-100">{row.original.month}月</div>
             <div className="text-slate-500 dark:text-slate-400">{row.original.year}年</div>
           </div>
@@ -182,6 +183,35 @@ export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-slate-900 dark:text-slate-100">{row.original.itemCount}</div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'categoryBreakdown',
+      id: 'categoryBreakdown',
+      header: () => {
+        return (
+          <div className="flex items-center justify-center">
+            <Button variant="ghost">
+              <List />
+              内訳
+            </Button>
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="text-center">
+          <div className="flex flex-wrap gap-1">
+            {Object.entries(row.original.categoryBreakdown).map(
+              ([category, item]) =>
+                item.count > 0 && (
+                  <Badge key={category} variant="outline" className="text-xs">
+                    {item.name}
+                    {item.count}
+                  </Badge>
+                ),
+            )}
+          </div>
         </div>
       ),
     },

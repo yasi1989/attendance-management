@@ -13,7 +13,7 @@ interface ApprovalFooterProps {
 
 const ApprovalFooter = ({ form, handleIndividualApproval, isPending }: ApprovalFooterProps) => {
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col space-y-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
       <InputTextFormField
         label="承認コメント"
         name="comment"
@@ -23,19 +23,21 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isPending }: ApprovalF
         maxLength={500}
       />
 
-      <div className="flex gap-2 pt-2">
+      <div className="flex flex-col md:flex-row gap-2 pt-2">
         <Button
+          type="button"
           onClick={() => handleIndividualApproval('Approve')}
-          className="bg-green-600 hover:bg-green-700"
+          className="bg-green-600 hover:bg-green-700 flex-1 md:flex-none"
           disabled={isPending}
         >
           <CheckCircle className="h-4 w-4 mr-1" />
           承認する
         </Button>
         <Button
+          type="button"
           variant="outline"
           onClick={() => handleIndividualApproval('Reject')}
-          className="text-red-600 border-red-600 hover:bg-red-50"
+          className="text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex-1 md:flex-none"
           disabled={isPending}
         >
           <XCircle className="h-4 w-4 mr-1" />

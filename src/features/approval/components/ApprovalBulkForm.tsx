@@ -38,7 +38,7 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row mx-auto gap-3">
           <Button
             type="button"
             size="lg"

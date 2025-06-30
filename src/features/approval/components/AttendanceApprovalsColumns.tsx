@@ -1,4 +1,4 @@
-import { User, Building2, Calendar, Clock, Timer, BarChart3, Settings } from 'lucide-react';
+import { User, Building2, Calendar, Clock, Timer, BarChart3, Settings, List } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { MonthlyAttendanceApprovalType } from '../type/monthlyAttendanceApprovalType';
@@ -7,6 +7,7 @@ import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtil
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { StatusType } from '@/types/statusType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
+import { Badge } from '@/components/ui/badge';
 
 type AttendanceApprovalsColumnsProps = {
   status: StatusType;
@@ -56,7 +57,7 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
       ),
       cell: ({ row }) => (
         <div
-          className="text-sm font-semibold text-slate-900 dark:text-slate-100"
+          className="font-semibold text-slate-900 dark:text-slate-100"
           title={`${row.original.user.lastName} ${row.original.user.firstName}`}
         >
           {`${row.original.user.lastName} ${row.original.user.firstName}`}
@@ -124,15 +125,14 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
         return (
           <div className="flex items-center justify-center">
             <Button variant="ghost">
-              <Calendar />
-              月
+              <Calendar />月
             </Button>
           </div>
         );
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div className="text-sm text-slate-900 dark:text-slate-100">
+          <div className="text-slate-900 dark:text-slate-100">
             <div className="text-slate-900 dark:text-slate-100">{row.original.month}月</div>
             <div className="text-slate-500 dark:text-slate-400">{row.original.year}年</div>
           </div>
@@ -198,14 +198,43 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div
+          <Badge
             className={`${
               row.original.overtimeHours > 0
-                ? 'text-orange-600 dark:text-orange-400'
-                : 'text-slate-500 dark:text-slate-400'
+                ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/20'
+                : 'text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-950/20'
             }`}
           >
             {row.original.overtimeHours}h
+          </Badge>
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'categoryBreakdown',
+      id: 'categoryBreakdown',
+      header: () => {
+        return (
+          <div className="flex items-center justify-center">
+            <Button variant="ghost">
+              <List />
+              内訳
+            </Button>
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center">
+          <div className="flex flex-wrap gap-1">
+            {Object.entries(row.original.categoryBreakdown).map(
+              ([category, item]) =>
+                item.count > 0 && (
+                  <Badge key={category} variant="outline">
+                    {item.name}
+                    {item.count}
+                  </Badge>
+                ),
+            )}
           </div>
         </div>
       ),
