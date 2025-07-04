@@ -6,7 +6,7 @@ export interface AttendanceData {
   workHours?: number;
   overtimeHours?: number;
   isHoliday?: boolean;
-  leaveType?: 'Paid' | 'Sick' | 'Personal';
+  leaveType?: 'Paid' | 'Absence' | 'Special';
 }
 
 export type MonthlySubmissionStatus = 'None' | 'Draft' | 'Submitted' | 'Approved' | 'Rejected';

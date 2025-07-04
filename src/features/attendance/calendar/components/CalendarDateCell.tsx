@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Clock, AlertTriangle, CheckCircle, FileText, Coffee } from 'lucide-react';
 import { AttendanceData } from '../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
+import { ATTENDANCE_TYPES } from '../edit/const/attendanceConst';
 
 type CalendarDateCellProps = {
   day: Date;
@@ -107,7 +108,7 @@ const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: Cal
               <div className="flex items-center gap-1">
                 <Coffee className="h-3 w-3 text-green-500" />
                 <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-                  {attendanceData.leaveType === 'Paid' ? '有休' : attendanceData.leaveType === 'Sick' ? '病休' : '特休'}
+                  {ATTENDANCE_TYPES.find((type) => type.value === attendanceData.leaveType)?.label}
                 </span>
               </div>
             ) : (

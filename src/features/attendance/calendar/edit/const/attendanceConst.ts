@@ -1,19 +1,19 @@
 export const ATTENDANCE_TYPES: { value: string; label: string }[] = [
   {
-    value: 'WORK',
+    value: 'Work',
     label: '出勤',
   },
   {
-    value: 'PAID_LEAVE',
-    label: '有給休暇',
+    value: 'Paid',
+    label: '有給',
   },
   {
-    value: 'ABSENCE',
+    value: 'Absence',
     label: '欠勤',
   },
   {
-    value: 'SPECIAL',
-    label: '特別休暇',
+    value: 'Special',
+    label: '特別',
   },
 ];
 
