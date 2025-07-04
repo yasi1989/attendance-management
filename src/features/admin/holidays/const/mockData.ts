@@ -115,7 +115,7 @@ export const holidays: HolidayType[] = [
   },
   {
     id: 'q9r4v608-9s2u-0u3r-pv4q-7r8s9t0u1v26',
-    name: '振替休日（文化の日）',
+    name: '文化の日',
     holidayDate: new Date('2025-11-04T00:00:00Z'),
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     createdAt: new Date('2025-01-01T00:00:00Z'),
