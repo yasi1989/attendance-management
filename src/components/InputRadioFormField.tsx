@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 type InputRadioFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
   name: Path<T>;
-  label: string;
+  label?: string;
   required?: boolean;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
@@ -27,15 +27,21 @@ const InputRadioFormField = <T extends Record<string, unknown>>({
       rules={rules}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
-            {label} {required && <span className="text-destructive">*</span>}
-          </FormLabel>
+          {label && (
+            <FormLabel>
+              {label} {required && <span className="text-destructive">*</span>}
+            </FormLabel>
+          )}
           <FormControl>
-            <RadioGroup onValueChange={field.onChange} defaultValue={field.value as string} className="flex space-x-2">
+            <RadioGroup
+              onValueChange={field.onChange}
+              defaultValue={field.value as string}
+              className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4"
+            >
               {options.map((item) => (
                 <FormItem key={item.value} className="flex items-center space-x-1">
                   <RadioGroupItem value={item.value} />
-                  <FormLabel>{item.label}</FormLabel>
+                  <FormLabel className="text-sm">{item.label}</FormLabel>
                 </FormItem>
               ))}
             </RadioGroup>

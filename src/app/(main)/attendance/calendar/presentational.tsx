@@ -11,7 +11,8 @@ import WeekDayHeader from '@/features/attendance/calendar/components/WeekDayHead
 import CalendarDateCell from '@/features/attendance/calendar/components/CalendarDateCell';
 import CalendarFooter from '@/features/attendance/calendar/components/CalendarFooter';
 import { holidays } from '@/features/admin/holidays/const/mockData';
-import { formatDateToISOString } from '@/lib/date';
+import AttendanceDialog from '@/features/attendance/calendar/dialog/components/AttendanceDialog';
+import { isSameDay } from 'date-fns';
 
 interface CalendarPresentationalProps {
   initialData: AttendanceDataResponse;
@@ -89,17 +90,24 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
             <WeekDayHeader />
             {weeks.map((week) =>
               week.map((day) => {
-                const dayString = formatDateToISOString(day);
-                const attendanceData = initialData.attendances.find((data) => data.date === dayString);
-                const holidayInfo = holidays.find((holiday) => formatDateToISOString(holiday.holidayDate) === dayString);
+                const attendanceData = initialData.attendances.find((data) => isSameDay(data.date, day));
+                const holidayInfo = holidays.find((holiday) => isSameDay(holiday.holidayDate, day));
 
                 return (
-                  <CalendarDateCell
+                  <AttendanceDialog
                     key={day.toISOString()}
                     day={day}
-                    currentDate={currentDate}
                     attendanceData={attendanceData}
                     holidayInfo={holidayInfo}
+                    triggerContent={
+                      <CalendarDateCell
+                        key={day.toISOString()}
+                        day={day}
+                        currentDate={currentDate}
+                        attendanceData={attendanceData}
+                        holidayInfo={holidayInfo}
+                      />
+                    }
                   />
                 );
               }),

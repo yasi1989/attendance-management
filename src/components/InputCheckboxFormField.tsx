@@ -22,7 +22,7 @@ const InputCheckboxFormField = <T extends Record<string, unknown>>({
       name={name}
       rules={rules}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-center space-x-2">
+        <FormItem className="flex items-center space-x-2">
           <FormControl>
             <Checkbox
               onCheckedChange={(value) => {

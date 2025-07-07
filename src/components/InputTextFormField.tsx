@@ -1,6 +1,7 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 import { Textarea } from './ui/textarea';
+import { Label } from './ui/label';
 
 type InputTextFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
@@ -47,6 +48,11 @@ const InputTextFormField = <T extends Record<string, unknown>>({
               rows={row}
             />
           </FormControl>
+          {maxLength && (
+            <Label className="text-xs flex justify-end items-center">
+              {String(field.value || 0).length}/{maxLength}文字
+            </Label>
+          )}
           {description && <FormDescription className="text-xs">{description}</FormDescription>}
           <FormMessage />
         </FormItem>

@@ -1,4 +1,4 @@
-export const ATTENDANCE_TYPES: { value: string; label: string }[] = [
+export const ATTENDANCE_OPTIONS: { value: string; label: string }[] = [
   {
     value: 'Work',
     label: '出勤',
@@ -17,13 +17,13 @@ export const ATTENDANCE_TYPES: { value: string; label: string }[] = [
   },
 ];
 
-export const HALF_DAY_TYPES: { value: string; label: string }[] = [
+export const HALF_DAY_OPTIONS: { value: string; label: string }[] = [
   {
-    value: 'AM',
+    value: 'Am',
     label: '午前',
   },
   {
-    value: 'PM',
+    value: 'Pm',
     label: '午後',
   },
 ];

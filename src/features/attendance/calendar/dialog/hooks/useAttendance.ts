@@ -1,19 +1,28 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AttendanceFormSchema } from '@/features/attendance/calendar/edit/lib/formSchema';
 import { z } from 'zod';
 import { useTransition } from 'react';
-import { parseISOStringToDate } from '@/lib/date';
+import { AttendanceData } from '../../types/attendance';
+import { AttendanceFormSchema } from '../lib/formSchema';
 
-export const useAttendance = (dateString: string) => {
+export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof AttendanceFormSchema>>({
     resolver: zodResolver(AttendanceFormSchema),
-    defaultValues: {
-      date: parseISOStringToDate(dateString),
-      attendanceType: 'WORK',
+    defaultValues: attendanceData ? {
+      date: day,
+      attendanceType: attendanceData.attendanceType || 'Work',
+      isHalfDay: attendanceData.isHalfDay,
+      halfDayType: attendanceData.halfDayType,
+      check_in: attendanceData.check_in,
+      check_out: attendanceData.check_out,
+      rest: attendanceData.rest,
+      comment: attendanceData.comment,
+    } : {
+      date: day,
+      attendanceType: 'Work',
       isHalfDay: false,
-      halfDayType: 'AM',
+      halfDayType: 'Am',
       check_in: undefined,
       check_out: undefined,
       rest: undefined,
@@ -36,7 +45,7 @@ export const useAttendance = (dateString: string) => {
       {
         ...form.getValues(),
         isHalfDay: false,
-        halfDayType: 'AM',
+        halfDayType: 'Am',
         check_in: undefined,
         check_out: undefined,
         rest: undefined,
@@ -50,7 +59,7 @@ export const useAttendance = (dateString: string) => {
     form.reset(
       {
         ...form.getValues(),
-        halfDayType: 'AM',
+        halfDayType: 'Am',
         check_in: undefined,
         check_out: undefined,
         rest: undefined,
