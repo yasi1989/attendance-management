@@ -2,7 +2,7 @@
 
 import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
-import InputCalenderFormField from '@/components/InputCalenderFormField';
+import InputCalenderFormField from '@/components/InputCalendarFormField';
 import { Form } from '@/components/ui/form';
 import ExpenseFormFooter from './ExpenseFormFooter';
 import InputFileFormField from '@/components/InputFileFormField';

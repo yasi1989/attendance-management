@@ -2,7 +2,7 @@
 import { RouteFormItem } from './RouteFormItem';
 import { FormProvider } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
-import InputCalenderFormField from '@/components/InputCalenderFormField';
+import InputCalenderFormField from '@/components/InputCalendarFormField';
 import InputFormField from '@/components/InputFormField';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputFileFormField from '@/components/InputFileFormField';
