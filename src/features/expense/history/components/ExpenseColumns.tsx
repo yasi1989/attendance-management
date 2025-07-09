@@ -50,7 +50,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
       );
     },
     cell: ({ row }) => {
-      const expenseType = row.original.expenseType;
+      const expenseType = row.original.expenseCategoryId;
       const color = expenseTypeBadgeColor[expenseType];
       return (
         <div className="flex items-center justify-center">
