@@ -16,7 +16,7 @@ const ExpenseRequestEditPage = ({ expense }: ExpenseRequestEditPageProps) => {
         <CardDescription>交通費や一般経費の情報を編集するためのフォームです。</CardDescription>
       </CardHeader>
       <CardContent className="pt-2">
-        {expense?.expenseType === 'General' ? (
+        {expense?.expenseCategoryId === 'General' ? (
           <GeneralExpenseForm type={type} expense={expense} />
         ) : (
           <TransportationEditContainer type={type} expense={expense} />
