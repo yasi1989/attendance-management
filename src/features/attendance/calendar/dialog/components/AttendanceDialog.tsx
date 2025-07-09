@@ -54,7 +54,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
             </div>
           </DialogTrigger>
 
-          <DialogContent className="max-w-4xl max-h-[90vh] w-[95vw] sm:w-full p-0">
+          <DialogContent className="max-w-4xl sm:w-full p-0">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogHeader className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
@@ -93,9 +93,8 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
               </DialogHeader>
 
               <ScrollArea className="flex-1 px-4 sm:px-6">
-                <div className="space-y-6 py-4">
                   <Card>
-                    <CardHeader className="pb-3 space-y-4">
+                    <CardHeader className="space-y-4">
                       <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base space-y-2 sm:space-y-0">
                         <div className="flex items-center space-x-2">
                           <Clock className="w-4 h-4 text-gray-600 dark:text-gray-400" />
@@ -113,13 +112,10 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       {(isWeekend || holidayInfo) && (
                         <div className="bg-red-50 border border-red-200 rounded-lg p-3 dark:bg-red-900/20 dark:border-red-800">
                           <div className="flex items-start space-x-2">
-                            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
-                            <div className="text-sm text-red-800 dark:text-red-300">
-                              <span className="font-medium">休日のお知らせ</span>
-                              <p className="mt-1 text-red-700 dark:text-red-400">
-                                通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
-                              </p>
-                            </div>
+                            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 pt-1" />
+                            <p className="text-xs text-red-800 dark:text-red-300">
+                              通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
+                            </p>
                           </div>
                         </div>
                       )}
@@ -195,10 +191,9 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       />
                     </CardContent>
                   </Card>
-                </div>
               </ScrollArea>
 
-              <DialogFooter className="px-4 sm:px-6 py-4 border-t">
+              <DialogFooter className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full space-y-3 sm:space-y-0">
                   <Button
                     variant="outline"

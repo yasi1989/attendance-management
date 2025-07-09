@@ -1,5 +1,7 @@
-import { fetchHolidays } from "@/features/admin/holidays/services/fetchHolidays";
-import HolidaysForm from "@/features/admin/holidays/components/HolidaysForm";
+import { isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
+import { Suspense } from 'react';
+import HolidaysContainer from './container';
+import CommonSkelton from '@/components/CommonSkelton';
 
 type HolidayPageProps = {
   params: Promise<{
@@ -26,10 +28,12 @@ const HolidayPage = async ({ params, searchParams }: HolidayPageProps) => {
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
     year = Number.parseInt(resolvedSearchParams.year, 10);
   }
+  const validatedYear = isValidYear(year) ? year : now.getFullYear();
+  return (
+    <Suspense fallback={<CommonSkelton />}>
+      <HolidaysContainer year={validatedYear} />
+    </Suspense>
+  );
+};
 
-
-  const holidays = fetchHolidays();
-  return <HolidaysForm data={holidays} />;
-}
-
-export default HolidayPage
+export default HolidayPage;

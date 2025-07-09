@@ -1043,7 +1043,7 @@ export async function getAttendanceData(year: number, month: number): Promise<At
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     // 固定データの取得
-    const holidays = fetchHolidays();
+    const holidays = await fetchHolidays();
     const attendances = getFixedAttendanceData(year, month);
 
     // 月次申請状況の取得

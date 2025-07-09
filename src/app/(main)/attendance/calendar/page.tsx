@@ -40,11 +40,9 @@ const CalendarPage = async ({ params, searchParams }: CalendarPageProps) => {
   const validatedMonth = isValidMonth(month) ? month : now.getMonth() + 1;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <Suspense fallback={<CalendarSkeleton />}>
-        <CalendarContainer year={validatedYear} month={validatedMonth} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<CalendarSkeleton />}>
+      <CalendarContainer year={validatedYear} month={validatedMonth} />
+    </Suspense>
   );
 };
 
