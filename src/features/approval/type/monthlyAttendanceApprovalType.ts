@@ -1,17 +1,16 @@
+import { ApprovalStepType } from './approvalStepType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
-import { StatusType } from './statusType';
-import { ApprovalStepType } from './approvalStepType';
+import { StatusDataType } from './statusDataType';
 
-export type MonthlyAttendanceApprovalType = {
+export type MonthlyAttendanceApprovalItem = {
   id: string;
   userId: string;
   user: UserType & {
     department: DepartmentType;
   };
-  year: string;
-  month: string;
-  status: StatusType;
+  status: StatusDataType;
+  targetMonth: Date;
   totalWorkDays: number;
   actualWorkDays: number;
   totalWorkHours: number;
@@ -21,4 +20,8 @@ export type MonthlyAttendanceApprovalType = {
   submittedAt: string;
   issues: string[];
   approvalSteps: ApprovalStepType[];
+};
+
+export type AttendanceApprovalData = {
+  attendances: MonthlyAttendanceApprovalItem[];
 };

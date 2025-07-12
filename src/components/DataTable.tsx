@@ -103,7 +103,7 @@ export function DataTable<TData>({
       {enableFilter && columns.filter((column) => column.meta?.enableColumnFilter).length > 0 && (
         <div className="flex md:flex-row flex-col md:items-center items-start justify-between p-4 gap-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg">
+            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg shadow-sm">
               <Filter className="w-4 h-4 text-white" />
             </div>
             <div>

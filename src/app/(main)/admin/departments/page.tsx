@@ -1,9 +1,13 @@
-import DepartmentsForm from '@/features/admin/departments/components/DepartmentsForm';
-import { fetchDepartments } from '@/features/admin/departments/services/fetchDepartments';
+import { Suspense } from 'react';
+import DepartmentsContainer from './container';
+import CommonSkeleton from '@/components/CommonSkeleton';
 
 const DepartmentsPage = () => {
-  const { department, users } = fetchDepartments();
-  return <DepartmentsForm departments={department} users={users} />;
+  return (
+    <Suspense fallback={<CommonSkeleton />}>
+      <DepartmentsContainer />
+    </Suspense>
+  );
 };
 
 export default DepartmentsPage;

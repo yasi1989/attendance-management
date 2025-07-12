@@ -1,9 +1,13 @@
-import UsersForm from "@/features/system/users/components/UsersForm";
-import { fetchUsersData } from "@/features/system/users/services/fetchUsers";
+import { Suspense } from "react";
+import UsersContainer from "./container";
+import CommonSkeleton from "@/components/CommonSkeleton";
 
 const UsersPage = () => {
-  const { users, companies, roles } = fetchUsersData();
-  return <UsersForm users={users} companies={companies} roles={roles} />;
+  return (
+    <Suspense fallback={<CommonSkeleton />}>
+      <UsersContainer />
+    </Suspense>
+  )
 };
 
 export default UsersPage;

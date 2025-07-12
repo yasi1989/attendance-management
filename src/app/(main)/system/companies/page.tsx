@@ -1,9 +1,13 @@
-import CompaniesForm from '@/features/system/companies/components/CompaniesForm';
-import { fetchCompanies } from '@/features/system/companies/services/fetchCompanies';
+import { Suspense } from 'react';
+import CompaniesContainer from './container';
+import CommonSkeleton from '@/components/CommonSkeleton';
 
-const page = () => {
-  const companies = fetchCompanies();
-  return <CompaniesForm companies={companies} />;
+const CompaniesPage = () => {
+  return (
+    <Suspense fallback={<CommonSkeleton />}>
+      <CompaniesContainer />
+    </Suspense>
+  );
 };
 
-export default page;
+export default CompaniesPage;

@@ -32,16 +32,8 @@ export const data = {
       icon: CheckCircle,
       items: [
         {
-          title: '承認待ち',
-          url: '/approval/pending',
-        },
-        {
-          title: '承認済み',
-          url: '/approval/approved',
-        },
-        {
-          title: '差戻し',
-          url: '/approval/rejected',
+          title: '承認管理',
+          url: '/approval',
         },
       ],
     },

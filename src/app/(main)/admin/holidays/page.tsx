@@ -1,7 +1,7 @@
 import { isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
 import { Suspense } from 'react';
 import HolidaysContainer from './container';
-import CommonSkelton from '@/components/CommonSkelton';
+import CommonSkeleton from '@/components/CommonSkeleton';
 
 type HolidayPageProps = {
   params: Promise<{
@@ -30,7 +30,7 @@ const HolidayPage = async ({ params, searchParams }: HolidayPageProps) => {
   }
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
   return (
-    <Suspense fallback={<CommonSkelton />}>
+    <Suspense fallback={<CommonSkeleton />}>
       <HolidaysContainer year={validatedYear} />
     </Suspense>
   );

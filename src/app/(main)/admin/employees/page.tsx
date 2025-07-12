@@ -1,9 +1,13 @@
-import EmployeesForm from "@/features/admin/employees/components/EmployeesForm";
-import { fetchEmployees } from "@/features/admin/employees/services/fetchEmployees";
+import { Suspense } from 'react';
+import EmployeesContainer from './container';
+import CommonSkeleton from '@/components/CommonSkeleton';
 
 const EmployeesPage = () => {
-  const { users, departments, roles } = fetchEmployees();
-  return <EmployeesForm users={users} departments={departments} roles={roles} />;
+  return (
+    <Suspense fallback={<CommonSkeleton />}>
+      <EmployeesContainer />
+    </Suspense>
+  );
 };
 
-export default EmployeesPage
+export default EmployeesPage;

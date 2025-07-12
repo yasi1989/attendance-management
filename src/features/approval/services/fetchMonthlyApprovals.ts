@@ -1,15 +1,46 @@
 import { sampleMonthlyApprovals } from '../const/mockData';
-import { MonthlyApprovalsType } from '../type/monthlyApprovalsType';
 import { StatusType } from '@/types/statusType';
+import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
+import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 
 type FetchMonthlyApprovalsParams = {
+  year: number;
+  month: number;
   status: StatusType;
 };
 
-export const fetchMonthlyApprovals = ({ status }: FetchMonthlyApprovalsParams): MonthlyApprovalsType => {
+export type FetchMonthlyApprovalsResponse = {
+  attendances: MonthlyAttendanceApprovalItem[];
+  expenses: MonthlyExpenseApprovalItem[];
+  myCompanyDepartments: DepartmentType[];
+};
+
+const getFixedData = <T extends MonthlyAttendanceApprovalItem | MonthlyExpenseApprovalItem>(
+  data: T[],
+  year: number,
+  month: number,
+  status: StatusType,
+) => {
+  if (status === 'All') {
+    return data.filter((item) => filterByYearMonth(item.targetMonth, year, month));
+  }
+  return data.filter((item) => filterByYearMonth(item.targetMonth, year, month) && item.status.statusCode === status);
+};
+
+const filterByYearMonth = (targetDate: Date, year: number, month: number): boolean => {
+  return targetDate.getFullYear() === year && targetDate.getMonth() + 1 === month;
+};
+
+export const fetchMonthlyApprovals = async ({
+  year,
+  month,
+  status,
+}: FetchMonthlyApprovalsParams): Promise<FetchMonthlyApprovalsResponse> => {
+  await new Promise((resolve) => setTimeout(resolve, 300));
   return {
-    attendances: sampleMonthlyApprovals.attendances.filter((attendance) => attendance.status.statusCode === status),
-    expenses: sampleMonthlyApprovals.expenses.filter((expense) => expense.status.statusCode === status),
+    attendances: getFixedData(sampleMonthlyApprovals.attendances, year, month, status),
+    expenses: getFixedData(sampleMonthlyApprovals.expenses, year, month, status),
     myCompanyDepartments: sampleMonthlyApprovals.myCompanyDepartments,
   };
 };

@@ -1,22 +1,20 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { UserType } from '@/features/system/users/type/userType';
-import EmployeesListTable from './EmployeesListTable';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
+import EmployeesListTable from '@/features/admin/employees/components/EmployeesListTable';
+import CommonPageHeader from '@/components/CommonPageHeader';
 
-type EmployeesFormProps = {
+type EmployeesPresentationalProps = {
   users: UserType[];
   departments: DepartmentType[];
   roles: RoleType[];
 };
 
-const EmployeesForm = ({ users, departments, roles }: EmployeesFormProps) => {
+const EmployeesPresentational = ({ users, departments, roles }: EmployeesPresentationalProps) => {
   return (
     <Card className="shadow-lg border-0">
-      <CardHeader className="border-b bg-muted/20">
-        <CardTitle className="text-xl">社員情報管理</CardTitle>
-        <CardDescription>登録されている社員情報を確認・管理できます。</CardDescription>
-      </CardHeader>
+      <CommonPageHeader title="従業員管理" description="登録されている従業員を確認・管理できます" />
 
       <CardContent className="space-y-4">
         <div className="overflow-x-auto">
@@ -27,4 +25,4 @@ const EmployeesForm = ({ users, departments, roles }: EmployeesFormProps) => {
   );
 };
 
-export default EmployeesForm;
+export default EmployeesPresentational;

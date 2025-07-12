@@ -1,13 +1,13 @@
 import { User, Building2, Calendar, Clock, Timer, BarChart3, Settings, List } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { MonthlyAttendanceApprovalType } from '../type/monthlyAttendanceApprovalType';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { StatusType } from '@/types/statusType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
+import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 
 type AttendanceApprovalsColumnsProps = {
   status: StatusType;
@@ -15,7 +15,7 @@ type AttendanceApprovalsColumnsProps = {
 };
 
 export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsProps) => {
-  const checkboxColumns: ColumnDef<MonthlyAttendanceApprovalType>[] = [
+  const checkboxColumns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
     {
       id: 'select',
       header: ({ table }) => (
@@ -43,7 +43,7 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
     },
   ];
 
-  const columns: ColumnDef<MonthlyAttendanceApprovalType>[] = [
+  const columns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
     {
       accessorKey: 'name',
       id: 'name',
@@ -133,8 +133,8 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-slate-900 dark:text-slate-100">
-            <div className="text-slate-900 dark:text-slate-100">{row.original.month}月</div>
-            <div className="text-slate-500 dark:text-slate-400">{row.original.year}年</div>
+            <div className="text-slate-900 dark:text-slate-100">{row.original.targetMonth.getMonth() + 1}月</div>
+            <div className="text-slate-500 dark:text-slate-400">{row.original.targetMonth.getFullYear()}年</div>
           </div>
         </div>
       ),

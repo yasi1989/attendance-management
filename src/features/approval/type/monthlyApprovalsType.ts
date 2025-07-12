@@ -1,9 +1,9 @@
-import { MonthlyAttendanceApprovalType } from './monthlyAttendanceApprovalType';
-import { MonthlyExpenseApprovalType } from './monthlyExpenseApprovalType';
+import { MonthlyAttendanceApprovalItem } from './monthlyAttendanceApprovalType';
+import { MonthlyExpenseApprovalItem } from './monthlyExpenseApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 
 export type MonthlyApprovalsType = {
-  attendances: MonthlyAttendanceApprovalType[];
-  expenses: MonthlyExpenseApprovalType[];
+  attendances: MonthlyAttendanceApprovalItem[];
+  expenses: MonthlyExpenseApprovalItem[];
   myCompanyDepartments: DepartmentType[];
 };

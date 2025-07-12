@@ -3,7 +3,7 @@ import { AttendanceData, MonthlySubmissionStatus, AttendanceDataResponse } from 
 import { fetchHolidays } from '@/features/admin/holidays/services/fetchHolidays';
 
 export const FIXED_ATTENDANCE_DATA: Record<string, AttendanceData[]> = {
-  '2025-6': [
+  '2025-06': [
     { 
       date: new Date('2025-06-02'), 
       attendanceType: 'Work',
@@ -255,7 +255,7 @@ export const FIXED_ATTENDANCE_DATA: Record<string, AttendanceData[]> = {
     },
   ],
 
-  '2025-7': [
+  '2025-07': [
     { 
       date: new Date('2025-07-01'), 
       attendanceType: 'Work',
@@ -529,7 +529,7 @@ export const FIXED_ATTENDANCE_DATA: Record<string, AttendanceData[]> = {
     },
   ],
 
-  '2025-8': [
+  '2025-08': [
     { 
       date: new Date('2025-08-01'), 
       attendanceType: 'Work',
@@ -779,7 +779,7 @@ export const FIXED_ATTENDANCE_DATA: Record<string, AttendanceData[]> = {
     },
   ],
 
-  '2025-9': [
+  '2025-09': [
     { 
       date: new Date('2025-09-01'), 
       attendanceType: 'Work',
@@ -1024,14 +1024,16 @@ export const FIXED_ATTENDANCE_DATA: Record<string, AttendanceData[]> = {
 };
 
 const FIXED_MONTHLY_SUBMISSIONS: Record<string, MonthlySubmissionStatus> = {
-  '2025-6': 'Approved',
-  '2025-7': 'Submitted',
-  '2025-8': 'Rejected',
-  '2025-9': 'Draft',
+  '2025-06': 'Approved',
+  '2025-07': 'Submitted',
+  '2025-08': 'Rejected',
+  '2025-09': 'Draft',
 };
 
 function getFixedAttendanceData(year: number, month: number): AttendanceData[] {
-  const key = `${year}-${month}`;
+  const formattedYear = String(year).padStart(4, '0');
+  const formattedMonth = String(month).padStart(2, '0');
+  const key = `${formattedYear}-${formattedMonth}`;
   const baseData = FIXED_ATTENDANCE_DATA[key] || [];
 
   return baseData;
