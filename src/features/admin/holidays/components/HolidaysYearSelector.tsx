@@ -3,11 +3,11 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 
-type YearSelectorProps = {
+type HolidaysYearSelectorProps = {
   currentYear: number;
 };
 
-const YearSelector = ({ currentYear }: YearSelectorProps) => {
+const HolidaysYearSelector = ({ currentYear }: HolidaysYearSelectorProps) => {
   const router = useRouter();
   const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear - 5 + i);
 
@@ -31,4 +31,4 @@ const YearSelector = ({ currentYear }: YearSelectorProps) => {
   );
 };
 
-export default YearSelector;
+export default HolidaysYearSelector;

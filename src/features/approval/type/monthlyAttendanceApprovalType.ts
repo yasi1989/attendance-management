@@ -1,7 +1,7 @@
 import { ApprovalStepType } from './approvalStepType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
-import { StatusDataType } from './statusDataType';
+import { StatusType } from '@/types/statusType';
 
 export type MonthlyAttendanceApprovalItem = {
   id: string;
@@ -9,7 +9,7 @@ export type MonthlyAttendanceApprovalItem = {
   user: UserType & {
     department: DepartmentType;
   };
-  status: StatusDataType;
+  statusCode: StatusType;
   targetMonth: Date;
   totalWorkDays: number;
   actualWorkDays: number;

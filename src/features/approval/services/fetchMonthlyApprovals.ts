@@ -25,7 +25,7 @@ const getFixedData = <T extends MonthlyAttendanceApprovalItem | MonthlyExpenseAp
   if (status === 'All') {
     return data.filter((item) => filterByYearMonth(item.targetMonth, year, month));
   }
-  return data.filter((item) => filterByYearMonth(item.targetMonth, year, month) && item.status.statusCode === status);
+  return data.filter((item) => filterByYearMonth(item.targetMonth, year, month) && item.statusCode === status);
 };
 
 const filterByYearMonth = (targetDate: Date, year: number, month: number): boolean => {

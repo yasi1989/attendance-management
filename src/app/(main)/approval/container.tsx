@@ -13,10 +13,12 @@ const ApprovalContainer = async ({ year, month, status }: ApprovalContainerProps
 
   return (
     <ApprovalPresentational
-      status={status}
       attendances={attendances}
       expenses={expenses}
       myCompanyDepartments={myCompanyDepartments}
+      currentYear={year}
+      currentMonth={month}
+      currentStatus={status}
     />
   );
 };

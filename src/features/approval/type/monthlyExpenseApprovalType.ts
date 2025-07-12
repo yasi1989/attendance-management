@@ -1,7 +1,7 @@
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
-import { StatusDataType } from './statusDataType';
 import { ApprovalStepType } from './approvalStepType';
+import { StatusType } from '@/types/statusType';
 
 export type MonthlyExpenseApprovalItem = {
   id: string;
@@ -10,7 +10,7 @@ export type MonthlyExpenseApprovalItem = {
     department: DepartmentType;
   };
   targetMonth: Date;
-  status: StatusDataType;
+  statusCode: StatusType;
   totalAmount: number;
   itemCount: number;
   categoryBreakdown: Record<string, { name: string; amount: number; count: number }>;

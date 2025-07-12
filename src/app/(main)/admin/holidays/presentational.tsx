@@ -4,9 +4,9 @@ import { CalendarDays } from 'lucide-react';
 import { UpsertHolidayDialog } from '@/features/admin/holidays/components/UpsertHolidayDialog';
 import HolidaysListTable from '@/features/admin/holidays/components/HolidaysListTable';
 import { Label } from '@/components/ui/label';
-import YearSelector from '@/features/admin/holidays/components/YearSelector';
 import AddButton from '@/components/AddButton';
 import CommonPageHeader from '@/components/CommonPageHeader';
+import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysYearSelector';
 
 type HolidaysPresentationalProps = {
   data: HolidayType[];
@@ -32,7 +32,7 @@ const HolidaysPresentational = ({ data, currentYear }: HolidaysPresentationalPro
             <CalendarDays className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-200">表示年度:</Label>
           </div>
-          <YearSelector currentYear={currentYear} />
+          <HolidaysYearSelector currentYear={currentYear} />
           <div className="text-sm text-gray-600 dark:text-gray-300">{data.length}件の休日が登録されています</div>
         </div>
 

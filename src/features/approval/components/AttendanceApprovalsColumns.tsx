@@ -1,4 +1,4 @@
-import { User, Building2, Calendar, Clock, Timer, BarChart3, Settings, List } from 'lucide-react';
+import { User, Building2, Clock, Timer, BarChart3, Settings, List, Check } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,6 +8,7 @@ import { StatusType } from '@/types/statusType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
+import ApprovalStatusBadge from './ApprovalStatusBadge';
 
 type AttendanceApprovalsColumnsProps = {
   status: StatusType;
@@ -73,6 +74,25 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
       },
     },
     {
+      accessorKey: 'status',
+      id: 'status',
+      header: () => {
+        return (
+          <div className="flex items-center justify-center">
+            <Button variant="ghost">
+              <Check />
+              状態
+            </Button>
+          </div>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="text-center">
+          <ApprovalStatusBadge status={row.original.statusCode} />
+        </div>
+      ),
+    },
+    {
       accessorKey: 'departmentName',
       id: 'departmentName',
       header: () => (
@@ -116,31 +136,6 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
         return department
           ? department.departmentName.includes(filterValue) || departmentPath.includes(filterValue)
           : false;
-      },
-    },
-    {
-      accessorKey: 'month',
-      id: 'month',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <Calendar />月
-            </Button>
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="text-center">
-          <div className="text-slate-900 dark:text-slate-100">
-            <div className="text-slate-900 dark:text-slate-100">{row.original.targetMonth.getMonth() + 1}月</div>
-            <div className="text-slate-500 dark:text-slate-400">{row.original.targetMonth.getFullYear()}年</div>
-          </div>
-        </div>
-      ),
-      meta: {
-        enableColumnFilter: true,
-        japaneseLabel: '対象月',
       },
     },
     {

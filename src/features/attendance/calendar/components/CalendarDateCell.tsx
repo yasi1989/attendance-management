@@ -16,13 +16,13 @@ type CalendarDateCellProps = {
 const getStatusIndicator = (status: string) => {
   const iconClasses = 'h-3 w-3';
   switch (status) {
-    case 'approved':
+    case 'Approved':
       return <CheckCircle className={`${iconClasses} text-emerald-500`} />;
-    case 'pending':
+    case 'Pending':
       return <Clock className={`${iconClasses} text-amber-500`} />;
-    case 'rejected':
+    case 'Rejected':
       return <AlertTriangle className={`${iconClasses} text-red-500`} />;
-    case 'draft':
+    case 'Draft':
       return <FileText className={`${iconClasses} text-blue-500`} />;
     default:
       return null;

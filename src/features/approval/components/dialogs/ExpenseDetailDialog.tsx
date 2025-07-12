@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
 import { Button } from '@/components/ui/button';
-import { MonthlyExpenseApprovalType } from '../../type/monthlyExpenseApprovalType';
+import { MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
 import { IndividualApprovalType } from '../../lib/formSchema';
 import { Form } from '@/components/ui/form';
 import { useTransition } from 'react';
@@ -13,7 +13,7 @@ import ApprovalFooter from './ApprovalActions';
 
 type ExpenseDetailDialogProps = {
   status: StatusType;
-  expense: MonthlyExpenseApprovalType;
+  expense: MonthlyExpenseApprovalItem;
 };
 
 export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProps) => {
@@ -40,7 +40,7 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
             <DialogHeader>
               <DialogTitle className="text-lg sm:text-xl">
                 {expense.user.lastName}
-                {expense.user.firstName} ({expense.year}年{expense.month}月)
+                {expense.user.firstName} ({expense.targetMonth.getFullYear()}年{expense.targetMonth.getMonth() + 1}月)
               </DialogTitle>
             </DialogHeader>
             <div className="flex flex-col space-y-4 mt-4">

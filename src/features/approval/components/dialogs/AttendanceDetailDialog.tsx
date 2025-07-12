@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
 import { Button } from '@/components/ui/button';
-import { MonthlyAttendanceApprovalType } from '../../type/monthlyAttendanceApprovalType';
+import { MonthlyAttendanceApprovalItem } from '../../type/monthlyAttendanceApprovalType';
 import { IndividualApprovalType } from '../../lib/formSchema';
 import { Form } from '@/components/ui/form';
 import { useTransition } from 'react';
@@ -12,7 +12,7 @@ import ApprovalFooter from './ApprovalActions';
 
 type AttendanceDetailDialogProps = {
   status: StatusType;
-  attendance: MonthlyAttendanceApprovalType;
+  attendance: MonthlyAttendanceApprovalItem;
 };
 
 export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailDialogProps) => {
@@ -39,7 +39,8 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
             <DialogHeader>
               <DialogTitle className="text-lg sm:text-xl">
                 {attendance.user.lastName}
-                {attendance.user.firstName} ({attendance.year}年{attendance.month}月)
+                {attendance.user.firstName} ({attendance.targetMonth.getFullYear()}年
+                {attendance.targetMonth.getMonth() + 1}月)
               </DialogTitle>
             </DialogHeader>
             <div className="flex flex-col space-y-4 mt-4">
