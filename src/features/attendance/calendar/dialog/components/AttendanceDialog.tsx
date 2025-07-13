@@ -38,10 +38,8 @@ type AttendanceDialogProps = {
 
 const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: AttendanceDialogProps) => {
   const [open, setOpen] = useState(false);
-  const { form, onSubmit, resetAttendanceForm, resetHalfDayForm, attendanceType, isHalfDay } = useAttendance(
-    day,
-    attendanceData,
-  );
+  const { form, onSubmit, resetAttendanceForm, resetHalfDayForm, attendanceType, isHalfDay, resetToDefault } =
+    useAttendance(day, attendanceData);
   const isWeekend = isSaturday(day) || isSunday(day);
 
   return (
@@ -93,111 +91,111 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
               </DialogHeader>
 
               <ScrollArea className="flex-1 px-4 sm:px-6">
-                  <Card>
-                    <CardHeader className="space-y-4">
-                      <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base space-y-2 sm:space-y-0">
-                        <div className="flex items-center space-x-2">
-                          <Clock className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                          <Label className="text-base font-medium">勤務情報</Label>
+                <Card>
+                  <CardHeader className="space-y-4">
+                    <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base space-y-2 sm:space-y-0">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                        <Label className="text-base font-medium">勤務情報</Label>
+                      </div>
+                      {holidayInfo && (
+                        <Badge
+                          variant="outline"
+                          className="bg-red-50 text-red-700 border-red-200 px-2 py-1 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800"
+                        >
+                          {holidayInfo.name}
+                        </Badge>
+                      )}
+                    </CardTitle>
+                    {(isWeekend || holidayInfo) && (
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-3 dark:bg-red-900/20 dark:border-red-800">
+                        <div className="flex items-start space-x-2">
+                          <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 pt-1" />
+                          <p className="text-xs text-red-800 dark:text-red-300">
+                            通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
+                          </p>
                         </div>
-                        {holidayInfo && (
-                          <Badge
-                            variant="outline"
-                            className="bg-red-50 text-red-700 border-red-200 px-2 py-1 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800"
-                          >
-                            {holidayInfo.name}
-                          </Badge>
+                      </div>
+                    )}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <InputSelectFormField
+                      form={form}
+                      name="attendanceType"
+                      label="勤怠種別"
+                      options={ATTENDANCE_OPTIONS}
+                      onValueChange={resetAttendanceForm}
+                      required
+                    />
+
+                    {attendanceType === 'Paid' && (
+                      <div className="space-y-4">
+                        <InputCheckboxFormField
+                          form={form}
+                          name="isHalfDay"
+                          label="半休申請"
+                          onValueChange={resetHalfDayForm}
+                        />
+                        {isHalfDay && (
+                          <div className="ml-6">
+                            <InputRadioFormField form={form} name="halfDayType" options={HALF_DAY_OPTIONS} />
+                          </div>
                         )}
-                      </CardTitle>
-                      {(isWeekend || holidayInfo) && (
-                        <div className="bg-red-50 border border-red-200 rounded-lg p-3 dark:bg-red-900/20 dark:border-red-800">
-                          <div className="flex items-start space-x-2">
-                            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 pt-1" />
-                            <p className="text-xs text-red-800 dark:text-red-300">
-                              通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
-                            </p>
+                      </div>
+                    )}
+
+                    {(attendanceType === 'Work' || isHalfDay) && (
+                      <div className="space-y-4">
+                        <Separator />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div className="space-y-2">
+                            <InputTimeFormField
+                              form={form}
+                              name="check_in"
+                              label="出勤時間"
+                              placeholder="出勤時間"
+                              required
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <InputTimeFormField
+                              form={form}
+                              name="check_out"
+                              label="退勤時間"
+                              placeholder="退勤時間"
+                              required
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <InputTimeFormField
+                              form={form}
+                              name="rest"
+                              label="休憩時間"
+                              placeholder="休憩時間"
+                              required
+                            />
                           </div>
                         </div>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <InputSelectFormField
-                        form={form}
-                        name="attendanceType"
-                        label="勤怠種別"
-                        options={ATTENDANCE_OPTIONS}
-                        onValueChange={resetAttendanceForm}
-                        required
-                      />
+                      </div>
+                    )}
 
-                      {attendanceType === 'Paid' && (
-                        <div className="space-y-4">
-                          <InputCheckboxFormField
-                            form={form}
-                            name="isHalfDay"
-                            label="半休申請"
-                            onValueChange={resetHalfDayForm}
-                          />
-                          {isHalfDay && (
-                            <div className="ml-6">
-                              <InputRadioFormField form={form} name="halfDayType" options={HALF_DAY_OPTIONS} />
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {(attendanceType === 'Work' || isHalfDay) && (
-                        <div className="space-y-4">
-                          <Separator />
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="space-y-2">
-                              <InputTimeFormField
-                                form={form}
-                                name="check_in"
-                                label="出勤時間"
-                                placeholder="出勤時間"
-                                required
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <InputTimeFormField
-                                form={form}
-                                name="check_out"
-                                label="退勤時間"
-                                placeholder="退勤時間"
-                                required
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <InputTimeFormField
-                                form={form}
-                                name="rest"
-                                label="休憩時間"
-                                placeholder="休憩時間"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      <InputTextFormField
-                        form={form}
-                        name="comment"
-                        label="備考"
-                        placeholder="申請に関する補足事項があれば入力してください（任意）"
-                        className="resize-none"
-                        maxLength={500}
-                      />
-                    </CardContent>
-                  </Card>
+                    <InputTextFormField
+                      form={form}
+                      name="comment"
+                      label="備考"
+                      placeholder="申請に関する補足事項があれば入力してください（任意）"
+                      className="resize-none"
+                      maxLength={500}
+                    />
+                  </CardContent>
+                </Card>
               </ScrollArea>
 
               <DialogFooter className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full space-y-3 sm:space-y-0">
                   <Button
                     variant="outline"
-                    onClick={() => form.reset()}
+                    onClick={resetToDefault}
                     className="border-gray-300 dark:border-gray-600 w-full sm:w-auto"
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />

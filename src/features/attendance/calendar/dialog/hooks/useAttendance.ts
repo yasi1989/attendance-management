@@ -6,28 +6,32 @@ import { AttendanceData } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 
 export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
-  const [isSubmitted, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
+  const defaultValues = attendanceData
+    ? {
+        date: day,
+        attendanceType: attendanceData.attendanceType || 'Work',
+        isHalfDay: attendanceData.isHalfDay,
+        halfDayType: attendanceData.halfDayType,
+        check_in: attendanceData.check_in,
+        check_out: attendanceData.check_out,
+        rest: attendanceData.rest,
+        comment: attendanceData.comment,
+      }
+    : {
+        date: day,
+        attendanceType: 'Work',
+        isHalfDay: false,
+        halfDayType: 'Am',
+        check_in: undefined,
+        check_out: undefined,
+        rest: undefined,
+        comment: '',
+      };
+
   const form = useForm<z.infer<typeof AttendanceFormSchema>>({
     resolver: zodResolver(AttendanceFormSchema),
-    defaultValues: attendanceData ? {
-      date: day,
-      attendanceType: attendanceData.attendanceType || 'Work',
-      isHalfDay: attendanceData.isHalfDay,
-      halfDayType: attendanceData.halfDayType,
-      check_in: attendanceData.check_in,
-      check_out: attendanceData.check_out,
-      rest: attendanceData.rest,
-      comment: attendanceData.comment,
-    } : {
-      date: day,
-      attendanceType: 'Work',
-      isHalfDay: false,
-      halfDayType: 'Am',
-      check_in: undefined,
-      check_out: undefined,
-      rest: undefined,
-      comment: '',
-    },
+    defaultValues,
     mode: 'onChange',
   });
 
@@ -40,18 +44,25 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     });
   };
 
+  const resetTimeFields = () => {
+    const resetFields = {
+      check_in: undefined,
+      check_out: undefined,
+      rest: undefined,
+      comment: '',
+    };
+    return resetFields;
+  };
+
   const resetAttendanceForm = () => {
     form.reset(
       {
         ...form.getValues(),
         isHalfDay: false,
         halfDayType: 'Am',
-        check_in: undefined,
-        check_out: undefined,
-        rest: undefined,
-        comment: '',
+        ...resetTimeFields(),
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: false },
     );
   };
 
@@ -60,14 +71,29 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
       {
         ...form.getValues(),
         halfDayType: 'Am',
-        check_in: undefined,
-        check_out: undefined,
-        rest: undefined,
-        comment: '',
+        ...resetTimeFields(),
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: false },
     );
   };
 
-  return { form, onSubmit, attendanceType, isHalfDay, resetAttendanceForm, resetHalfDayForm, isSubmitted };
+  const resetToDefault = () => {
+    form.clearErrors();
+    form.reset(defaultValues);
+
+    requestAnimationFrame(() => {
+      form.clearErrors();
+    });
+  };
+
+  return {
+    form,
+    onSubmit,
+    attendanceType,
+    isHalfDay,
+    resetAttendanceForm,
+    resetHalfDayForm,
+    resetToDefault,
+    isPending,
+  };
 };
