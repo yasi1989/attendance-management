@@ -12,7 +12,7 @@ type UpsertCompanyDialogProps = {
 };
 
 export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialogProps) {
-  const { form, onSubmit, isPending } = useCompany({ type, data });
+  const { form, onSubmit, isSubmitted } = useCompany({ type, data });
   const dialogConfig = {
     title: type === 'add' ? '会社登録' : '会社編集',
     description: `会社情報を${type === 'add' ? '登録' : '更新'}してください。`,
@@ -30,7 +30,7 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isSubmitted={isSubmitted}
       trigger={children}
       formContent={formContent}
     />

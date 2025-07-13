@@ -33,7 +33,7 @@ export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
         return (
           <div className="flex items-center justify-center">
             <Checkbox
-              disabled={status !== 'Pending'}
+              disabled={status !== 'Submitted'}
               checked={row.getIsSelected()}
               onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"

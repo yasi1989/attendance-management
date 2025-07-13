@@ -9,7 +9,7 @@ type UseEmployeeProps = {
 };
 
 export const useEmployee = ({ user }: UseEmployeeProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof EmployeeSchema>>({
     defaultValues: {
       id: user.id,
@@ -26,5 +26,5 @@ export const useEmployee = ({ user }: UseEmployeeProps) => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

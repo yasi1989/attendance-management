@@ -1,5 +1,5 @@
 import { CardFooter } from '@/components/ui/card';
-import { CheckCircle, Clock, AlertTriangle, FileText, Coffee } from 'lucide-react';
+import { CheckCircle, Clock, AlertTriangle, Coffee, FileText } from 'lucide-react';
 
 const CalendarFooter = () => {
   const legendItems = [

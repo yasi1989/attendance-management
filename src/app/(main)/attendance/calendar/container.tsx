@@ -7,8 +7,8 @@ type CalendarDataLoaderProps = {
 };
 
 const CalendarContainer = async ({ year, month }: CalendarDataLoaderProps) => {
-  const attendanceData = await getAttendanceData(year, month);
-  return <CalendarPresentational initialData={attendanceData} initialYear={year} initialMonth={month} />;
+  const monthlyAttendance = await getAttendanceData(year, month);
+  return <CalendarPresentational initialData={monthlyAttendance} initialYear={year} initialMonth={month} />;
 };
 
 export default CalendarContainer;

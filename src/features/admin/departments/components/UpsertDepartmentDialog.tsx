@@ -22,7 +22,7 @@ export function UpsertDepartmentDialog({
   users,
   children,
 }: UpsertDepartmentDialogProps) {
-  const { form, onSubmit, isPending } = useDepartments({ type, userDepartment });
+  const { form, onSubmit, isSubmitted } = useDepartments({ type, userDepartment });
   const dialogConfig: DialogConfig = {
     title: type === 'add' ? '部署・役職登録' : '部署・役職編集',
     description: `部署・役職情報を${type === 'add' ? '登録' : '更新'}してください。`,
@@ -51,7 +51,7 @@ export function UpsertDepartmentDialog({
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isSubmitted={isSubmitted}
       trigger={children}
       formContent={formContent}
     />

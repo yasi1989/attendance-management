@@ -11,7 +11,7 @@ type UseCompanyProps = {
 };
 
 export const useCompany = ({ type, data }: UseCompanyProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof CompanySchema>>({
     defaultValues:
       type === 'edit' && data
@@ -30,5 +30,5 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

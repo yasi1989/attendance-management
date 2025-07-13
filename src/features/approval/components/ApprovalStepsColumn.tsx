@@ -104,7 +104,7 @@ export const columns: ColumnDef<ApprovalStepType>[] = [
 const statusBadge = (status: string, statusName: string) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Pending':
+      case 'Submitted':
         return 'amber';
       case 'Approved':
         return 'green';

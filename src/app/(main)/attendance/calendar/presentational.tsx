@@ -10,7 +10,6 @@ import CalendarHeader from '@/features/attendance/calendar/components/CalendarHe
 import WeekDayHeader from '@/features/attendance/calendar/components/WeekDayHeader';
 import CalendarDateCell from '@/features/attendance/calendar/components/CalendarDateCell';
 import CalendarFooter from '@/features/attendance/calendar/components/CalendarFooter';
-import { holidays } from '@/features/admin/holidays/const/mockData';
 import AttendanceDialog from '@/features/attendance/calendar/dialog/components/AttendanceDialog';
 import { isSameDay } from 'date-fns';
 
@@ -73,6 +72,8 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
     navigateToMonth(today.getFullYear(), today.getMonth() + 1);
   }, [navigateToMonth]);
 
+  const monthlyStatus = initialData.monthlyAttendance.monthlyStatus || 'None';
+
   return (
     <div className="relative">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20 dark:from-blue-950/10 dark:to-purple-950/10 rounded-3xl -z-10" />
@@ -83,28 +84,31 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
           previousMonth={previousMonth}
           nextMonth={nextMonth}
           goToToday={goToToday}
-          monthlyStatus={initialData.monthlyStatus}
+          monthlyStatus={monthlyStatus}
+          canSubmit={initialData.monthlyAttendance.canSubmit}
         />
         <CardContent className="p-0">
           <div className="grid grid-cols-7 bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-800/30 dark:to-gray-900">
             <WeekDayHeader />
             {weeks.map((week) =>
               week.map((day) => {
-                const attendanceData = initialData.attendances.find((data) => isSameDay(data.date, day));
-                const holidayInfo = holidays.find((holiday) => isSameDay(holiday.holidayDate, day));
+                const targetDate = initialData.monthlyAttendance?.attendanceData?.find((attendance) =>
+                  isSameDay(attendance.date, day),
+                );
+                const holidayInfo = initialData.holidays?.find((holiday) => isSameDay(holiday.holidayDate, day));
 
                 return (
                   <AttendanceDialog
                     key={day.toISOString()}
                     day={day}
-                    attendanceData={attendanceData}
+                    attendanceData={targetDate}
                     holidayInfo={holidayInfo}
                     triggerContent={
                       <CalendarDateCell
                         key={day.toISOString()}
                         day={day}
                         currentDate={currentDate}
-                        attendanceData={attendanceData}
+                        attendanceData={targetDate}
                         holidayInfo={holidayInfo}
                       />
                     }

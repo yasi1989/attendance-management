@@ -25,7 +25,7 @@ type CommonDialogProps<TFormData extends FieldValues> = {
   config: DialogConfig;
   form: UseFormReturn<TFormData>;
   onSubmit: (data: TFormData) => void;
-  isPending?: boolean;
+  isSubmitted?: boolean;
   trigger: React.ReactNode;
   formContent: React.ReactNode;
 };
@@ -34,7 +34,7 @@ const CommonDialog = <TFormData extends FieldValues>({
   config,
   form,
   onSubmit,
-  isPending,
+  isSubmitted,
   trigger,
   formContent,
 }: CommonDialogProps<TFormData>) => {
@@ -57,7 +57,7 @@ const CommonDialog = <TFormData extends FieldValues>({
                   </Button>
                 </DialogClose>
               )}
-              <Button type="submit" disabled={isPending}>
+              <Button type="submit" disabled={isSubmitted}>
                 {config.submitButtonLabel}
               </Button>
             </DialogFooter>

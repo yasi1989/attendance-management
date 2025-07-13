@@ -11,7 +11,7 @@ type UseDepartmentsProps = {
 };
 
 export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof DepartmentSchema>>({
     defaultValues:
       type === 'edit' && userDepartment
@@ -32,5 +32,5 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

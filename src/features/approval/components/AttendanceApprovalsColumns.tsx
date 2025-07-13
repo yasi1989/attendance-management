@@ -18,29 +18,25 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
     {
       id: 'select',
       header: ({ table }) => {
-        // Pendingのみの行を取得
-        const pendingRows = table.getRowModel().rows.filter(row => 
-          row.original.statusCode === 'Pending'
+        const SubmittedRows = table.getRowModel().rows.filter(row => 
+          row.original.statusCode === 'Submitted'
         );
         
-        // Pendingの行がすべて選択されているかチェック
-        const allPendingSelected = pendingRows.length > 0 && 
-          pendingRows.every(row => row.getIsSelected());
+        const allSubmittedSelected = SubmittedRows.length > 0 && 
+          SubmittedRows.every(row => row.getIsSelected());
         
-        // Pendingの行の一部が選択されているかチェック
-        const somePendingSelected = pendingRows.some(row => row.getIsSelected());
+        const someSubmittedSelected = SubmittedRows.some(row => row.getIsSelected());
         
         return (
           <div className="flex items-center justify-center">
             <Checkbox
-              checked={allPendingSelected || (somePendingSelected && 'indeterminate')}
+              checked={allSubmittedSelected || (someSubmittedSelected && 'indeterminate')}
               onCheckedChange={(value) => {
-                // Pendingの行のみを一括選択/解除
-                pendingRows.forEach(row => {
+                SubmittedRows.forEach(row => {
                   row.toggleSelected(!!value);
                 });
               }}
-              aria-label="Select all pending"
+              aria-label="Select all Submitted"
               className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
             />
           </div>
@@ -51,7 +47,7 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
         return (
           <div className="flex items-center justify-center">
             <Checkbox
-              disabled={status !== 'Pending'}
+              disabled={status !== 'Submitted'}
               checked={row.getIsSelected()}
               onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"

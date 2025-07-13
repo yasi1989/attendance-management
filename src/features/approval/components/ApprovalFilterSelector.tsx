@@ -18,7 +18,7 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const statusOptions = [
     { value: 'All', label: 'すべて' },
-    { value: 'Pending', label: '承認待ち' },
+    { value: 'Submitted', label: '承認待ち' },
     { value: 'Approved', label: '承認済み' },
     { value: 'Rejected', label: '却下' },
   ];

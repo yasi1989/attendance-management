@@ -19,7 +19,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 2500,
     description: 'クライアントとの寿司レストランでの夕食',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/002.pdf',
   },
   {
@@ -29,7 +29,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'Transport',
     amount: 3000,
     description: 'クライアント会議へのタクシー代',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/006.pdf',
   },
   {
@@ -49,7 +49,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -59,7 +59,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -69,7 +69,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -79,7 +79,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -89,7 +89,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -99,7 +99,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -109,7 +109,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
   {
@@ -119,7 +119,7 @@ export const expenseData: ExpenseType[] = [
     expenseCategoryId: 'General',
     amount: 1800,
     description: 'チームのランチミーティング',
-    statusId: 'Pending',
+    statusId: 'Submitted',
     receiptUrl: 'https://example.com/receipts/008.pdf',
   },
 ];

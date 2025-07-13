@@ -12,7 +12,7 @@ type UseTransportationExpenseFormProps = {
 };
 
 export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTransportationExpenseFormProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof TransportationExpenseFormSchema>>({
     resolver: zodResolver(TransportationExpenseFormSchema),
     defaultValues:
@@ -66,5 +66,5 @@ export const useTransportationExpenseForm = ({ type, expense, routeInfo }: UseTr
     return () => watchRoutes.unsubscribe();
   }, [form]);
 
-  return { form, onSubmit, isPending, fields, append, remove };
+  return { form, onSubmit, isSubmitted, fields, append, remove };
 };

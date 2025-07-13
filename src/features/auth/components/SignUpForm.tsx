@@ -4,7 +4,7 @@ import InputFormField from '@/components/InputFormField';
 import AuthButton from './AuthButton';
 
 const SignUpForm = () => {
-  const { form, onSubmit, isPending } = useSignUpForm();
+  const { form, onSubmit, isSubmitted } = useSignUpForm();
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)} noValidate>
@@ -18,7 +18,7 @@ const SignUpForm = () => {
           type="password"
           maxLength={20}
         />
-        <AuthButton label="Sign Up" isPending={isPending} />
+        <AuthButton label="Sign Up" isSubmitted={isSubmitted} />
       </form>
     </Form>
   );

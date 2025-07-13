@@ -16,7 +16,7 @@ type AttendanceDetailDialogProps = {
 };
 
 export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailDialogProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const { form, handleIndividualApproval } = useIndividualApproval(
     attendance.id,
     async (approvalData: IndividualApprovalType) => {
@@ -93,11 +93,11 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
                 </div>
               )}
 
-              {status === 'Pending' && (
+              {status === 'Submitted' && (
                 <ApprovalFooter
                   form={form}
                   handleIndividualApproval={(status) => handleIndividualApproval(status)}
-                  isPending={isPending}
+                  isSubmitted={isSubmitted}
                 />
               )}
 

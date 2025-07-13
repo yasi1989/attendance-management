@@ -189,7 +189,7 @@ export const expenseColumns: ColumnDef<ExpenseType>[] = [
 ];
 
 const statusBadgeColor: Record<string, string> = {
-  Pending: 'bg-blue-100 text-blue-700 border border-blue-200',
+  Submitted: 'bg-blue-100 text-blue-700 border border-blue-200',
   Approved: 'bg-green-100 text-green-700 border border-green-200',
   Rejected: 'bg-red-100 text-red-700 border border-red-200',
 };

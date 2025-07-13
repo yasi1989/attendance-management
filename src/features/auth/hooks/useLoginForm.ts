@@ -5,7 +5,7 @@ import type { z } from 'zod';
 import { useTransition } from 'react';
 
 export const useSignInForm = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -18,11 +18,11 @@ export const useSignInForm = () => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };
 
 export const useSignUpForm = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -36,5 +36,5 @@ export const useSignUpForm = () => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

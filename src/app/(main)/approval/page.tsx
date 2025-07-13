@@ -15,7 +15,7 @@ type ApprovalPageProps = {
 };
 
 const isValidStatus = (status: string): status is StatusType => {
-  return ['Pending', 'Approved', 'Rejected', 'All'].includes(status);
+  return ['Submitted', 'Approved', 'Rejected', 'All'].includes(status);
 };
 
 const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
@@ -31,11 +31,11 @@ const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
   if (resolvedParams.params) {
     year = resolvedParams.params[0] ? Number.parseInt(resolvedParams.params[0], 10) : now.getFullYear();
     month = resolvedParams.params[1] ? Number.parseInt(resolvedParams.params[1], 10) : now.getMonth() + 1;
-    status = resolvedParams.params[2] ? resolvedParams.params[2] : 'Pending';
+    status = resolvedParams.params[2] ? resolvedParams.params[2] : 'Submitted';
   } else {
     year = resolvedParams.year ? Number.parseInt(resolvedParams.year, 10) : now.getFullYear();
     month = resolvedParams.month ? Number.parseInt(resolvedParams.month, 10) : now.getMonth() + 1;
-    status = resolvedParams.status ? resolvedParams.status : 'Pending';
+    status = resolvedParams.status ? resolvedParams.status : 'Submitted';
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
@@ -50,7 +50,7 @@ const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
 
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
   const validatedMonth = isValidMonth(month) ? month : now.getMonth() + 1;
-  const validatedStatus = isValidStatus(status) ? status : 'Pending';
+  const validatedStatus = isValidStatus(status) ? status : 'Submitted';
 
   return (
     <Suspense fallback={<CommonSkeleton />}>

@@ -11,7 +11,7 @@ type UseHolidayProps = {
 };
 
 export const useHoliday = ({ type, data }: UseHolidayProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof HolidaySchema>>({
     defaultValues:
       type === 'edit' && data
@@ -30,5 +30,5 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

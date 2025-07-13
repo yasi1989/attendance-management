@@ -10,7 +10,7 @@ type UseUsersProps = {
 };
 
 export const useUsers = ({ user }: UseUsersProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof UserSchema>>({
     defaultValues:
       user
@@ -37,5 +37,5 @@ export const useUsers = ({ user }: UseUsersProps) => {
       console.log(data);
     });
   };
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

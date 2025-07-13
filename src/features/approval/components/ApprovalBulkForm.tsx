@@ -11,7 +11,7 @@ type ApprovalBulkFormProps = {
 };
 
 const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const { form, handleBatchApproval } = useBatchApproval(async (data: BatchApprovalType) => {
     startTransition(async () => {
       console.log(data);
@@ -43,10 +43,10 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             type="button"
             size="lg"
             className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-            disabled={isPending}
+            disabled={isSubmitted}
             onClick={() => handleBatchApproval('Approve', selectedIds)}
           >
-            {isPending ? (
+            {isSubmitted ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
             ) : (
               <CheckCircle className="h-5 w-5 mr-2" />
@@ -59,10 +59,10 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             variant="outline"
             size="lg"
             className="flex-1 text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200"
-            disabled={isPending}
+            disabled={isSubmitted}
             onClick={() => handleBatchApproval('Reject', selectedIds)}
           >
-            {isPending ? (
+            {isSubmitted ? (
               <div className="animate-spin h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full mr-2" />
             ) : (
               <XCircle className="h-5 w-5 mr-2" />

@@ -8,10 +8,10 @@ import { ActionStatusType } from '../../type/actionStatusType';
 interface ApprovalFooterProps {
   form: UseFormReturn<ApprovalCommentType>;
   handleIndividualApproval: (approvalStatus: ActionStatusType) => void;
-  isPending: boolean;
+  isSubmitted: boolean;
 }
 
-const ApprovalFooter = ({ form, handleIndividualApproval, isPending }: ApprovalFooterProps) => {
+const ApprovalFooter = ({ form, handleIndividualApproval, isSubmitted }: ApprovalFooterProps) => {
   return (
     <div className="flex flex-col space-y-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
       <InputTextFormField
@@ -28,7 +28,7 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isPending }: ApprovalF
           type="button"
           onClick={() => handleIndividualApproval('Approve')}
           className="bg-green-600 hover:bg-green-700 flex-1 md:flex-none"
-          disabled={isPending}
+          disabled={isSubmitted}
         >
           <CheckCircle className="h-4 w-4 mr-1" />
           承認する
@@ -38,7 +38,7 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isPending }: ApprovalF
           variant="outline"
           onClick={() => handleIndividualApproval('Reject')}
           className="text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex-1 md:flex-none"
-          disabled={isPending}
+          disabled={isSubmitted}
         >
           <XCircle className="h-4 w-4 mr-1" />
           却下する

@@ -17,7 +17,7 @@ type UpsertEmployeeDialogProps = {
 };
 
 export function UpdateEmployeeDialog({ user, departments, roles, children }: UpsertEmployeeDialogProps) {
-  const { form, onSubmit, isPending } = useEmployee({ user });
+  const { form, onSubmit, isSubmitted } = useEmployee({ user });
   const dialogConfig: DialogConfig = {
     title: '社員編集',
     description: '社員情報を更新してください。',
@@ -48,7 +48,7 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isSubmitted={isSubmitted}
       trigger={children}
       formContent={formContent}
     />

@@ -6,7 +6,7 @@ import { AttendanceData } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 
 export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof AttendanceFormSchema>>({
     resolver: zodResolver(AttendanceFormSchema),
     defaultValues: attendanceData ? {
@@ -69,5 +69,5 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     );
   };
 
-  return { form, onSubmit, attendanceType, isHalfDay, resetAttendanceForm, resetHalfDayForm, isPending };
+  return { form, onSubmit, attendanceType, isHalfDay, resetAttendanceForm, resetHalfDayForm, isSubmitted };
 };

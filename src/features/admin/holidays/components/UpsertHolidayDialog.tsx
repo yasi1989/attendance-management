@@ -13,7 +13,7 @@ type UpsertHolidayDialogProps = {
 };
 
 export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialogProps) {
-  const { form, onSubmit, isPending } = useHoliday({ type, data });
+  const { form, onSubmit, isSubmitted } = useHoliday({ type, data });
   const dialogConfig: DialogConfig = {
     title: type === 'add' ? '休日登録' : '休日編集',
     description: `休日情報を${type === 'add' ? '登録' : '更新'}してください。`,
@@ -31,7 +31,7 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isSubmitted={isSubmitted}
       trigger={children}
       formContent={formContent}
     />

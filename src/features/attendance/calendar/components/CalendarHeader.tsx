@@ -1,6 +1,16 @@
 import { CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, ChevronLeft, ChevronRight, Send, CheckCircle2, AlertCircle, Clock, FileText } from 'lucide-react';
+import {
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  FileQuestion,
+  FileText,
+} from 'lucide-react';
 import { MONTHS_JP } from '../const/calendarConst';
 import {
   Dialog,
@@ -22,6 +32,7 @@ interface CalendarHeaderProps {
   nextMonth: () => void;
   goToToday: () => void;
   monthlyStatus: MonthlySubmissionStatus;
+  canSubmit: boolean;
 }
 
 const formatMonth = (date: Date) => {
@@ -32,24 +43,26 @@ const getStatusBadge = (status: MonthlySubmissionStatus) => {
   const baseClasses = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium border';
 
   switch (status) {
-    case 'None':
+    case 'None': {
       return (
         <div
-          className={`${baseClasses} bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700`}
+          className={`${baseClasses} bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-800/20 dark:text-indigo-400 dark:border-indigo-700`}
         >
-          <FileText className="h-4 w-4" />
-          未入力
+          <FileQuestion className="h-4 w-4" />
+          未申請
         </div>
       );
-    case 'Draft':
+    }
+    case 'Draft': {
       return (
         <div
-          className={`${baseClasses} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800`}
+          className={`${baseClasses} bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-800/20 dark:text-blue-400 dark:border-blue-700`}
         >
           <FileText className="h-4 w-4" />
           下書き
         </div>
       );
+    }
     case 'Submitted':
       return (
         <div
@@ -80,7 +93,14 @@ const getStatusBadge = (status: MonthlySubmissionStatus) => {
   }
 };
 
-const CalendarHeader = ({ currentDate, previousMonth, nextMonth, goToToday, monthlyStatus }: CalendarHeaderProps) => {
+const CalendarHeader = ({
+  currentDate,
+  previousMonth,
+  nextMonth,
+  goToToday,
+  monthlyStatus,
+  canSubmit,
+}: CalendarHeaderProps) => {
   const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
   const [comment, setComment] = useState('');
 
@@ -94,7 +114,8 @@ const CalendarHeader = ({ currentDate, previousMonth, nextMonth, goToToday, mont
     setComment('');
   };
 
-  const canSubmit = monthlyStatus === 'Draft' || monthlyStatus === 'Rejected';
+  const canSubmitMonthly =
+    (monthlyStatus === 'Rejected' || monthlyStatus === 'None' || monthlyStatus === 'Draft') && canSubmit;
 
   return (
     <CardHeader className="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 px-6 py-6">
@@ -115,57 +136,56 @@ const CalendarHeader = ({ currentDate, previousMonth, nextMonth, goToToday, mont
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {canSubmit && (
-            <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
-              <DialogTrigger asChild>
+          <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                size="lg"
+                disabled={!canSubmitMonthly}
+                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-sm font-medium transition-colors duration-200"
+              >
+                <Send className="h-4 w-4 mr-2" />
+                月次申請
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-lg mx-4">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  月次勤怠申請
+                </DialogTitle>
+                <DialogDescription className="text-gray-600 dark:text-gray-400">
+                  {formatMonth(currentDate)}の勤怠データを申請します。申請後は承認されるまで編集できません。
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-6 py-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">申請コメント（任意）</Label>
+                  <Textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="申請に関するコメントや補足事項があれば入力してください"
+                    className="resize-none bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                    rows={4}
+                  />
+                </div>
+              </div>
+              <DialogFooter className="gap-3">
                 <Button
-                  size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-sm font-medium transition-colors duration-200"
+                  variant="outline"
+                  onClick={() => setIsSubmitDialogOpen(false)}
+                  className="border-gray-300 dark:border-gray-600"
+                >
+                  キャンセル
+                </Button>
+                <Button
+                  onClick={handleSubmit}
+                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
                 >
                   <Send className="h-4 w-4 mr-2" />
-                  月次申請
+                  申請する
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-lg mx-4">
-                <DialogHeader>
-                  <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                    月次勤怠申請
-                  </DialogTitle>
-                  <DialogDescription className="text-gray-600 dark:text-gray-400">
-                    {formatMonth(currentDate)}の勤怠データを申請します。申請後は承認されるまで編集できません。
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-6 py-4">
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">申請コメント（任意）</Label>
-                    <Textarea
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                      placeholder="申請に関するコメントや補足事項があれば入力してください"
-                      className="resize-none bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                      rows={4}
-                    />
-                  </div>
-                </div>
-                <DialogFooter className="gap-3">
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsSubmitDialogOpen(false)}
-                    className="border-gray-300 dark:border-gray-600"
-                  >
-                    キャンセル
-                  </Button>
-                  <Button
-                    onClick={handleSubmit}
-                    className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
-                  >
-                    <Send className="h-4 w-4 mr-2" />
-                    申請する
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           <div className="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 shadow-sm">
             <Button

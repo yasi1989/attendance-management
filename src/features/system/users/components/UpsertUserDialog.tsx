@@ -16,7 +16,7 @@ type UserEditDialogProps = {
 };
 
 export function UserEditDialog({ user, companies, roles, children }: UserEditDialogProps) {
-  const { form, onSubmit, isPending } = useUsers({ user });
+  const { form, onSubmit, isSubmitted } = useUsers({ user });
   const dialogConfig: DialogConfig = {
     title: 'ユーザ編集',
     description: 'ユーザの権限及び所属会社を編集します。',
@@ -47,7 +47,7 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isSubmitted={isSubmitted}
       trigger={children}
       formContent={formContent}
     />

@@ -12,7 +12,7 @@ type useGeneralExpenseFormProps = {
 };
 
 export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof GeneralExpenseFormSchema>>({
     resolver: zodResolver(GeneralExpenseFormSchema),
     defaultValues:
@@ -40,5 +40,5 @@ export const useGeneralExpenseForm = ({ type, expense }: useGeneralExpenseFormPr
     });
   };
 
-  return { form, onSubmit, isPending };
+  return { form, onSubmit, isSubmitted };
 };

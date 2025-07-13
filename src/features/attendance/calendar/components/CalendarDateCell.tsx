@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
-import { Clock, AlertTriangle, CheckCircle, FileText, Coffee } from 'lucide-react';
+import { Clock, AlertTriangle, CheckCircle, Coffee, FileText } from 'lucide-react';
 import { AttendanceData } from '../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { Badge } from '@/components/ui/badge';
@@ -16,14 +16,14 @@ type CalendarDateCellProps = {
 const getStatusIndicator = (status: string) => {
   const iconClasses = 'h-3 w-3';
   switch (status) {
+    case 'Draft':
+      return <FileText className={`${iconClasses} text-blue-500`} />;
     case 'Approved':
       return <CheckCircle className={`${iconClasses} text-emerald-500`} />;
-    case 'Pending':
+    case 'Submitted':
       return <Clock className={`${iconClasses} text-amber-500`} />;
     case 'Rejected':
       return <AlertTriangle className={`${iconClasses} text-red-500`} />;
-    case 'Draft':
-      return <FileText className={`${iconClasses} text-blue-500`} />;
     default:
       return null;
   }
@@ -31,14 +31,14 @@ const getStatusIndicator = (status: string) => {
 
 const getStatusStyles = (status: string) => {
   switch (status) {
+    case 'Draft':
+      return 'ring-2 ring-blue-200 dark:ring-blue-800 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30';
     case 'Approved':
       return 'ring-2 ring-emerald-200 dark:ring-emerald-800 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30';
-    case 'Pending':
+    case 'Submitted':
       return 'ring-2 ring-amber-200 dark:ring-amber-800 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30';
     case 'Rejected':
       return 'ring-2 ring-red-200 dark:ring-red-800 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950/30 dark:to-pink-950/30';
-    case 'Draft':
-      return 'ring-2 ring-blue-200 dark:ring-blue-800 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30';
     default:
       return '';
   }
@@ -53,7 +53,7 @@ const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: Cal
     <div
       className={cn(
         'relative h-28 sm:h-32 lg:h-36 p-3 sm:p-4',
-        'border-r border-b border-gray-200/50 dark:border-gray-700/50 last:border-r-0',
+        'border border-gray-200/50 dark:border-gray-700/50 last:border-r-0',
         'transition-all duration-300 group cursor-pointer',
         'hover:scale-[1.02] hover:z-10 hover:shadow-xl space-y-1',
         isCurrentMonth

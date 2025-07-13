@@ -17,7 +17,7 @@ type ExpenseDetailDialogProps = {
 };
 
 export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProps) => {
-  const [isPending, startTransition] = useTransition();
+  const [isSubmitted, startTransition] = useTransition();
   const { form, handleIndividualApproval } = useIndividualApproval(
     expense.id,
     async (approvalData: IndividualApprovalType) => {
@@ -85,11 +85,11 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
                 </div>
               )}
 
-              {status === 'Pending' && (
+              {status === 'Submitted' && (
                 <ApprovalFooter
                   form={form}
                   handleIndividualApproval={(status) => handleIndividualApproval(status)}
-                  isPending={isPending}
+                  isSubmitted={isSubmitted}
                 />
               )}
 

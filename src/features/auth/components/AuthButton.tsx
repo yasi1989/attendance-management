@@ -3,13 +3,13 @@ import { Loader2 } from 'lucide-react';
 
 type AuthButtonProps = {
   label: string;
-  isPending: boolean;
+  isSubmitted: boolean;
 };
 
-const AuthButton = ({ label, isPending = false }: AuthButtonProps) => {
+const AuthButton = ({ label, isSubmitted = false }: AuthButtonProps) => {
   return (
-    <Button type="submit" className="w-full cursor-pointer" disabled={isPending} >
-      {isPending ? <Loader2 className="animate-spin" /> : label}
+    <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitted} >
+      {isSubmitted ? <Loader2 className="animate-spin" /> : label}
     </Button>
   );
 };
