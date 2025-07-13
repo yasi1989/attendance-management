@@ -1,16 +1,14 @@
 import { Clock } from 'lucide-react';
 import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
-import { StatusType } from '@/types/statusType';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 
 type AttendanceApprovalsTabsProps = {
-  status: StatusType;
   attendances: MonthlyAttendanceApprovalItem[];
   myCompanyDepartments: DepartmentType[];
 };
 
-const AttendanceApprovalsTabs = ({ status, attendances, myCompanyDepartments }: AttendanceApprovalsTabsProps) => {
+const AttendanceApprovalsTabs = ({ attendances, myCompanyDepartments }: AttendanceApprovalsTabsProps) => {
   return (
     <>
       <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
@@ -23,7 +21,7 @@ const AttendanceApprovalsTabs = ({ status, attendances, myCompanyDepartments }: 
         </div>
       </div>
       <div className="rounded-lg overflow-hidden">
-        <MonthlyAttendanceApprovalsTable status={status} attendances={attendances} departments={myCompanyDepartments} />
+        <MonthlyAttendanceApprovalsTable attendances={attendances} departments={myCompanyDepartments} />
       </div>
     </>
   );

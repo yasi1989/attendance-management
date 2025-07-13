@@ -65,19 +65,11 @@ const ApprovalPresentational = ({
             </TabsList>
 
             <TabsContent value="attendance" className="mt-6">
-              <AttendanceApprovalsTabs
-                status={currentStatus}
-                attendances={attendances}
-                myCompanyDepartments={myCompanyDepartments}
-              />
+              <AttendanceApprovalsTabs attendances={attendances} myCompanyDepartments={myCompanyDepartments} />
             </TabsContent>
 
             <TabsContent value="expense" className="mt-6">
-              <ExpenseApprovalsTabs
-                status={currentStatus}
-                expenses={expenses}
-                myCompanyDepartments={myCompanyDepartments}
-              />
+              <ExpenseApprovalsTabs expenses={expenses} myCompanyDepartments={myCompanyDepartments} />
             </TabsContent>
           </Tabs>
         </CardContent>

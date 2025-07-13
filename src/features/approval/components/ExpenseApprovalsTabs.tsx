@@ -1,16 +1,14 @@
 import { DollarSign } from 'lucide-react';
 import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
-import { StatusType } from '@/types/statusType';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 
 type ExpenseApprovalsTabsProps = {
-  status: StatusType;
   expenses: MonthlyExpenseApprovalItem[];
   myCompanyDepartments: DepartmentType[];
 };
 
-const ExpenseApprovalsTabs = ({ status, expenses, myCompanyDepartments }: ExpenseApprovalsTabsProps) => {
+const ExpenseApprovalsTabs = ({ expenses, myCompanyDepartments }: ExpenseApprovalsTabsProps) => {
   return (
     <>
       <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6">
@@ -25,7 +23,7 @@ const ExpenseApprovalsTabs = ({ status, expenses, myCompanyDepartments }: Expens
         </div>
       </div>
       <div className="rounded-lg overflow-hidden">
-        <MonthlyExpenseApprovalsTable status={status} expenses={expenses} departments={myCompanyDepartments} />
+        <MonthlyExpenseApprovalsTable expenses={expenses} departments={myCompanyDepartments} />
       </div>
     </>
   );

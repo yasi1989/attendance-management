@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -35,6 +35,7 @@ interface DataTableProps<TData> {
   enableSelection?: boolean;
   getRowId?: (item: TData, index: number) => string;
   renderBulkActions?: (selectedIds: string[], selectedItems: TData[]) => React.ReactNode;
+  filterKey?: string;
 }
 
 export function DataTable<TData>({
@@ -44,6 +45,7 @@ export function DataTable<TData>({
   enableFilter = false,
   enableSelection = false,
   renderBulkActions,
+  filterKey,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -94,6 +96,12 @@ export function DataTable<TData>({
     const value = event.target.value;
     getColumn(filterColumn)?.setFilterValue(value);
   };
+
+  useEffect(() => {
+    if (filterKey) {
+      setRowSelection({});
+    }
+  }, [filterKey]);
 
   const currentPage = table.getState().pagination.pageIndex + 1;
   const totalPages = table.getPageCount();
@@ -188,7 +196,10 @@ export function DataTable<TData>({
                     `}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="py-3 px-4 text-xs md:text-sm text-gray-900 dark:text-gray-100">
+                      <TableCell
+                        key={cell.id}
+                        className="py-3 px-4 text-xs md:text-sm text-gray-900 dark:text-gray-100"
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -205,7 +216,9 @@ export function DataTable<TData>({
                         <p className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400">
                           データが見つかりませんでした
                         </p>
-                        <p className="text-xs md:text-sm text-gray-500 dark:text-gray-500">検索条件を変更してお試しください</p>
+                        <p className="text-xs md:text-sm text-gray-500 dark:text-gray-500">
+                          検索条件を変更してお試しください
+                        </p>
                       </div>
                     </div>
                   </TableCell>

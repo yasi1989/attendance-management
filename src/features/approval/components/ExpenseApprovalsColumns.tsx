@@ -5,19 +5,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { formatCurrency } from '@/lib/currency';
-import { StatusType } from '@/types/statusType';
 import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import ApprovalStatusBadge from './ApprovalStatusBadge';
 
 type ExpenseApprovalsColumnsProps = {
-  status: StatusType;
   departments: DepartmentType[];
 };
 
-export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps) => {
-  const checkboxColumns: ColumnDef<MonthlyExpenseApprovalItem>[] = [
+export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
+  const columns: ColumnDef<MonthlyExpenseApprovalItem>[] = [
     {
       id: 'select',
       header: ({ table }) => (
@@ -30,22 +28,23 @@ export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps
           />
         </div>
       ),
-      cell: ({ row }) => (
-        <div className="flex items-center justify-center">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-          />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.statusCode;
+        return (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              disabled={status !== 'Pending'}
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+              className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            />
+          </div>
+        );
+      },
       enableSorting: false,
       enableHiding: false,
     },
-  ];
-
-  const columns: ColumnDef<MonthlyExpenseApprovalItem>[] = [
     {
       accessorKey: 'name',
       id: 'name',
@@ -225,11 +224,11 @@ export const columnsDef = ({ status, departments }: ExpenseApprovalsColumnsProps
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center">
-            <ExpenseDetailDialog status={status} expense={row.original} />
+            <ExpenseDetailDialog status={row.original.statusCode} expense={row.original} />
           </div>
         );
       },
     },
   ];
-  return status === 'Pending' ? [...checkboxColumns, ...columns] : columns;
+  return columns;
 };

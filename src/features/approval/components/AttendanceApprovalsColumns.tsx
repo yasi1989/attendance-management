@@ -4,47 +4,65 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { StatusType } from '@/types/statusType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import ApprovalStatusBadge from './ApprovalStatusBadge';
 
 type AttendanceApprovalsColumnsProps = {
-  status: StatusType;
   departments: DepartmentType[];
 };
 
-export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsProps) => {
-  const checkboxColumns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
+export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => {
+  const columns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
     {
       id: 'select',
-      header: ({ table }) => (
-        <div className="flex items-center justify-center">
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex items-center justify-center">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-          />
-        </div>
-      ),
+      header: ({ table }) => {
+        // Pendingのみの行を取得
+        const pendingRows = table.getRowModel().rows.filter(row => 
+          row.original.statusCode === 'Pending'
+        );
+        
+        // Pendingの行がすべて選択されているかチェック
+        const allPendingSelected = pendingRows.length > 0 && 
+          pendingRows.every(row => row.getIsSelected());
+        
+        // Pendingの行の一部が選択されているかチェック
+        const somePendingSelected = pendingRows.some(row => row.getIsSelected());
+        
+        return (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              checked={allPendingSelected || (somePendingSelected && 'indeterminate')}
+              onCheckedChange={(value) => {
+                // Pendingの行のみを一括選択/解除
+                pendingRows.forEach(row => {
+                  row.toggleSelected(!!value);
+                });
+              }}
+              aria-label="Select all pending"
+              className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            />
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.original.statusCode;
+        return (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              disabled={status !== 'Pending'}
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+              className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            />
+          </div>
+        );
+      },
       enableSorting: false,
       enableHiding: false,
     },
-  ];
-
-  const columns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
     {
       accessorKey: 'name',
       id: 'name',
@@ -249,11 +267,11 @@ export const columnsDef = ({ status, departments }: AttendanceApprovalsColumnsPr
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center">
-            <AttendanceDetailDialog status={status} attendance={row.original} />
+            <AttendanceDetailDialog status={row.original.statusCode} attendance={row.original} />
           </div>
         );
       },
     },
   ];
-  return status === 'Pending' ? [...checkboxColumns, ...columns] : columns;
+  return columns;
 };
