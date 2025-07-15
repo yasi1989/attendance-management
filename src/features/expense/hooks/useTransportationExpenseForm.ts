@@ -3,7 +3,7 @@ import { TransportationExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useEffect, useTransition } from 'react';
-import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
+import { ExpenseType, RouteInfoType } from '../history/type/expenseDataType';
 
 type UseTransportationExpenseFormProps = {
   type: 'add' | 'edit';

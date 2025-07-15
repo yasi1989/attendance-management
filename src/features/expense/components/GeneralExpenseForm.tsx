@@ -8,7 +8,7 @@ import ExpenseFormActions from './ExpenseFormActions';
 import InputFileFormField from '@/components/InputFileFormField';
 import { useGeneralExpenseForm } from '../hooks/useExpenseForm';
 import { FormProvider } from 'react-hook-form';
-import { ExpenseType } from '../history/type/expenseType';
+import { ExpenseType } from '../history/type/expenseDataType';
 
 type GeneralExpenseFormProps = {
   type: 'add' | 'edit';

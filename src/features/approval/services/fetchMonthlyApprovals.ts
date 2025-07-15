@@ -37,7 +37,7 @@ export const fetchMonthlyApprovals = async ({
   month,
   status,
 }: FetchMonthlyApprovalsParams): Promise<FetchMonthlyApprovalsResponse> => {
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   return {
     attendances: getFixedData(sampleMonthlyApprovals.attendances, year, month, status),
     expenses: getFixedData(sampleMonthlyApprovals.expenses, year, month, status),

@@ -4,7 +4,7 @@ import { GeneralExpenseFormSchema } from '../lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useTransition } from 'react';
-import { ExpenseType } from '../history/type/expenseType';
+import { ExpenseType } from '../history/type/expenseDataType';
 
 type useGeneralExpenseFormProps = {
   type: 'add' | 'edit';

@@ -9,7 +9,7 @@ import InputFileFormField from '@/components/InputFileFormField';
 import ExpenseFormActions from './ExpenseFormActions';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
-import { ExpenseType, RouteInfoType } from '../history/type/expenseType';
+import { ExpenseType, RouteInfoType } from '../history/type/expenseDataType';
 import { useTransportationExpenseForm } from '../hooks/useTransportationExpenseForm';
 
 type TransportationFormProps = {

@@ -1,5 +1,5 @@
 import { fetchRouteInfoById } from '../../services/fetchExpense';
-import { ExpenseType } from '../../history/type/expenseType';
+import { ExpenseType } from '../../history/type/expenseDataType';
 import { TransportationForm } from '../../components/TransportationForm';
 
 type TransportationEditContainerProps = {

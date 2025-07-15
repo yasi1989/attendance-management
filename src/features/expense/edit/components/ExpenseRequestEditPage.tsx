@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExpenseType } from '@/features/expense/history/type/expenseType';
+import { ExpenseType } from '@/features/expense/history/type/expenseDataType';
 import TransportationEditContainer from './TransportationEditContainer';
 import { GeneralExpenseForm } from '../../components/GeneralExpenseForm';
 

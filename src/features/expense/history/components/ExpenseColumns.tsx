@@ -1,6 +1,6 @@
 'use client';
 
-import { ExpenseType } from '../type/expenseType';
+import { ExpenseType } from '../type/expenseDataType';
 import { ArrowUpDown, FileText, Edit } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
