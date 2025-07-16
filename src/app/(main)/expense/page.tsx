@@ -3,7 +3,7 @@ import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/ca
 import { Suspense } from 'react';
 import { StatusType } from '@/types/statusType';
 import ExpenseContainer from './container';
-import { ExpenseTypeFilter } from '@/features/expense/history/type/expenseDataType';
+import { ExpenseTypeFilter } from '@/features/expense/type/ExpenseType';
 
 type ExpensePageProps = {
   params: Promise<{
