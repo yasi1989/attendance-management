@@ -1,11 +1,11 @@
-import { ExpenseItem } from '../type/expenseDataType';
+import { ExpenseItem } from '../type/ExpenseType';
 
 export const expenseData: ExpenseItem[] = [
   {
     id: 'c4d9g264-5e8g-6g9d-bh0c-3d4e5f6g7h8i',
     userId: 'user001',
+    expenseDate: new Date('2025-06-28T00:00:00.000Z'),
     requestDate: new Date('2025-07-01T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     routeInfo: {
       id: 'c4d9g264-5e8g-6g9d-bh0c-3d4e5f6g7h8i',
       expenseRequestId: 'c4d9g264-5e8g-6g9d-bh0c-3d4e5f6g7h8i',
@@ -23,11 +23,11 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'd5e0h375-6f9h-7h0e-ci1d-4e5f6g7h8i9j',
     userId: 'user003',
+    expenseDate: new Date('2025-07-02T00:00:00.000Z'),
     requestDate: new Date('2025-07-05T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     routeInfo: {
       id: 'd5e0h375-6f9h-7h0e-ci1d-4e5f6g7h8i9j',
-      expenseRequestId: 'd5e0h375-6f9h-7h0e-ci1d-4e5f6g7h8i9j',
+      expenseRequestId: 'd5e0h375-6f9h-7혼e-ci1d-4e5f6g7h8i9j',
       routeDetails: [{ from: '東京', to: '名古屋', fare: 9000 }],
     },
     amount: 9000,
@@ -39,8 +39,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'e6f1i486-7g0i-8i1f-dj2e-5f6g7h8i9j0k',
     userId: 'user002',
+    expenseDate: new Date('2025-07-07T00:00:00.000Z'),
     requestDate: new Date('2025-07-10T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 20000,
     routeInfo: {
       id: 'e6f1i486-7g0i-8i1f-dj2e-5f6g7h8i9j0k',
@@ -55,8 +55,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'f7g2j597-8h1j-9j2g-ek3f-6g7h8i9j0k1l',
     userId: 'user004',
+    expenseDate: new Date('2025-07-12T00:00:00.000Z'),
     requestDate: new Date('2025-07-15T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 12000,
     routeInfo: {
       id: 'f7g2j597-8h1j-9j2g-ek3f-6g7h8i9j0k1l',
@@ -71,8 +71,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'g8h3k608-9i2k-0k3h-fl4g-7h8i9j0k1l2m',
     userId: 'user005',
+    expenseDate: new Date('2025-07-17T00:00:00.000Z'),
     requestDate: new Date('2025-07-20T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 8500,
     routeInfo: {
       id: 'g8h3k608-9i2k-0k3h-fl4g-7h8i9j0k1l2m',
@@ -87,8 +87,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'h9i4l719-0j3l-1l4i-gm5h-8i9j0k1l2m3n',
     userId: 'user006',
+    expenseDate: new Date('2025-07-22T00:00:00.000Z'),
     requestDate: new Date('2025-07-25T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 25000,
     routeInfo: {
       id: 'h9i4l719-0j3l-1l4i-gm5h-8i9j0k1l2m3n',
@@ -103,11 +103,11 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'i0j5m820-1k4m-2m5j-hn6i-9j0k1l2m3n4o',
     userId: 'user001',
+    expenseDate: new Date('2025-07-25T00:00:00.000Z'),
     requestDate: new Date('2025-07-28T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 11000,
     routeInfo: {
-      id: 'i0j5m820-1k4m-2m5j-hn6i-9j0k1l2m3n4o',
+      id: 'i0j5m820-1k4m-2m5j-hn6i-9j0k1l2m3nskem4o',
       expenseRequestId: 'i0j5m820-1k4m-2m5j-hn6i-9j0k1l2m3n4o',
       routeDetails: [{ from: '名古屋', to: '東京', fare: 11000 }],
     },
@@ -119,8 +119,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'x5y0b375-6z9b-7b0y-wc1x-4y5z6a7b8c9d',
     userId: 'user002',
+    expenseDate: new Date('2025-06-30T00:00:00.000Z'),
     requestDate: new Date('2025-07-02T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 3000,
     description: 'クライアントとのカフェでの打ち合わせ',
     statusCode: 'Submitted',
@@ -130,8 +130,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'y6z1c486-7a0c-8c1z-xd2y-5z6a7b8c9d0e',
     userId: 'user004',
+    expenseDate: new Date('2025-07-03T00:00:00.000Z'),
     requestDate: new Date('2025-07-06T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 4500,
     description: '社内会議用の軽食購入',
     statusCode: 'Approved',
@@ -141,8 +141,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'a8b3e608-9c2e-0e3b-zf4a-7b8c9d0e1f2g',
     userId: 'user003',
+    expenseDate: new Date('2025-07-15T00:00:00.000Z'),
     requestDate: new Date('2025-07-18T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 2500,
     description: 'プロジェクト会議のコーヒー代',
     statusCode: 'Rejected',
@@ -152,8 +152,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'b9c4f719-0d3f-1f4c-ag5b-8c9d0e1f2g3h',
     userId: 'user006',
+    expenseDate: new Date('2025-07-19T00:00:00.000Z'),
     requestDate: new Date('2025-07-22T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 7000,
     description: 'チームビルディングのランチ代',
     statusCode: 'Approved',
@@ -163,8 +163,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'c0d5g820-1e4g-2g5d-bh6c-9d0e1f2g3h4i',
     userId: 'user001',
+    expenseDate: new Date('2025-07-24T00:00:00.000Z'),
     requestDate: new Date('2025-07-27T00:00:00.000Z'),
-    targetMonth: new Date('2025-07-01T00:00:00.000Z'),
     amount: 3500,
     description: 'クライアントとの喫茶店での商談',
     statusCode: 'Submitted',
@@ -174,8 +174,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'j1k6n931-2l5n-3n6k-io7j-0k1l2m3n4o5p',
     userId: 'user002',
+    expenseDate: new Date('2025-07-30T00:00:00.000Z'),
     requestDate: new Date('2025-08-02T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 8000,
     routeInfo: {
       id: 'j1k6n931-2l5n-3n6k-io7j-0k1l2m3n4o5p',
@@ -190,8 +190,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'k2l7o042-3m6o-4o7l-jp8k-1l2m3n4o5p6q',
     userId: 'user004',
+    expenseDate: new Date('2025-08-03T00:00:00.000Z'),
     requestDate: new Date('2025-08-06T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 22000,
     routeInfo: {
       id: 'k2l7o042-3m6o-4o7l-jp8k-1l2m3n4o5p6q',
@@ -206,8 +206,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'l3m8p153-4n7p-5p8m-kq9l-2m3n4o5p6q7r',
     userId: 'user005',
+    expenseDate: new Date('2025-08-07T00:00:00.000Z'),
     requestDate: new Date('2025-08-10T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 13000,
     routeInfo: {
       id: 'l3m8p153-4n7p-5p8m-kq9l-2m3n4o5p6q7r',
@@ -222,8 +222,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'm4n9q264-5o8q-6q9n-lr0m-3n4o5p6q7r8s',
     userId: 'user003',
+    expenseDate: new Date('2025-08-12T00:00:00.000Z'),
     requestDate: new Date('2025-08-15T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 9500,
     routeInfo: {
       id: 'm4n9q264-5o8q-6q9n-lr0m-3n4o5p6q7r8s',
@@ -238,8 +238,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'n5o0r375-6p9r-7r0o-ms1n-4o5p6q7r8s9t',
     userId: 'user006',
+    expenseDate: new Date('2025-08-17T00:00:00.000Z'),
     requestDate: new Date('2025-08-20T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 18000,
     routeInfo: {
       id: 'n5o0r375-6p9r-7r0o-ms1n-4o5p6q7r8s9t',
@@ -254,8 +254,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'o6p1s486-7q0s-8s1p-nt2o-5p6q7r8s9t0u',
     userId: 'user001',
+    expenseDate: new Date('2025-08-22T00:00:00.000Z'),
     requestDate: new Date('2025-08-25T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 10000,
     routeInfo: {
       id: 'o6p1s486-7q0s-8s1p-nt2o-5p6q7r8s9t0u',
@@ -270,8 +270,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'd1e6h931-2f5h-3h6e-ci7d-0e1f2g3h4i5j',
     userId: 'user003',
+    expenseDate: new Date('2025-07-31T00:00:00.000Z'),
     requestDate: new Date('2025-08-03T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 4000,
     description: 'クライアントとのランチミーティング',
     statusCode: 'Approved',
@@ -281,8 +281,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'e2f7i042-3g6i-4i7f-dj8e-1f2g3h4i5j6k',
     userId: 'user005',
+    expenseDate: new Date('2025-08-04T00:00:00.000Z'),
     requestDate: new Date('2025-08-07T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 2000,
     description: '会議用の飲み物購入',
     statusCode: 'Draft',
@@ -292,8 +292,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'f3g8j153-4h7j-5j8g-ek9f-2g3h4i5j6k7l',
     userId: 'user002',
+    expenseDate: new Date('2025-08-09T00:00:00.000Z'),
     requestDate: new Date('2025-08-12T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 5500,
     description: 'クライアントとのディナー費用',
     statusCode: 'Submitted',
@@ -303,8 +303,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'g4h9k264-5i8k-6k9h-fl0g-3h4i5j6k7l8m',
     userId: 'user006',
+    expenseDate: new Date('2025-08-13T00:00:00.000Z'),
     requestDate: new Date('2025-08-16T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 3000,
     description: '社内会議のスナック代',
     statusCode: 'Rejected',
@@ -314,8 +314,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'h5i0l375-6j9l-7l0i-gm1h-4i5j6k7l8m9n',
     userId: 'user004',
+    expenseDate: new Date('2025-08-17T00:00:00.000Z'),
     requestDate: new Date('2025-08-20T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 6500,
     description: 'プロジェクト打ち上げの飲食代',
     statusCode: 'Approved',
@@ -325,8 +325,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'i6j1m486-7k0m-8m1j-hn2i-5j6k7l8m9n0o',
     userId: 'user001',
+    expenseDate: new Date('2025-08-21T00:00:00.000Z'),
     requestDate: new Date('2025-08-24T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 4500,
     description: 'クライアントとのカフェでの打ち合わせ',
     statusCode: 'Submitted',
@@ -336,8 +336,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'j7k2n597-8l1n-9n2k-io3j-6k7l8m9n0o1p',
     userId: 'user002',
+    expenseDate: new Date('2025-08-25T00:00:00.000Z'),
     requestDate: new Date('2025-08-28T00:00:00.000Z'),
-    targetMonth: new Date('2025-08-01T00:00:00.000Z'),
     amount: 5000,
     description: 'チームミーティングのランチ代',
     statusCode: 'Draft',
@@ -347,8 +347,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'p7q2t597-8r1t-9t2q-ou3p-6q7r8s9t0u1v',
     userId: 'user002',
+    expenseDate: new Date('2025-08-31T00:00:00.000Z'),
     requestDate: new Date('2025-09-03T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 20000,
     routeInfo: {
       id: 'p7q2t597-8r1t-9t2q-ou3p-6q7r8s9t0u1v',
@@ -363,8 +363,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'q8r3u608-9s2u-0u3r-pv4q-7r8s9t0u1v2w',
     userId: 'user004',
+    expenseDate: new Date('2025-09-04T00:00:00.000Z'),
     requestDate: new Date('2025-09-07T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 11000,
     routeInfo: {
       id: 'q8r3u608-9s2u-0u3r-pv4q-7r8s9t0u1v2w',
@@ -379,8 +379,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'r9s4v719-0t3v-1v4s-qw5r-8s9t0u1v2w3x',
     userId: 'user005',
+    expenseDate: new Date('2025-09-09T00:00:00.000Z'),
     requestDate: new Date('2025-09-12T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 8500,
     routeInfo: {
       id: 'r9s4v719-0t3v-1v4s-qw5r-8s9t0u1v2w3x',
@@ -395,8 +395,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 's0t5w820-1u4w-2w5t-rx6s-9t0u1v2w3x4y',
     userId: 'user003',
+    expenseDate: new Date('2025-09-12T00:00:00.000Z'),
     requestDate: new Date('2025-09-15T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 27000,
     routeInfo: {
       id: 's0t5w820-1u4w-2w5t-rx6s-9t0u1v2w3x4y',
@@ -411,8 +411,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 't1u6x931-2v5x-3x6u-sy7t-0u1v2w3x4y5z',
     userId: 'user006',
+    expenseDate: new Date('2025-09-17T00:00:00.000Z'),
     requestDate: new Date('2025-09-20T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 14000,
     routeInfo: {
       id: 't1u6x931-2v5x-3x6u-sy7t-0u1v2w3x4y5z',
@@ -427,8 +427,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'u2v7y042-3w6y-4y7v-tz8u-1v2w3x4y5z6a',
     userId: 'user001',
+    expenseDate: new Date('2025-09-22T00:00:00.000Z'),
     requestDate: new Date('2025-09-25T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 9500,
     routeInfo: {
       id: 'u2v7y042-3w6y-4y7v-tz8u-1v2w3x4y5z6a',
@@ -443,8 +443,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'v3w8z153-4x7z-5z8w-ua9v-2w3x4y5z6a7b',
     userId: 'user002',
+    expenseDate: new Date('2025-09-25T00:00:00.000Z'),
     requestDate: new Date('2025-09-28T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 16000,
     routeInfo: {
       id: 'v3w8z153-4x7z-5z8w-ua9v-2w3x4y5z6a7b',
@@ -459,8 +459,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'w4x9a264-5y8a-6a9x-vb0w-3x4y5z6a7b8c',
     userId: 'user004',
+    expenseDate: new Date('2025-09-27T00:00:00.000Z'),
     requestDate: new Date('2025-09-30T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 23000,
     routeInfo: {
       id: 'w4x9a264-5y8a-6a9x-vb0w-3x4y5z6a7b8c',
@@ -475,8 +475,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'k8l3o608-9m2o-0o3l-jp4k-7l8m9n0o1p2q',
     userId: 'user004',
+    expenseDate: new Date('2025-08-30T00:00:00.000Z'),
     requestDate: new Date('2025-09-02T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 3500,
     description: 'クライアントとの喫茶店での商談',
     statusCode: 'Submitted',
@@ -486,8 +486,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'l9m4p719-0n3p-1p4m-kq5l-8m9n0o1p2q3r',
     userId: 'user006',
+    expenseDate: new Date('2025-09-03T00:00:00.000Z'),
     requestDate: new Date('2025-09-06T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 6000,
     description: 'クライアントとのディナー費用',
     statusCode: 'Approved',
@@ -497,8 +497,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'm0n5q820-1o4q-2q5n-lr6m-9n0o1p2q3r4s',
     userId: 'user003',
+    expenseDate: new Date('2025-09-07T00:00:00.000Z'),
     requestDate: new Date('2025-09-10T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 2500,
     description: '会議用のコーヒー代',
     statusCode: 'Draft',
@@ -508,8 +508,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'n1o6r931-2p5r-3r6o-ms7n-0o1p2q3r4s5t',
     userId: 'user001',
+    expenseDate: new Date('2025-09-11T00:00:00.000Z'),
     requestDate: new Date('2025-09-14T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 7000,
     description: 'チームビルディングのランチ代',
     statusCode: 'Rejected',
@@ -519,8 +519,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'o2p7s042-3q6s-4s7p-nt8o-1p2q3r4s5t6u',
     userId: 'user005',
+    expenseDate: new Date('2025-09-15T00:00:00.000Z'),
     requestDate: new Date('2025-09-18T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 4000,
     description: '社内会議用の軽食購入',
     statusCode: 'Submitted',
@@ -530,8 +530,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'p3q8t153-4r7t-5t8q-ou9p-2q3r4s5t6u7v',
     userId: 'user002',
+    expenseDate: new Date('2025-09-19T00:00:00.000Z'),
     requestDate: new Date('2025-09-22T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 5500,
     description: 'クライアントとのランチミーティング',
     statusCode: 'Approved',
@@ -541,8 +541,8 @@ export const expenseData: ExpenseItem[] = [
   {
     id: 'q4r9u264-5s8u-6u9r-pv0q-3r4s5t6u7v8w',
     userId: 'user004',
+    expenseDate: new Date('2025-09-24T00:00:00.000Z'),
     requestDate: new Date('2025-09-27T00:00:00.000Z'),
-    targetMonth: new Date('2025-09-01T00:00:00.000Z'),
     amount: 3000,
     description: 'プロジェクト会議のスナック代',
     statusCode: 'Draft',

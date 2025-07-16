@@ -4,9 +4,10 @@ import { UseFormReturn } from 'react-hook-form';
 
 type ExpenseFormActionsProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
+  isSubmitted: boolean;
 };
 
-const ExpenseFormActions = <T extends Record<string, unknown>>({ form }: ExpenseFormActionsProps<T>) => {
+const ExpenseFormActions = <T extends Record<string, unknown>>({ form, isSubmitted }: ExpenseFormActionsProps<T>) => {
   return (
     <CardFooter className="flex justify-between bg-muted/10 px-6 py-4">
       <Button
@@ -18,7 +19,7 @@ const ExpenseFormActions = <T extends Record<string, unknown>>({ form }: Expense
       >
         リセット
       </Button>
-      <Button type="submit" className="min-w-[100px]">
+      <Button type="submit" className="min-w-[100px]" disabled={isSubmitted}>
         申請
       </Button>
     </CardFooter>

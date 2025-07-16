@@ -1,15 +1,15 @@
 import { StatusType } from '@/types/statusType';
-import { expenseData } from '../history/const/mockData';
-import { ExpenseItem, ExpenseType } from '../history/type/expenseDataType';
+import { ExpenseItem, ExpenseTypeFilter } from '../type/ExpenseType';
+import { expenseData } from '../const/mockData';
 
 const getFixedExpensesData = (
   year: number,
   month: number,
   status: StatusType,
-  expenseType: ExpenseType,
+  expenseType: ExpenseTypeFilter,
 ): ExpenseItem[] => {
   return expenseData.filter((item) => {
-    const matchesYearMonth = filterByYearMonth(item.targetMonth, year, month);
+    const matchesYearMonth = filterByYearMonth(item.expenseDate, year, month);
     const matchesStatus = status === 'All' || item.statusCode === status;
     const matchesExpenseType = expenseType === 'All' || item.expenseType === expenseType;
     return matchesYearMonth && matchesStatus && matchesExpenseType;
@@ -24,7 +24,7 @@ export const fetchExpenses = async (
   year: number,
   month: number,
   status: StatusType,
-  expenseType: ExpenseType,
+  expenseType: ExpenseTypeFilter,
 ): Promise<ExpenseItem[]> => {
   await new Promise((resolve) => setTimeout(resolve, 300));
   return getFixedExpensesData(year, month, status, expenseType);

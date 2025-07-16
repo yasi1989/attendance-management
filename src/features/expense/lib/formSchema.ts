@@ -11,8 +11,14 @@ export const RouteInfoSchema = z.object({
   fare: z.coerce.number().min(0, { message: '運賃は0以上でなければなりません' }),
 });
 
-export const GeneralExpenseFormSchema = z.object({
+export const ExpenseFormSchema = z.object({
   id: z.string(),
+  expenseType: z.enum(['General', 'Transport'], {
+    required_error: '経費種別は必須です',
+  }),
+  expenseDate: z.date({
+    required_error: '発生日は必須です',
+  }),
   requestDate: z.date({
     required_error: '申請日は必須です',
   }),
@@ -21,31 +27,7 @@ export const GeneralExpenseFormSchema = z.object({
       required_error: '金額は必須です',
       invalid_type_error: '金額は数値でなければなりません',
     })
-    .min(0, { message: '金額は0以上でなければなりません' }),
-  description: z.string().min(5, { message: '説明は5文字以上でなければなりません' }),
-  receiptFile: z
-    .custom<FileList>()
-    .optional()
-    .refine((files) => !files || files[0].size <= MAX_FILE_SIZE, {
-      message: `ファイルサイズは${MAX_MB}MB以下でなければなりません`,
-    })
-    .refine((files) => !files || ACCEPTED_FILE_TYPES.includes(files[0].type), {
-      message: 'ファイル形式はJPEG、JPG、PNG、GIF、WEBPのみです',
-    }),
-});
-
-export const TransportationExpenseFormSchema = z.object({
-  id: z.string(),
-  expenseRequestId: z.string(),
-  requestDate: z.date({
-    required_error: '申請日は必須です',
-  }),
-  amount: z.coerce
-    .number({
-      required_error: '金額は必須です',
-      invalid_type_error: '金額は数値でなければなりません',
-    })
-    .min(0, { message: '金額は0以上でなければなりません' }),
+    .min(1, { message: '金額は1以上でなければなりません' }),
   description: z.string().min(5, { message: '説明は5文字以上でなければなりません' }),
   receiptFile: z
     .custom<FileList>()

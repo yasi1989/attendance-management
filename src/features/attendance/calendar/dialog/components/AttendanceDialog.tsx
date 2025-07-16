@@ -10,10 +10,9 @@ import {
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Clock, Calendar, Send, RotateCcw, AlertCircle, Star } from 'lucide-react';
+import { Clock, Calendar, AlertCircle, Star } from 'lucide-react';
 import { AttendanceData } from '../../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { formatDateToISOString } from '@/lib/date';
@@ -28,6 +27,7 @@ import { FormProvider } from 'react-hook-form';
 import { ATTENDANCE_OPTIONS, HALF_DAY_OPTIONS } from '../const/attendanceConst';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import DialogActionFooter from '@/components/DialogActionFooter';
 
 type AttendanceDialogProps = {
   day: Date;
@@ -38,8 +38,16 @@ type AttendanceDialogProps = {
 
 const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: AttendanceDialogProps) => {
   const [open, setOpen] = useState(false);
-  const { form, onSubmit, resetAttendanceForm, resetHalfDayForm, attendanceType, isHalfDay, resetToDefault } =
-    useAttendance(day, attendanceData);
+  const {
+    form,
+    onSubmit,
+    resetAttendanceForm,
+    resetHalfDayForm,
+    attendanceType,
+    isHalfDay,
+    resetToDefault,
+    isPending,
+  } = useAttendance(day, attendanceData);
   const isWeekend = isSaturday(day) || isSunday(day);
 
   return (
@@ -192,21 +200,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
               </ScrollArea>
 
               <DialogFooter className="px-4 sm:px-6 py-4">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full space-y-3 sm:space-y-0">
-                  <Button
-                    variant="outline"
-                    onClick={resetToDefault}
-                    className="border-gray-300 dark:border-gray-600 w-full sm:w-auto"
-                  >
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    リセット
-                  </Button>
-
-                  <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 w-full sm:w-auto">
-                    <Send className="w-4 h-4 mr-2" />
-                    登録する
-                  </Button>
-                </div>
+                <DialogActionFooter resetToDefault={resetToDefault} disabled={isPending} />
               </DialogFooter>
             </form>
           </DialogContent>

@@ -13,12 +13,18 @@ type ExpenseFilterSelectorProps = {
   currentExpenseType: string;
 };
 
-const ExpenseFilterSelector = ({ currentYear, currentMonth, currentStatus, currentExpenseType }: ExpenseFilterSelectorProps) => {
+const ExpenseFilterSelector = ({
+  currentYear,
+  currentMonth,
+  currentStatus,
+  currentExpenseType,
+}: ExpenseFilterSelectorProps) => {
   const router = useRouter();
   const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear - 5 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const statusOptions = [
     { value: 'All', label: 'すべて' },
+    { value: 'Draft', label: '下書き' },
     { value: 'Submitted', label: '承認待ち' },
     { value: 'Approved', label: '承認済み' },
     { value: 'Rejected', label: '却下' },
@@ -115,7 +121,7 @@ const ExpenseFilterSelector = ({ currentYear, currentMonth, currentStatus, curre
         <Label className="text-sm font-medium text-gray-700 dark:text-gray-200">経費種別:</Label>
         <Select value={currentExpenseType} onValueChange={handleExpenseTypeChange}>
           <SelectTrigger className="w-32">
-            <SelectValue />Ò
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {expenseTypeOptions.map((option) => (

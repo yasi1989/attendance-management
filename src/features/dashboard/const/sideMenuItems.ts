@@ -18,11 +18,7 @@ export const data = {
         },
         {
           title: '経費申請',
-          url: '/expense/new',
-        },
-        {
-          title: '経費申請履歴',
-          url: '/expense/history',
+          url: '/expense',
         },
       ],
     },

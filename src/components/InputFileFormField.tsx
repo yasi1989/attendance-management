@@ -11,6 +11,7 @@ type InputFileFormFieldProps<T extends Record<string, unknown>> = {
   className?: string;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
+  disabled?: boolean;
   existingFile?: string;
 };
 const InputFileFormField = <T extends Record<string, unknown>>({
@@ -21,6 +22,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
   className = '',
   rules,
   description,
+  disabled,
   existingFile,
 }: InputFileFormFieldProps<T>) => {
   return (
@@ -56,6 +58,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
               onChange={(event) => onChange(event.target.files)}
               {...fieldProps}
               className={className}
+              disabled={disabled}
             />
           </FormControl>
           {description && <FormDescription className="text-xs">{description}</FormDescription>}

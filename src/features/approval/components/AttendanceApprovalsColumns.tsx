@@ -7,7 +7,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import ApprovalStatusBadge from './ApprovalStatusBadge';
+import StatusBadge from '../../../components/StatusBadge';
 
 type AttendanceApprovalsColumnsProps = {
   departments: DepartmentType[];
@@ -18,21 +18,16 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
     {
       id: 'select',
       header: ({ table }) => {
-        const SubmittedRows = table.getRowModel().rows.filter(row => 
-          row.original.statusCode === 'Submitted'
-        );
-        
-        const allSubmittedSelected = SubmittedRows.length > 0 && 
-          SubmittedRows.every(row => row.getIsSelected());
-        
-        const someSubmittedSelected = SubmittedRows.some(row => row.getIsSelected());
-        
+        const SubmittedRows = table.getRowModel().rows.filter((row) => row.original.statusCode === 'Submitted');
+        const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
+        const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
+
         return (
           <div className="flex items-center justify-center">
             <Checkbox
               checked={allSubmittedSelected || (someSubmittedSelected && 'indeterminate')}
               onCheckedChange={(value) => {
-                SubmittedRows.forEach(row => {
+                SubmittedRows.forEach((row) => {
                   row.toggleSelected(!!value);
                 });
               }}
@@ -102,7 +97,7 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <ApprovalStatusBadge status={row.original.statusCode} />
+          <StatusBadge status={row.original.statusCode} />
         </div>
       ),
     },

@@ -14,6 +14,7 @@ type InputTextFormFieldProps<T extends Record<string, unknown>> = {
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
   row?: number;
+  disabled?: boolean;
 };
 const InputTextFormField = <T extends Record<string, unknown>>({
   form,
@@ -26,6 +27,7 @@ const InputTextFormField = <T extends Record<string, unknown>>({
   maxLength,
   description,
   row,
+  disabled,
 }: InputTextFormFieldProps<T>) => {
   return (
     <FormField
@@ -46,6 +48,7 @@ const InputTextFormField = <T extends Record<string, unknown>>({
               className={className}
               maxLength={maxLength}
               rows={row}
+              disabled={disabled}
             />
           </FormControl>
           {maxLength && (

@@ -9,6 +9,7 @@ type InputRadioFormFieldProps<T extends Record<string, unknown>> = {
   required?: boolean;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
+  disabled?: boolean;
   options: Record<string, string>[];
 };
 const InputRadioFormField = <T extends Record<string, unknown>>({
@@ -18,6 +19,7 @@ const InputRadioFormField = <T extends Record<string, unknown>>({
   required = false,
   rules,
   description,
+  disabled,
   options,
 }: InputRadioFormFieldProps<T>) => {
   return (
@@ -37,6 +39,7 @@ const InputRadioFormField = <T extends Record<string, unknown>>({
               onValueChange={field.onChange}
               defaultValue={field.value as string}
               className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4"
+              disabled={disabled}
             >
               {options.map((item) => (
                 <FormItem key={item.value} className="flex items-center space-x-1">

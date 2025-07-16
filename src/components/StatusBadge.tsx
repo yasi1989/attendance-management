@@ -2,13 +2,15 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { StatusType } from '@/types/statusType';
 
-interface ApprovalStatusBadgeProps {
+interface StatusBadgeProps {
   status: StatusType;
   className?: string;
 }
 
 const getStatusStyle = (status: StatusType) => {
   switch (status) {
+    case 'Draft':
+      return 'bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800';
     case 'Submitted':
       return 'bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800';
     case 'Approved':
@@ -22,6 +24,8 @@ const getStatusStyle = (status: StatusType) => {
 
 const getStatusName = (status: StatusType) => {
   switch (status) {
+    case 'Draft':
+      return '下書き';
     case 'Submitted':
       return '承認待ち';
     case 'Approved':
@@ -33,10 +37,10 @@ const getStatusName = (status: StatusType) => {
   }
 };
 
-const ApprovalStatusBadge = ({ status, className }: ApprovalStatusBadgeProps) => {
+const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const style = getStatusStyle(status);
 
   return <Badge className={cn(style, className)}>{getStatusName(status)}</Badge>;
 };
 
-export default ApprovalStatusBadge;
+export default StatusBadge;

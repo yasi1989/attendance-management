@@ -16,6 +16,7 @@ type InputCalendarFormFieldProps<T extends Record<string, unknown>> = {
   className?: string;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
+  disabled?: boolean;
 };
 const InputCalendarFormField = <T extends Record<string, unknown>>({
   form,
@@ -26,6 +27,7 @@ const InputCalendarFormField = <T extends Record<string, unknown>>({
   className = '',
   rules,
   description,
+  disabled,
 }: InputCalendarFormFieldProps<T>) => {
   return (
     <>
@@ -41,7 +43,7 @@ const InputCalendarFormField = <T extends Record<string, unknown>>({
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
-                  <Button variant="outline" className="w-full pl-3 text-left font-normal">
+                  <Button variant="outline" className="w-full pl-3 text-left font-normal" disabled={disabled}>
                     {field.value ? (
                       format(field.value as unknown as Date, 'yyyy年MM月dd日', { locale: ja })
                     ) : (

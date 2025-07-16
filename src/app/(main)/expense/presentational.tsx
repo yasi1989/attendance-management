@@ -4,15 +4,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Clock } from 'lucide-react';
 import { StatusType } from '@/types/statusType';
 import CommonPageHeader from '@/components/CommonPageHeader';
-import { ExpenseItem, ExpenseType } from '@/features/expense/history/type/expenseDataType';
 import ExpenseFilterSelector from '@/features/expense/components/ExpenseFilterSelector';
+import ExpenseTable from '@/features/expense/components/ExpenseTable';
+import { ExpenseUpsertDialog } from '@/features/expense/dialogs/components/ExpenseUpsertDialog';
+import AddButton from '@/components/AddButton';
+import { ExpenseItem, ExpenseTypeFilter } from '@/features/expense/type/ExpenseType';
 
 type ExpensePresentationalProps = {
   expenseData: ExpenseItem[];
   currentYear: number;
   currentMonth: number;
   currentStatus: StatusType;
-  currentExpenseType: ExpenseType;
+  currentExpenseType: ExpenseTypeFilter;
 };
 
 const ExpensePresentational = ({
@@ -25,10 +28,19 @@ const ExpensePresentational = ({
   return (
     <div className="space-y-6">
       <Card className="border-gray-200 dark:border-gray-800 shadow-sm">
-        <CommonPageHeader title="経費申請" description="交通費、一般経費の申請及び管理ができます。" />
+        <CommonPageHeader
+          title="経費申請"
+          description="交通費、一般経費の申請及び管理ができます。"
+          actionDialog={<ExpenseUpsertDialog type="add" triggerContent={<AddButton label="経費申請" />} />}
+        />
 
         <CardContent className="space-y-4">
-          <ExpenseFilterSelector currentYear={currentYear} currentMonth={currentMonth} currentStatus={currentStatus} currentExpenseType={currentExpenseType} />
+          <ExpenseFilterSelector
+            currentYear={currentYear}
+            currentMonth={currentMonth}
+            currentStatus={currentStatus}
+            currentExpenseType={currentExpenseType}
+          />
           <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
             <div className="flex items-center gap-3">
               <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -41,7 +53,7 @@ const ExpensePresentational = ({
             </div>
           </div>
           <div className="rounded-lg overflow-hidden">
-            <MonthlyAttendanceApprovalsTable attendances={attendances} departments={myCompanyDepartments} />
+            <ExpenseTable expenseData={expenseData} />
           </div>
         </CardContent>
       </Card>
