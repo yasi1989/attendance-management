@@ -15,11 +15,9 @@ import { RouteFormItem } from './RouteFormItem';
 import InputFormField from '@/components/InputFormField';
 import InputFileFormField from '@/components/InputFileFormField';
 import InputSelectFormField from '@/components/InputSelectFormField';
-import { useState } from 'react';
-import { StatusType } from '@/types/statusType';
 import DialogActionFooter from '@/components/DialogActionFooter';
 import { Button } from '@/components/ui/button';
-import { ExpenseItem, ExpenseTypeFilter } from '../../type/ExpenseType';
+import { ExpenseItem } from '../../type/ExpenseType';
 import { useExpenseForm } from '../hooks/useExpenseForm';
 
 type ExpenseUpsertDialogProps = {
@@ -28,16 +26,20 @@ type ExpenseUpsertDialogProps = {
   triggerContent?: React.ReactNode;
 };
 
-const disabledForm = (type: 'add' | 'edit', status: StatusType | undefined) => {
-  return type === 'edit' && (status === 'Submitted' || status === 'Approved' || status === undefined);
-};
-
 export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUpsertDialogProps) => {
-  const [expenseType, setExpenseType] = useState<ExpenseTypeFilter>(expense?.expenseType || 'General');
-  const { form, onSubmit, isSubmitted, fields, append, remove, resetToDefault } = useExpenseForm({
-    type,
-    expense,
-  });
+  const {
+    form,
+    onSubmit,
+    isSubmitted,
+    fields,
+    handleAddRoute,
+    handleRemoveRoute,
+    expenseType,
+    isDisabled,
+    handleExpenseTypeChange,
+    resetToDefault,
+  } = useExpenseForm({ type, expense });
+
   return (
     <Form {...form}>
       <Dialog>
@@ -48,6 +50,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
               <DialogTitle className="text-lg sm:text-xl">経費申請</DialogTitle>
             </DialogHeader>
             <DialogDescription className="text-sm">交通費や一般経費の情報を申請します。</DialogDescription>
+
             <div className="space-y-6 pt-4">
               <div className="space-y-8">
                 <div className="space-y-6">
@@ -66,9 +69,9 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                         { value: 'General', label: '一般経費' },
                         { value: 'Transport', label: '交通費' },
                       ]}
-                      onValueChange={(value) => setExpenseType(value as ExpenseTypeFilter)}
+                      onValueChange={handleExpenseTypeChange}
                       required
-                      disabled={disabledForm(type, expense?.statusCode)}
+                      disabled={isDisabled}
                     />
                     <InputCalendarFormField
                       form={form}
@@ -76,7 +79,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                       label="発生日"
                       placeholder="日付を選択"
                       required
-                      disabled={disabledForm(type, expense?.statusCode)}
+                      disabled={isDisabled}
                     />
                     <InputCalendarFormField
                       form={form}
@@ -84,7 +87,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                       label="申請日"
                       placeholder="日付を選択"
                       required
-                      disabled={disabledForm(type, expense?.statusCode)}
+                      disabled={isDisabled}
                     />
                     <div className="lg:col-span-3">
                       <InputTextFormField
@@ -96,7 +99,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                         required
                         row={4}
                         className="resize-none"
-                        disabled={disabledForm(type, expense?.statusCode)}
+                        disabled={isDisabled}
                       />
                     </div>
                   </div>
@@ -116,9 +119,9 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                             <RouteFormItem
                               key={field.id}
                               index={index}
-                              onRemove={() => remove(index)}
+                              onRemove={() => handleRemoveRoute(index)}
                               isRemovable={fields.length > 1}
-                              disabled={disabledForm(type, expense?.statusCode)}
+                              disabled={isDisabled}
                             />
                           ))}
                         </div>
@@ -130,8 +133,8 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                           variant="outline"
                           size="sm"
                           className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
-                          onClick={() => append({ from: '', to: '', fare: 0 })}
-                          disabled={disabledForm(type, expense?.statusCode)}
+                          onClick={handleAddRoute}
+                          disabled={isDisabled}
                         >
                           <Plus className="h-4 w-4" />
                           <span>経路を追加</span>
@@ -155,19 +158,20 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                       type="number"
                       moneyField={true}
                       className="pl-8"
-                      disabled={expenseType === 'Transport' || disabledForm(type, expense?.statusCode)}
+                      disabled={expenseType === 'Transport' || isDisabled}
                     />
                     <InputFileFormField
                       form={form}
                       name="receiptFile"
                       label="領収書"
                       existingFile={expense?.receiptUrl}
-                      disabled={disabledForm(type, expense?.statusCode)}
+                      disabled={isDisabled}
                     />
                   </div>
                 </div>
               </div>
-              {!disabledForm(type, expense?.statusCode) && (
+
+              {!isDisabled && (
                 <DialogFooter>
                   <DialogActionFooter resetToDefault={resetToDefault} disabled={isSubmitted} />
                 </DialogFooter>

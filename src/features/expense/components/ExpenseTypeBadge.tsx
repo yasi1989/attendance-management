@@ -18,7 +18,7 @@ const getExpenseTypeStyle = (status: ExpenseTypeDB) => {
   }
 };
 
-const getExpenseTypeName = (status: ExpenseTypeDB) => {
+export const getExpenseTypeName = (status: ExpenseTypeDB) => {
   switch (status) {
     case 'Transport':
       return '交通費';

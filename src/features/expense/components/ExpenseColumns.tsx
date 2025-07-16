@@ -7,8 +7,8 @@ import { formatDateToISOString } from '@/lib/date';
 import { Checkbox } from '@/components/ui/checkbox';
 import { StatusType } from '@/types/statusType';
 import { compareAsc } from 'date-fns';
-import StatusBadge from '@/components/StatusBadge';
-import ExpenseTypeBadge from './ExpenseTypeBadge';
+import StatusBadge, { getStatusName } from '@/components/StatusBadge';
+import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
@@ -138,12 +138,19 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
     accessorKey: 'status',
     id: 'status',
-    header: () => {
+    header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">
-            <Check />
-            状態
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Check className="h-3 w-3 md:h-4 md:w-4" />
+              <span>状態</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
@@ -153,16 +160,26 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <StatusBadge status={row.original.statusCode} />
       </div>
     ),
+    sortingFn: (rowA, rowB) => {
+      return getStatusName(rowA.original.statusCode).localeCompare(getStatusName(rowB.original.statusCode));
+    },
   },
   {
     accessorKey: 'expenseType',
     id: 'expenseType',
-    header: () => {
+    header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">
-            <Navigation />
-            経費
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Navigation className="h-3 w-3 md:h-4 md:w-4" />
+              <span>経費</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
           </Button>
         </div>
       );
@@ -172,6 +189,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <ExpenseTypeBadge status={row.original.expenseType} />
       </div>
     ),
+    sortingFn: (rowA, rowB) => {
+      return getExpenseTypeName(rowA.original.expenseType).localeCompare(getExpenseTypeName(rowB.original.expenseType));
+    },
   },
   {
     accessorKey: 'amount',

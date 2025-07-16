@@ -22,7 +22,7 @@ const getStatusStyle = (status: StatusType) => {
   }
 };
 
-const getStatusName = (status: StatusType) => {
+export const getStatusName = (status: StatusType) => {
   switch (status) {
     case 'Draft':
       return '下書き';
