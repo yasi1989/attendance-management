@@ -1,7 +1,7 @@
 import { fetchExpenses } from '@/features/expense/services/fetchExpense';
 import { StatusType } from '@/types/statusType';
 import ExpensePresentational from './presentational';
-import { ExpenseTypeFilter } from '@/features/expense/history/type/expenseDataType';
+import { ExpenseTypeFilter } from '@/features/expense/type/ExpenseType';
 
 type ExpenseContainerProps = {
   year: number;
