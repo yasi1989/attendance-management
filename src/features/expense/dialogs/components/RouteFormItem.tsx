@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
 import { z } from 'zod';
 import InputFormField from '@/components/InputFormField';
-import { ExpenseFormSchema } from '../../lib/formSchema';
+import { ExpenseFormSchema } from '../lib/formSchema';
 
 interface RouteFormItemProps {
   index: number;
