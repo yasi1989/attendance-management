@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Clock, Calendar, AlertCircle, Star } from 'lucide-react';
+import { Clock, Calendar, AlertCircle, Star, Lock } from 'lucide-react';
 import { AttendanceData } from '../../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { formatDateToISOString } from '@/lib/date';
@@ -47,7 +47,9 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
     isHalfDay,
     resetToDefault,
     isPending,
+    isDisabled,
   } = useAttendance(day, attendanceData);
+
   const isWeekend = isSaturday(day) || isSunday(day);
 
   return (
@@ -60,7 +62,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
             </div>
           </DialogTrigger>
 
-          <DialogContent className="max-w-4xl sm:w-full p-0">
+          <DialogContent className="max-w-4xl sm:w-full px-0 py-2">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogHeader className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
@@ -115,6 +117,20 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                         </Badge>
                       )}
                     </CardTitle>
+
+                    {isDisabled && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 dark:bg-yellow-900/20 dark:border-yellow-800">
+                        <div className="flex items-start space-x-2">
+                          <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
+                          <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                            {attendanceData?.status === 'Approved'
+                              ? 'この勤怠データは承認済みのため編集できません。'
+                              : 'この勤怠データは申請済みのため編集できません。'}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     {(isWeekend || holidayInfo) && (
                       <div className="bg-red-50 border border-red-200 rounded-lg p-3 dark:bg-red-900/20 dark:border-red-800">
                         <div className="flex items-start space-x-2">
@@ -126,6 +142,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       </div>
                     )}
                   </CardHeader>
+
                   <CardContent className="space-y-4">
                     <InputSelectFormField
                       form={form}
@@ -134,6 +151,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       options={ATTENDANCE_OPTIONS}
                       onValueChange={resetAttendanceForm}
                       required
+                      disabled={isDisabled}
                     />
 
                     {attendanceType === 'Paid' && (
@@ -143,10 +161,16 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                           name="isHalfDay"
                           label="半休申請"
                           onValueChange={resetHalfDayForm}
+                          disabled={isDisabled}
                         />
                         {isHalfDay && (
                           <div className="ml-6">
-                            <InputRadioFormField form={form} name="halfDayType" options={HALF_DAY_OPTIONS} />
+                            <InputRadioFormField
+                              form={form}
+                              name="halfDayType"
+                              options={HALF_DAY_OPTIONS}
+                              disabled={isDisabled}
+                            />
                           </div>
                         )}
                       </div>
@@ -163,6 +187,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                               label="出勤時間"
                               placeholder="出勤時間"
                               required
+                              disabled={isDisabled}
                             />
                           </div>
                           <div className="space-y-2">
@@ -172,6 +197,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                               label="退勤時間"
                               placeholder="退勤時間"
                               required
+                              disabled={isDisabled}
                             />
                           </div>
                           <div className="space-y-2">
@@ -181,6 +207,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                               label="休憩時間"
                               placeholder="休憩時間"
                               required
+                              disabled={isDisabled}
                             />
                           </div>
                         </div>
@@ -194,14 +221,17 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       placeholder="申請に関する補足事項があれば入力してください（任意）"
                       className="resize-none"
                       maxLength={500}
+                      disabled={isDisabled}
                     />
                   </CardContent>
                 </Card>
               </ScrollArea>
 
-              <DialogFooter className="px-4 sm:px-6 py-4">
-                <DialogActionFooter resetToDefault={resetToDefault} disabled={isPending} />
-              </DialogFooter>
+              {!isDisabled && (
+                <DialogFooter className="px-4 sm:px-6 py-4">
+                  <DialogActionFooter resetToDefault={resetToDefault} disabled={isPending} />
+                </DialogFooter>
+              )}
             </form>
           </DialogContent>
         </Dialog>

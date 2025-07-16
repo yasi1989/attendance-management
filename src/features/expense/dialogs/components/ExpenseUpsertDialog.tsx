@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { Banknote, Calendar, Plus, Train } from 'lucide-react';
+import { Banknote, Calendar, Plus, Train, Lock } from 'lucide-react';
 import InputTextFormField from '@/components/InputTextFormField';
 import InputCalendarFormField from '@/components/InputCalendarFormField';
 import { RouteFormItem } from './RouteFormItem';
@@ -47,7 +47,9 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
         <DialogContent className="w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle className="text-lg sm:text-xl">経費申請</DialogTitle>
+              <div className="flex flex-wrap items-center gap-2">
+                <DialogTitle className="text-lg sm:text-xl">経費申請</DialogTitle>
+              </div>
             </DialogHeader>
             <DialogDescription className="text-sm">交通費や一般経費の情報を申請します。</DialogDescription>
 
@@ -58,6 +60,19 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                     <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">基本情報</h2>
                   </div>
+
+                  {isDisabled && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 dark:bg-yellow-900/20 dark:border-yellow-800">
+                      <div className="flex items-start space-x-2">
+                        <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
+                        <p className="text-xs text-yellow-800 dark:text-yellow-300">
+                          {expense?.statusCode === 'Approved'
+                            ? 'この経費データは承認済みのため編集できません。'
+                            : 'この経費データは申請済みのため編集できません。'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <InputSelectFormField

@@ -253,7 +253,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
             target="_blank"
             className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
           >
-            <FileText className="h-4 w-4 text-slate-600" />
+            <Receipt className="h-4 w-4 text-slate-600" />
           </Link>
         )}
       </div>
@@ -270,7 +270,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-1">
+        <div className="flex space-x-1 items-center justify-center">
           <ExpenseUpsertDialog
             type="edit"
             expense={row.original}
@@ -279,7 +279,11 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
                 variant="ghost"
                 className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
               >
-                <Edit className="h-4 w-4 text-blue-600" />
+                {canSubmit(row.original.statusCode) ? (
+                  <Edit className="h-4 w-4 text-blue-600" />
+                ) : (
+                  <FileText className="h-4 w-4 text-blue-600" />
+                )}
               </Button>
             }
           />
