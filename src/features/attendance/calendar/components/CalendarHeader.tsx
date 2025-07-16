@@ -4,7 +4,6 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  Send,
   CheckCircle2,
   AlertCircle,
   Clock,
@@ -12,19 +11,8 @@ import {
   FileText,
 } from 'lucide-react';
 import { MONTHS_JP } from '../const/calendarConst';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { MonthlySubmissionStatus } from '../types/attendance';
+import AttendanceBulkDialog from '../dialog/components/AttendanceBulkDialog';
 
 interface CalendarHeaderProps {
   currentDate: Date;
@@ -35,7 +23,7 @@ interface CalendarHeaderProps {
   canSubmit: boolean;
 }
 
-const formatMonth = (date: Date) => {
+export const formatMonth = (date: Date) => {
   return `${date.getFullYear()}年 ${MONTHS_JP[date.getMonth()]}`;
 };
 
@@ -101,22 +89,6 @@ const CalendarHeader = ({
   monthlyStatus,
   canSubmit,
 }: CalendarHeaderProps) => {
-  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
-  const [comment, setComment] = useState('');
-
-  const handleSubmit = () => {
-    console.log('月次勤怠申請を提出:', {
-      year: currentDate.getFullYear(),
-      month: currentDate.getMonth() + 1,
-      comment,
-    });
-    setIsSubmitDialogOpen(false);
-    setComment('');
-  };
-
-  const canSubmitMonthly =
-    (monthlyStatus === 'Rejected' || monthlyStatus === 'None' || monthlyStatus === 'Draft') && canSubmit;
-
   return (
     <CardHeader className="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 px-6 py-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -136,57 +108,7 @@ const CalendarHeader = ({
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
-            <DialogTrigger asChild>
-              <Button
-                size="lg"
-                disabled={!canSubmitMonthly}
-                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-sm font-medium transition-colors duration-200"
-              >
-                <Send className="h-4 w-4 mr-2" />
-                月次申請
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-lg mx-4">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                  月次勤怠申請
-                </DialogTitle>
-                <DialogDescription className="text-gray-600 dark:text-gray-400">
-                  {formatMonth(currentDate)}の勤怠データを申請します。申請後は承認されるまで編集できません。
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-6 py-4">
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">申請コメント（任意）</Label>
-                  <Textarea
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="申請に関するコメントや補足事項があれば入力してください"
-                    className="resize-none bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                    rows={4}
-                  />
-                </div>
-              </div>
-              <DialogFooter className="gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsSubmitDialogOpen(false)}
-                  className="border-gray-300 dark:border-gray-600"
-                >
-                  キャンセル
-                </Button>
-                <Button
-                  onClick={handleSubmit}
-                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  申請する
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
+          <AttendanceBulkDialog currentDate={currentDate} monthlyStatus={monthlyStatus} canSubmit={canSubmit} />
           <div className="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700 shadow-sm">
             <Button
               variant="ghost"
