@@ -6,7 +6,6 @@ export type ApprovalStepType = {
   approverId: string;
   approver: UserType;
   status: StatusType;
-  statusName: string;
   approvedAt?: Date;
   comment?: string;
 };

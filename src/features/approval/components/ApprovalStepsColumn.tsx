@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { ApprovalStepType } from '@/features/approval/type/approvalStepType';
 import { formatDateToISOString } from '@/lib/date';
-import { Badge } from '@/components/ui/badge';
+import StatusBadge from '@/components/layout/StatusBadge';
 
 export const columns: ColumnDef<ApprovalStepType>[] = [
   {
@@ -43,7 +43,7 @@ export const columns: ColumnDef<ApprovalStepType>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {statusBadge(row.original.status, row.original.statusName)}
+        <StatusBadge status={row.original.status} />
       </div>
     ),
   },
@@ -100,26 +100,3 @@ export const columns: ColumnDef<ApprovalStepType>[] = [
     ),
   },
 ];
-
-const statusBadge = (status: string, statusName: string) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Submitted':
-        return 'amber';
-      case 'Approved':
-        return 'green';
-      case 'Rejected':
-        return 'red';
-      default:
-        return 'slate';
-    }
-  };
-  return (
-    <Badge
-      variant="outline"
-      className={`bg-${getStatusColor(status)}-50 dark:bg-${getStatusColor(status)}-900/20 border-${getStatusColor(status)}-300 dark:border-${getStatusColor(status)}-800 text-${getStatusColor(status)}-700 dark:text-${getStatusColor(status)}-400`}
-    >
-      {statusName}
-    </Badge>
-  );
-};
