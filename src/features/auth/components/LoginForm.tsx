@@ -8,13 +8,13 @@ import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import SeparatorInMessage from '@/components/SeparatorInMessage';
+import SeparatorInMessage from '@/components/layout/SeparatorInMessage';
 
 const LoginForm = () => {
   const [activeTab, setActiveTab] = useState<string>('signin');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md relative">
         <div className="absolute -top-4 -left-4 w-72 h-72 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-pulse" />
         <div className="absolute -bottom-8 -right-4 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-bounce" />

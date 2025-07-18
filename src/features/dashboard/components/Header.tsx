@@ -58,28 +58,28 @@ const Header = () => {
   };
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-[width,height] ease-linear sticky top-0 z-50">
+    <header className="flex h-16 shrink-0 items-center gap-2 header-gradient sticky top-0 z-50 shadow-sm">
       <div className="flex w-full items-center justify-between gap-4 px-4 lg:px-6">
         <div className="flex items-center gap-3">
-          <SidebarTrigger className="-ml-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors p-1.5 rounded" />
-          <Separator orientation="vertical" className="h-5 mx-1 bg-gray-300 dark:bg-gray-600" />
+          <SidebarTrigger className="-ml-1 hover:bg-blue-50/80 dark:hover:bg-slate-700/60 transition-all duration-200 p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400" />
+          <Separator orientation="vertical" className="h-5 mx-1 bg-slate-300/50 dark:bg-slate-600/50" />
           <div className="flex flex-col">
-            <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100">{pageTitle}</h1>
-            {breadcrumb && <p className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">{breadcrumb}</p>}
+            <h1 className="text-base font-semibold text-slate-900 dark:text-slate-100">{pageTitle}</h1>
+            {breadcrumb && <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">{breadcrumb}</p>}
           </div>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">
-            <Clock className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-lg backdrop-blur-sm shadow-sm transition-all duration-200 hover:bg-white/90 dark:hover:bg-slate-800/90">
+            <Clock className="h-4 w-4 text-slate-600 dark:text-slate-400" />
             <div className="flex flex-col items-center">
-              <span className="text-sm font-mono font-medium text-gray-900 dark:text-gray-100">
+              <span className="text-sm font-mono font-medium text-slate-900 dark:text-slate-100">
                 {currentTime.toLocaleTimeString('ja-JP', {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 {currentTime.toLocaleDateString('ja-JP', {
                   month: 'numeric',
                   day: 'numeric',
@@ -90,19 +90,19 @@ const Header = () => {
           </div>
 
           <div
-            className={`flex items-center gap-2 px-3 py-1.5 border rounded text-sm ${
+            className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm backdrop-blur-sm shadow-sm transition-all duration-200 ${
               headerIsWorking
-                ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300'
-                : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400'
+                ? 'bg-gradient-to-r from-green-50/90 to-emerald-50/90 dark:from-green-900/30 dark:to-emerald-900/30 border-green-200/50 dark:border-green-800/50 text-green-800 dark:text-green-300 hover:from-green-50 hover:to-emerald-50 dark:hover:from-green-900/40 dark:hover:to-emerald-900/40'
+                : 'bg-gradient-to-r from-slate-50/90 to-gray-50/90 dark:from-slate-800/80 dark:to-gray-800/80 border-slate-200/50 dark:border-slate-700/50 text-slate-600 dark:text-slate-400 hover:from-slate-50 hover:to-gray-50 dark:hover:from-slate-800/90 dark:hover:to-gray-800/90'
             }`}
           >
             <div
-              className={`w-2 h-2 rounded-full ${
-                headerIsWorking ? 'bg-green-500 dark:bg-green-400' : 'bg-gray-400 dark:bg-gray-500'
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                headerIsWorking ? 'bg-green-500 dark:bg-green-400 shadow-sm' : 'bg-slate-400 dark:bg-slate-500'
               }`}
             />
             <span className="font-medium">{headerIsWorking ? '勤務中' : '退勤中'}</span>
-            {headerWorkStartTime && headerIsWorking && <span className="text-xs">({headerWorkStartTime}〜)</span>}
+            {headerWorkStartTime && headerIsWorking && <span className="text-xs opacity-80">({headerWorkStartTime}〜)</span>}
           </div>
         </div>
 

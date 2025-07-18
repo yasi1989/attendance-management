@@ -1,6 +1,6 @@
 'use client';
 
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { columnsDef } from './DepartmentsColumns';
 import { UserType } from '@/features/system/users/type/userType';

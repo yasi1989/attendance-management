@@ -1,19 +1,20 @@
 'use client';
 
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import { useEmployee } from '../hooks/useEmployees';
-import InputSelectFormField from '@/components/InputSelectFormField';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
 import { getDepartmentPath } from '../lib/departmentUtils';
-import CommonDialog, { DialogConfig } from '@/components/CommonDialog';
+import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertEmployeeDialogProps = {
   user: UserType;
   departments: DepartmentType[];
   roles: RoleType[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function UpdateEmployeeDialog({ user, departments, roles, children }: UpsertEmployeeDialogProps) {
@@ -43,13 +44,14 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
       />
     </div>
   );
+  const triggerButton = children || <EditButton />;
   return (
     <CommonDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
-      trigger={children}
+      trigger={triggerButton}
       formContent={formContent}
     />
   );

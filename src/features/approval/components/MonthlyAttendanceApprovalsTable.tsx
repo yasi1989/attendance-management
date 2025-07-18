@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { columnsDef } from './AttendanceApprovalsColumns';

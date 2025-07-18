@@ -4,7 +4,7 @@ import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { Form } from '@/components/ui/form';
-import InputTextFormField from '@/components/InputTextFormField';
+import InputTextFormField from '@/components/form/InputTextFormField';
 
 type ApprovalBulkFormProps = {
   selectedIds: string[];

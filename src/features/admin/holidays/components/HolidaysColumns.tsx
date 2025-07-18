@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpDown, Edit, Calendar, Settings, Gift } from 'lucide-react';
+import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { HolidayType } from '../type/holidayType';
@@ -105,11 +105,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertHolidayDialog type="edit" data={row.original}>
-            <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-              <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
-            </Button>
-          </UpsertHolidayDialog>
+          <UpsertHolidayDialog type="edit" data={row.original} />
           <DeleteHolidayDialog />
         </div>
       );

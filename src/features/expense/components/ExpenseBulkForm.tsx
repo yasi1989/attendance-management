@@ -2,7 +2,7 @@ import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Send } from 'lucide-react';
 import { Form } from '@/components/ui/form';
-import InputTextFormField from '@/components/InputTextFormField';
+import InputTextFormField from '@/components/form/InputTextFormField';
 import { useBatchExpense } from '../hooks/useBatchApproval';
 import { BatchExpenseType } from '../lib/formSchema';
 

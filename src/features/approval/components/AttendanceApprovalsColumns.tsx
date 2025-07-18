@@ -7,7 +7,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import StatusBadge from '../../../components/StatusBadge';
+import StatusBadge from '../../../components/layout/StatusBadge';
 
 type AttendanceApprovalsColumnsProps = {
   departments: DepartmentType[];

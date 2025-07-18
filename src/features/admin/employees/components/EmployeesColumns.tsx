@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
-import { Edit } from 'lucide-react';
 import { getDepartmentPath } from '../lib/departmentUtils';
 import { UpdateEmployeeDialog } from './UpdateEmployeeDialog';
 import DeleteEmployeeDialog from './DeleteEmployeeDialog';
@@ -190,11 +189,7 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
       cell: ({ row }) => {
         return (
           <div className="flex space-x-1 items-center justify-center">
-            <UpdateEmployeeDialog user={row.original} departments={departments} roles={roles}>
-              <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-                <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
-              </Button>
-            </UpdateEmployeeDialog>
+            <UpdateEmployeeDialog user={row.original} departments={departments} roles={roles} />
             <DeleteEmployeeDialog />
           </div>
         );

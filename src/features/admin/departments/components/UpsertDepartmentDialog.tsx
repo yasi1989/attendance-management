@@ -1,18 +1,19 @@
 'use client';
 
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import InputSelectFormField from '@/components/InputSelectFormField';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { useDepartments } from '../hooks/useDepartments';
 import { UserType } from '@/features/system/users/type/userType';
-import CommonDialog, { DialogConfig } from '@/components/CommonDialog';
+import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertDepartmentDialogProps = {
   type: 'add' | 'edit';
   userDepartment?: DepartmentType;
   allDepartments: DepartmentType[];
   users: UserType[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function UpsertDepartmentDialog({
@@ -46,13 +47,14 @@ export function UpsertDepartmentDialog({
       />
     </div>
   );
+  const triggerButton = children || <EditButton />;
   return (
     <CommonDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
-      trigger={children}
+      trigger={triggerButton}
       formContent={formContent}
     />
   );

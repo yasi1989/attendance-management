@@ -1,17 +1,18 @@
 'use client';
-import { ArrowUpDown, FileText, Edit, Calendar, Check, Receipt, DollarSign, Navigation } from 'lucide-react';
+import { ArrowUpDown, FileText, Calendar, Check, Receipt, DollarSign, Navigation } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { formatDateToISOString } from '@/lib/date';
 import { Checkbox } from '@/components/ui/checkbox';
 import { StatusType } from '@/types/statusType';
 import { compareAsc } from 'date-fns';
-import StatusBadge, { getStatusName } from '@/components/StatusBadge';
+import StatusBadge, { getStatusName } from '@/components/layout/StatusBadge';
 import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
+import { EditButton } from '@/components/actionButton/EditButton';
+import { ViewButton } from '@/components/actionButton/ViewButton';
 
 const canSubmit = (status: StatusType) => {
   return status === 'Rejected' || status === 'Draft';
@@ -247,15 +248,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.receiptUrl && row.original.receiptUrl !== '' && (
-          <Link
-            href={row.original.receiptUrl}
-            target="_blank"
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors"
-          >
-            <Receipt className="h-4 w-4 text-slate-600" />
-          </Link>
-        )}
+        {row.original.receiptUrl && row.original.receiptUrl !== '' && <ViewButton href={row.original.receiptUrl} />}
       </div>
     ),
   },
@@ -274,18 +267,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
           <ExpenseUpsertDialog
             type="edit"
             expense={row.original}
-            triggerContent={
-              <Button
-                variant="ghost"
-                className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors"
-              >
-                {canSubmit(row.original.statusCode) ? (
-                  <Edit className="h-4 w-4 text-blue-600" />
-                ) : (
-                  <FileText className="h-4 w-4 text-blue-600" />
-                )}
-              </Button>
-            }
+            triggerContent={canSubmit(row.original.statusCode) ? <EditButton /> : <EditButton icon={<FileText />} />}
           />
           {canSubmit(row.original.statusCode) && <ExpenseDeleteDialog />}
         </div>

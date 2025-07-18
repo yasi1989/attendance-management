@@ -46,6 +46,10 @@ export function NavMain({
     }));
   };
 
+  const isItemActive = (item: { url: string; items?: { url: string }[] }) => {
+    return pathname === item.url || item.items?.some((subItem) => pathname === subItem.url);
+  };
+
   const isSubItemActive = (subItem: { url: string }) => {
     return pathname === subItem.url;
   };
@@ -63,7 +67,11 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className={`sidebar-menu-item cursor-pointer ${isItemActive(item) ? 'sidebar-menu-active' : ''}`}
+                  isActive={isItemActive(item)}
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -73,7 +81,14 @@ export function NavMain({
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild isActive={isSubItemActive(subItem)}>
+                      <SidebarMenuSubButton
+                        asChild
+                        isActive={isSubItemActive(subItem)}
+                        className={`sidebar-menu-item cursor-pointer ${
+                          isSubItemActive(subItem) ? 'sidebar-menu-active' : ''
+                        }`}
+                        data-level="sub"
+                      >
                         <a href={subItem.url}>
                           <span>{subItem.title}</span>
                         </a>

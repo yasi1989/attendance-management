@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { columnsDef } from './ExpenseApprovalsColumns';
 import ApprovalBulkForm from './ApprovalBulkForm';

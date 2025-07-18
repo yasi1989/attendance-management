@@ -8,7 +8,7 @@ import { formatCurrency } from '@/lib/currency';
 import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
-import ApprovalStatusBadge from '../../../components/StatusBadge';
+import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
 
 type ExpenseApprovalsColumnsProps = {
   departments: DepartmentType[];

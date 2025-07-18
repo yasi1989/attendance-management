@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpDown, Edit, Building, Globe, Calendar, Settings } from 'lucide-react';
+import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { CompanyType } from '../type/companyType';
@@ -141,11 +141,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertCompanyDialog type="edit" data={row.original}>
-            <Button className="items-center justify-center h-8 w-8 rounded-full bg-blue-50 hover:bg-blue-100 transition-colors">
-              <Edit className="h-3 w-3 md:h-4 md:w-4 text-blue-600" />
-            </Button>
-          </UpsertCompanyDialog>
+          <UpsertCompanyDialog type="edit" data={row.original} />
           <DeleteCompanyDialog />
         </div>
       );

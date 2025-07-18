@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { holidaysColumns } from './HolidaysColumns';
 import { HolidayType } from '../type/holidayType';
 

@@ -1,14 +1,15 @@
 'use client';
 
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import { useCompany } from '../hooks/useCompany';
 import { CompanyType } from '../type/companyType';
-import CommonDialog from '@/components/CommonDialog';
+import CommonDialog from '@/components/dialog/CommonDialog';
+import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertCompanyDialogProps = {
   type: 'add' | 'edit';
   data?: CompanyType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialogProps) {
@@ -25,13 +26,14 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
       <InputFormField name="domain" label="ドメイン" form={form} maxLength={255} required />
     </div>
   );
+  const triggerButton = children || <EditButton />;
   return (
     <CommonDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
-      trigger={children}
+      trigger={triggerButton}
       formContent={formContent}
     />
   );

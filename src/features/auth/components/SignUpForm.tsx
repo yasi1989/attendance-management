@@ -1,6 +1,6 @@
 import { Form } from '@/components/ui/form';
 import { useSignUpForm } from '../hooks/useLoginForm';
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import AuthButton from './AuthButton';
 
 const SignUpForm = () => {

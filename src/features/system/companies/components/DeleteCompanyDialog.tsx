@@ -1,21 +1,7 @@
-import ActionDialog from '@/components/ActionDialog';
-import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
+import { DeleteButton } from '@/components/actionButton/DeleteButton';
 
 const DeleteCompanyDialog = () => {
-  return (
-    <ActionDialog
-      title="本当に削除しますか？"
-      description="この動作は元に戻せません。選択した会社コードを削除しますか？"
-      cancelLabel="キャンセル"
-      actionLabel="続行"
-      onAction={async () => {}}
-    >
-      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-red-50 hover:bg-red-100 transition-colors">
-        <Trash2 className="h-3 w-3 md:h-4 md:w-4 text-red-600" />
-      </Button>
-    </ActionDialog>
-  );
+  return <DeleteButton onDelete={async () => {}} />;
 };
 
 export default DeleteCompanyDialog;

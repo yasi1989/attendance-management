@@ -12,31 +12,38 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Clock, Calendar, AlertCircle, Star, Lock } from 'lucide-react';
+import { Clock, Calendar, AlertCircle, Star, Lock, X } from 'lucide-react';
 import { AttendanceData } from '../../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { formatDateToISOString } from '@/lib/date';
 import { isSaturday, isSunday } from 'date-fns';
-import InputSelectFormField from '@/components/InputSelectFormField';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { useAttendance } from '../hooks/useAttendance';
-import InputRadioFormField from '@/components/InputRadioFormField';
-import InputCheckboxFormField from '@/components/InputCheckboxFormField';
-import InputTimeFormField from '@/components/InputTimeFormField';
-import InputTextFormField from '@/components/InputTextFormField';
+import InputRadioFormField from '@/components/form/InputRadioFormField';
+import InputCheckboxFormField from '@/components/form/InputCheckboxFormField';
+import InputTimeFormField from '@/components/form/InputTimeFormField';
+import InputTextFormField from '@/components/form/InputTextFormField';
 import { FormProvider } from 'react-hook-form';
 import { ATTENDANCE_OPTIONS, HALF_DAY_OPTIONS } from '../const/attendanceConst';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import DialogActionFooter from '@/components/DialogActionFooter';
+import DialogActionFooter from '@/components/dialog/DialogActionFooter';
 
 type AttendanceDialogProps = {
   day: Date;
   attendanceData?: AttendanceData;
   holidayInfo?: HolidayType;
   triggerContent?: React.ReactNode;
+  preventOutsideClick?: boolean;
 };
 
-const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: AttendanceDialogProps) => {
+const AttendanceDialog = ({
+  day,
+  attendanceData,
+  holidayInfo,
+  triggerContent,
+  preventOutsideClick = true,
+}: AttendanceDialogProps) => {
   const [open, setOpen] = useState(false);
   const {
     form,
@@ -52,21 +59,33 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
 
   const isWeekend = isSaturday(day) || isSunday(day);
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (preventOutsideClick && !newOpen) {
+      return;
+    }
+    setOpen(newOpen);
+  };
+
   return (
     <FormProvider {...form}>
       <Form {...form}>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
-            <div onKeyUp={() => setOpen(true)} onKeyDown={() => setOpen(true)} className="cursor-pointer">
+            <div
+              onKeyUp={() => setOpen(true)}
+              onKeyDown={() => setOpen(true)}
+              onClick={() => setOpen(true)}
+              className="cursor-pointer"
+            >
               {triggerContent}
             </div>
           </DialogTrigger>
 
-          <DialogContent className="max-w-4xl sm:w-full px-0 py-2">
+          <DialogContent className="[&>button]:hidden max-w-4xl sm:w-full px-0 py-2">
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogHeader className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 flex-1">
                     <div
                       className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                         holidayInfo || isWeekend
@@ -97,6 +116,15 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent }: 
                       </DialogDescription>
                     </div>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200 ml-3"
+                    aria-label="ダイアログを閉じる"
+                  >
+                    <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
                 </div>
               </DialogHeader>
 

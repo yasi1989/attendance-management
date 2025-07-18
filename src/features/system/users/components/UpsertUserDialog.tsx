@@ -1,18 +1,19 @@
 'use client';
 
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import { useUsers } from '../hooks/useUsers';
 import { UserType } from '../type/userType';
 import { CompanyType } from '../../companies/type/companyType';
 import { RoleType } from '../type/roleType';
-import InputSelectFormField from '@/components/InputSelectFormField';
-import CommonDialog, { DialogConfig } from '@/components/CommonDialog';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
+import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import { EditButton } from '@/components/actionButton/EditButton';
 
 type UserEditDialogProps = {
   user?: UserType;
   companies?: CompanyType[];
   roles?: RoleType[];
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function UserEditDialog({ user, companies, roles, children }: UserEditDialogProps) {
@@ -42,13 +43,14 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
       />
     </div>
   );
+  const triggerButton = children || <EditButton />;
   return (
     <CommonDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
-      trigger={children}
+      trigger={triggerButton}
       formContent={formContent}
     />
   );

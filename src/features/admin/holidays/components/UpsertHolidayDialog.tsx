@@ -1,15 +1,16 @@
 'use client';
 
-import InputFormField from '@/components/InputFormField';
+import InputFormField from '@/components/form/InputFormField';
 import { HolidayType } from '../type/holidayType';
-import InputCalendarFormField from '@/components/InputCalendarFormField';
+import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import { useHoliday } from '../hooks/useHoliday';
-import CommonDialog, { DialogConfig } from '@/components/CommonDialog';
+import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertHolidayDialogProps = {
   type: 'add' | 'edit';
   data?: HolidayType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialogProps) {
@@ -26,13 +27,14 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
       <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
     </div>
   );
+  const triggerButton = children || <EditButton />;
   return (
     <CommonDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}
       isSubmitted={isSubmitted}
-      trigger={children}
+      trigger={triggerButton}
       formContent={formContent}
     />
   );

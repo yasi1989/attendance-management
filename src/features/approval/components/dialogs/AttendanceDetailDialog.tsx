@@ -4,19 +4,26 @@ import { Button } from '@/components/ui/button';
 import { MonthlyAttendanceApprovalItem } from '../../type/monthlyAttendanceApprovalType';
 import { IndividualApprovalType } from '../../lib/formSchema';
 import { Form } from '@/components/ui/form';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { StatusType } from '@/types/statusType';
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { columns } from '../../components/ApprovalStepsColumn';
 import ApprovalFooter from './ApprovalActions';
+import { X } from 'lucide-react';
 
 type AttendanceDetailDialogProps = {
   status: StatusType;
   attendance: MonthlyAttendanceApprovalItem;
+  preventOutsideClick?: boolean;
 };
 
-export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailDialogProps) => {
+export const AttendanceDetailDialog = ({
+  status,
+  attendance,
+  preventOutsideClick = true,
+}: AttendanceDetailDialogProps) => {
   const [isSubmitted, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
   const { form, handleIndividualApproval } = useIndividualApproval(
     attendance.id,
     async (approvalData: IndividualApprovalType) => {
@@ -26,22 +33,40 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
     },
   );
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (preventOutsideClick && !newOpen) {
+      return;
+    }
+    setOpen(newOpen);
+  };
+
   return (
     <Form {...form}>
-      <Dialog>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
           <Button variant="outline" size="sm">
             詳細
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form>
             <DialogHeader>
-              <DialogTitle className="text-lg sm:text-xl">
-                {attendance.user.lastName}
-                {attendance.user.firstName} ({attendance.targetMonth.getFullYear()}年
-                {attendance.targetMonth.getMonth() + 1}月)
-              </DialogTitle>
+              <div className="flex items-center justify-between">
+                <DialogTitle className="text-lg sm:text-xl">
+                  {attendance.user.lastName}
+                  {attendance.user.firstName} ({attendance.targetMonth.getFullYear()}年
+                  {attendance.targetMonth.getMonth() + 1}月)
+                </DialogTitle>
+
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200"
+                  aria-label="ダイアログを閉じる"
+                >
+                  <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </button>
+              </div>
             </DialogHeader>
             <div className="flex flex-col space-y-4 mt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

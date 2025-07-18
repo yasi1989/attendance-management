@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { companyColumns } from './CompaniesColumns';
 import { CompanyType } from '../type/companyType';
 

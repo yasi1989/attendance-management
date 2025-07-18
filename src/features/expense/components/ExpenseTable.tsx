@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 import { expenseColumns } from './ExpenseColumns';
 import { ExpenseItem } from '../type/ExpenseType';
 import ExpenseBulkForm from './ExpenseBulkForm';
