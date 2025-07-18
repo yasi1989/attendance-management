@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock } from 'lucide-react';
+import { Clock, DollarSign } from 'lucide-react';
 import { StatusType } from '@/types/statusType';
 import CommonPageHeader from '@/components/CommonPageHeader';
 import ExpenseFilterSelector from '@/features/expense/components/ExpenseFilterSelector';
@@ -31,6 +31,7 @@ const ExpensePresentational = ({
         <CommonPageHeader
           title="経費申請"
           description="交通費、一般経費の申請及び管理ができます。"
+          icon={<DollarSign className="w-6 h-6 text-white" />}
           actionDialog={<ExpenseUpsertDialog type="add" triggerContent={<AddButton label="経費申請" />} />}
         />
 

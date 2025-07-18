@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { Clock, DollarSign } from 'lucide-react';
+import { CheckCircle, Clock, DollarSign } from 'lucide-react';
 import { StatusType } from '@/types/statusType';
 import { Badge } from '@/components/ui/badge';
 import CommonPageHeader from '@/components/CommonPageHeader';
@@ -36,7 +36,11 @@ const ApprovalPresentational = ({
   return (
     <div className="space-y-6">
       <Card className="border-gray-200 dark:border-gray-800 shadow-sm">
-        <CommonPageHeader title="申請管理" description="承認プロセスの管理と進捗状況の確認" />
+        <CommonPageHeader
+          title="申請管理"
+          description="承認プロセスの管理と進捗状況の確認"
+          icon={<CheckCircle className="w-6 h-6 text-white" />}
+        />
 
         <CardContent className="space-y-4">
           <ApprovalFilterSelector currentYear={currentYear} currentMonth={currentMonth} currentStatus={currentStatus} />

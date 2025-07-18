@@ -5,6 +5,7 @@ import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import AddButton from '@/components/AddButton';
 import CommonPageHeader from '@/components/CommonPageHeader';
+import { Building } from 'lucide-react';
 
 type DepartmentsPresentationalProps = {
   departments: DepartmentType[];
@@ -17,6 +18,7 @@ const DepartmentsPresentational = ({ departments, users }: DepartmentsPresentati
       <CommonPageHeader
         title="部署・役職管理"
         description="登録されている部署・役職情報を確認・管理できます"
+        icon={<Building className="w-6 h-6 text-white" />}
         actionDialog={
           <UpsertDepartmentDialog type="add" allDepartments={departments} users={users}>
             <AddButton label="部署・役職登録" />

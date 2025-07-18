@@ -4,6 +4,7 @@ import { CompanyType } from '@/features/system/companies/type/companyType';
 import { UpsertCompanyDialog } from '@/features/system/companies/components/UpsertCompanyDialog';
 import AddButton from '@/components/AddButton';
 import CommonPageHeader from '@/components/CommonPageHeader';
+import { Building2 } from 'lucide-react';
 
 type CompaniesPresentationalProps = {
   companies: CompanyType[];
@@ -15,6 +16,7 @@ const CompaniesPresentational = ({ companies }: CompaniesPresentationalProps) =>
       <CommonPageHeader
         title="テナント管理"
         description="登録されているテナントを確認・管理できます"
+        icon={<Building2 className="w-6 h-6 text-white" />}
         actionDialog={
           <UpsertCompanyDialog type="add">
             <AddButton label="テナント登録" />

@@ -19,6 +19,7 @@ const HolidaysPresentational = ({ data, currentYear }: HolidaysPresentationalPro
       <CommonPageHeader
         title="休日管理"
         description="登録されている休日を確認・管理できます"
+        icon={<CalendarDays className="w-6 h-6 text-white" />}
         actionDialog={
           <UpsertHolidayDialog type="add">
             <AddButton label="休日登録" />
