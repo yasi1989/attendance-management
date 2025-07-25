@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { formatCurrency } from '@/lib/currency';
+import { formatCurrency } from '@/libs/currency';
 import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';

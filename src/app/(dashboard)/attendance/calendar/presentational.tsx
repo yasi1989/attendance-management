@@ -3,9 +3,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
+import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { AttendanceDataResponse } from '@/features/attendance/calendar/types/attendance';
-import { generateCalendarWeeks } from '@/features/attendance/calendar/lib/calenderUtils';
+import { generateCalendarWeeks } from '@/features/attendance/calendar/lib/calendarUtils';
 import CalendarHeader from '@/features/attendance/calendar/components/CalendarHeader';
 import WeekDayHeader from '@/features/attendance/calendar/components/WeekDayHeader';
 import CalendarDateCell from '@/features/attendance/calendar/components/CalendarDateCell';

@@ -15,7 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Clock, Calendar, AlertCircle, Star, Lock, X } from 'lucide-react';
 import { AttendanceData } from '../../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
-import { formatDateToISOString } from '@/lib/date';
+import { formatDateToISOString } from '@/libs/date';
 import { isSaturday, isSunday } from 'date-fns';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { useAttendance } from '../hooks/useAttendance';

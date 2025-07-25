@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/libs/utils';
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
 import { Clock, AlertTriangle, CheckCircle, Coffee, FileText } from 'lucide-react';
 import { AttendanceData } from '../types/attendance';

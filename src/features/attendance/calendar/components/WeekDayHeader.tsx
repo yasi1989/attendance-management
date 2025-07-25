@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/libs/utils';
 import { WEEKDAYS_JP } from '../const/calendarConst';
 
 const WeekDayHeader = () => {

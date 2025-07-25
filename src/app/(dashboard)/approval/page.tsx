@@ -1,5 +1,5 @@
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
+import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { Suspense } from 'react';
 import { StatusType } from '@/types/statusType';
 import ApprovalContainer from './container';

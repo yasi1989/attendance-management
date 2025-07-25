@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { HolidayType } from '../type/holidayType';
 import { UpsertHolidayDialog } from './UpsertHolidayDialog';
-import { formatDateToISOString } from '@/lib/date';
+import { formatDateToISOString } from '@/libs/date';
 import DeleteHolidayDialog from './DeleteHolidayDialog';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [

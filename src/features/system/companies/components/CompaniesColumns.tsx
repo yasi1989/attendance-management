@@ -4,7 +4,7 @@ import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { CompanyType } from '../type/companyType';
-import { formatDateToISOString } from '@/lib/date';
+import { formatDateToISOString } from '@/libs/date';
 import { UpsertCompanyDialog } from './UpsertCompanyDialog';
 import DeleteCompanyDialog from './DeleteCompanyDialog';
 
