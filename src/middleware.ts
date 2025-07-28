@@ -1,4 +1,23 @@
-export { auth as middleware } from '@/auth';
+import { auth } from '@/auth';
+import { NextResponse } from 'next/server';
+
+export default auth((req) => {
+  const reqUrl = new URL(req.url);
+  
+  const publicPaths = ['/', '/login', '/api/auth'];
+  
+  const isPublicPath = publicPaths.some(path => 
+    reqUrl.pathname === path || reqUrl.pathname.startsWith(path + '/')
+  );
+  
+  if (!req.auth && !isPublicPath) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+  
+  if (req.auth && reqUrl.pathname === '/login') {
+    return NextResponse.redirect(new URL('/attendance/calendar', req.url));
+  }
+});
 
 export const config = {
   matcher: [

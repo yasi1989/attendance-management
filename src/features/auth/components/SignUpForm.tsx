@@ -1,10 +1,10 @@
 import { Form } from '@/components/ui/form';
-import { useSignUpForm } from '../hooks/useLoginForm';
 import InputFormField from '@/components/form/InputFormField';
 import AuthButton from './AuthButton';
+import { useSignUpForm } from '../hooks/useSignUpForm';
 
 const SignUpForm = () => {
-  const { form, onSubmit, isSubmitted } = useSignUpForm();
+  const { form, onSubmit, isPending } = useSignUpForm();
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)} noValidate>
@@ -18,7 +18,7 @@ const SignUpForm = () => {
           type="password"
           maxLength={20}
         />
-        <AuthButton label="Sign Up" isSubmitted={isSubmitted} />
+        <AuthButton label="Sign Up" isPending={isPending} />
       </form>
     </Form>
   );

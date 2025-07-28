@@ -57,7 +57,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
               type="file"
               onChange={(event) => onChange(event.target.files)}
               {...fieldProps}
-              className={className}
+              className={`${className} cursor-pointer`}
               disabled={disabled}
             />
           </FormControl>

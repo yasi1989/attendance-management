@@ -20,6 +20,9 @@ export const config = {
       if (account?.provider === 'github') {
         return true;
       }
+      if (account?.provider === 'google') {
+        return true;
+      }
 
       if (account?.provider !== 'credentials') {
         return false;
@@ -91,6 +94,10 @@ export const config = {
           where: eq(users.email, credentials.email),
         });
 
+        if (!user) {
+          throw new Error('User not found');
+        }
+
         if (!user?.hashedPassword) {
           throw new Error('User has no password');
         }
@@ -110,7 +117,7 @@ export const config = {
     }),
   ],
   pages: {
-    signIn: '/sign-in',
+    signIn: '/attendance/calendar',
   },
   trustHost: true,
   debug: process.env.NODE_ENV === 'development',

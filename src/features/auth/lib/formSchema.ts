@@ -1,9 +1,16 @@
 import { z } from 'zod';
 
 const BaseLoginSchema = z.object({
-  email: z.string().email({
-    message: '有効なメールアドレスを入力してください。',
-  }),
+  email: z
+    .email({
+      message: '有効なメールアドレスを入力してください。',
+    })
+    .min(1, {
+      message: 'メールアドレスは必須です。',
+    })
+    .max(255, {
+      message: 'メールアドレスは255文字以内で入力してください。',
+    }),
   password: z
     .string()
     .min(8, {
@@ -16,7 +23,12 @@ const BaseLoginSchema = z.object({
 
 export const SignInSchema = BaseLoginSchema;
 export const SignUpSchema = BaseLoginSchema.extend({
-  name: z.string().min(3, {
-    message: '名前は3文字以上で入力してください。',
-  }),
+  name: z
+    .string()
+    .min(3, {
+      message: '名前は3文字以上で入力してください。',
+    })
+    .max(255, {
+      message: '名前は255文字以内で入力してください。',
+    }),
 });
