@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { Banknote, Calendar, Plus, Train, Lock } from 'lucide-react';
+import { Banknote, Calendar, Plus, Train, Lock, X } from 'lucide-react';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import { RouteFormItem } from './RouteFormItem';
@@ -19,14 +19,22 @@ import DialogActionFooter from '@/components/dialog/DialogActionFooter';
 import { Button } from '@/components/ui/button';
 import { ExpenseItem } from '../../type/ExpenseType';
 import { useExpenseForm } from '../hooks/useExpenseForm';
+import { useState } from 'react';
 
 type ExpenseUpsertDialogProps = {
   type: 'add' | 'edit';
   expense?: ExpenseItem;
   triggerContent?: React.ReactNode;
+  preventOutsideClick?: boolean;
 };
 
-export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUpsertDialogProps) => {
+export const ExpenseUpsertDialog = ({
+  type,
+  expense,
+  triggerContent,
+  preventOutsideClick = true,
+}: ExpenseUpsertDialogProps) => {
+  const [open, setOpen] = useState(false);
   const {
     form,
     onSubmit,
@@ -40,15 +48,30 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
     resetToDefault,
   } = useExpenseForm({ type, expense });
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (preventOutsideClick && !newOpen) {
+      return;
+    }
+    setOpen(newOpen);
+  };
+
   return (
     <Form {...form}>
-      <Dialog>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>{triggerContent}</DialogTrigger>
-        <DialogContent className="w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <div className="flex flex-wrap items-center gap-2">
-                <DialogTitle className="text-lg sm:text-xl">経費申請</DialogTitle>
+              <div className="flex items-center justify-between">
+                <DialogTitle className="text-lg sm:text-xl font-semibold">経費申請</DialogTitle>
+                <Button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200 ml-3"
+                  aria-label="ダイアログを閉じる"
+                >
+                  <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                </Button>
               </div>
             </DialogHeader>
             <DialogDescription className="text-sm">交通費や一般経費の情報を申請します。</DialogDescription>

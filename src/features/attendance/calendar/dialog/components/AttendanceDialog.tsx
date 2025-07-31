@@ -28,6 +28,7 @@ import { ATTENDANCE_OPTIONS, HALF_DAY_OPTIONS } from '../const/attendanceConst';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import DialogActionFooter from '@/components/dialog/DialogActionFooter';
+import { Button } from '@/components/ui/button';
 
 type AttendanceDialogProps = {
   day: Date;
@@ -117,14 +118,14 @@ const AttendanceDialog = ({
                     </div>
                   </div>
 
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setOpen(false)}
                     className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200 ml-3"
                     aria-label="ダイアログを閉じる"
                   >
                     <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                  </button>
+                  </Button>
                 </div>
               </DialogHeader>
 

@@ -6,12 +6,6 @@ export type RouteDetail = {
   fare: number;
 };
 
-export type RouteInfo = {
-  id: string;
-  expenseRequestId: string;
-  routeDetails: RouteDetail[];
-};
-
 export type ExpenseItem = {
   id: string;
   userId: string;
@@ -22,7 +16,7 @@ export type ExpenseItem = {
   statusCode: StatusType;
   expenseType: ExpenseTypeDB;
   receiptUrl: string;
-  routeInfo?: RouteInfo;
+  routeDetails?: RouteDetail[];
 };
 
 export type ExpenseTypeDB = 'Transport' | 'General';

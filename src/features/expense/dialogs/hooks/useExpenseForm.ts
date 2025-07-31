@@ -23,7 +23,7 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
   const [isSubmitted, startTransition] = useTransition();
 
   const defaultValues = useMemo(() => {
-    return type === 'edit' && expense
+    return expense
       ? {
           id: expense.id,
           expenseType: expense.expenseType as ExpenseTypeDB,
@@ -32,8 +32,8 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
           amount: expense.amount,
           description: expense.description,
           receiptFile: undefined,
-          routes: expense.routeInfo?.routeDetails
-            ? expense.routeInfo.routeDetails.map((routeDetail: RouteDetail) => ({
+          routes: expense.routeDetails
+            ? expense.routeDetails.map((routeDetail: RouteDetail) => ({
                 from: routeDetail.from,
                 to: routeDetail.to,
                 fare: routeDetail.fare,
@@ -50,7 +50,7 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
           receiptFile: undefined,
           routes: [{ from: '', to: '', fare: 0 }],
         };
-  }, [type, expense]);
+  }, [expense]);
 
   const form = useForm<z.infer<typeof ExpenseFormSchema>>({
     resolver: zodResolver(ExpenseFormSchema),
@@ -108,18 +108,19 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
     });
   }, [form, defaultValues]);
 
+  const { watch, setValue } = form;
   useEffect(() => {
     if (expenseType === 'Transport') {
-      const subscription = form.watch((value, { name }) => {
+      const subscription = watch((value, { name }) => {
         if (name?.startsWith('routes')) {
           const routes = value.routes || [];
           const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
-          form.setValue('amount', totalFare);
+          setValue('amount', totalFare);
         }
       });
       return () => subscription.unsubscribe();
     }
-  }, [form, expenseType]);
+  }, [watch, setValue, expenseType]);
 
   return {
     form,

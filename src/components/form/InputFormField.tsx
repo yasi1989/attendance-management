@@ -48,8 +48,20 @@ const InputFormField = <T extends Record<string, unknown>>({
                 className={className}
                 disabled={disabled}
                 maxLength={maxLength}
-                value={field.value as string | number | readonly string[] | undefined}
-                onChange={field.onChange}
+                value={
+                  type === 'number'
+                    ? field.value?.toString() || ''
+                    : (field.value as string | number | readonly string[] | undefined)
+                }
+                onChange={(e) => {
+                  if (type === 'number') {
+                    const value = e.target.value;
+                    const numValue = value === '' ? 0 : Number.parseFloat(value);
+                    field.onChange(Number.isNaN(numValue) ? 0 : numValue);
+                  } else {
+                    field.onChange(e.target.value);
+                  }
+                }}
                 onBlur={field.onBlur}
               />
               {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
