@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { formatDateToISOString } from '@/lib/date';
 import { Checkbox } from '@/components/ui/checkbox';
-import { StatusType } from '@/types/statusType';
 import { compareAsc } from 'date-fns';
 import StatusBadge, { getStatusName } from '@/components/layout/StatusBadge';
 import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
@@ -13,30 +12,32 @@ import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { ViewButton } from '@/components/actionButton/ViewButton';
-
-const canSubmit = (status: StatusType) => {
-  return status === 'Rejected' || status === 'Draft';
-};
+import { EXPENSE_TABLE_LABELS, EXPENSE_TABLE_CONFIG, EXPENSE_TABLE_UTILS } from '../const/table';
+import { TABLE_STYLES, TABLE_LABELS, TABLE_FORMATS } from '@/consts/table';
+import { truncate } from '@/lib/utils';
+import { formatCurrency } from '@/lib/currency';
 
 export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const SubmittedRows = table.getRowModel().rows.filter((row) => canSubmit(row.original.statusCode));
-      const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
-      const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
+      const submittedRows = table
+        .getRowModel()
+        .rows.filter((row) => EXPENSE_TABLE_UTILS.canSubmit(row.original.statusCode));
+      const allSubmittedSelected = submittedRows.length > 0 && submittedRows.every((row) => row.getIsSelected());
+      const someSubmittedSelected = submittedRows.some((row) => row.getIsSelected());
 
       return (
         <div className="flex items-center justify-center">
           <Checkbox
             checked={allSubmittedSelected || (someSubmittedSelected && 'indeterminate')}
             onCheckedChange={(value) => {
-              SubmittedRows.forEach((row) => {
+              submittedRows.forEach((row) => {
                 row.toggleSelected(!!value);
               });
             }}
-            aria-label="Select all Submitted"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            aria-label={TABLE_LABELS.ja.SELECT_ALL}
+            className={TABLE_STYLES.INTERACTIVE.CHECKBOX}
           />
         </div>
       );
@@ -46,11 +47,11 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       return (
         <div className="flex items-center justify-center">
           <Checkbox
-            disabled={!canSubmit(status)}
+            disabled={!EXPENSE_TABLE_UTILS.canSubmit(status)}
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            aria-label={TABLE_LABELS.ja.SELECT_ROW}
+            className={TABLE_STYLES.INTERACTIVE.CHECKBOX}
           />
         </div>
       );
@@ -66,24 +67,21 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <div className="flex items-center justify-center">
           <Button
             variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
+            className={TABLE_STYLES.INTERACTIVE.SORT_BUTTON}
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            <div className="flex items-center gap-1 md:gap-2">
-              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-              <span>発生日</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            <div className="flex items-center gap-2">
+              <Calendar className={TABLE_STYLES.SIZING.ICON} />
+              <span>{EXPENSE_TABLE_LABELS.ja.EXPENSE_DATE}</span>
+              <ArrowUpDown className={TABLE_STYLES.SIZING.ICON} />
             </div>
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div
-        className="font-semibold text-slate-900 dark:text-slate-100"
-        title={formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd')}
-      >
-        {formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd')}
+      <div className="font-semibold" title={formatDateToISOString(row.original.expenseDate, TABLE_FORMATS.DATE)}>
+        {formatDateToISOString(row.original.expenseDate, TABLE_FORMATS.DATE)}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
@@ -91,10 +89,10 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     meta: {
       enableColumnFilter: true,
-      japaneseLabel: '発生日',
+      japaneseLabel: EXPENSE_TABLE_LABELS.ja.EXPENSE_DATE,
     },
     filterFn: (row, _id, filterValue) => {
-      return formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd').includes(filterValue);
+      return formatDateToISOString(row.original.expenseDate, TABLE_FORMATS.DATE).includes(filterValue);
     },
   },
   {
@@ -105,24 +103,21 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <div className="flex items-center justify-center">
           <Button
             variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
+            className={TABLE_STYLES.INTERACTIVE.SORT_BUTTON}
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            <div className="flex items-center gap-1 md:gap-2">
-              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-              <span>申請日</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            <div className="flex items-center gap-2">
+              <Calendar className={TABLE_STYLES.SIZING.ICON} />
+              <span>{EXPENSE_TABLE_LABELS.ja.REQUEST_DATE}</span>
+              <ArrowUpDown className={TABLE_STYLES.SIZING.ICON} />
             </div>
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div
-        className="font-semibold text-slate-900 dark:text-slate-100"
-        title={formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd')}
-      >
-        {formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd')}
+      <div className="font-semibold" title={formatDateToISOString(row.original.requestDate, TABLE_FORMATS.DATE)}>
+        {formatDateToISOString(row.original.requestDate, TABLE_FORMATS.DATE)}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
@@ -130,10 +125,10 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     meta: {
       enableColumnFilter: true,
-      japaneseLabel: '申請日',
+      japaneseLabel: EXPENSE_TABLE_LABELS.ja.REQUEST_DATE,
     },
     filterFn: (row, _id, filterValue) => {
-      return formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd').includes(filterValue);
+      return formatDateToISOString(row.original.requestDate, TABLE_FORMATS.DATE).includes(filterValue);
     },
   },
   {
@@ -144,20 +139,20 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <div className="flex items-center justify-center">
           <Button
             variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
+            className={TABLE_STYLES.INTERACTIVE.SORT_BUTTON}
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            <div className="flex items-center gap-1 md:gap-2">
-              <Check className="h-3 w-3 md:h-4 md:w-4" />
-              <span>状態</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            <div className="flex items-center gap-2">
+              <Check className={TABLE_STYLES.SIZING.ICON} />
+              <span>{EXPENSE_TABLE_LABELS.ja.STATUS}</span>
+              <ArrowUpDown className={TABLE_STYLES.SIZING.ICON} />
             </div>
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center">
+      <div className="flex items-center justify-center">
         <StatusBadge status={row.original.statusCode} />
       </div>
     ),
@@ -173,20 +168,20 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <div className="flex items-center justify-center">
           <Button
             variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
+            className={TABLE_STYLES.INTERACTIVE.SORT_BUTTON}
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            <div className="flex items-center gap-1 md:gap-2">
-              <Navigation className="h-3 w-3 md:h-4 md:w-4" />
-              <span>経費</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            <div className="flex items-center gap-2">
+              <Navigation className={TABLE_STYLES.SIZING.ICON} />
+              <span>{EXPENSE_TABLE_LABELS.ja.EXPENSE_TYPE}</span>
+              <ArrowUpDown className={TABLE_STYLES.SIZING.ICON} />
             </div>
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center">
+      <div className="flex items-center justify-center">
         <ExpenseTypeBadge status={row.original.expenseType} />
       </div>
     ),
@@ -202,19 +197,19 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         <div className="flex items-center justify-center">
           <Button
             variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
+            className={TABLE_STYLES.INTERACTIVE.SORT_BUTTON}
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            <div className="flex items-center gap-1 md:gap-2">
-              <DollarSign className="h-3 w-3 md:h-4 md:w-4" />
-              <span>金額</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            <div className="flex items-center gap-2">
+              <DollarSign className={TABLE_STYLES.SIZING.ICON} />
+              <span>{EXPENSE_TABLE_LABELS.ja.AMOUNT}</span>
+              <ArrowUpDown className={TABLE_STYLES.SIZING.ICON} />
             </div>
           </Button>
         </div>
       );
     },
-    cell: ({ row }) => <div className="font-medium text-right">¥ {row.original.amount.toLocaleString()}</div>,
+    cell: ({ row }) => <div className="text-right">{formatCurrency(row.original.amount)}</div>,
   },
   {
     accessorKey: 'description',
@@ -222,15 +217,17 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     header: () => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">
-            <FileText />
-            説明
+          <Button variant="ghost" className="flex items-center gap-2">
+            <FileText className={TABLE_STYLES.SIZING.ICON} />
+            <span>{EXPENSE_TABLE_LABELS.ja.DESCRIPTION}</span>
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="max-w-xs text-sm text-slate-600">{truncateString(row.original.description || '', 20)}</div>
+      <div className="max-w-xs text-sm text-slate-600">
+        {truncate(row.original.description || '', EXPENSE_TABLE_CONFIG.FIELD_LIMITS.DESCRIPTION_MAX_LENGTH)}
+      </div>
     ),
   },
   {
@@ -239,9 +236,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     header: () => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">
-            <Receipt />
-            領収証
+          <Button variant="ghost" className="flex items-center gap-2">
+            <Receipt className={TABLE_STYLES.SIZING.ICON} />
+            <span>{EXPENSE_TABLE_LABELS.ja.RECEIPT}</span>
           </Button>
         </div>
       );
@@ -257,29 +254,25 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     header: () => {
       return (
         <div className="flex items-center justify-center">
-          <Button variant="ghost">操作</Button>
+          <Button variant="ghost">{TABLE_LABELS.ja.ACTIONS}</Button>
         </div>
       );
     },
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-1 items-center justify-center">
+        <div className={TABLE_STYLES.LAYOUT.ACTIONS_CELL}>
           <ExpenseUpsertDialog
             type="edit"
             expense={row.original}
-            triggerContent={canSubmit(row.original.statusCode) ? <EditButton /> : <EditButton icon={<FileText />} />}
+            triggerContent={<EditButton editable={EXPENSE_TABLE_UTILS.canSubmit(row.original.statusCode)} />}
           />
-          {canSubmit(row.original.statusCode) && <ExpenseDeleteDialog />}
+          {EXPENSE_TABLE_UTILS.canSubmit(row.original.statusCode) && <ExpenseDeleteDialog />}
         </div>
       );
     },
     meta: {
-      japaneseLabel: '操作',
+      japaneseLabel: TABLE_LABELS.ja.ACTIONS,
       enableColumnFilter: false,
     },
   },
 ];
-
-const truncateString = (str: string, maxLength: number): string => {
-  return str.length <= maxLength ? str : str.substring(0, maxLength) + '...';
-};
