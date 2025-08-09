@@ -1,6 +1,7 @@
 'use client';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { URLS } from '@/consts/urls';
 import { useRouter } from 'next/navigation';
 
 type HolidaysYearSelectorProps = {
@@ -12,7 +13,7 @@ const HolidaysYearSelector = ({ currentYear }: HolidaysYearSelectorProps) => {
   const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear - 5 + i);
 
   const handleYearChange = (selectedYear: string) => {
-    router.push(`/admin/holidays?year=${selectedYear}`);
+    router.push(`${URLS.ADMIN_HOLIDAYS}?year=${selectedYear}`);
   };
 
   return (

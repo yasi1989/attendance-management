@@ -7,6 +7,7 @@ import { useDepartments } from '../hooks/useDepartments';
 import { UserType } from '@/features/system/users/type/userType';
 import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
+import { useMemo } from 'react';
 
 type UpsertDepartmentDialogProps = {
   type: 'add' | 'edit';
@@ -30,21 +31,17 @@ export function UpsertDepartmentDialog({
     submitButtonLabel: type === 'add' ? '登録' : '更新',
     cancelButtonLabel: 'キャンセル',
   };
+  const companyOptions = useMemo(() => {
+    return allDepartments.map((d) => ({ value: d.id, label: d.departmentName }));
+  }, [allDepartments]);
+  const userOptions = useMemo(() => {
+    return users.map((d) => ({ value: d.id, label: `${d.firstName} ${d.lastName}` }));
+  }, [users]);
   const formContent = (
     <div className="flex flex-col gap-4">
       <InputFormField name="departmentName" label="部署名" form={form} required maxLength={100} />
-      <InputSelectFormField
-        name="parentDepartmentId"
-        label="親部署"
-        form={form}
-        options={allDepartments.map((d) => ({ value: d.id, label: d.departmentName }))}
-      />
-      <InputSelectFormField
-        name="managerUserId"
-        label="部門責任者"
-        form={form}
-        options={users.map((d) => ({ value: d.id, label: `${d.firstName} ${d.lastName}` }))}
-      />
+      <InputSelectFormField name="parentDepartmentId" label="親部署" form={form} options={companyOptions} />
+      <InputSelectFormField name="managerUserId" label="部門責任者" form={form} options={userOptions} />
     </div>
   );
   const triggerButton = children || <EditButton />;

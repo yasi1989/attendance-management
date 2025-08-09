@@ -1,3 +1,4 @@
+import { URLS } from '@/consts/urls';
 import { CheckCircle, Clock, Settings, Users } from 'lucide-react';
 
 export const data = {
@@ -14,11 +15,11 @@ export const data = {
       items: [
         {
           title: '勤怠入力',
-          url: '/attendance/calendar',
+          url: URLS.ATTENDANCE_CALENDAR,
         },
         {
           title: '経費申請',
-          url: '/expense',
+          url: URLS.EXPENSE,
         },
       ],
     },
@@ -29,7 +30,7 @@ export const data = {
       items: [
         {
           title: '承認管理',
-          url: '/approval',
+          url: URLS.APPROVAL,
         },
       ],
     },
@@ -40,15 +41,15 @@ export const data = {
       items: [
         {
           title: '従業員管理',
-          url: '/admin/employees',
+          url: URLS.ADMIN_EMPLOYEES,
         },
         {
           title: '部署・役職',
-          url: '/admin/departments',
+          url: URLS.ADMIN_DEPARTMENTS,
         },
         {
           title: '休日設定',
-          url: '/admin/holidays',
+          url: URLS.ADMIN_HOLIDAYS,
         },
       ],
     },
@@ -59,11 +60,11 @@ export const data = {
       items: [
         {
           title: 'ユーザー管理',
-          url: '/system/users',
+          url: URLS.SYSTEM_USERS,
         },
         {
           title: 'テナント管理',
-          url: '/system/companies',
+          url: URLS.SYSTEM_COMPANIES,
         },
       ],
     },

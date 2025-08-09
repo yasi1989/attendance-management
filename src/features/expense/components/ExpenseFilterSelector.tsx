@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CalendarDays } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { startTransition, useCallback } from 'react';
+import { URLS } from '@/consts/urls';
 
 type ExpenseFilterSelectorProps = {
   currentYear: number;
@@ -40,7 +41,7 @@ const ExpenseFilterSelector = ({
       startTransition(() => {
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.set(key, value);
-        router.push(`/expense?${urlParams.toString()}`);
+        router.push(`${URLS.EXPENSE}?${urlParams.toString()}`);
       });
     },
     [router],

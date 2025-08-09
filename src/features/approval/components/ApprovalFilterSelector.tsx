@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { CalendarDays } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { startTransition, useCallback } from 'react';
+import { URLS } from '@/consts/urls';
 
 type ApprovalFilterSelectorProps = {
   currentYear: number;
@@ -28,7 +29,7 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
       startTransition(() => {
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.set(key, value);
-        router.push(`/approval?${urlParams.toString()}`);
+        router.push(`${URLS.APPROVAL}?${urlParams.toString()}`);
       });
     },
     [router],
