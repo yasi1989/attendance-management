@@ -39,6 +39,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
             currentMonth={currentMonth}
             currentDate={currentDate}
             initialData={initialData}
+            monthlyStatus={monthlyStatus}
           />
         </CardContent>
         <CalendarFooter />

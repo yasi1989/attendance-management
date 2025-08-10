@@ -13,7 +13,7 @@ interface AttendanceFormFieldsProps {
   form: UseFormReturn<z.infer<typeof AttendanceFormSchema>>;
   attendanceType: string;
   isHalfDay?: boolean;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   resetAttendanceForm: () => void;
   resetHalfDayForm: () => void;
 }

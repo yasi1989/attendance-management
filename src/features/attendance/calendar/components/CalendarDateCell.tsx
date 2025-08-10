@@ -15,17 +15,18 @@ type CalendarDateCellProps = {
   currentDate: Date;
   attendanceData?: AttendanceData;
   holidayInfo?: HolidayType;
+  isDateCellCurrentMonth?: boolean;
 };
 
 const STATUS_COLORS: Record<StatusType, string> = {
   [STATUS.PENDING.value]:
-    'ring-2 ring-blue-200 dark:ring-blue-800 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
+    'ring-blue-200 dark:ring-blue-800 from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
   [STATUS.SUBMITTED.value]:
-    'ring-2 ring-orange-200 dark:ring-orange-800 bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950/30 dark:to-yellow-950/30',
+    'ring-orange-200 dark:ring-orange-800 from-orange-50 to-yellow-50 dark:from-orange-950/30 dark:to-yellow-950/30',
   [STATUS.REJECTED.value]:
-    'ring-2 ring-red-200 dark:ring-red-800 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950/30 dark:to-pink-950/30',
+    'ring-red-200 dark:ring-red-800 from-red-50 to-pink-50 dark:from-red-950/30 dark:to-pink-950/30',
   [STATUS.APPROVED.value]:
-    'ring-2 ring-green-200 dark:ring-green-800 bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950/30 dark:to-blue-950/30',
+    'ring-green-200 dark:ring-green-800 from-green-50 to-blue-50 dark:from-green-950/30 dark:to-blue-950/30',
 };
 
 const INDICATOR_COLORS: Record<StatusType, string> = {
@@ -46,11 +47,16 @@ const getStatusIndicator = (status: StatusType) => {
 const getStatusStyles = (status: StatusType) => {
   const statusInfo = getStatusByValue(status);
   if (!statusInfo) return '';
-  const colorClasses = STATUS_COLORS[statusInfo.value];
-  return colorClasses;
+  return cn(STATUS_COLORS[statusInfo.value], 'ring-2 bg-gradient-to-br');
 };
 
-const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: CalendarDateCellProps) => {
+const CalendarDateCell = ({
+  day,
+  currentDate,
+  attendanceData,
+  holidayInfo,
+  isDateCellCurrentMonth,
+}: CalendarDateCellProps) => {
   const isCurrentMonth = isSameMonth(day, currentDate);
   const isWeekend = isSaturday(day) || isSunday(day);
   const isTodayDate = isToday(day);
@@ -60,7 +66,7 @@ const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: Cal
       className={cn(
         'relative h-28 sm:h-32 lg:h-36 p-3 sm:p-4',
         'border border-gray-200/50 dark:border-gray-700/50 last:border-r-0',
-        'transition-all duration-300 group cursor-pointer',
+        'transition-all duration-300 group',
         'hover:scale-[1.02] hover:z-10 hover:shadow-xl space-y-1',
         isCurrentMonth
           ? 'bg-white dark:bg-gray-900'
@@ -69,6 +75,7 @@ const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: Cal
           'ring-2 ring-blue-500 dark:ring-blue-400 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
         attendanceData && getStatusStyles(attendanceData.status),
         'hover:bg-gradient-to-br hover:from-blue-50/50 hover:to-purple-50/50 dark:hover:from-blue-950/20 dark:hover:to-purple-950/20',
+        isDateCellCurrentMonth && 'cursor-pointer',
       )}
     >
       <div

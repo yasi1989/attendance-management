@@ -29,20 +29,20 @@ const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
   let status: string;
 
   if (resolvedParams.params) {
-    year = resolvedParams.params[0] ? Number.parseInt(resolvedParams.params[0], 10) : now.getFullYear();
-    month = resolvedParams.params[1] ? Number.parseInt(resolvedParams.params[1], 10) : now.getMonth() + 1;
+    year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
+    month = resolvedParams.params[1] ? Number(resolvedParams.params[1]) : now.getMonth() + 1;
     status = resolvedParams.params[2] ? resolvedParams.params[2] : 'Submitted';
   } else {
-    year = resolvedParams.year ? Number.parseInt(resolvedParams.year, 10) : now.getFullYear();
-    month = resolvedParams.month ? Number.parseInt(resolvedParams.month, 10) : now.getMonth() + 1;
+    year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
+    month = resolvedParams.month ? Number(resolvedParams.month) : now.getMonth() + 1;
     status = resolvedParams.status ? resolvedParams.status : 'Submitted';
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
-    year = Number.parseInt(resolvedSearchParams.year, 10);
+    year = Number(resolvedSearchParams.year);
   }
   if (resolvedSearchParams.month && typeof resolvedSearchParams.month === 'string') {
-    month = Number.parseInt(resolvedSearchParams.month, 10);
+    month = Number(resolvedSearchParams.month);
   }
   if (resolvedSearchParams.status && typeof resolvedSearchParams.status === 'string') {
     status = resolvedSearchParams.status;

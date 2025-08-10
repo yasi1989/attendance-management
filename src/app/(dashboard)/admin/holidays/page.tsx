@@ -20,13 +20,13 @@ const HolidayPage = async ({ params, searchParams }: HolidayPageProps) => {
   let year: number;
 
   if (resolvedParams.params) {
-    year = resolvedParams.params[0] ? Number.parseInt(resolvedParams.params[0], 10) : now.getFullYear();
+    year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
   } else {
-    year = resolvedParams.year ? Number.parseInt(resolvedParams.year, 10) : now.getFullYear();
+    year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
-    year = Number.parseInt(resolvedSearchParams.year, 10);
+    year = Number(resolvedSearchParams.year);
   }
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
   return (

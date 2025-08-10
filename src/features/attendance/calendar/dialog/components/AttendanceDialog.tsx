@@ -17,6 +17,7 @@ type AttendanceDialogProps = {
   day: Date;
   attendanceData?: AttendanceData;
   holidayInfo?: HolidayType;
+  isDisabled?: boolean;
   triggerContent?: React.ReactNode;
   preventOutsideClick?: boolean;
 };
@@ -26,6 +27,7 @@ const AttendanceDialog = ({
   attendanceData,
   holidayInfo,
   triggerContent,
+  isDisabled,
   preventOutsideClick = true,
 }: AttendanceDialogProps) => {
   const [open, setOpen] = useState(false);
@@ -40,8 +42,7 @@ const AttendanceDialog = ({
     isHalfDay,
     resetToDefault,
     isPending,
-    isDisabled,
-  } = useAttendance(day, attendanceData);
+  } = useAttendance(day, attendanceData, isDisabled);
 
   const handleOpenChange = (newOpen: boolean) => {
     if (preventOutsideClick && !newOpen) {
@@ -49,7 +50,6 @@ const AttendanceDialog = ({
     }
     setOpen(newOpen);
   };
-
   const handleClose = () => setOpen(false);
 
   return (
@@ -61,7 +61,6 @@ const AttendanceDialog = ({
               onKeyUp={() => setOpen(true)}
               onKeyDown={() => setOpen(true)}
               onClick={() => setOpen(true)}
-              className="cursor-pointer"
             >
               {triggerContent}
             </div>

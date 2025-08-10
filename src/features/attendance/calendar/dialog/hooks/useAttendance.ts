@@ -6,11 +6,7 @@ import { AttendanceData } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
 
-const isFormDisabled = (attendanceData?: AttendanceData): boolean => {
-  return attendanceData?.status === 'Submitted' || attendanceData?.status === 'Approved';
-};
-
-export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
+export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisabled?: boolean) => {
   const [isPending, startTransition] = useTransition();
   const defaultValues = useMemo(() => {
     return attendanceData
@@ -44,8 +40,6 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
 
   const attendanceType = form.watch('attendanceType');
   const isHalfDay = form.watch('isHalfDay');
-
-  const isDisabled = useMemo(() => isFormDisabled(attendanceData), [attendanceData]);
 
   const onSubmit = useCallback((data: z.infer<typeof AttendanceFormSchema>) => {
     startTransition(async () => {
@@ -109,6 +103,5 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     resetHalfDayForm,
     resetToDefault,
     isPending,
-    isDisabled,
   };
 };
