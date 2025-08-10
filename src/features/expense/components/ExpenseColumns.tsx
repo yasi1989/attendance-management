@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { compareAsc } from 'date-fns';
-import StatusBadge, { getStatusName } from '@/components/layout/StatusBadge';
+import StatusBadge from '@/components/layout/StatusBadge';
 import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
@@ -12,16 +12,14 @@ import { ExpenseItem } from '../type/ExpenseType';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { ViewButton } from '@/components/actionButton/ViewButton';
 import { formatDateToISOString } from '@/lib/date';
-import { TABLE_UTILS } from '@/consts/table';
 import { truncate } from '@/lib/utils';
+import { canPerformRequest, getStatusByValue } from '@/lib/status';
 
 export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const SubmittedRows = table
-        .getRowModel()
-        .rows.filter((row) => TABLE_UTILS.status.canRequest(row.original.statusCode));
+      const SubmittedRows = table.getRowModel().rows.filter((row) => canPerformRequest(row.original.status));
       const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
       const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
 
@@ -41,11 +39,11 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.original.statusCode;
+      const status = row.original.status;
       return (
         <div className="flex items-center justify-center">
           <Checkbox
-            disabled={!TABLE_UTILS.status.canRequest(status)}
+            disabled={!canPerformRequest(status)}
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
             aria-label="Select row"
@@ -157,11 +155,13 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     cell: ({ row }) => (
       <div className="text-center">
-        <StatusBadge status={row.original.statusCode} />
+        <StatusBadge status={row.original.status} />
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return getStatusName(rowA.original.statusCode).localeCompare(getStatusName(rowB.original.statusCode));
+      const labelA = getStatusByValue(rowA.original.status)?.label;
+      const labelB = getStatusByValue(rowB.original.status)?.label;
+      return labelA && labelB ? labelA.localeCompare(labelB) : 0;
     },
   },
   {
@@ -228,7 +228,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <div className="max-w-xs text-sm text-slate-600">{truncate(row.original.description, 20)}</div>,
+    cell: ({ row }) => <div className="max-w-xs">{truncate(row.original.description, 20)}</div>,
   },
   {
     accessorKey: 'receiptUrl',
@@ -261,12 +261,8 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <ExpenseUpsertDialog
-            type="edit"
-            expense={row.original}
-            triggerContent={<EditButton editable={TABLE_UTILS.status.canRequest(row.original.statusCode)} />}
-          />
-          {TABLE_UTILS.status.canRequest(row.original.statusCode) && <ExpenseDeleteDialog />}
+          <ExpenseUpsertDialog expense={row.original} triggerContent={<EditButton editable={canPerformRequest(row.original.status)} />} />
+          {canPerformRequest(row.original.status) && <ExpenseDeleteDialog />}
         </div>
       );
     },

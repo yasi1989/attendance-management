@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { Form } from '@/components/ui/form';
 import InputTextFormField from '@/components/form/InputTextFormField';
+import { STATUS } from '@/consts/status';
 
 type ApprovalBulkFormProps = {
   selectedIds: string[];
@@ -44,7 +45,7 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             size="lg"
             className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
-            onClick={() => handleBatchApproval('Approve', selectedIds)}
+            onClick={() => handleBatchApproval(STATUS.APPROVED.value, selectedIds)}
           >
             {isSubmitted ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
@@ -60,7 +61,7 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             size="lg"
             className="flex-1 text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
-            onClick={() => handleBatchApproval('Reject', selectedIds)}
+            onClick={() => handleBatchApproval(STATUS.REJECTED.value, selectedIds)}
           >
             {isSubmitted ? (
               <div className="animate-spin h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full mr-2" />

@@ -22,7 +22,7 @@ const InputCalendarFormField = <T extends Record<string, unknown>>({
   form,
   name,
   label,
-  placeholder = '',
+  placeholder = '日付を選択',
   required = false,
   className = '',
   rules,

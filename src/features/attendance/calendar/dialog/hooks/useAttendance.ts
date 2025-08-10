@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { useCallback, useMemo, useTransition } from 'react';
 import { AttendanceData } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
+import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
 
 const isFormDisabled = (attendanceData?: AttendanceData): boolean => {
   return attendanceData?.status === 'Submitted' || attendanceData?.status === 'Approved';
@@ -15,7 +16,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     return attendanceData
       ? {
           date: day,
-          attendanceType: attendanceData.attendanceType || 'Work',
+          attendanceType: attendanceData.attendanceType,
           isHalfDay: attendanceData.isHalfDay,
           halfDayType: attendanceData.halfDayType,
           check_in: attendanceData.check_in,
@@ -25,9 +26,9 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
         }
       : {
           date: day,
-          attendanceType: 'Work',
+          attendanceType: ATTENDANCES.WORK.value,
           isHalfDay: false,
-          halfDayType: 'Am',
+          halfDayType: HALF_DAYS.AM.value,
           check_in: undefined,
           check_out: undefined,
           rest: undefined,
@@ -68,7 +69,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
       {
         ...form.getValues(),
         isHalfDay: false,
-        halfDayType: 'Am',
+        halfDayType: HALF_DAYS.AM.value,
         ...resetTimeFields(),
       },
       { keepDefaultValues: false },
@@ -81,7 +82,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     form.reset(
       {
         ...form.getValues(),
-        halfDayType: 'Am',
+        halfDayType: HALF_DAYS.AM.value,
         ...resetTimeFields(),
       },
       { keepDefaultValues: false },

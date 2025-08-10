@@ -20,21 +20,21 @@ import { Button } from '@/components/ui/button';
 import { ExpenseItem } from '../../type/ExpenseType';
 import { useExpenseForm } from '../hooks/useExpenseForm';
 import { useState } from 'react';
+import { canPerformRequest } from '@/lib/status';
 
 type ExpenseUpsertDialogProps = {
-  type: 'add' | 'edit';
   expense?: ExpenseItem;
   triggerContent?: React.ReactNode;
   preventOutsideClick?: boolean;
 };
 
 export const ExpenseUpsertDialog = ({
-  type,
   expense,
   triggerContent,
   preventOutsideClick = true,
 }: ExpenseUpsertDialogProps) => {
   const [open, setOpen] = useState(false);
+  const isDisabled = !canPerformRequest(expense?.status || '');
   const {
     form,
     onSubmit,
@@ -43,10 +43,9 @@ export const ExpenseUpsertDialog = ({
     handleAddRoute,
     handleRemoveRoute,
     expenseType,
-    isDisabled,
     handleExpenseTypeChange,
     resetToDefault,
-  } = useExpenseForm({ type, expense });
+  } = useExpenseForm({ expense });
 
   const handleOpenChange = (newOpen: boolean) => {
     if (preventOutsideClick && !newOpen) {
@@ -89,9 +88,7 @@ export const ExpenseUpsertDialog = ({
                       <div className="flex items-start space-x-2">
                         <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
                         <p className="text-xs text-yellow-800 dark:text-yellow-300">
-                          {expense?.statusCode === 'Approved'
-                            ? 'この経費データは承認済みのため編集できません。'
-                            : 'この経費データは申請済みのため編集できません。'}
+                          この経費データは申請済みまたは承認済みのため編集できません。
                         </p>
                       </div>
                     </div>

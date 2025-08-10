@@ -13,7 +13,7 @@ export type ExpenseItem = {
   requestDate: Date;
   amount: number;
   description: string;
-  statusCode: StatusType;
+  status: StatusType;
   expenseType: ExpenseTypeDB;
   receiptUrl: string;
   routeDetails?: RouteDetail[];

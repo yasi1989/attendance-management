@@ -1,10 +1,14 @@
 import { cn } from '@/lib/utils';
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
-import { Clock, AlertTriangle, CheckCircle, Coffee, FileText } from 'lucide-react';
+import { Coffee } from 'lucide-react';
 import { AttendanceData } from '../types/attendance';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { Badge } from '@/components/ui/badge';
-import { ATTENDANCE_OPTIONS } from '../dialog/const/attendanceConst';
+import { StatusType } from '@/types/statusType';
+import { getStatusByValue } from '@/lib/status';
+import { STATUS } from '@/consts/status';
+import { isLeaveType } from '../../../../lib/attendance';
+import { LEAVES } from '../../../../consts/attendance';
 
 type CalendarDateCellProps = {
   day: Date;
@@ -13,35 +17,37 @@ type CalendarDateCellProps = {
   holidayInfo?: HolidayType;
 };
 
-const getStatusIndicator = (status: string) => {
-  const iconClasses = 'h-3 w-3';
-  switch (status) {
-    case 'Draft':
-      return <FileText className={`${iconClasses} text-blue-500`} />;
-    case 'Approved':
-      return <CheckCircle className={`${iconClasses} text-emerald-500`} />;
-    case 'Submitted':
-      return <Clock className={`${iconClasses} text-amber-500`} />;
-    case 'Rejected':
-      return <AlertTriangle className={`${iconClasses} text-red-500`} />;
-    default:
-      return null;
-  }
+const STATUS_COLORS: Record<StatusType, string> = {
+  [STATUS.PENDING.value]:
+    'ring-2 ring-blue-200 dark:ring-blue-800 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
+  [STATUS.SUBMITTED.value]:
+    'ring-2 ring-orange-200 dark:ring-orange-800 bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-950/30 dark:to-yellow-950/30',
+  [STATUS.REJECTED.value]:
+    'ring-2 ring-red-200 dark:ring-red-800 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950/30 dark:to-pink-950/30',
+  [STATUS.APPROVED.value]:
+    'ring-2 ring-green-200 dark:ring-green-800 bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950/30 dark:to-blue-950/30',
 };
 
-const getStatusStyles = (status: string) => {
-  switch (status) {
-    case 'Draft':
-      return 'ring-2 ring-blue-200 dark:ring-blue-800 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30';
-    case 'Approved':
-      return 'ring-2 ring-emerald-200 dark:ring-emerald-800 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30';
-    case 'Submitted':
-      return 'ring-2 ring-amber-200 dark:ring-amber-800 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30';
-    case 'Rejected':
-      return 'ring-2 ring-red-200 dark:ring-red-800 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950/30 dark:to-pink-950/30';
-    default:
-      return '';
-  }
+const INDICATOR_COLORS: Record<StatusType, string> = {
+  [STATUS.PENDING.value]: 'text-blue-700 dark:text-blue-400',
+  [STATUS.SUBMITTED.value]: 'text-orange-700 dark:text-orange-400',
+  [STATUS.REJECTED.value]: 'text-red-700 dark:text-red-400',
+  [STATUS.APPROVED.value]: 'text-green-700 dark:text-green-400',
+};
+
+const getStatusIndicator = (status: StatusType) => {
+  const statusInfo = getStatusByValue(status);
+  if (!statusInfo) return '';
+  const iconClasses = 'h-3 w-3';
+  const Icon = statusInfo?.icon;
+  return <Icon className={cn(iconClasses, INDICATOR_COLORS[statusInfo.value])} />;
+};
+
+const getStatusStyles = (status: StatusType) => {
+  const statusInfo = getStatusByValue(status);
+  if (!statusInfo) return '';
+  const colorClasses = STATUS_COLORS[statusInfo.value];
+  return colorClasses;
 };
 
 const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: CalendarDateCellProps) => {
@@ -96,11 +102,11 @@ const CalendarDateCell = ({ day, currentDate, attendanceData, holidayInfo }: Cal
             )}
           </div>
 
-          {attendanceData.attendanceType ? (
+          {isLeaveType(attendanceData.attendanceType) ? (
             <div className="flex items-center gap-1">
               <Coffee className="h-3 w-3 text-green-500" />
               <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-                {ATTENDANCE_OPTIONS.find((type) => type.value === attendanceData.attendanceType)?.label}
+                {Object.values(LEAVES).find((type) => type.value === attendanceData.attendanceType)?.label}
               </span>
             </div>
           ) : (

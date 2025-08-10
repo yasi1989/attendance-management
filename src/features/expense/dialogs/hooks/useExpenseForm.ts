@@ -4,22 +4,16 @@ import type { z } from 'zod';
 import { useCallback, useEffect, useMemo, useTransition } from 'react';
 import { ExpenseFormSchema } from '../lib/formSchema';
 import { ExpenseItem, ExpenseTypeDB, RouteDetail } from '../../type/ExpenseType';
-import { StatusType } from '@/types/statusType';
 
 type UseExpenseFormProps = {
-  type: 'add' | 'edit';
   expense?: ExpenseItem;
-};
-
-const isFormDisabled = (type: 'add' | 'edit', status: StatusType | undefined): boolean => {
-  return type === 'edit' && (status === 'Submitted' || status === 'Approved' || status === undefined);
 };
 
 const isValidExpenseType = (value: string): value is ExpenseTypeDB => {
   return value === 'General' || value === 'Transport';
 };
 
-export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
+export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   const [isSubmitted, startTransition] = useTransition();
 
   const defaultValues = useMemo(() => {
@@ -64,8 +58,6 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
   });
 
   const expenseType = form.watch('expenseType');
-
-  const isDisabled = useMemo(() => isFormDisabled(type, expense?.statusCode), [type, expense?.statusCode]);
 
   const onSubmit = useCallback((data: z.infer<typeof ExpenseFormSchema>) => {
     startTransition(async () => {
@@ -130,7 +122,6 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
     handleAddRoute,
     handleRemoveRoute,
     expenseType,
-    isDisabled,
     handleExpenseTypeChange,
     resetToDefault,
   };

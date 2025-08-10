@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, DollarSign } from 'lucide-react';
-import { StatusType } from '@/types/statusType';
+import { StatusTypeWithAll } from '@/types/statusType';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import ExpenseFilterSelector from '@/features/expense/components/ExpenseFilterSelector';
 import ExpenseTable from '@/features/expense/components/ExpenseTable';
@@ -14,7 +14,7 @@ type ExpensePresentationalProps = {
   expenseData: ExpenseItem[];
   currentYear: number;
   currentMonth: number;
-  currentStatus: StatusType;
+  currentStatus: StatusTypeWithAll;
   currentExpenseType: ExpenseTypeFilter;
 };
 
@@ -31,7 +31,7 @@ const ExpensePresentational = ({
         title="経費申請"
         description="交通費、一般経費の申請及び管理ができます。"
         icon={<DollarSign className="w-6 h-6 text-white" />}
-        actionDialog={<ExpenseUpsertDialog type="add" triggerContent={<AddButton label="経費申請" />} />}
+        actionDialog={<ExpenseUpsertDialog triggerContent={<AddButton label="経費申請" />} />}
       />
 
       <CardContent className="bg-gradient-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">

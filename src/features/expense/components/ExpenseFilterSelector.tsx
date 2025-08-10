@@ -6,11 +6,14 @@ import { CalendarDays } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { startTransition, useCallback } from 'react';
 import { URLS } from '@/consts/urls';
+import { STATUS_WITH_ALL } from '@/consts/status';
+import { StatusTypeWithAll } from '@/types/statusType';
+import { URL_PARAMS } from '@/consts/urls';
 
 type ExpenseFilterSelectorProps = {
   currentYear: number;
   currentMonth: number;
-  currentStatus: string;
+  currentStatus: StatusTypeWithAll;
   currentExpenseType: string;
 };
 
@@ -23,13 +26,6 @@ const ExpenseFilterSelector = ({
   const router = useRouter();
   const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear - 5 + i);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const statusOptions = [
-    { value: 'All', label: 'すべて' },
-    { value: 'Draft', label: '下書き' },
-    { value: 'Submitted', label: '承認待ち' },
-    { value: 'Approved', label: '承認済み' },
-    { value: 'Rejected', label: '却下' },
-  ];
   const expenseTypeOptions = [
     { value: 'All', label: 'すべて' },
     { value: 'Transport', label: '交通費' },
@@ -48,19 +44,19 @@ const ExpenseFilterSelector = ({
   );
 
   const handleYearChange = (selectedYear: string) => {
-    updateUrlParams('year', selectedYear);
+    updateUrlParams(URL_PARAMS.expense.YEAR, selectedYear);
   };
 
   const handleMonthChange = (selectedMonth: string) => {
-    updateUrlParams('month', selectedMonth);
+    updateUrlParams(URL_PARAMS.expense.MONTH, selectedMonth);
   };
 
   const handleStatusChange = (selectedStatus: string) => {
-    updateUrlParams('status', selectedStatus);
+    updateUrlParams(URL_PARAMS.expense.STATUS, selectedStatus);
   };
 
   const handleExpenseTypeChange = (selectedExpenseType: string) => {
-    updateUrlParams('expense', selectedExpenseType);
+    updateUrlParams(URL_PARAMS.expense.EXPENSE_TYPE, selectedExpenseType);
   };
 
   return (
@@ -109,7 +105,7 @@ const ExpenseFilterSelector = ({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {statusOptions.map((option) => (
+            {Object.values(STATUS_WITH_ALL).map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
