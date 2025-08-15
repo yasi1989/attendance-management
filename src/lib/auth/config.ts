@@ -1,3 +1,4 @@
+import { URLS } from '@/consts/urls';
 import { env } from '@/env';
 import { db } from '@/lib/db/drizzle';
 import { accounts, sessions, users } from '@/lib/db/schema';
@@ -117,7 +118,7 @@ export const config = {
     }),
   ],
   pages: {
-    signIn: '/attendance/calendar',
+    signIn: URLS.ATTENDANCE_CALENDAR,
   },
   trustHost: true,
   debug: process.env.NODE_ENV === 'development',
