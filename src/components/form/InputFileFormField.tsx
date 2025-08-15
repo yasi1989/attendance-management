@@ -1,5 +1,6 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 
@@ -57,7 +58,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
               type="file"
               onChange={(event) => onChange(event.target.files)}
               {...fieldProps}
-              className={`${className} cursor-pointer`}
+              className={cn(className, 'cursor-pointer')}
               disabled={disabled}
             />
           </FormControl>

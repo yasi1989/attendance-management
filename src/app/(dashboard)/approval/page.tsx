@@ -1,9 +1,9 @@
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { Suspense } from 'react';
 import ApprovalContainer from './container';
 import { isValidStatusWithAll } from '@/lib/status';
 import { STATUS } from '@/consts/status';
+import { isValidMonth, isValidYear } from '@/lib/date';
 
 type ApprovalPageProps = {
   params: Promise<{

@@ -1,7 +1,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useState, useCallback, useEffect } from 'react';
 import { URL_PARAMS } from '@/consts/urls';
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
+import { isValidMonth, isValidYear } from '@/lib/date';
 
 export const useCalendarNavigation = (initialYear: number, initialMonth: number) => {
   const router = useRouter();

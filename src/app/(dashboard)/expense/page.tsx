@@ -1,11 +1,11 @@
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { Suspense } from 'react';
 import ExpenseContainer from './container';
 import { STATUS_WITH_ALL } from '@/consts/status';
 import { EXPENSE_CATEGORIES_WITH_ALL } from '@/consts/expense';
 import { isValidStatusWithAll } from '@/lib/status';
 import { isValidExpenseType } from '@/lib/expense';
+import { isValidMonth, isValidYear } from '@/lib/date';
 
 type ExpensePageProps = {
   params: Promise<{

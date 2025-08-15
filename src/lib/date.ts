@@ -1,3 +1,4 @@
+import { VALIDATION_CONSTANTS } from '@/features/attendance/calendar/const/calendar';
 import { format, isValid, parse, parseISO } from 'date-fns';
 
 export const formatDateToISOString = (date: Date | undefined, formatString = 'yyyy-MM-dd'): string => {
@@ -28,3 +29,11 @@ export const getYearOptions = (currentYear: number, length: number, offset: numb
 export const getMonthOptions = (length: number, offset: number): number[] => {
   return Array.from({ length }, (_, i) => i + offset);
 };
+
+export function isValidYear(year: number): boolean {
+  return !Number.isNaN(year) && year >= VALIDATION_CONSTANTS.YEAR.MIN && year <= VALIDATION_CONSTANTS.YEAR.MAX;
+}
+
+export function isValidMonth(month: number): boolean {
+  return !Number.isNaN(month) && month >= VALIDATION_CONSTANTS.MONTH.MIN && month <= VALIDATION_CONSTANTS.MONTH.MAX;
+}

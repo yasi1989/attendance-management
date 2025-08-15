@@ -1,7 +1,7 @@
-import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
+import CalendarSkeleton from '@/features/attendance/calendar/components/CalendarSkeleton';
 import { Suspense } from 'react';
 import CalendarContainer from './container';
-import CalendarSkeleton from '@/features/attendance/calendar/components/CalendarSkeleton';
+import { isValidMonth, isValidYear } from '@/lib/date';
 
 type CalendarPageProps = {
   params: Promise<{
