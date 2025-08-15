@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { EXPENSE_CATEGORIES } from '@/consts/expense';
-import { getExpenseCategoryByValue } from '@/lib/expense';
+import { getExpenseTypeName } from '@/lib/expense';
 import { cn } from '@/lib/utils';
 import { ExpenseCategoryType } from '@/types/expense';
 
@@ -18,10 +18,6 @@ const getExpenseTypeStyle = (status: ExpenseCategoryType) => {
     default:
       return 'bg-gray-50 dark:bg-gray-950/20 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800';
   }
-};
-
-export const getExpenseTypeName = (status: ExpenseCategoryType) => {
-  return getExpenseCategoryByValue(status)?.label;
 };
 
 const ExpenseTypeBadge = ({ status, className }: ExpenseTypeBadgeProps) => {

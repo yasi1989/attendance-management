@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { compareAsc } from 'date-fns';
 import StatusBadge from '@/components/layout/StatusBadge';
-import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
+import ExpenseTypeBadge from './ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
@@ -14,6 +14,7 @@ import { ViewButton } from '@/components/actionButton/ViewButton';
 import { formatDateToISOString } from '@/lib/date';
 import { truncate } from '@/lib/utils';
 import { canPerformRequest, getStatusByValue } from '@/lib/status';
+import { getExpenseTypeName } from '@/lib/expense';
 
 export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
@@ -190,7 +191,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return getExpenseTypeName(rowA.original.expenseType).localeCompare(getExpenseTypeName(rowB.original.expenseType));
+      const labelA = getExpenseTypeName(rowA.original.expenseType);
+      const labelB = getExpenseTypeName(rowB.original.expenseType);
+      return labelA && labelB ? labelA.localeCompare(labelB) : 0;
     },
   },
   {
@@ -261,7 +264,10 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <ExpenseUpsertDialog expense={row.original} triggerContent={<EditButton editable={canPerformRequest(row.original.status)} />} />
+          <ExpenseUpsertDialog
+            expense={row.original}
+            triggerContent={<EditButton editable={canPerformRequest(row.original.status)} />}
+          />
           {canPerformRequest(row.original.status) && <ExpenseDeleteDialog />}
         </div>
       );
