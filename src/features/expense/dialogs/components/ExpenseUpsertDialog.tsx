@@ -180,7 +180,7 @@ export const ExpenseUpsertDialog = ({ expense, triggerContent }: ExpenseUpsertDi
 
               {!isDisabled && (
                 <DialogFooter>
-                  <DialogActionFooter resetToDefault={resetToDefault} disabled={isSubmitted} />
+                  <DialogActionFooter resetToDefault={resetToDefault} isPending={isSubmitted} />
                 </DialogFooter>
               )}
             </div>
