@@ -12,7 +12,7 @@ import { Send, AlertTriangle } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
-import { formatDisplayYearMonth } from '../../lib/calenderUtils';
+import { formatDisplayYearMonth } from '../../lib/calendarUtils';
 
 type AttendanceBulkDialogProps = {
   currentDate: Date;

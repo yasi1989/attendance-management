@@ -1,4 +1,4 @@
-import { isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
+import { isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { Suspense } from 'react';
 import HolidaysContainer from './container';
 import CommonSkeleton from '@/components/layout/CommonSkeleton';

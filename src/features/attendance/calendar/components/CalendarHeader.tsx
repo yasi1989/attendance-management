@@ -4,7 +4,7 @@ import AttendanceBulkDialog from '../dialog/components/AttendanceBulkDialog';
 import { StatusType } from '@/types/statusType';
 import StatusBadge from '@/components/layout/StatusBadge';
 import CalendarNavigation from './CalendarNavigation';
-import { formatDisplayYearMonth } from '../lib/calenderUtils';
+import { formatDisplayYearMonth } from '../lib/calendarUtils';
 
 type CalendarHeaderProps = {
   currentDate: Date;

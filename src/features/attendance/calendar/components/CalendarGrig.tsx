@@ -3,7 +3,7 @@ import CalendarDateCell from './CalendarDateCell';
 import AttendanceDialog from '../dialog/components/AttendanceDialog';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { AttendanceDataResponse } from '../types/attendance';
-import { generateCalendarWeeks } from '../lib/calenderUtils';
+import { generateCalendarWeeks } from '../lib/calendarUtils';
 import { formatDateToISOString } from '@/lib/date';
 import { StatusType } from '@/types/statusType';
 import { canPerformRequest } from '@/lib/status';

@@ -1,5 +1,3 @@
-import { VALIDATION_CONSTANTS } from '../const/calendar';
-
 export function generateCalendarWeeks(year: number, month: number): Date[][] {
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
@@ -25,14 +23,6 @@ export function generateCalendarWeeks(year: number, month: number): Date[][] {
   }
 
   return weeks;
-}
-
-export function isValidYear(year: number): boolean {
-  return !Number.isNaN(year) && year >= VALIDATION_CONSTANTS.YEAR.MIN && year <= VALIDATION_CONSTANTS.YEAR.MAX;
-}
-
-export function isValidMonth(month: number): boolean {
-  return !Number.isNaN(month) && month >= VALIDATION_CONSTANTS.MONTH.MIN && month <= VALIDATION_CONSTANTS.MONTH.MAX;
 }
 
 export const formatDisplayYearMonth = (date: Date) => {
