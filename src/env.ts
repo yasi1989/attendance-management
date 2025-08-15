@@ -4,7 +4,7 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     NODE_ENV: z.enum(['development', 'production']),
-    AUTH_DRIZZLE_URL: z.url(),
+    AUTH_DRIZZLE_URL: z.string().url(),
     AUTH_SECRET: z.string(),
     AUTH_GITHUB_ID: z.string(),
     AUTH_GITHUB_SECRET: z.string(),
