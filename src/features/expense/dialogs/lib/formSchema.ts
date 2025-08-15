@@ -11,7 +11,7 @@ export const RouteInfoSchema = z.object({
 
 export const ExpenseFormSchema = z.object({
   id: z.string(),
-  expenseType: z.enum([...EXPENSE_CATEGORIES_LIST], {
+  expenseType: z.enum([...EXPENSE_CATEGORIES_LIST] as [string, ...string[]], {
     message: '経費種別は必須です',
   }),
   expenseDate: z.date({

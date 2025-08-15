@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export const IndividualApprovalSchema = z.object({
   id: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, 'IDは必須です'),
-  action: z.enum([...STATUS_ACTIONS.actionApprovalOrRejection], {
+  action: z.enum([...STATUS_ACTIONS.actionApprovalOrRejection] as [string, ...string[]], {
     message: `${STATUS.APPROVED.label}または${STATUS.REJECTED.label}を選択してください`,
   }),
   comment: z
@@ -19,7 +19,7 @@ export const IndividualApprovalSchema = z.object({
 
 export const BatchApprovalSchema = z.object({
   ids: z.array(z.string()).min(VALIDATION_LIMITS.MIN_LENGTH, '承認対象を選択してください'),
-  action: z.enum([...STATUS_ACTIONS.actionApprovalOrRejection], {
+  action: z.enum([...STATUS_ACTIONS.actionApprovalOrRejection] as [string, ...string[]], {
     message: `${STATUS.APPROVED.label}または${STATUS.REJECTED.label}を選択してください`,
   }),
   comment: z
