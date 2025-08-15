@@ -14,6 +14,8 @@ import { useExpenseForm } from '../hooks/useExpenseForm';
 import { canPerformRequest } from '@/lib/status';
 import { useDialogState } from '@/hooks/useDialogState';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
+import { EXPENSE_CATEGORIES } from '@/consts/expense';
+import { useMemo } from 'react';
 
 type ExpenseUpsertDialogProps = {
   expense?: ExpenseItem;
@@ -37,6 +39,13 @@ export const ExpenseUpsertDialog = ({ expense, triggerContent }: ExpenseUpsertDi
   const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({
     form,
   });
+
+  const expenseTypeOptions = useMemo(() => {
+    return Object.values(EXPENSE_CATEGORIES).map((category) => ({
+      value: category.value,
+      label: category.label,
+    }));
+  }, []);
 
   return (
     <Form {...form}>
@@ -70,12 +79,8 @@ export const ExpenseUpsertDialog = ({ expense, triggerContent }: ExpenseUpsertDi
                     <InputSelectFormField
                       form={form}
                       name="expenseType"
-                      label="経費種別"
-                      placeholder="経費種別を選択"
-                      options={[
-                        { value: 'General', label: '一般経費' },
-                        { value: 'Transport', label: '交通費' },
-                      ]}
+                      label="経費"
+                      options={expenseTypeOptions}
                       onValueChange={handleExpenseTypeChange}
                       required
                       disabled={isDisabled}

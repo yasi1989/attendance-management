@@ -10,17 +10,18 @@ import AttendanceFormFields from './AttendanceFormField';
 import AttendanceStatusInformation from './AttendanceStatusInformation';
 import { useDialogState } from '@/hooks/useDialogState';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
+import { useMemo } from 'react';
 
 type AttendanceDialogProps = {
   day: Date;
   attendanceData?: AttendanceData;
   holidayInfo?: HolidayType;
   isDisabled?: boolean;
-  triggerContent?: React.ReactNode;
+  triggerContent?: React.ReactElement;
 };
 
 const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent, isDisabled }: AttendanceDialogProps) => {
-  const isWeekend = isSaturday(day) || isSunday(day);
+  const isWeekend = useMemo(() => isSaturday(day) || isSunday(day), [day]);
 
   const {
     form,
@@ -67,7 +68,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent, is
 
             {!isDisabled && (
               <DialogFooter className="px-4 sm:px-6">
-                <DialogActionFooter resetToDefault={resetToDefault} onDelete={onDelete} isPending={isPending} />
+                <DialogActionFooter resetToDefault={resetToDefault} onDelete={attendanceData ? onDelete : undefined} isPending={isPending} />
               </DialogFooter>
             )}
           </form>

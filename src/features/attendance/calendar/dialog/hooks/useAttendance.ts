@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useCallback, useMemo, useTransition } from 'react';
-import { AttendanceData } from '../../types/attendance';
+import { AttendanceData, AttendanceType, HalfDayType } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
 
@@ -12,9 +12,9 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisa
     return attendanceData
       ? {
           date: day,
-          attendanceType: attendanceData.attendanceType,
+          attendanceType: attendanceData.attendanceType as AttendanceType,
           isHalfDay: attendanceData.isHalfDay,
-          halfDayType: attendanceData.halfDayType,
+          halfDayType: attendanceData.halfDayType as HalfDayType,
           check_in: attendanceData.check_in,
           check_out: attendanceData.check_out,
           rest: attendanceData.rest,
@@ -22,9 +22,9 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisa
         }
       : {
           date: day,
-          attendanceType: ATTENDANCES.WORK.value,
+          attendanceType: ATTENDANCES.WORK.value as AttendanceType,
           isHalfDay: false,
-          halfDayType: HALF_DAYS.AM.value,
+          halfDayType: HALF_DAYS.AM.value as HalfDayType,
           check_in: undefined,
           check_out: undefined,
           rest: undefined,
@@ -38,8 +38,8 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisa
     mode: 'onChange',
   });
 
-  const attendanceType = form.watch('attendanceType');
-  const isHalfDay = form.watch('isHalfDay');
+  const attendanceType = form.watch('attendanceType') as AttendanceType;
+  const isHalfDay = form.watch('isHalfDay') as boolean;
 
   const onSubmit = useCallback((data: z.infer<typeof AttendanceFormSchema>) => {
     startTransition(async () => {
