@@ -25,6 +25,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent, is
   const {
     form,
     onSubmit,
+    onDelete,
     resetAttendanceForm,
     resetHalfDayForm,
     attendanceType,
@@ -66,7 +67,7 @@ const AttendanceDialog = ({ day, attendanceData, holidayInfo, triggerContent, is
 
             {!isDisabled && (
               <DialogFooter className="px-4 sm:px-6">
-                <DialogActionFooter resetToDefault={resetToDefault} disabled={isPending} />
+                <DialogActionFooter resetToDefault={resetToDefault} onDelete={onDelete} isPending={isPending} />
               </DialogFooter>
             )}
           </form>

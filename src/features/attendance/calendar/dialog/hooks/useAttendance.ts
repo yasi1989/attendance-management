@@ -47,6 +47,12 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisa
     });
   }, []);
 
+  const onDelete = useCallback(() => {
+    startTransition(async () => {
+      console.log('delete');
+    });
+  }, []);
+
   const resetTimeFields = useCallback(() => {
     return {
       check_in: undefined,
@@ -97,6 +103,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisa
   return {
     form,
     onSubmit,
+    onDelete,
     attendanceType,
     isHalfDay,
     resetAttendanceForm,
