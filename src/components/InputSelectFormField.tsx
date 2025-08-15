@@ -10,7 +10,7 @@ type InputSelectFormFieldProps<T extends Record<string, unknown>> = {
   required?: boolean;
   rules?: RegisterOptions<T, Path<T>>;
   description?: string;
-  data: Record<string, string>[];
+  options: Record<string, string>[];
   onValueChange?: () => void;
 };
 const InputSelectFormField = <T extends Record<string, unknown>>({
@@ -21,7 +21,7 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
   required = false,
   rules,
   description,
-  data,
+  options,
   onValueChange,
 }: InputSelectFormFieldProps<T>) => {
   return (
@@ -49,7 +49,7 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {data.map((item) => (
+              {options.map((item) => (
                 <SelectItem key={item.value} value={item.value}>
                   {item.label}
                 </SelectItem>
