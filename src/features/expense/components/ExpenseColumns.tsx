@@ -2,27 +2,25 @@
 import { ArrowUpDown, FileText, Calendar, Check, Receipt, DollarSign, Navigation } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { formatDateToISOString } from '@/lib/date';
 import { Checkbox } from '@/components/ui/checkbox';
-import { StatusType } from '@/types/statusType';
 import { compareAsc } from 'date-fns';
-import StatusBadge, { getStatusName } from '@/components/layout/StatusBadge';
-import ExpenseTypeBadge, { getExpenseTypeName } from './ExpenseTypeBadge';
+import StatusBadge from '@/components/layout/StatusBadge';
+import ExpenseTypeBadge from './ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { ViewButton } from '@/components/actionButton/ViewButton';
-
-const canSubmit = (status: StatusType) => {
-  return status === 'Rejected' || status === 'Draft';
-};
+import { formatDateToISOString } from '@/lib/date';
+import { truncate } from '@/lib/utils';
+import { canPerformRequest, getStatusByValue } from '@/lib/status';
+import { getExpenseTypeName } from '@/lib/expense';
 
 export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
     id: 'select',
     header: ({ table }) => {
-      const SubmittedRows = table.getRowModel().rows.filter((row) => canSubmit(row.original.statusCode));
+      const SubmittedRows = table.getRowModel().rows.filter((row) => canPerformRequest(row.original.status));
       const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
       const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
 
@@ -42,11 +40,11 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.original.statusCode;
+      const status = row.original.status;
       return (
         <div className="flex items-center justify-center">
           <Checkbox
-            disabled={!canSubmit(status)}
+            disabled={!canPerformRequest(status)}
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
             aria-label="Select row"
@@ -158,11 +156,13 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
     cell: ({ row }) => (
       <div className="text-center">
-        <StatusBadge status={row.original.statusCode} />
+        <StatusBadge status={row.original.status} />
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return getStatusName(rowA.original.statusCode).localeCompare(getStatusName(rowB.original.statusCode));
+      const labelA = getStatusByValue(rowA.original.status)?.label;
+      const labelB = getStatusByValue(rowB.original.status)?.label;
+      return labelA && labelB ? labelA.localeCompare(labelB) : 0;
     },
   },
   {
@@ -191,7 +191,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return getExpenseTypeName(rowA.original.expenseType).localeCompare(getExpenseTypeName(rowB.original.expenseType));
+      const labelA = getExpenseTypeName(rowA.original.expenseType);
+      const labelB = getExpenseTypeName(rowB.original.expenseType);
+      return labelA && labelB ? labelA.localeCompare(labelB) : 0;
     },
   },
   {
@@ -229,9 +231,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
         </div>
       );
     },
-    cell: ({ row }) => (
-      <div className="max-w-xs text-sm text-slate-600">{truncateString(row.original.description || '', 20)}</div>
-    ),
+    cell: ({ row }) => <div className="max-w-xs">{truncate(row.original.description, 20)}</div>,
   },
   {
     accessorKey: 'receiptUrl',
@@ -265,11 +265,10 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       return (
         <div className="flex space-x-1 items-center justify-center">
           <ExpenseUpsertDialog
-            type="edit"
             expense={row.original}
-            triggerContent={canSubmit(row.original.statusCode) ? <EditButton /> : <EditButton icon={<FileText />} />}
+            triggerContent={<EditButton editable={canPerformRequest(row.original.status)} />}
           />
-          {canSubmit(row.original.statusCode) && <ExpenseDeleteDialog />}
+          {canPerformRequest(row.original.status) && <ExpenseDeleteDialog />}
         </div>
       );
     },
@@ -279,7 +278,3 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     },
   },
 ];
-
-const truncateString = (str: string, maxLength: number): string => {
-  return str.length <= maxLength ? str : str.substring(0, maxLength) + '...';
-};

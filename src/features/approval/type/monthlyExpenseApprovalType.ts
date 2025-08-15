@@ -10,7 +10,7 @@ export type MonthlyExpenseApprovalItem = {
     department: DepartmentType;
   };
   targetMonth: Date;
-  statusCode: StatusType;
+  status: StatusType;
   totalAmount: number;
   itemCount: number;
   categoryBreakdown: Record<string, { name: string; amount: number; count: number }>;

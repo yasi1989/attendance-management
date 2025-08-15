@@ -2,22 +2,19 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useCallback, useMemo, useTransition } from 'react';
-import { AttendanceData } from '../../types/attendance';
+import { AttendanceData, AttendanceType, HalfDayType } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
+import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
 
-const isFormDisabled = (attendanceData?: AttendanceData): boolean => {
-  return attendanceData?.status === 'Submitted' || attendanceData?.status === 'Approved';
-};
-
-export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
+export const useAttendance = (day: Date, attendanceData?: AttendanceData, isDisabled?: boolean) => {
   const [isPending, startTransition] = useTransition();
   const defaultValues = useMemo(() => {
     return attendanceData
       ? {
           date: day,
-          attendanceType: attendanceData.attendanceType || 'Work',
+          attendanceType: attendanceData.attendanceType as AttendanceType,
           isHalfDay: attendanceData.isHalfDay,
-          halfDayType: attendanceData.halfDayType,
+          halfDayType: attendanceData.halfDayType as HalfDayType,
           check_in: attendanceData.check_in,
           check_out: attendanceData.check_out,
           rest: attendanceData.rest,
@@ -25,9 +22,9 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
         }
       : {
           date: day,
-          attendanceType: 'Work',
+          attendanceType: ATTENDANCES.WORK.value as AttendanceType,
           isHalfDay: false,
-          halfDayType: 'Am',
+          halfDayType: HALF_DAYS.AM.value as HalfDayType,
           check_in: undefined,
           check_out: undefined,
           rest: undefined,
@@ -41,14 +38,18 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     mode: 'onChange',
   });
 
-  const attendanceType = form.watch('attendanceType');
-  const isHalfDay = form.watch('isHalfDay');
-
-  const isDisabled = useMemo(() => isFormDisabled(attendanceData), [attendanceData]);
+  const attendanceType = form.watch('attendanceType') as AttendanceType;
+  const isHalfDay = form.watch('isHalfDay') as boolean;
 
   const onSubmit = useCallback((data: z.infer<typeof AttendanceFormSchema>) => {
     startTransition(async () => {
       console.log(data);
+    });
+  }, []);
+
+  const onDelete = useCallback(() => {
+    startTransition(async () => {
+      console.log('delete');
     });
   }, []);
 
@@ -68,7 +69,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
       {
         ...form.getValues(),
         isHalfDay: false,
-        halfDayType: 'Am',
+        halfDayType: HALF_DAYS.AM.value,
         ...resetTimeFields(),
       },
       { keepDefaultValues: false },
@@ -81,7 +82,7 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
     form.reset(
       {
         ...form.getValues(),
-        halfDayType: 'Am',
+        halfDayType: HALF_DAYS.AM.value,
         ...resetTimeFields(),
       },
       { keepDefaultValues: false },
@@ -102,12 +103,12 @@ export const useAttendance = (day: Date, attendanceData?: AttendanceData) => {
   return {
     form,
     onSubmit,
+    onDelete,
     attendanceType,
     isHalfDay,
     resetAttendanceForm,
     resetHalfDayForm,
     resetToDefault,
     isPending,
-    isDisabled,
   };
 };

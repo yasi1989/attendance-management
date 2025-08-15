@@ -3,37 +3,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useCallback, useEffect, useMemo, useTransition } from 'react';
 import { ExpenseFormSchema } from '../lib/formSchema';
-import { ExpenseItem, ExpenseTypeDB, RouteDetail } from '../../type/ExpenseType';
-import { StatusType } from '@/types/statusType';
+import { ExpenseItem, RouteDetail } from '../../type/ExpenseType';
+import { EXPENSE_CATEGORIES } from '@/consts/expense';
 
 type UseExpenseFormProps = {
-  type: 'add' | 'edit';
   expense?: ExpenseItem;
 };
 
-const isFormDisabled = (type: 'add' | 'edit', status: StatusType | undefined): boolean => {
-  return type === 'edit' && (status === 'Submitted' || status === 'Approved' || status === undefined);
-};
-
-const isValidExpenseType = (value: string): value is ExpenseTypeDB => {
-  return value === 'General' || value === 'Transport';
-};
-
-export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
+export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   const [isSubmitted, startTransition] = useTransition();
 
   const defaultValues = useMemo(() => {
-    return type === 'edit' && expense
+    return expense
       ? {
           id: expense.id,
-          expenseType: expense.expenseType as ExpenseTypeDB,
+          expenseType: expense.expenseType,
           expenseDate: expense.expenseDate,
           requestDate: expense.requestDate,
           amount: expense.amount,
           description: expense.description,
           receiptFile: undefined,
-          routes: expense.routeInfo?.routeDetails
-            ? expense.routeInfo.routeDetails.map((routeDetail: RouteDetail) => ({
+          routes: expense.routeDetails
+            ? expense.routeDetails.map((routeDetail: RouteDetail) => ({
                 from: routeDetail.from,
                 to: routeDetail.to,
                 fare: routeDetail.fare,
@@ -42,7 +33,7 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
         }
       : {
           id: '',
-          expenseType: 'General' as ExpenseTypeDB,
+          expenseType: EXPENSE_CATEGORIES.GENERAL.value,
           expenseDate: new Date(),
           requestDate: new Date(),
           amount: 0,
@@ -50,7 +41,7 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
           receiptFile: undefined,
           routes: [{ from: '', to: '', fare: 0 }],
         };
-  }, [type, expense]);
+  }, [expense]);
 
   const form = useForm<z.infer<typeof ExpenseFormSchema>>({
     resolver: zodResolver(ExpenseFormSchema),
@@ -65,13 +56,11 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
 
   const expenseType = form.watch('expenseType');
 
-  const isDisabled = useMemo(() => isFormDisabled(type, expense?.statusCode), [type, expense?.statusCode]);
-
   const onSubmit = useCallback((data: z.infer<typeof ExpenseFormSchema>) => {
     startTransition(async () => {
       const cleanedData = {
         ...data,
-        routes: data.expenseType === 'Transport' ? data.routes : [],
+        routes: data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value ? data.routes : [],
       };
       console.log(cleanedData);
     });
@@ -79,11 +68,9 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
 
   const handleExpenseTypeChange = useCallback(
     (value: string) => {
-      if (isValidExpenseType(value)) {
-        if (value === 'General') {
-          form.setValue('routes', [{ from: '', to: '', fare: 0 }]);
-          form.setValue('amount', 0);
-        }
+      if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
+        form.setValue('routes', [{ from: '', to: '', fare: 0 }]);
+        form.setValue('amount', 0);
       }
     },
     [form],
@@ -108,18 +95,19 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
     });
   }, [form, defaultValues]);
 
+  const { watch, setValue } = form;
   useEffect(() => {
-    if (expenseType === 'Transport') {
-      const subscription = form.watch((value, { name }) => {
+    if (expenseType === EXPENSE_CATEGORIES.TRANSPORT.value) {
+      const subscription = watch((value, { name }) => {
         if (name?.startsWith('routes')) {
           const routes = value.routes || [];
           const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
-          form.setValue('amount', totalFare);
+          setValue('amount', totalFare);
         }
       });
       return () => subscription.unsubscribe();
     }
-  }, [form, expenseType]);
+  }, [watch, setValue, expenseType]);
 
   return {
     form,
@@ -129,7 +117,6 @@ export const useExpenseForm = ({ type, expense }: UseExpenseFormProps) => {
     handleAddRoute,
     handleRemoveRoute,
     expenseType,
-    isDisabled,
     handleExpenseTypeChange,
     resetToDefault,
   };

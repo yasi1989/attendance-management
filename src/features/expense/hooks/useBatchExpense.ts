@@ -1,4 +1,4 @@
-import { ActionStatusType, BatchExpenseSchema, BatchExpenseType } from '../lib/formSchema';
+import { BatchExpenseSchema, BatchExpenseType } from '../lib/formSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -10,7 +10,7 @@ export const useBatchExpense = (onSubmit: (data: BatchExpenseType) => Promise<vo
     },
   });
 
-  const handleBatchExpense = async (action: ActionStatusType, selectedItemIds: string[]) => {
+  const handleBatchExpense = async (selectedItemIds: string[]) => {
     try {
       if (selectedItemIds.length === 0) {
         throw new Error('申請対象を選択してください');
@@ -20,7 +20,6 @@ export const useBatchExpense = (onSubmit: (data: BatchExpenseType) => Promise<vo
 
       const batchExpenseData: BatchExpenseType = {
         ids: selectedItemIds,
-        action,
         comment: formData.comment,
         userId: 'current-user-id',
       };

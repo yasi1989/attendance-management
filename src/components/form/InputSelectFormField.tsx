@@ -18,7 +18,7 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
   form,
   name,
   label,
-  placeholder = '',
+  placeholder = '選択してください',
   required = false,
   rules,
   description,

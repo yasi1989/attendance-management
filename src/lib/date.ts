@@ -20,3 +20,11 @@ export const timestampToTimeString = (timestamp: number | undefined): string => 
   const date = new Date(timestamp);
   return isValid(date) ? format(date, 'HH:mm') : '';
 };
+
+export const getYearOptions = (currentYear: number, length: number, offset: number): number[] => {
+  return Array.from({ length }, (_, i) => currentYear - offset + i);
+};
+
+export const getMonthOptions = (length: number, offset: number): number[] => {
+  return Array.from({ length }, (_, i) => i + offset);
+};

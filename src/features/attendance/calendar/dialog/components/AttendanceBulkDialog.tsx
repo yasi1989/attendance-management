@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Send, AlertTriangle } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { formatMonth } from '../../components/CalendarHeader';
 import { useState } from 'react';
+import { formatDisplayYearMonth } from '../../lib/calenderUtils';
 
 type AttendanceBulkDialogProps = {
   currentDate: Date;
@@ -66,7 +66,7 @@ const AttendanceBulkDialog = ({ currentDate, monthlyStatus, canSubmit }: Attenda
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">月次勤怠申請</DialogTitle>
           <DialogDescription className="text-gray-600 dark:text-gray-400">
-            {formatMonth(currentDate)}の勤怠データを申請します。申請後は承認されるまで編集できません。
+            {formatDisplayYearMonth(currentDate)}の勤怠データを申請します。申請後は承認されるまで編集できません。
           </DialogDescription>
         </DialogHeader>
 

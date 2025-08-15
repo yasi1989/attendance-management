@@ -9,6 +9,7 @@ import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
+import { canPerformApprovalOrRejection } from '@/lib/status';
 
 type ExpenseApprovalsColumnsProps = {
   departments: DepartmentType[];
@@ -18,22 +19,34 @@ export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
   const columns: ColumnDef<MonthlyExpenseApprovalItem>[] = [
     {
       id: 'select',
-      header: ({ table }) => (
-        <div className="flex items-center justify-center">
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Select all"
-            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-          />
-        </div>
-      ),
-      cell: ({ row }) => {
-        const status = row.original.statusCode;
+      header: ({ table }) => {
+        const SubmittedRows = table
+          .getRowModel()
+          .rows.filter((row) => canPerformApprovalOrRejection(row.original.status));
+        const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
+        const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
+
         return (
           <div className="flex items-center justify-center">
             <Checkbox
-              disabled={status !== 'Submitted'}
+              checked={allSubmittedSelected || (someSubmittedSelected && 'indeterminate')}
+              onCheckedChange={(value) => {
+                SubmittedRows.forEach((row) => {
+                  row.toggleSelected(!!value);
+                });
+              }}
+              aria-label="Select all Submitted"
+              className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            />
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.original.status;
+        return (
+          <div className="flex items-center justify-center">
+            <Checkbox
+              disabled={!canPerformApprovalOrRejection(status)}
               checked={row.getIsSelected()}
               onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"
@@ -88,7 +101,7 @@ export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <ApprovalStatusBadge status={row.original.statusCode} />
+          <ApprovalStatusBadge status={row.original.status} />
         </div>
       ),
     },
@@ -224,7 +237,7 @@ export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center">
-            <ExpenseDetailDialog status={row.original.statusCode} expense={row.original} />
+            <ExpenseDetailDialog status={row.original.status} expense={row.original} />
           </div>
         );
       },

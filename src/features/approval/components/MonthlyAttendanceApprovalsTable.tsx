@@ -4,6 +4,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { columnsDef } from './AttendanceApprovalsColumns';
 import ApprovalBulkForm from './ApprovalBulkForm';
 import { useSearchParams } from 'next/navigation';
+import { URL_PARAMS } from '@/consts/urls';
 
 type MonthlyAttendanceApprovalsTableProps = {
   attendances: MonthlyAttendanceApprovalItem[];
@@ -12,13 +13,12 @@ type MonthlyAttendanceApprovalsTableProps = {
 
 const MonthlyAttendanceApprovalsTable = ({ attendances, departments }: MonthlyAttendanceApprovalsTableProps) => {
   const searchParams = useSearchParams();
-  const currentYear = searchParams.get('year') || new Date().getFullYear().toString();
-  const currentMonth = searchParams.get('month') || (new Date().getMonth() + 1).toString();
-  const currentStatus = searchParams.get('status') || 'All';
+  const currentYear = searchParams.get(URL_PARAMS.approval.YEAR);
+  const currentMonth = searchParams.get(URL_PARAMS.approval.MONTH);
+  const currentStatus = searchParams.get(URL_PARAMS.approval.STATUS);
 
   const columns = columnsDef({ departments });
   const renderBulkActions = (selectedIds: string[]) => <ApprovalBulkForm selectedIds={selectedIds} />;
-
   const filterKey = `${currentYear}-${currentMonth}-${currentStatus}`;
 
   return (

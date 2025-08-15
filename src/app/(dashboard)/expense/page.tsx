@@ -1,9 +1,11 @@
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
 import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calendarUtils';
 import { Suspense } from 'react';
-import { StatusType } from '@/types/statusType';
 import ExpenseContainer from './container';
-import { ExpenseTypeFilter } from '@/features/expense/type/ExpenseType';
+import { STATUS_WITH_ALL } from '@/consts/status';
+import { EXPENSE_CATEGORIES_WITH_ALL } from '@/consts/expense';
+import { isValidStatusWithAll } from '@/lib/status';
+import { isValidExpenseType } from '@/lib/expense';
 
 type ExpensePageProps = {
   params: Promise<{
@@ -14,14 +16,6 @@ type ExpensePageProps = {
     params: string[];
   }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-const isValidStatus = (status: string): status is StatusType => {
-  return ['Submitted', 'Approved', 'Rejected', 'All'].includes(status);
-};
-
-const isValidExpenseType = (expenseType: string): expenseType is ExpenseTypeFilter => {
-  return ['Transport', 'General', 'All'].includes(expenseType);
 };
 
 const ExpensePage = async ({ params, searchParams }: ExpensePageProps) => {
@@ -36,22 +30,22 @@ const ExpensePage = async ({ params, searchParams }: ExpensePageProps) => {
   let expenseType: string;
 
   if (resolvedParams.params) {
-    year = resolvedParams.params[0] ? Number.parseInt(resolvedParams.params[0], 10) : now.getFullYear();
-    month = resolvedParams.params[1] ? Number.parseInt(resolvedParams.params[1], 10) : now.getMonth() + 1;
-    status = resolvedParams.params[2] ? resolvedParams.params[2] : 'All';
-    expenseType = resolvedParams.params[3] ? resolvedParams.params[3] : 'All';
+    year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
+    month = resolvedParams.params[1] ? Number(resolvedParams.params[1]) : now.getMonth() + 1;
+    status = resolvedParams.params[2] ? resolvedParams.params[2] : STATUS_WITH_ALL.ALL.value;
+    expenseType = resolvedParams.params[3] ? resolvedParams.params[3] : EXPENSE_CATEGORIES_WITH_ALL.ALL.value;
   } else {
-    year = resolvedParams.year ? Number.parseInt(resolvedParams.year, 10) : now.getFullYear();
-    month = resolvedParams.month ? Number.parseInt(resolvedParams.month, 10) : now.getMonth() + 1;
-    status = resolvedParams.status ? resolvedParams.status : 'All';
-    expenseType = resolvedParams.expense ? resolvedParams.expense : 'All';
+    year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
+    month = resolvedParams.month ? Number(resolvedParams.month) : now.getMonth() + 1;
+    status = resolvedParams.status ? resolvedParams.status : STATUS_WITH_ALL.ALL.value;
+    expenseType = resolvedParams.expense ? resolvedParams.expense : EXPENSE_CATEGORIES_WITH_ALL.ALL.value;
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
-    year = Number.parseInt(resolvedSearchParams.year, 10);
+    year = Number(resolvedSearchParams.year);
   }
   if (resolvedSearchParams.month && typeof resolvedSearchParams.month === 'string') {
-    month = Number.parseInt(resolvedSearchParams.month, 10);
+    month = Number(resolvedSearchParams.month);
   }
   if (resolvedSearchParams.status && typeof resolvedSearchParams.status === 'string') {
     status = resolvedSearchParams.status;
@@ -62,8 +56,8 @@ const ExpensePage = async ({ params, searchParams }: ExpensePageProps) => {
 
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
   const validatedMonth = isValidMonth(month) ? month : now.getMonth() + 1;
-  const validatedStatus = isValidStatus(status) ? status : 'All';
-  const validatedExpenseType = isValidExpenseType(expenseType) ? expenseType : 'All';
+  const validatedStatus = isValidStatusWithAll(status) ? status : STATUS_WITH_ALL.ALL.value;
+  const validatedExpenseType = isValidExpenseType(expenseType) ? expenseType : EXPENSE_CATEGORIES_WITH_ALL.ALL.value;
 
   return (
     <Suspense fallback={<CommonSkeleton />}>

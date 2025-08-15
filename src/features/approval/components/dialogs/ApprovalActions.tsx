@@ -2,16 +2,16 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle } from 'lucide-react';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import { UseFormReturn } from 'react-hook-form';
-import { ApprovalCommentType } from '../../lib/formSchema';
-import { ActionStatusType } from '../../type/actionStatusType';
+import { ApprovalCommentType, IndividualApprovalType } from '../../lib/formSchema';
+import { STATUS } from '@/consts/status';
 
-interface ApprovalFooterProps {
+interface ApprovalActionsProps {
   form: UseFormReturn<ApprovalCommentType>;
-  handleIndividualApproval: (approvalStatus: ActionStatusType) => void;
+  handleIndividualApproval: (approvalStatus: IndividualApprovalType['action']) => void;
   isSubmitted: boolean;
 }
 
-const ApprovalFooter = ({ form, handleIndividualApproval, isSubmitted }: ApprovalFooterProps) => {
+const ApprovalActions = ({ form, handleIndividualApproval, isSubmitted }: ApprovalActionsProps) => {
   return (
     <div className="flex flex-col space-y-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
       <InputTextFormField
@@ -26,7 +26,7 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isSubmitted }: Approva
       <div className="flex flex-col md:flex-row gap-2 pt-2">
         <Button
           type="button"
-          onClick={() => handleIndividualApproval('Approve')}
+          onClick={() => handleIndividualApproval(STATUS.APPROVED.value)}
           className="bg-green-600 hover:bg-green-700 flex-1 md:flex-none"
           disabled={isSubmitted}
         >
@@ -36,7 +36,7 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isSubmitted }: Approva
         <Button
           type="button"
           variant="outline"
-          onClick={() => handleIndividualApproval('Reject')}
+          onClick={() => handleIndividualApproval(STATUS.REJECTED.value)}
           className="text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex-1 md:flex-none"
           disabled={isSubmitted}
         >
@@ -48,4 +48,4 @@ const ApprovalFooter = ({ form, handleIndividualApproval, isSubmitted }: Approva
   );
 };
 
-export default ApprovalFooter;
+export default ApprovalActions;

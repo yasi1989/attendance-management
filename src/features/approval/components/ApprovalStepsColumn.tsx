@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ApprovalStepType } from '@/features/approval/type/approvalStepType';
 import { formatDateToISOString } from '@/lib/date';
 import StatusBadge from '@/components/layout/StatusBadge';
+import { truncate } from '@/lib/utils';
 
 export const columns: ColumnDef<ApprovalStepType>[] = [
   {
@@ -88,13 +89,7 @@ export const columns: ColumnDef<ApprovalStepType>[] = [
         className="text-slate-900 dark:text-slate-100 min-w-[100px] md:min-w-[150px] truncate"
         title={`${row.original.comment || ''}`}
       >
-        <span className="block md:hidden">
-          {row.original.comment
-            ? row.original.comment.length > 10
-              ? `${row.original.comment.slice(0, 10)}...`
-              : row.original.comment
-            : '-'}
-        </span>
+        <span className="block md:hidden">{truncate(row.original.comment || '', 10)}</span>
         <span className="hidden md:block">{row.original.comment || '-'}</span>
       </div>
     ),

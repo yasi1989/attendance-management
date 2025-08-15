@@ -1,12 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { Banknote, Calendar, Plus, Train, Lock } from 'lucide-react';
 import InputTextFormField from '@/components/form/InputTextFormField';
@@ -19,14 +11,19 @@ import DialogActionFooter from '@/components/dialog/DialogActionFooter';
 import { Button } from '@/components/ui/button';
 import { ExpenseItem } from '../../type/ExpenseType';
 import { useExpenseForm } from '../hooks/useExpenseForm';
+import { canPerformRequest } from '@/lib/status';
+import { useDialogState } from '@/hooks/useDialogState';
+import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
+import { EXPENSE_CATEGORIES } from '@/consts/expense';
+import { useMemo } from 'react';
 
 type ExpenseUpsertDialogProps = {
-  type: 'add' | 'edit';
   expense?: ExpenseItem;
   triggerContent?: React.ReactNode;
 };
 
-export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUpsertDialogProps) => {
+export const ExpenseUpsertDialog = ({ expense, triggerContent }: ExpenseUpsertDialogProps) => {
+  const isDisabled = !canPerformRequest(expense?.status || '');
   const {
     form,
     onSubmit,
@@ -35,22 +32,28 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
     handleAddRoute,
     handleRemoveRoute,
     expenseType,
-    isDisabled,
     handleExpenseTypeChange,
     resetToDefault,
-  } = useExpenseForm({ type, expense });
+  } = useExpenseForm({ expense });
+
+  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({
+    form,
+  });
+
+  const expenseTypeOptions = useMemo(() => {
+    return Object.values(EXPENSE_CATEGORIES).map((category) => ({
+      value: category.value,
+      label: category.label,
+    }));
+  }, []);
 
   return (
     <Form {...form}>
-      <Dialog>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>{triggerContent}</DialogTrigger>
-        <DialogContent className="w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogHeader>
-              <div className="flex flex-wrap items-center gap-2">
-                <DialogTitle className="text-lg sm:text-xl">経費申請</DialogTitle>
-              </div>
-            </DialogHeader>
+            <DialogHeaderWithClose title="経費申請" onClose={handleCloseButtonClick} />
             <DialogDescription className="text-sm">交通費や一般経費の情報を申請します。</DialogDescription>
 
             <div className="space-y-6 pt-4">
@@ -66,9 +69,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                       <div className="flex items-start space-x-2">
                         <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
                         <p className="text-xs text-yellow-800 dark:text-yellow-300">
-                          {expense?.statusCode === 'Approved'
-                            ? 'この経費データは承認済みのため編集できません。'
-                            : 'この経費データは申請済みのため編集できません。'}
+                          この経費データは申請済みまたは承認済みのため編集できません。
                         </p>
                       </div>
                     </div>
@@ -78,12 +79,8 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
                     <InputSelectFormField
                       form={form}
                       name="expenseType"
-                      label="経費種別"
-                      placeholder="経費種別を選択"
-                      options={[
-                        { value: 'General', label: '一般経費' },
-                        { value: 'Transport', label: '交通費' },
-                      ]}
+                      label="経費"
+                      options={expenseTypeOptions}
                       onValueChange={handleExpenseTypeChange}
                       required
                       disabled={isDisabled}
@@ -188,7 +185,7 @@ export const ExpenseUpsertDialog = ({ type, expense, triggerContent }: ExpenseUp
 
               {!isDisabled && (
                 <DialogFooter>
-                  <DialogActionFooter resetToDefault={resetToDefault} disabled={isSubmitted} />
+                  <DialogActionFooter resetToDefault={resetToDefault} isPending={isSubmitted} />
                 </DialogFooter>
               )}
             </div>

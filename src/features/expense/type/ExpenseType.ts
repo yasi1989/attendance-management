@@ -1,15 +1,10 @@
 import { StatusType } from '@/types/statusType';
+import { ExpenseCategoryType } from '@/types/expense';
 
 export type RouteDetail = {
   from: string;
   to: string;
   fare: number;
-};
-
-export type RouteInfo = {
-  id: string;
-  expenseRequestId: string;
-  routeDetails: RouteDetail[];
 };
 
 export type ExpenseItem = {
@@ -19,11 +14,8 @@ export type ExpenseItem = {
   requestDate: Date;
   amount: number;
   description: string;
-  statusCode: StatusType;
-  expenseType: ExpenseTypeDB;
+  status: StatusType;
+  expenseType: ExpenseCategoryType;
   receiptUrl: string;
-  routeInfo?: RouteInfo;
+  routeDetails?: RouteDetail[];
 };
-
-export type ExpenseTypeDB = 'Transport' | 'General';
-export type ExpenseTypeFilter = ExpenseTypeDB | 'All';

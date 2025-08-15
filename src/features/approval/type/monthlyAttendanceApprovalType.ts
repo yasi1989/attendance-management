@@ -9,7 +9,7 @@ export type MonthlyAttendanceApprovalItem = {
   user: UserType & {
     department: DepartmentType;
   };
-  statusCode: StatusType;
+  status: StatusType;
   targetMonth: Date;
   totalWorkDays: number;
   actualWorkDays: number;

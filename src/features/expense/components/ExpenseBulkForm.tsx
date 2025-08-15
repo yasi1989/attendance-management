@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, Send } from 'lucide-react';
 import { Form } from '@/components/ui/form';
 import InputTextFormField from '@/components/form/InputTextFormField';
-import { useBatchExpense } from '../hooks/useBatchApproval';
+import { useBatchExpense } from '../hooks/useBatchExpense';
 import { BatchExpenseType } from '../lib/formSchema';
 
 type ExpenseBulkFormProps = {
@@ -46,7 +46,7 @@ const ExpenseBulkForm = ({ selectedIds }: ExpenseBulkFormProps) => {
             size="lg"
             className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
-            onClick={() => handleBatchExpense('Draft', selectedIds)}
+            onClick={() => handleBatchExpense(selectedIds)}
           >
             {isSubmitted ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
