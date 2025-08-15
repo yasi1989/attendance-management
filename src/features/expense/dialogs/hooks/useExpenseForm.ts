@@ -3,14 +3,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { useCallback, useEffect, useMemo, useTransition } from 'react';
 import { ExpenseFormSchema } from '../lib/formSchema';
-import { ExpenseItem, ExpenseTypeDB, RouteDetail } from '../../type/ExpenseType';
+import { ExpenseItem, RouteDetail } from '../../type/ExpenseType';
+import { EXPENSE_CATEGORIES } from '@/consts/expense';
 
 type UseExpenseFormProps = {
   expense?: ExpenseItem;
-};
-
-const isValidExpenseType = (value: string): value is ExpenseTypeDB => {
-  return value === 'General' || value === 'Transport';
 };
 
 export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
@@ -20,7 +17,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
     return expense
       ? {
           id: expense.id,
-          expenseType: expense.expenseType as ExpenseTypeDB,
+          expenseType: expense.expenseType,
           expenseDate: expense.expenseDate,
           requestDate: expense.requestDate,
           amount: expense.amount,
@@ -36,7 +33,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
         }
       : {
           id: '',
-          expenseType: 'General' as ExpenseTypeDB,
+          expenseType: EXPENSE_CATEGORIES.GENERAL.value,
           expenseDate: new Date(),
           requestDate: new Date(),
           amount: 0,
@@ -63,7 +60,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
     startTransition(async () => {
       const cleanedData = {
         ...data,
-        routes: data.expenseType === 'Transport' ? data.routes : [],
+        routes: data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value ? data.routes : [],
       };
       console.log(cleanedData);
     });
@@ -71,11 +68,9 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
 
   const handleExpenseTypeChange = useCallback(
     (value: string) => {
-      if (isValidExpenseType(value)) {
-        if (value === 'General') {
-          form.setValue('routes', [{ from: '', to: '', fare: 0 }]);
-          form.setValue('amount', 0);
-        }
+      if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
+        form.setValue('routes', [{ from: '', to: '', fare: 0 }]);
+        form.setValue('amount', 0);
       }
     },
     [form],
@@ -102,7 +97,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
 
   const { watch, setValue } = form;
   useEffect(() => {
-    if (expenseType === 'Transport') {
+    if (expenseType === EXPENSE_CATEGORIES.TRANSPORT.value) {
       const subscription = watch((value, { name }) => {
         if (name?.startsWith('routes')) {
           const routes = value.routes || [];
