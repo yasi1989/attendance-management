@@ -1,13 +1,14 @@
 import { sampleMonthlyApprovals } from '../const/mockData';
-import { StatusType } from '@/types/statusType';
+import { StatusTypeWithAll } from '@/types/statusType';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { STATUS_WITH_ALL } from '@/consts/status';
 
 type FetchMonthlyApprovalsParams = {
   year: number;
   month: number;
-  status: StatusType;
+  status: StatusTypeWithAll;
 };
 
 export type FetchMonthlyApprovalsResponse = {
@@ -20,12 +21,12 @@ const getFixedData = <T extends MonthlyAttendanceApprovalItem | MonthlyExpenseAp
   data: T[],
   year: number,
   month: number,
-  status: StatusType,
+  status: StatusTypeWithAll,
 ) => {
-  if (status === 'All') {
+  if (status === STATUS_WITH_ALL.ALL.value) {
     return data.filter((item) => filterByYearMonth(item.targetMonth, year, month));
   }
-  return data.filter((item) => filterByYearMonth(item.targetMonth, year, month) && item.statusCode === status);
+  return data.filter((item) => filterByYearMonth(item.targetMonth, year, month) && item.status === status);
 };
 
 const filterByYearMonth = (targetDate: Date, year: number, month: number): boolean => {

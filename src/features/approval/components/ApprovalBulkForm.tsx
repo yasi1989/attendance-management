@@ -59,12 +59,12 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             type="button"
             variant="outline"
             size="lg"
-            className="flex-1 text-red-600 border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-700 shadow-lg hover:shadow-xl transition-all duration-200"
+            className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
             onClick={() => handleBatchApproval(STATUS.REJECTED.value, selectedIds)}
           >
             {isSubmitted ? (
-              <div className="animate-spin h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full mr-2" />
+              <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
             ) : (
               <XCircle className="h-5 w-5 mr-2" />
             )}

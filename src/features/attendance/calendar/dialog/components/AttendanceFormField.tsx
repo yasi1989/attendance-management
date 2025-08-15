@@ -8,6 +8,7 @@ import InputTextFormField from '@/components/form/InputTextFormField';
 import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 import { z } from 'zod';
+import InputDateFormField from '@/components/form/InputDateFormField';
 
 interface AttendanceFormFieldsProps {
   form: UseFormReturn<z.infer<typeof AttendanceFormSchema>>;
@@ -28,6 +29,8 @@ const AttendanceFormFields = ({
 }: AttendanceFormFieldsProps) => {
   return (
     <div className="space-y-4">
+      <InputDateFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
+
       <InputSelectFormField
         form={form}
         name="attendanceType"

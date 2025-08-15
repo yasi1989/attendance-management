@@ -5,9 +5,9 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { useDepartments } from '../hooks/useDepartments';
 import { UserType } from '@/features/system/users/type/userType';
-import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 
 type UpsertDepartmentDialogProps = {
   type: 'add' | 'edit';
@@ -46,7 +46,7 @@ export function UpsertDepartmentDialog({
   );
   const triggerButton = children || <EditButton />;
   return (
-    <CommonDialog
+    <FormDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}

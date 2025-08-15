@@ -3,7 +3,7 @@
 import InputFormField from '@/components/form/InputFormField';
 import { useCompany } from '../hooks/useCompany';
 import { CompanyType } from '../type/companyType';
-import CommonDialog from '@/components/dialog/CommonDialog';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertCompanyDialogProps = {
@@ -14,7 +14,7 @@ type UpsertCompanyDialogProps = {
 
 export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialogProps) {
   const { form, onSubmit, isSubmitted } = useCompany({ type, data });
-  const dialogConfig = {
+  const dialogConfig: DialogConfig = {
     title: type === 'add' ? '会社登録' : '会社編集',
     description: `会社情報を${type === 'add' ? '登録' : '更新'}してください。`,
     submitButtonLabel: type === 'add' ? '登録' : '更新',
@@ -28,7 +28,7 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
   );
   const triggerButton = children || <EditButton />;
   return (
-    <CommonDialog
+    <FormDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}

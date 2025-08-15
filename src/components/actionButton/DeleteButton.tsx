@@ -1,6 +1,6 @@
-import ActionDialog from '@/components/dialog/ActionDialog';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import ConfirmDialog from '../dialog/ConfirmDialog';
 
 type DeleteButtonProps = {
   title?: string;
@@ -45,15 +45,13 @@ export const DeleteButton = ({
   }
 
   return (
-    <ActionDialog
+    <ConfirmDialog
       title={title}
       description={description}
-      cancelLabel="キャンセル"
-      actionLabel="削除"
       onAction={onDelete}
       isLoading={isLoading}
     >
       {finalButton}
-    </ActionDialog>
+    </ConfirmDialog>
   );
 };

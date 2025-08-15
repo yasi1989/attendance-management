@@ -1,8 +1,9 @@
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
 import { isValidMonth, isValidYear } from '@/features/attendance/calendar/lib/calenderUtils';
 import { Suspense } from 'react';
-import { StatusType } from '@/types/statusType';
 import ApprovalContainer from './container';
+import { isValidStatusWithAll } from '@/lib/status';
+import { STATUS } from '@/consts/status';
 
 type ApprovalPageProps = {
   params: Promise<{
@@ -12,10 +13,6 @@ type ApprovalPageProps = {
     params: string[];
   }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-const isValidStatus = (status: string): status is StatusType => {
-  return ['Submitted', 'Approved', 'Rejected', 'All'].includes(status);
 };
 
 const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
@@ -31,11 +28,11 @@ const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
   if (resolvedParams.params) {
     year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
     month = resolvedParams.params[1] ? Number(resolvedParams.params[1]) : now.getMonth() + 1;
-    status = resolvedParams.params[2] ? resolvedParams.params[2] : 'Submitted';
+    status = resolvedParams.params[2] ? resolvedParams.params[2] : STATUS.SUBMITTED.value;
   } else {
     year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
     month = resolvedParams.month ? Number(resolvedParams.month) : now.getMonth() + 1;
-    status = resolvedParams.status ? resolvedParams.status : 'Submitted';
+    status = resolvedParams.status ? resolvedParams.status : STATUS.SUBMITTED.value;
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
@@ -50,7 +47,7 @@ const ApprovalPage = async ({ params, searchParams }: ApprovalPageProps) => {
 
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
   const validatedMonth = isValidMonth(month) ? month : now.getMonth() + 1;
-  const validatedStatus = isValidStatus(status) ? status : 'Submitted';
+  const validatedStatus = isValidStatusWithAll(status) ? status : STATUS.SUBMITTED.value;
 
   return (
     <Suspense fallback={<CommonSkeleton />}>

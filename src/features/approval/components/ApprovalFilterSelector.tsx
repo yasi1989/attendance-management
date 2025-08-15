@@ -4,25 +4,55 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useRouter } from 'next/navigation';
 import { CalendarDays } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { startTransition, useCallback } from 'react';
-import { URLS } from '@/consts/urls';
+import { startTransition, useCallback, useMemo } from 'react';
+import { URL_PARAMS, URLS } from '@/consts/urls';
+import { getMonthOptions, getYearOptions } from '@/lib/date';
+import {
+  DISPLAY_MONTH_OPTIONS_LENGTH,
+  DISPLAY_MONTH_OPTIONS_OFFSET,
+  DISPLAY_YEAR_OPTIONS_LENGTH,
+  DISPLAY_YEAR_OPTIONS_OFFSET,
+} from '@/consts/date';
+import { STATUS_WITH_ALL } from '@/consts/status';
+import { StatusTypeWithAll } from '@/types/statusType';
 
 type ApprovalFilterSelectorProps = {
   currentYear: number;
   currentMonth: number;
-  currentStatus: string;
+  currentStatus: StatusTypeWithAll;
 };
 
 const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: ApprovalFilterSelectorProps) => {
   const router = useRouter();
-  const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear - 5 + i);
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const statusOptions = [
-    { value: 'All', label: 'すべて' },
-    { value: 'Submitted', label: '承認待ち' },
-    { value: 'Approved', label: '承認済み' },
-    { value: 'Rejected', label: '却下' },
-  ];
+  const yearOptions = getYearOptions(currentYear, DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET);
+  const months = getMonthOptions(DISPLAY_MONTH_OPTIONS_LENGTH, DISPLAY_MONTH_OPTIONS_OFFSET);
+  const yearSelectItems = useMemo(
+    () =>
+      yearOptions.map((year) => (
+        <SelectItem key={year} value={String(year)}>
+          {year}年
+        </SelectItem>
+      )),
+    [yearOptions],
+  );
+  const monthSelectItems = useMemo(
+    () =>
+      months.map((month) => (
+        <SelectItem key={month} value={String(month)}>
+          {month}月
+        </SelectItem>
+      )),
+    [months],
+  );
+  const statusSelectItems = useMemo(
+    () =>
+      Object.values(STATUS_WITH_ALL).map((option) => (
+        <SelectItem key={option.value} value={option.value}>
+          {option.label}
+        </SelectItem>
+      )),
+    [],
+  );
 
   const updateUrlParams = useCallback(
     (key: string, value: string) => {
@@ -35,17 +65,26 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
     [router],
   );
 
-  const handleYearChange = (selectedYear: string) => {
-    updateUrlParams('year', selectedYear);
-  };
+  const handleYearChange = useCallback(
+    (selectedYear: string) => {
+      updateUrlParams(URL_PARAMS.expense.YEAR, selectedYear);
+    },
+    [updateUrlParams],
+  );
 
-  const handleMonthChange = (selectedMonth: string) => {
-    updateUrlParams('month', selectedMonth);
-  };
+  const handleMonthChange = useCallback(
+    (selectedMonth: string) => {
+      updateUrlParams(URL_PARAMS.expense.MONTH, selectedMonth);
+    },
+    [updateUrlParams],
+  );
 
-  const handleStatusChange = (selectedStatus: string) => {
-    updateUrlParams('status', selectedStatus);
-  };
+  const handleStatusChange = useCallback(
+    (selectedStatus: string) => {
+      updateUrlParams(URL_PARAMS.expense.STATUS, selectedStatus);
+    },
+    [updateUrlParams],
+  );
 
   return (
     <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600">
@@ -60,13 +99,7 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
           <SelectTrigger className="w-24">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            {yearOptions.map((year) => (
-              <SelectItem key={year} value={String(year)}>
-                {year}年
-              </SelectItem>
-            ))}
-          </SelectContent>
+          <SelectContent>{yearSelectItems}</SelectContent>
         </Select>
       </div>
 
@@ -76,13 +109,7 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
           <SelectTrigger className="w-24">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            {months.map((month) => (
-              <SelectItem key={month} value={String(month)}>
-                {month}月
-              </SelectItem>
-            ))}
-          </SelectContent>
+          <SelectContent>{monthSelectItems}</SelectContent>
         </Select>
       </div>
 
@@ -92,13 +119,7 @@ const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: Ap
           <SelectTrigger className="w-32">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            {statusOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
+          <SelectContent>{statusSelectItems}</SelectContent>
         </Select>
       </div>
     </div>

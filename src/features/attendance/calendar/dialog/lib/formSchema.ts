@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
 export const AttendanceFormSchema = z
   .object({
@@ -10,7 +11,13 @@ export const AttendanceFormSchema = z
     check_in: z.number().optional(),
     check_out: z.number().optional(),
     rest: z.number().optional(),
-    comment: z.string().optional(),
+    comment: z
+      .string()
+      .max(
+        VALIDATION_LIMITS.COMMENT_MAX_LENGTH,
+        `コメントは${VALIDATION_LIMITS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
+      )
+      .optional(),
   })
   .superRefine((data, ctx) => {
     if (data.attendanceType === 'Work' || (data.isHalfDay && data.attendanceType === 'Paid')) {

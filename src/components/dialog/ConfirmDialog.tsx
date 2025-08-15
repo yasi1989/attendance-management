@@ -12,7 +12,7 @@ import {
 import { Loader2, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
 
-type AlertDialogProps = {
+type ConfirmDialogProps = {
   children?: React.ReactNode;
   title: string;
   description: string;
@@ -22,7 +22,7 @@ type AlertDialogProps = {
   isLoading?: boolean;
 };
 
-const ActionDialog = ({
+const ConfirmDialog = ({
   title,
   description,
   cancelLabel = 'キャンセル',
@@ -34,7 +34,7 @@ const ActionDialog = ({
   ),
   onAction,
   isLoading = false,
-}: AlertDialogProps) => {
+}: ConfirmDialogProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -48,7 +48,7 @@ const ActionDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="gap-3 pt-4 border-slate-200/30 dark:border-slate-700/30">
-          <AlertDialogCancel className="bg-white/80 dark:bg-slate-800/80 border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:bg-slate-50/90 dark:hover:bg-slate-700/90 hover:border-slate-300/50 dark:hover:border-slate-600/50 backdrop-blur-sm transition-all duration-200">
+          <AlertDialogCancel className="bg-gradient-to-r from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 text-slate-600 dark:text-slate-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm transition-all duration-200 font-medium">
             {cancelLabel}
           </AlertDialogCancel>
           <AlertDialogAction
@@ -71,4 +71,4 @@ const ActionDialog = ({
   );
 };
 
-export default ActionDialog;
+export default ConfirmDialog;

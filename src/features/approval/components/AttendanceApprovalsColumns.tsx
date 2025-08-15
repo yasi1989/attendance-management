@@ -8,6 +8,7 @@ import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import StatusBadge from '../../../components/layout/StatusBadge';
+import { canPerformApprovalOrRejection } from '@/lib/status';
 
 type AttendanceApprovalsColumnsProps = {
   departments: DepartmentType[];
@@ -18,7 +19,9 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
     {
       id: 'select',
       header: ({ table }) => {
-        const SubmittedRows = table.getRowModel().rows.filter((row) => row.original.statusCode === 'Submitted');
+        const SubmittedRows = table
+          .getRowModel()
+          .rows.filter((row) => canPerformApprovalOrRejection(row.original.status));
         const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
         const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
 
@@ -38,11 +41,11 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
         );
       },
       cell: ({ row }) => {
-        const status = row.original.statusCode;
+        const status = row.original.status;
         return (
           <div className="flex items-center justify-center">
             <Checkbox
-              disabled={status !== 'Submitted'}
+              disabled={!canPerformApprovalOrRejection(status)}
               checked={row.getIsSelected()}
               onCheckedChange={(value) => row.toggleSelected(!!value)}
               aria-label="Select row"
@@ -97,7 +100,7 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <StatusBadge status={row.original.statusCode} />
+          <StatusBadge status={row.original.status} />
         </div>
       ),
     },
@@ -258,7 +261,7 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center">
-            <AttendanceDetailDialog status={row.original.statusCode} attendance={row.original} />
+            <AttendanceDetailDialog status={row.original.status} attendance={row.original} />
           </div>
         );
       },

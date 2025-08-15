@@ -1,13 +1,13 @@
 import { fetchExpenses } from '@/features/expense/services/fetchExpense';
 import { StatusTypeWithAll } from '@/types/statusType';
 import ExpensePresentational from './presentational';
-import { ExpenseTypeFilter } from '@/features/expense/type/ExpenseType';
+import { ExpenseCategoryTypeWithAll } from '@/types/expense';
 
 type ExpenseContainerProps = {
   year: number;
   month: number;
   status: StatusTypeWithAll;
-  expenseType: ExpenseTypeFilter;
+  expenseType: ExpenseCategoryTypeWithAll;
 };
 
 const ExpenseContainer = async ({ year, month, status, expenseType }: ExpenseContainerProps) => {

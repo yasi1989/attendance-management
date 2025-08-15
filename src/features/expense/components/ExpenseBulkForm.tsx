@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, Send } from 'lucide-react';
 import { Form } from '@/components/ui/form';
 import InputTextFormField from '@/components/form/InputTextFormField';
-import { useBatchExpense } from '../hooks/useBatchApproval';
+import { useBatchExpense } from '../hooks/useBatchExpense';
 import { BatchExpenseType } from '../lib/formSchema';
 
 type ExpenseBulkFormProps = {

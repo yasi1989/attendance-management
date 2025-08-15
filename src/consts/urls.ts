@@ -21,4 +21,12 @@ export const URL_PARAMS = {
     YEAR: 'year',
     MONTH: 'month',
   },
+  approval: {
+    YEAR: 'year',
+    MONTH: 'month',
+    STATUS: 'status',
+  },
+  adminHolidays: {
+    YEAR: 'year',
+  },
 };

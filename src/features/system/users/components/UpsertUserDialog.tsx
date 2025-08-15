@@ -6,7 +6,7 @@ import { UserType } from '../type/userType';
 import { CompanyType } from '../../companies/type/companyType';
 import { RoleType } from '../type/roleType';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
-import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
 
@@ -42,7 +42,7 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
   );
   const triggerButton = children || <EditButton />;
   return (
-    <CommonDialog
+    <FormDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}

@@ -7,7 +7,7 @@ import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
 import { getDepartmentPath } from '../lib/departmentUtils';
-import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
 
@@ -43,7 +43,7 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
   );
   const triggerButton = children || <EditButton />;
   return (
-    <CommonDialog
+    <FormDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}

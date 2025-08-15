@@ -1,14 +1,6 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { Banknote, Calendar, Plus, Train, Lock, X } from 'lucide-react';
+import { Banknote, Calendar, Plus, Train, Lock } from 'lucide-react';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import { RouteFormItem } from './RouteFormItem';
@@ -19,21 +11,16 @@ import DialogActionFooter from '@/components/dialog/DialogActionFooter';
 import { Button } from '@/components/ui/button';
 import { ExpenseItem } from '../../type/ExpenseType';
 import { useExpenseForm } from '../hooks/useExpenseForm';
-import { useState } from 'react';
 import { canPerformRequest } from '@/lib/status';
+import { useDialogState } from '@/hooks/useDialogState';
+import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 
 type ExpenseUpsertDialogProps = {
   expense?: ExpenseItem;
   triggerContent?: React.ReactNode;
-  preventOutsideClick?: boolean;
 };
 
-export const ExpenseUpsertDialog = ({
-  expense,
-  triggerContent,
-  preventOutsideClick = true,
-}: ExpenseUpsertDialogProps) => {
-  const [open, setOpen] = useState(false);
+export const ExpenseUpsertDialog = ({ expense, triggerContent }: ExpenseUpsertDialogProps) => {
   const isDisabled = !canPerformRequest(expense?.status || '');
   const {
     form,
@@ -47,12 +34,9 @@ export const ExpenseUpsertDialog = ({
     resetToDefault,
   } = useExpenseForm({ expense });
 
-  const handleOpenChange = (newOpen: boolean) => {
-    if (preventOutsideClick && !newOpen) {
-      return;
-    }
-    setOpen(newOpen);
-  };
+  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({
+    form,
+  });
 
   return (
     <Form {...form}>
@@ -60,19 +44,7 @@ export const ExpenseUpsertDialog = ({
         <DialogTrigger asChild>{triggerContent}</DialogTrigger>
         <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogHeader>
-              <div className="flex items-center justify-between">
-                <DialogTitle className="text-lg sm:text-xl font-semibold">経費申請</DialogTitle>
-                <Button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200 ml-3"
-                  aria-label="ダイアログを閉じる"
-                >
-                  <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                </Button>
-              </div>
-            </DialogHeader>
+            <DialogHeaderWithClose title="経費申請" onClose={handleCloseButtonClick} />
             <DialogDescription className="text-sm">交通費や一般経費の情報を申請します。</DialogDescription>
 
             <div className="space-y-6 pt-4">

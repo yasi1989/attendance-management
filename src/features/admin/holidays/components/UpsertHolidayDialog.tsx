@@ -4,7 +4,7 @@ import InputFormField from '@/components/form/InputFormField';
 import { HolidayType } from '../type/holidayType';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import { useHoliday } from '../hooks/useHoliday';
-import CommonDialog, { DialogConfig } from '@/components/dialog/CommonDialog';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 
 type UpsertHolidayDialogProps = {
@@ -29,7 +29,7 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
   );
   const triggerButton = children || <EditButton />;
   return (
-    <CommonDialog
+    <FormDialog
       config={dialogConfig}
       form={form}
       onSubmit={onSubmit}

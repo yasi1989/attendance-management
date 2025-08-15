@@ -1,11 +1,11 @@
 import { fetchMonthlyApprovals } from '@/features/approval/services/fetchMonthlyApprovals';
-import { StatusType } from '@/types/statusType';
+import { StatusTypeWithAll } from '@/types/statusType';
 import ApprovalPresentational from './presentational';
 
 type ApprovalContainerProps = {
   year: number;
   month: number;
-  status: StatusType;
+  status: StatusTypeWithAll;
 };
 
 const ApprovalContainer = async ({ year, month, status }: ApprovalContainerProps) => {
