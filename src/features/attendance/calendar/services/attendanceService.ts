@@ -1,4 +1,4 @@
-import { timeStringToTimestamp } from '@/libs/date';
+import { timeStringToTimestamp } from '@/lib/date';
 import { AttendanceDataResponse, MonthlyAttendance } from '../types/attendance';
 import { fetchHolidays } from '@/features/admin/holidays/services/fetchHolidays';
 

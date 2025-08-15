@@ -1,7 +1,7 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
-import { formatDateToISOString, parseISOStringToDate } from '@/libs/date';
+import { formatDateToISOString, parseISOStringToDate } from '@/lib/date';
 
 type InputDateFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;

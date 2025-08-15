@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/libs/utils';
+import { cn } from '@/lib/utils';
 import { ExpenseTypeDB } from '../type/ExpenseType';
 
 interface ExpenseTypeBadgeProps {

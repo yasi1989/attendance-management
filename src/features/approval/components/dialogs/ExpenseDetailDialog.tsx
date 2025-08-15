@@ -5,7 +5,7 @@ import { MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalTyp
 import { IndividualApprovalType } from '../../lib/formSchema';
 import { Form } from '@/components/ui/form';
 import { useState, useTransition } from 'react';
-import { formatCurrency } from '@/libs/currency';
+import { formatCurrency } from '@/lib/currency';
 import { StatusType } from '@/types/statusType';
 import { DataTable } from '@/components/table/DataTable';
 import { columns } from '../../components/ApprovalStepsColumn';

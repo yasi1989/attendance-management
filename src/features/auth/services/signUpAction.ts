@@ -1,7 +1,7 @@
 'use server';
 import { SignUpSchema } from '@/features/auth/lib/formSchema';
-import { db } from '@/libs/db/drizzle';
-import { users } from '@/libs/db/schema';
+import { db } from '@/lib/db/drizzle';
+import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';

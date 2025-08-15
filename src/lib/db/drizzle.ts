@@ -1,5 +1,5 @@
 import { env } from '@/env';
-import * as schema from '@/libs/db/schema';
+import * as schema from '@/lib/db/schema';
 import { drizzle } from 'drizzle-orm/neon-http';
 
 if (!env.AUTH_DRIZZLE_URL) {

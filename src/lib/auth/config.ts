@@ -1,6 +1,6 @@
 import { env } from '@/env';
-import { db } from '@/libs/db/drizzle';
-import { accounts, sessions, users } from '@/libs/db/schema';
+import { db } from '@/lib/db/drizzle';
+import { accounts, sessions, users } from '@/lib/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
