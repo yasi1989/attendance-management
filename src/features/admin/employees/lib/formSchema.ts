@@ -9,7 +9,7 @@ export const EmployeeSchema = z.object({
   lastName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
     message: '姓は必須です。',
   }),
-  email: z.email({
+  email: z.string().email({
     message: '有効なメールアドレスを入力してください。',
   }),
   departmentId: z.string().optional(),

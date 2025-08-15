@@ -9,7 +9,9 @@ export const UserSchema = z.object({
   lastName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
     message: '姓は必須です。',
   }),
-  email: z.email('有効なメールアドレスを入力してください。'),
+  email: z.string().email({
+    message: '有効なメールアドレスを入力してください。',
+  }),
   roleId: z.string().optional(),
   companyId: z.string().optional(),
 });
