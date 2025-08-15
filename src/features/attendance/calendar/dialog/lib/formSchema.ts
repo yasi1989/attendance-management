@@ -5,9 +5,11 @@ import { VALIDATION_LIMITS } from '@/consts/validate';
 export const AttendanceFormSchema = z
   .object({
     date: z.date({ message: '勤務日を設定してください' }),
-    attendanceType: z.enum([...ATTENDANCES_LIST], { message: '勤怠種別を選択してください' }),
+    attendanceType: z.enum([...ATTENDANCES_LIST] as [string, ...string[]], { message: '勤怠種別を選択してください' }),
     isHalfDay: z.boolean().optional(),
-    halfDayType: z.enum([...HALF_DAYS_LIST], { message: '午前半休または午後半休を選択してください' }).optional(),
+    halfDayType: z
+      .enum([...HALF_DAYS_LIST] as [string, ...string[]], { message: '午前半休または午後半休を選択してください' })
+      .optional(),
     check_in: z.number().optional(),
     check_out: z.number().optional(),
     rest: z.number().optional(),
