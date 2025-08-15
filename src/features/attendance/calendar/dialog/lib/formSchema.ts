@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
+import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
 import { VALIDATION_LIMITS } from '@/consts/validate';
 
 export const AttendanceFormSchema = z
   .object({
     date: z.date({ message: '勤務日を設定してください' }),
-    attendanceType: z.enum(ATTENDANCES_LIST, { message: '勤怠種別を選択してください' }),
+    attendanceType: z.enum([...ATTENDANCES_LIST], { message: '勤怠種別を選択してください' }),
     isHalfDay: z.boolean().optional(),
-    halfDayType: z.enum(HALF_DAYS_LIST).optional(),
+    halfDayType: z.enum([...HALF_DAYS_LIST], { message: '午前半休または午後半休を選択してください' }).optional(),
     check_in: z.number().optional(),
     check_out: z.number().optional(),
     rest: z.number().optional(),
@@ -20,7 +20,10 @@ export const AttendanceFormSchema = z
       .optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.attendanceType === 'Work' || (data.isHalfDay && data.attendanceType === 'Paid')) {
+    if (
+      data.attendanceType === ATTENDANCES.WORK.value ||
+      (data.isHalfDay && data.attendanceType === ATTENDANCES.PAID.value)
+    ) {
       if (!data.check_in) {
         ctx.addIssue({
           code: 'custom',
