@@ -5,9 +5,10 @@ import { useCompany } from '../hooks/useCompany';
 import { CompanyType } from '../type/companyType';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
+import { FORM_MODE, FormMode } from '@/consts/formMode';
 
 type UpsertCompanyDialogProps = {
-  type: 'add' | 'edit';
+  type: FormMode;
   data?: CompanyType;
   children?: React.ReactNode;
 };
@@ -15,9 +16,9 @@ type UpsertCompanyDialogProps = {
 export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialogProps) {
   const { form, onSubmit, isSubmitted } = useCompany({ type, data });
   const dialogConfig: DialogConfig = {
-    title: type === 'add' ? '会社登録' : '会社編集',
-    description: `会社情報を${type === 'add' ? '登録' : '更新'}してください。`,
-    submitButtonLabel: type === 'add' ? '登録' : '更新',
+    title: type === FORM_MODE.ADD ? '会社登録' : '会社編集',
+    description: `会社情報を${type === FORM_MODE.ADD ? '登録' : '更新'}してください。`,
+    submitButtonLabel: type === FORM_MODE.ADD ? '登録' : '更新',
     cancelButtonLabel: 'キャンセル',
   };
   const formContent = (

@@ -7,6 +7,7 @@ import { CompanyType } from '../type/companyType';
 import { formatDateToISOString } from '@/lib/date';
 import { UpsertCompanyDialog } from './UpsertCompanyDialog';
 import DeleteCompanyDialog from './DeleteCompanyDialog';
+import { FORM_MODE } from '@/consts/formMode';
 
 export const companyColumns: ColumnDef<CompanyType>[] = [
   {
@@ -141,7 +142,7 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertCompanyDialog type="edit" data={row.original} />
+          <UpsertCompanyDialog type={FORM_MODE.EDIT} data={row.original} />
           <DeleteCompanyDialog />
         </div>
       );

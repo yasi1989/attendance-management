@@ -35,7 +35,6 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             <p className="text-xs text-slate-500 dark:text-slate-400">
               このコメントは選択された全ての申請データに適用されます
             </p>
-            <span className="text-xs text-slate-400 dark:text-slate-500">{form.watch('comment')?.length || 0}/500</span>
           </div>
         </div>
 

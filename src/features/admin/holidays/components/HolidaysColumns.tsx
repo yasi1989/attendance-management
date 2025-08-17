@@ -7,6 +7,7 @@ import { HolidayType } from '../type/holidayType';
 import { UpsertHolidayDialog } from './UpsertHolidayDialog';
 import { formatDateToISOString } from '@/lib/date';
 import DeleteHolidayDialog from './DeleteHolidayDialog';
+import { FORM_MODE } from '@/consts/formMode';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [
   {
@@ -105,7 +106,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertHolidayDialog type="edit" data={row.original} />
+          <UpsertHolidayDialog type={FORM_MODE.EDIT} data={row.original} />
           <DeleteHolidayDialog />
         </div>
       );
