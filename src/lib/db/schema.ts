@@ -19,6 +19,7 @@ export const companies = pgTable('companies', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   companyName: text('company_name').notNull(),
+  domain: text('domain').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .defaultNow()

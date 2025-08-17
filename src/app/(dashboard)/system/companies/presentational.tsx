@@ -1,13 +1,13 @@
 import { Card, CardContent } from '@/components/ui/card';
 import CompaniesListTable from '@/features/system/companies/components/CompaniesListTable';
-import { CompanyType } from '@/features/system/companies/type/companyType';
+import { Company } from '@/lib/db/types';
 import { UpsertCompanyDialog } from '@/features/system/companies/components/UpsertCompanyDialog';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Building2 } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
 
 type CompaniesPresentationalProps = {
-  companies: CompanyType[];
+  companies: Company[];
 };
 
 const CompaniesPresentational = ({ companies }: CompaniesPresentationalProps) => {

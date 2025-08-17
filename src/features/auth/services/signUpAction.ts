@@ -5,10 +5,11 @@ import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { SignUpActionResult } from '../type/signUpType';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<SignUpActionResult> => {
+import { UpsertStateResult } from '@/lib/db/types';
+import { URLS } from '@/consts/urls';
+export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<UpsertStateResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
     if (!submission.success) {
@@ -57,7 +58,7 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
 
     return {
       isSuccess: true,
-      data: { redirectUrl: '/attendance/calendar' },
+      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
     };
   } catch (error) {
     console.error('SignUp error:', error);

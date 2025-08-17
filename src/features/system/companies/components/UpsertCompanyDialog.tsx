@@ -2,13 +2,13 @@
 
 import InputFormField from '@/components/form/InputFormField';
 import { useCompany } from '../hooks/useCompany';
-import { CompanyType } from '../type/companyType';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
+import { Company } from '@/lib/db/types';
 
 type UpsertCompanyDialogProps = {
   type: 'add' | 'edit';
-  data?: CompanyType;
+  data?: Company;
   children?: React.ReactNode;
 };
 
@@ -22,7 +22,7 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
   };
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="name" label="会社名" form={form} maxLength={100} required />
+      <InputFormField name="companyName" label="会社名" form={form} maxLength={100} required />
       <InputFormField name="domain" label="ドメイン" form={form} maxLength={255} required />
     </div>
   );

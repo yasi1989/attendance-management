@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { CompanySchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CompanyType } from '../type/companyType';
+import { Company } from '@/lib/db/types';
 
 type UseCompanyProps = {
   type: 'add' | 'edit';
-  data?: CompanyType;
+  data?: Company;
 };
 
 export const useCompany = ({ type, data }: UseCompanyProps) => {
@@ -16,11 +16,11 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
     defaultValues:
       type === 'edit' && data
         ? {
-            name: data.name,
+            companyName: data.companyName,
             domain: data.domain,
           }
         : {
-            name: '',
+            companyName: '',
             domain: '',
           },
     resolver: zodResolver(CompanySchema),

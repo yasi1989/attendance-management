@@ -1,4 +1,4 @@
-export type SignOutActionResult =
+export type CompanyActionResult =
   | {
       isSuccess: true;
       data?: {
@@ -11,3 +11,4 @@ export type SignOutActionResult =
         message: string;
       };
     };
+

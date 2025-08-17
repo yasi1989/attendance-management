@@ -1,9 +1,9 @@
 import { DataTable } from '@/components/table/DataTable';
 import { companyColumns } from './CompaniesColumns';
-import { CompanyType } from '../type/companyType';
+import { Company } from '@/lib/db/types';
 
 type CompaniesListTableProps = {
-  companies: CompanyType[];
+  companies: Company[];
 };
 
 const CompaniesListTable = ({ companies }: CompaniesListTableProps) => {

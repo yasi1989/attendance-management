@@ -1,11 +1,12 @@
 'use server';
 import { signIn } from '@/auth';
 import { SignInSchema } from '../lib/formSchema';
-import { SignInActionResult } from '../type/signInType';
 import z from 'zod';
 import { AuthError } from 'next-auth';
+import { UpsertStateResult } from '@/lib/db/types';
+import { URLS } from '@/consts/urls';
 
-export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<SignInActionResult> => {
+export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<UpsertStateResult> => {
   try {
     const submission = SignInSchema.safeParse(data);
     if (!submission.success) {
@@ -23,7 +24,7 @@ export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<
 
     return {
       isSuccess: true,
-      data: { redirectUrl: '/attendance/calendar' },
+      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
     };
   } catch (error) {
     console.error('Signin error:', error);

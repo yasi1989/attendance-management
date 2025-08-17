@@ -1,5 +1,5 @@
 
-import { fetchCompanies } from '@/features/system/companies/services/fetchCompanies';
+import { fetchCompanies } from '@/features/system/companies/api/feachers';
 import CompaniesPresentational from './presentational';
 
 const CompaniesContainer = async () => {
