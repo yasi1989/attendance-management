@@ -7,6 +7,7 @@ import { signInAction } from '../services/signInAction';
 import { useRouter } from 'next/navigation';
 // cspell:disable-next-line
 import { toast } from 'sonner';
+import { URLS } from '@/consts/urls';
 
 export const useSignInForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -27,7 +28,7 @@ export const useSignInForm = () => {
         return;
       }
 
-      router.push(result.data?.redirectUrl || '/');
+      router.push(result.data?.redirectUrl || URLS.ROOT);
       router.refresh();
       toast.success('ログインに成功しました。');
     });

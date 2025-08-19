@@ -23,6 +23,7 @@ export function UpsertCompanyDialog({ type, data, children }: UpsertCompanyDialo
   };
   const formContent = (
     <div className="flex flex-col gap-4">
+      <input type="hidden" {...form.register('id')} />
       <InputFormField name="companyName" label="会社名" form={form} maxLength={100} required />
       <InputFormField name="domain" label="ドメイン" form={form} maxLength={255} required />
     </div>
