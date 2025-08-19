@@ -1,12 +1,12 @@
+import { Company } from '@/lib/db/types';
 import { companies } from '../../companies/const/mockData';
-import { CompanyType } from '../../companies/type/companyType';
 import { roles, users } from '../const/mockData';
 import { RoleType } from '../type/roleType';
 import { UserType } from '../type/userType';
 
 type FetchUsersDataResponse = {
   users: UserType[];
-  companies: CompanyType[];
+  companies: Company[];
   roles: RoleType[];
 };
 

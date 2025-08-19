@@ -2,6 +2,9 @@ import { VALIDATION_LIMITS } from '@/consts/validate';
 import { z } from 'zod';
 
 export const CompanySchema = z.object({
+  id: z.string({
+    message: 'テナントIDは必須です。',
+  }),
   companyName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
     message: '会社名は必須です。',
   }),
