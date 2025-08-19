@@ -1,0 +1,49 @@
+import CalendarSkeleton from '@/features/attendance/calendar/components/CalendarSkeleton';
+import { Suspense } from 'react';
+import CalendarContainer from './container';
+import { isValidMonth, isValidYear } from '@/lib/date';
+
+type CalendarPageProps = {
+  params: Promise<{
+    year?: string;
+    month?: string;
+    params?: string[];
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+const CalendarPage = async ({ params, searchParams }: CalendarPageProps) => {
+  const now = new Date();
+
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+
+  let year: number;
+  let month: number;
+
+  if (resolvedParams.params) {
+    year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
+    month = resolvedParams.params[1] ? Number(resolvedParams.params[1]) : now.getMonth() + 1;
+  } else {
+    year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
+    month = resolvedParams.month ? Number(resolvedParams.month) : now.getMonth() + 1;
+  }
+
+  if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
+    year = Number(resolvedSearchParams.year);
+  }
+  if (resolvedSearchParams.month && typeof resolvedSearchParams.month === 'string') {
+    month = Number(resolvedSearchParams.month);
+  }
+
+  const validatedYear = isValidYear(year) ? year : now.getFullYear();
+  const validatedMonth = isValidMonth(month) ? month : now.getMonth() + 1;
+
+  return (
+    <Suspense fallback={<CalendarSkeleton />}>
+      <CalendarContainer year={validatedYear} month={validatedMonth} />
+    </Suspense>
+  );
+};
+
+export default CalendarPage;
