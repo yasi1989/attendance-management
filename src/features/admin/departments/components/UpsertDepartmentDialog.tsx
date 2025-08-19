@@ -8,9 +8,10 @@ import { UserType } from '@/features/system/users/type/userType';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
+import { FormMode } from '@/consts/formMode';
 
 type UpsertDepartmentDialogProps = {
-  type: 'add' | 'edit';
+  type: FormMode;
   userDepartment?: DepartmentType;
   allDepartments: DepartmentType[];
   users: UserType[];

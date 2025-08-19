@@ -9,6 +9,9 @@ import { EXPENSE_CATEGORIES } from '@/consts/expense';
 type UseExpenseFormProps = {
   expense?: ExpenseItem;
 };
+const INITIAL_ROUTE = { from: '', to: '', fare: 0 };
+const ROUTES_FIELD_NAME = 'routes';
+const AMOUNT_FIELD_NAME = 'amount';
 
 export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   const [isSubmitted, startTransition] = useTransition();
@@ -29,7 +32,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
                 to: routeDetail.to,
                 fare: routeDetail.fare,
               }))
-            : [{ from: '', to: '', fare: 0 }],
+            : [INITIAL_ROUTE],
         }
       : {
           id: '',
@@ -39,7 +42,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
           amount: 0,
           description: '',
           receiptFile: undefined,
-          routes: [{ from: '', to: '', fare: 0 }],
+          routes: [INITIAL_ROUTE],
         };
   }, [expense]);
 
@@ -50,7 +53,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   });
 
   const { fields, append, remove } = useFieldArray({
-    name: 'routes',
+    name: ROUTES_FIELD_NAME,
     control: form.control,
   });
 
@@ -69,15 +72,15 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   const handleExpenseTypeChange = useCallback(
     (value: string) => {
       if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
-        form.setValue('routes', [{ from: '', to: '', fare: 0 }]);
-        form.setValue('amount', 0);
+        form.setValue(ROUTES_FIELD_NAME, [INITIAL_ROUTE]);
+        form.setValue(AMOUNT_FIELD_NAME, 0);
       }
     },
     [form],
   );
 
   const handleAddRoute = useCallback(() => {
-    append({ from: '', to: '', fare: 0 });
+    append(INITIAL_ROUTE);
   }, [append]);
   const handleRemoveRoute = useCallback(
     (index: number) => {
@@ -99,10 +102,10 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   useEffect(() => {
     if (expenseType === EXPENSE_CATEGORIES.TRANSPORT.value) {
       const subscription = watch((value, { name }) => {
-        if (name?.startsWith('routes')) {
+        if (name?.startsWith(ROUTES_FIELD_NAME)) {
           const routes = value.routes || [];
           const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
-          setValue('amount', totalFare);
+          setValue(AMOUNT_FIELD_NAME, totalFare);
         }
       });
       return () => subscription.unsubscribe();
