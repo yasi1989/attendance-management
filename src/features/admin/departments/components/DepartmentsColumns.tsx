@@ -7,6 +7,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
 import DeleteDepartmentDialog from './DeleteDepartmentDialog';
 import { UserType } from '@/features/system/users/type/userType';
+import { FORM_MODE } from '@/consts/formMode';
 
 export const columnsDef = (departments: DepartmentType[], users: UserType[]) => {
   const columns: ColumnDef<DepartmentType>[] = [
@@ -154,7 +155,7 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
         return (
           <div className="flex space-x-1 items-center justify-center">
             <UpsertDepartmentDialog
-              type="edit"
+              type={FORM_MODE.EDIT}
               userDepartment={row.original}
               allDepartments={departments}
               users={users}

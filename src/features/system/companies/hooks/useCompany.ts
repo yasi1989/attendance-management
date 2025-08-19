@@ -4,9 +4,10 @@ import { CompanySchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Company } from '@/lib/db/types';
+import { FORM_MODE, FormMode } from '@/consts/formMode';
 
 type UseCompanyProps = {
-  type: 'add' | 'edit';
+  type: FormMode;
   data?: Company;
 };
 
@@ -14,7 +15,7 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof CompanySchema>>({
     defaultValues:
-      type === 'edit' && data
+      type === FORM_MODE.EDIT && data
         ? {
             companyName: data.companyName,
             domain: data.domain,

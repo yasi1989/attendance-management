@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { DepartmentSchema } from '../lib/formSchema';
+import { FORM_MODE, FormMode } from '@/consts/formMode';
 
 type UseDepartmentsProps = {
-  type: 'add' | 'edit';
+  type: FormMode;
   userDepartment?: DepartmentType;
 };
 
@@ -14,7 +15,7 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof DepartmentSchema>>({
     defaultValues:
-      type === 'edit' && userDepartment
+      type === FORM_MODE.EDIT && userDepartment
         ? {
             departmentName: userDepartment.departmentName,
             parentDepartmentId: userDepartment.parentDepartmentId,

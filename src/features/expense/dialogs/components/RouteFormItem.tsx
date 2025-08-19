@@ -5,12 +5,13 @@ import { z } from 'zod';
 import InputFormField from '@/components/form/InputFormField';
 import { ExpenseFormSchema } from '../lib/formSchema';
 
-interface RouteFormItemProps {
+type RouteFormItemProps = {
   index: number;
   onRemove: () => void;
   isRemovable: boolean;
   disabled?: boolean;
-}
+};
+const ROUTES_FIELD_NAME = 'routes';
 
 export function RouteFormItem({ index, onRemove, isRemovable, disabled }: RouteFormItemProps) {
   const form = useFormContext<z.infer<typeof ExpenseFormSchema>>();
@@ -37,7 +38,7 @@ export function RouteFormItem({ index, onRemove, isRemovable, disabled }: RouteF
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputFormField
           form={form}
-          name={`routes.${index}.from`}
+          name={`${ROUTES_FIELD_NAME}.${index}.from`}
           label="出発地"
           placeholder="東京"
           required
@@ -45,7 +46,7 @@ export function RouteFormItem({ index, onRemove, isRemovable, disabled }: RouteF
         />
         <InputFormField
           form={form}
-          name={`routes.${index}.to`}
+          name={`${ROUTES_FIELD_NAME}.${index}.to`}
           label="目的地"
           placeholder="大阪"
           required
@@ -55,7 +56,7 @@ export function RouteFormItem({ index, onRemove, isRemovable, disabled }: RouteF
 
       <InputFormField
         form={form}
-        name={`routes.${index}.fare`}
+        name={`${ROUTES_FIELD_NAME}.${index}.fare`}
         label="運賃"
         placeholder="14000"
         type="number"
