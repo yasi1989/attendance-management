@@ -42,7 +42,7 @@ const CalendarHeader = ({
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <AttendanceBulkDialog currentDate={currentDate} monthlyStatus={monthlyStatus} canSubmit={canSubmit} />
+          <AttendanceBulkDialog currentDate={currentDate} canSubmit={canSubmit} />
           <CalendarNavigation previousMonth={previousMonth} nextMonth={nextMonth} goToToday={goToToday} />
         </div>
       </div>
