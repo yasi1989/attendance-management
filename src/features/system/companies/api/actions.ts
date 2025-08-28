@@ -30,16 +30,17 @@ export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>)
 export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { id, companyName, domain } = values;
-
-    const currentCompany = await db.query.companies.findFirst({ where: eq(companies.id, id) });
+    const [currentCompany, existingCompany] = await Promise.all([
+      db.query.companies.findFirst({ where: (companies, { eq }) => eq(companies.id, id) }),
+      db.query.companies.findFirst({
+        where: (companies, { and, eq, ne }) => and(eq(companies.domain, domain), ne(companies.id, id)),
+      }),
+    ]);
     if (!currentCompany) {
       return { success: false, error: '会社が見つかりませんでした。' };
     }
-    if (currentCompany.domain !== domain) {
-      const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
-      if (company) {
-        return { success: false, error: 'ドメインが重複しています。' };
-      }
+    if (currentCompany.domain !== domain && existingCompany) {
+      return { success: false, error: 'ドメインが重複しています。' };
     }
     await db
       .update(companies)
@@ -57,8 +58,7 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
 
 export const deleteCompanyAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    console.log(id);
-    const company = await db.query.companies.findFirst({ where: eq(companies.id, id) });
+    const company = await db.query.companies.findFirst({ where: (companies, { eq }) => eq(companies.id, id) });
     if (!company) {
       return { success: false, error: '会社が見つかりませんでした。' };
     }
