@@ -29,14 +29,7 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
       companyName: '',
       domain: '',
     },
-    values:
-      type === FORM_MODE.EDIT.value && data
-        ? {
-            id: data.id,
-            companyName: data.companyName,
-            domain: data.domain,
-          }
-        : undefined,
+    values: type === FORM_MODE.EDIT.value && data ? { ...data } : undefined,
     resolver: zodResolver(type === FORM_MODE.ADD.value ? AddCompanySchema : EditCompanySchema),
   });
   const onSubmit = (data: z.infer<typeof AddCompanySchema | typeof EditCompanySchema>) => {
