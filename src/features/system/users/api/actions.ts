@@ -12,15 +12,17 @@ import { actionErrorHandler } from '@/lib/errorHandler';
 export const editUserAction = async (values: z.infer<typeof UserSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, roleId, companyId } = values;
-    const currentUser = await db.query.users.findFirst({ where: eq(users.id, id) });
+    const [currentUser, existingUser] = await Promise.all([
+      db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
+      db.query.users.findFirst({
+        where: (users, { eq, and, ne }) => and(eq(users.email, email), ne(users.id, id)),
+      }),
+    ]);
     if (!currentUser) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
-    if (currentUser.email !== email) {
-      const user = await db.query.users.findFirst({ where: eq(users.email, email) });
-      if (user) {
-        return { success: false, error: 'メールアドレスが重複しています。' };
-      }
+    if (currentUser.email !== email && existingUser) {
+      return { success: false, error: 'メールアドレスが重複しています。' };
     }
     await db
       .update(users)
