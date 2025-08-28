@@ -1,4 +1,3 @@
-import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { Card, CardContent } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
 import { UpsertHolidayDialog } from '@/features/admin/holidays/components/UpsertHolidayDialog';
@@ -7,13 +6,14 @@ import { Label } from '@/components/ui/label';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysYearSelector';
 import { AddButton } from '@/components/button/AddButton';
+import { Holiday } from '@/lib/actionTypes';
 
 type HolidaysPresentationalProps = {
-  data: HolidayType[];
+  holidays: Holiday[];
   currentYear: number;
 };
 
-const HolidaysPresentational = ({ data, currentYear }: HolidaysPresentationalProps) => {
+const HolidaysPresentational = ({ holidays, currentYear }: HolidaysPresentationalProps) => {
   return (
     <Card className="shadow-2xl border-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl ring-1 ring-slate-200/50 dark:ring-slate-800/50 overflow-hidden">
       <CommonPageHeader
@@ -34,11 +34,11 @@ const HolidaysPresentational = ({ data, currentYear }: HolidaysPresentationalPro
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-200">表示年度:</Label>
           </div>
           <HolidaysYearSelector currentYear={currentYear} />
-          <div className="text-sm text-gray-600 dark:text-gray-300">{data.length}件の休日が登録されています</div>
+          <div className="text-sm text-gray-600 dark:text-gray-300">{holidays.length}件の休日が登録されています</div>
         </div>
 
         <div className="overflow-x-auto">
-          <HolidaysListTable data={data} />
+          <HolidaysListTable holidays={holidays} />
         </div>
       </CardContent>
     </Card>

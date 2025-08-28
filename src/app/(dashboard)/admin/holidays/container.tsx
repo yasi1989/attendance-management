@@ -1,4 +1,5 @@
-import { fetchHolidays } from "@/features/admin/holidays/services/fetchHolidays";
+
+import { fetchHolidays } from "@/features/admin/holidays/api/fetches";
 import HolidaysPresentational from "./presentational";
 
 type HolidaysContainerProps = {
@@ -7,7 +8,7 @@ type HolidaysContainerProps = {
 
 const HolidaysContainer = async ({ year }: HolidaysContainerProps) => {
   const holidays = await fetchHolidays(year);
-  return <HolidaysPresentational data={holidays} currentYear={year} />;
+  return <HolidaysPresentational holidays={holidays} currentYear={year} />;
 };
 
 export default HolidaysContainer;

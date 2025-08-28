@@ -117,7 +117,7 @@ export const holidays = pgTable('holidays', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
-  holidayDate: date('holiday_date').notNull(),
+  holidayDate: date('holiday_date', { mode: 'date' }).notNull(),
   companyId: text('company_id')
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
@@ -140,7 +140,7 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-  targetMonth: date('target_month').notNull(),
+  targetMonth: date('target_month', { mode: 'date' }).notNull(),
   submittedAt: timestamp('submitted_at'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
@@ -158,7 +158,7 @@ export const attendances = pgTable('attendances', {
   monthlyAttendanceApprovalId: text('monthly_attendance_approval_id').references(() => monthlyAttendanceApprovals.id, {
     onDelete: 'cascade',
   }),
-  workDate: date('work_date').notNull(),
+  workDate: date('work_date', { mode: 'date' }).notNull(),
   startTime: integer('start_time'),
   endTime: integer('end_time'),
   breakTime: integer('break_time'),
@@ -228,7 +228,7 @@ export const expenses = pgTable('expenses', {
   groupExpenseApprovalId: text('group_expense_approval_id').references(() => groupExpenseApprovals.id, {
     onDelete: 'cascade',
   }),
-  expenseDate: date('expense_date').notNull(),
+  expenseDate: date('expense_date', { mode: 'date' }).notNull(),
   amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
   description: text('description').notNull(),
   expenseType: text('expense_type', {

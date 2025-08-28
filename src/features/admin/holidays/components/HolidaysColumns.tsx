@@ -3,13 +3,13 @@
 import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { HolidayType } from '../type/holidayType';
 import { UpsertHolidayDialog } from './UpsertHolidayDialog';
 import { formatDateToISOString } from '@/lib/date';
 import DeleteHolidayDialog from './DeleteHolidayDialog';
 import { FORM_MODE } from '@/consts/formMode';
+import { Holiday } from '@/lib/actionTypes';
 
-export const holidaysColumns: ColumnDef<HolidayType>[] = [
+export const holidaysColumns: ColumnDef<Holiday>[] = [
   {
     accessorKey: 'name',
     id: 'name',

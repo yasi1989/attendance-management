@@ -1,13 +1,13 @@
 import { DataTable } from '@/components/table/DataTable';
 import { holidaysColumns } from './HolidaysColumns';
-import { HolidayType } from '../type/holidayType';
+import { Holiday } from '@/lib/actionTypes';
 
 type HolidaysListTableProps = {
-  data: HolidayType[];
+  holidays: Holiday[];
 };
 
-const HolidaysListTable = ({ data }: HolidaysListTableProps) => {
-  return <DataTable columns={holidaysColumns} data={data} enableFilter />;
+const HolidaysListTable = ({ holidays }: HolidaysListTableProps) => {
+  return <DataTable columns={holidaysColumns} data={holidays} enableFilter />;
 };
 
 export default HolidaysListTable;
