@@ -1,14 +1,14 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { UserType } from '@/features/system/users/type/userType';
 import { RoleType } from '@/features/system/users/type/roleType';
-import { CompanyType } from '@/features/system/companies/type/companyType';
 import UsersListTable from '@/features/system/users/components/UsersListTable';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Users } from 'lucide-react';
+import { Company } from '@/lib/actionTypes';
 
 type UsersPresentationalProps = {
   users: UserType[];
-  companies: CompanyType[];
+  companies: Company[];
   roles: RoleType[];
 };
 

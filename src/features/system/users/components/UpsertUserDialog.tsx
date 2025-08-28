@@ -3,16 +3,16 @@
 import InputFormField from '@/components/form/InputFormField';
 import { useUsers } from '../hooks/useUsers';
 import { UserType } from '../type/userType';
-import { CompanyType } from '../../companies/type/companyType';
 import { RoleType } from '../type/roleType';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
+import { Company } from '@/lib/actionTypes';
 
 type UserEditDialogProps = {
   user?: UserType;
-  companies?: CompanyType[];
+  companies?: Company[];
   roles?: RoleType[];
   children?: React.ReactNode;
 };

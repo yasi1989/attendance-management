@@ -3,7 +3,7 @@
 import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { Company } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 import { formatDateToISOString } from '@/lib/date';
 import { UpsertCompanyDialog } from './UpsertCompanyDialog';
 import DeleteCompanyDialog from './DeleteCompanyDialog';
@@ -142,7 +142,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertCompanyDialog type={FORM_MODE.EDIT} data={row.original} />
+          <UpsertCompanyDialog type={FORM_MODE.EDIT.value} data={row.original} />
           <DeleteCompanyDialog />
         </div>
       );

@@ -1,7 +1,7 @@
-import { UpsertStateResult } from "@/lib/db/types";
+import { UpsertStateResult } from "@/lib/actionTypes";
 import z from "zod";
 
-export function handleError(error: unknown): UpsertStateResult {
+export function actionErrorHandler(error: unknown): UpsertStateResult {
     if (error instanceof z.ZodError) {
       return {
         error: error.errors.map((e) => e.message).join(","),

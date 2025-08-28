@@ -23,12 +23,12 @@ export const useSignInForm = () => {
   const onSubmit = (data: z.infer<typeof SignInSchema>) => {
     startTransition(async () => {
       const result = await signInAction(data);
-      if (!result.isSuccess) {
-        toast.error(result.error?.message);
+      if (!result.success) {
+        toast.error(result.error);
         return;
       }
 
-      router.push(result.data?.redirectUrl || URLS.ROOT);
+      router.push(URLS.ATTENDANCE_CALENDAR);
       router.refresh();
       toast.success('ログインに成功しました。');
     });

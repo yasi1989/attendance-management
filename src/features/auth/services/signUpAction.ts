@@ -7,15 +7,14 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { UpsertStateResult } from '@/lib/db/types';
-import { URLS } from '@/consts/urls';
+import { UpsertStateResult } from '@/lib/actionTypes';
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<UpsertStateResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
     if (!submission.success) {
       return {
-        isSuccess: false,
-        error: { message: submission.error.message },
+        success: false,
+        error: submission.error.message,
       };
     }
 
@@ -25,8 +24,8 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
 
     if (existingUser) {
       return {
-        isSuccess: false,
-        error: { message: 'このメールアドレスは既に登録されています。' },
+        success: false,
+        error: 'このメールアドレスは既に登録されています。',
       };
     }
 
@@ -45,8 +44,8 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     if (!insertResult || insertResult.length === 0) {
       console.error('User insert failed: No data returned');
       return {
-        isSuccess: false,
-        error: { message: '新規登録に失敗しました。' },
+        success: false,
+        error: '新規登録に失敗しました。',
       };
     }
 
@@ -57,8 +56,7 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     });
 
     return {
-      isSuccess: true,
-      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
+      success: true,
     };
   } catch (error) {
     console.error('SignUp error:', error);
@@ -67,19 +65,19 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
         case 'CredentialsSignin':
         case 'CallbackRouteError':
           return {
-            isSuccess: false,
-            error: { message: '新規登録に失敗しました。' },
+            success: false,
+            error: '新規登録に失敗しました。',
           };
         default:
           return {
-            isSuccess: false,
-            error: { message: '認証処理でエラーが発生しました。' },
+            success: false,
+            error: '認証処理でエラーが発生しました。',
           };
       }
     }
     return {
-      isSuccess: false,
-      error: { message: '認証処理でエラーが発生しました。' },
+      success: false,
+      error: '認証処理でエラーが発生しました。',
     };
   }
 };

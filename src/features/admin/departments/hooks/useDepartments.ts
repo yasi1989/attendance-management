@@ -15,7 +15,7 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof DepartmentSchema>>({
     defaultValues:
-      type === FORM_MODE.EDIT && userDepartment
+      type === FORM_MODE.EDIT.value && userDepartment
         ? {
             departmentName: userDepartment.departmentName,
             parentDepartmentId: userDepartment.parentDepartmentId,

@@ -155,7 +155,7 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
         return (
           <div className="flex space-x-1 items-center justify-center">
             <UpsertDepartmentDialog
-              type={FORM_MODE.EDIT}
+              type={FORM_MODE.EDIT.value}
               userDepartment={row.original}
               allDepartments={departments}
               users={users}

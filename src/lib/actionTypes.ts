@@ -1,5 +1,5 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { companies } from "./schema";
+import { companies } from "./db/schema";
 
 export type UpsertStateResult = {
   error?: string | undefined;

@@ -1,58 +1,70 @@
 'use server';
-import { CompanySchema } from '../lib/formSchema';
 import { db } from '@/lib/db/drizzle';
 import { companies } from '@/lib/db/schema';
 import { z } from 'zod';
-import { UpsertStateResult } from '@/lib/db/types';
+import { UpsertStateResult } from '@/lib/actionTypes';
 import { eq } from 'drizzle-orm';
-import { handleError } from '@/lib/actionErrorHandler';
+import { actionErrorHandler } from '@/lib/errorHandler';
+import { revalidatePath } from 'next/cache';
+import { URLS } from '@/consts/urls';
+import { AddCompanySchema, EditCompanySchema } from '../lib/formSchema';
 
-export const addCompanyAction = async (values: z.infer<typeof CompanySchema>): Promise<UpsertStateResult> => {
+export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>): Promise<UpsertStateResult> => {
   try {
-    const result = await db
-      .insert(companies)
-      .values({
-        companyName: values.companyName,
-        domain: values.domain,
-      })
-      .returning();
-    if (!result || result.length === 0) {
-      console.error('Companies insert failed: No data returned');
-      return {
-        success: false,
-        error: 'テナント登録に失敗しました。',
-      };
+    const { companyName, domain } = values;
+    const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
+    if (company) {
+      return { success: false, error: 'ドメインが重複しています。' };
     }
-    return {
-      success: true,
-    };
+    await db.insert(companies).values({
+      companyName,
+      domain,
+    });
+    revalidatePath(URLS.SYSTEM_COMPANIES);
+    return { success: true };
   } catch (error) {
-    return handleError(error);
+    return actionErrorHandler(error);
   }
 };
 
-export const editCompanyAction = async (values: z.infer<typeof CompanySchema>): Promise<UpsertStateResult> => {
+export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<UpsertStateResult> => {
   try {
-    const result = await db
+    const { id, companyName, domain } = values;
+
+    const currentCompany = await db.query.companies.findFirst({ where: eq(companies.id, id) });
+    if (!currentCompany) {
+      return { success: false, error: '会社が見つかりませんでした。' };
+    }
+    if (currentCompany.domain !== domain) {
+      const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
+      if (company) {
+        return { success: false, error: 'ドメインが重複しています。' };
+      }
+    }
+    await db
       .update(companies)
       .set({
-        id: values.id,
-        companyName: values.companyName,
-        domain: values.domain,
+        companyName,
+        domain,
       })
-      .where(eq(companies.id, values.id))
-      .returning();
-    if (!result || result.length === 0) {
-      console.error('Companies update failed: No data returned');
-      return {
-        success: false,
-        error: 'テナント更新に失敗しました。',
-      };
-    }
-    return {
-      success: true,
-    };
+      .where(eq(companies.id, id));
+    revalidatePath(URLS.SYSTEM_COMPANIES);
+    return { success: true };
   } catch (error) {
-    return handleError(error);
+    return actionErrorHandler(error);
+  }
+};
+
+export const deleteCompanyAction = async (id: string): Promise<UpsertStateResult> => {
+  try {
+    const company = await db.query.companies.findFirst({ where: eq(companies.id, id) });
+    if (!company) {
+      return { success: false, error: '会社が見つかりませんでした。' };
+    }
+    await db.delete(companies).where(eq(companies.id, id));
+    revalidatePath(URLS.SYSTEM_COMPANIES);
+    return { success: true };
+  } catch (error) {
+    return actionErrorHandler(error);
   }
 };

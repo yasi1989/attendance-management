@@ -1,4 +1,4 @@
-import { Company } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 import { companies } from '../../companies/const/mockData';
 import { roles, users } from '../const/mockData';
 import { RoleType } from '../type/roleType';

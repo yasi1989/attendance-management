@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/table/DataTable';
 import { companyColumns } from './CompaniesColumns';
-import { Company } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 
 type CompaniesListTableProps = {
   companies: Company[];

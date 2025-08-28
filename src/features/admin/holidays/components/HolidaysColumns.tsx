@@ -106,7 +106,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertHolidayDialog type={FORM_MODE.EDIT} data={row.original} />
+          <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
           <DeleteHolidayDialog />
         </div>
       );

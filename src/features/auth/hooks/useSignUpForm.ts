@@ -7,6 +7,7 @@ import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { signUpAction } from '../services/signUpAction';
 import { useRouter } from 'next/navigation';
+import { URLS } from '@/consts/urls';
 
 export const useSignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -23,13 +24,13 @@ export const useSignUpForm = () => {
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     startTransition(async () => {
       const result = await signUpAction(data);
-      if (!result.isSuccess) {
-        toast.error(result.error?.message);
+      if (!result.success) {
+        toast.error(result.error);
         return;
       }
 
       toast.success('新規登録に成功しました。');
-      router.push(result.data?.redirectUrl || '/');
+      router.push(URLS.ATTENDANCE_CALENDAR);
       router.refresh();
     });
   };

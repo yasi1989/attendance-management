@@ -24,7 +24,6 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
     title: '社員編集',
     description: '社員情報を更新してください。',
     submitButtonLabel: '更新',
-    cancelButtonLabel: 'キャンセル',
   };
   const departmentOptions = useMemo(() => {
     return departments.map((d) => ({ value: d.id, label: getDepartmentPath(departments, d.id) }));

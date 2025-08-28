@@ -14,3 +14,9 @@ export const VALIDATION_LIMITS = {
   DOMAIN_REGEX: /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.([a-zA-Z]{2,})+$/,
   PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
 };
+
+export const ERROR_MESSAGE = {
+  APPLICATION_ERROR: 'エラー',
+  UNEXPECTED_ERROR: '予期せぬエラー',
+  SYSTEM_ERROR: 'システムエラー',
+}

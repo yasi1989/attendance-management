@@ -9,6 +9,7 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { FormMode } from '@/consts/formMode';
+import { getFormModeName } from '@/lib/formMode';
 
 type UpsertDepartmentDialogProps = {
   type: FormMode;
@@ -26,11 +27,11 @@ export function UpsertDepartmentDialog({
   children,
 }: UpsertDepartmentDialogProps) {
   const { form, onSubmit, isSubmitted } = useDepartments({ type, userDepartment });
+  const modeName = getFormModeName(type);
   const dialogConfig: DialogConfig = {
-    title: type === 'add' ? '部署・役職登録' : '部署・役職編集',
-    description: `部署・役職情報を${type === 'add' ? '登録' : '更新'}してください。`,
-    submitButtonLabel: type === 'add' ? '登録' : '更新',
-    cancelButtonLabel: 'キャンセル',
+    title: `部署・役職${modeName}`,
+    description: `部署・役職情報を${modeName}してください。`,
+    submitButtonLabel: modeName,
   };
   const companyOptions = useMemo(() => {
     return allDepartments.map((d) => ({ value: d.id, label: d.departmentName }));

@@ -1,14 +1,15 @@
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { CompanySchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Company, UpsertStateResult } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 import { FORM_MODE, FormMode } from '@/consts/formMode';
 import { addCompanyAction, editCompanyAction } from '../api/actions';
 // cspell:disable-next-line
 import { toast } from 'sonner';
-import { handleError } from '@/lib/actionErrorHandler';
+import { ERROR_MESSAGE } from '@/consts/validate';
+import { getFormModeName } from '@/lib/formMode';
+import { AddCompanySchema, EditCompanySchema } from '../lib/formSchema';
 
 type UseCompanyProps = {
   type: FormMode;
@@ -22,37 +23,38 @@ const actions = {
 
 export const useCompany = ({ type, data }: UseCompanyProps) => {
   const [isSubmitted, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof CompanySchema>>({
-    defaultValues:
-      type === FORM_MODE.EDIT && data
+  const form = useForm<z.infer<typeof AddCompanySchema | typeof EditCompanySchema>>({
+    defaultValues: {
+      id: '',
+      companyName: '',
+      domain: '',
+    },
+    values:
+      type === FORM_MODE.EDIT.value && data
         ? {
             id: data.id,
             companyName: data.companyName,
             domain: data.domain,
           }
-        : {
-            id: '',
-            companyName: '',
-            domain: '',
-          },
-    resolver: zodResolver(CompanySchema),
+        : undefined,
+    resolver: zodResolver(type === FORM_MODE.ADD.value ? AddCompanySchema : EditCompanySchema),
   });
-  const onSubmit = (data: z.infer<typeof CompanySchema>) => {
+  const onSubmit = (data: z.infer<typeof AddCompanySchema | typeof EditCompanySchema>) => {
     startTransition(async () => {
       try {
-        
-      const result: UpsertStateResult = await actions[type](data);
-      if (!result.success) {
-        toast.error(result.error);
-        form.reset();
-        return;
+        const { success, error } = await actions[type](data);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success(getFormModeName(type) + 'に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
       }
-      toast.success(type === FORM_MODE.ADD ? 'テナント登録に成功しました。' : 'テナント更新に成功しました。');
-      return;
-    } catch (error) {
-      const result = handleError(error);
-      toast.error('テナント登録に失敗しました。');
-    }
     });
   };
   return { form, onSubmit, isSubmitted };

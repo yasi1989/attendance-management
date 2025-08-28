@@ -15,7 +15,7 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof HolidaySchema>>({
     defaultValues:
-      type === FORM_MODE.EDIT && data
+      type === FORM_MODE.EDIT.value && data
         ? {
             name: data.name,
             holidayDate: data.holidayDate,

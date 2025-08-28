@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db/drizzle';
-import { Company } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 
 export const fetchCompanies = async (): Promise<Company[]> => {
   try {
@@ -9,7 +9,7 @@ export const fetchCompanies = async (): Promise<Company[]> => {
       orderBy: (companies, { desc }) => [desc(companies.createdAt)],
     });
   } catch (error) {
-    console.error('Error fetching companies:', error);
+    console.error('データ取得に失敗しました。', error);
     throw error;
   }
 };

@@ -12,8 +12,6 @@ import {
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 
-export type StatusType = 'Draft' | 'Submitted' | 'Approved' | 'Rejected';
-
 export const companies = pgTable('companies', {
   id: text('id')
     .primaryKey()

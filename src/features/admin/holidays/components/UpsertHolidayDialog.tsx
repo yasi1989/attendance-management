@@ -6,7 +6,8 @@ import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import { useHoliday } from '../hooks/useHoliday';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
-import { FORM_MODE, FormMode } from '@/consts/formMode';
+import { FormMode } from '@/consts/formMode';
+import { getFormModeName } from '@/lib/formMode';
 
 type UpsertHolidayDialogProps = {
   type: FormMode;
@@ -16,11 +17,11 @@ type UpsertHolidayDialogProps = {
 
 export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialogProps) {
   const { form, onSubmit, isSubmitted } = useHoliday({ type, data });
+  const modeName = getFormModeName(type);
   const dialogConfig: DialogConfig = {
-    title: type === FORM_MODE.ADD ? '休日登録' : '休日編集',
-    description: `休日情報を${type === FORM_MODE.ADD ? '登録' : '更新'}してください。`,
-    submitButtonLabel: type === FORM_MODE.ADD ? '登録' : '更新',
-    cancelButtonLabel: 'キャンセル',
+    title: `休日${modeName}`,
+    description: `休日情報を${modeName}してください。`,
+    submitButtonLabel: modeName,
   };
   const formContent = (
     <div className="flex flex-col gap-4">

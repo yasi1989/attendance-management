@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import CompaniesListTable from '@/features/system/companies/components/CompaniesListTable';
-import { Company } from '@/lib/db/types';
+import { Company } from '@/lib/actionTypes';
 import { UpsertCompanyDialog } from '@/features/system/companies/components/UpsertCompanyDialog';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Building2 } from 'lucide-react';
