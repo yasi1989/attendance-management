@@ -30,5 +30,6 @@ export const URL_PARAMS = {
   },
   adminHolidays: {
     YEAR: 'year',
+    CATEGORY: 'category',
   },
 };

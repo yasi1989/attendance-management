@@ -2,7 +2,3 @@ export const DISPLAY_YEAR_OPTIONS_LENGTH = 11;
 export const DISPLAY_MONTH_OPTIONS_LENGTH = 12;
 export const DISPLAY_YEAR_OPTIONS_OFFSET = 5;
 export const DISPLAY_MONTH_OPTIONS_OFFSET = 1;
-export const DATE_FORMAT = {
-  YEAR_START: '01-01',
-  YEAR_END: '12-31',
-} as const;

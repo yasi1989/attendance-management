@@ -118,6 +118,9 @@ export const holidays = pgTable('holidays', {
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
   holidayDate: date('holiday_date', { mode: 'date' }).notNull(),
+  type: text('type', {
+    enum: ['National', 'Company'],
+  }).notNull(),
   companyId: text('company_id')
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),

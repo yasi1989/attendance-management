@@ -1,8 +1,11 @@
+'use server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db/drizzle';
 import { Holiday } from '@/lib/actionTypes';
+import { endOfYear, startOfYear } from 'date-fns';
+import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
 
-export const fetchHolidays = async (year: number): Promise<Holiday[]> => {
+export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -22,8 +25,8 @@ export const fetchHolidays = async (year: number): Promise<Holiday[]> => {
       throw new Error('所属会社がありません。');
     }
     const companyId = user.companyId;
-    const startDate = new Date(year, 0, 1);
-    const endDate = new Date(year, 11, 31);
+    const startDate = startOfYear(new Date(year));
+    const endDate = endOfYear(new Date(year));
     return await db.query.holidays.findMany({
       where: (holidays, { eq, and, gte, lte }) =>
         and(
@@ -33,6 +36,30 @@ export const fetchHolidays = async (year: number): Promise<Holiday[]> => {
         ),
       orderBy: (holidays, { desc }) => [desc(holidays.createdAt)],
     });
+  } catch (error) {
+    console.error('データ取得に失敗しました。', error);
+    throw error;
+  }
+};
+
+export const fetchNationalHolidays = async (year: number): Promise<Holiday[]> => {
+  try {
+    const response = await fetch(`https://api.national-holidays.jp/${year}`);
+    if (!response.ok) {
+      throw new Error('国民の祝日データ取得に失敗しました。');
+    }
+    const data = await response.json();
+    return data.map(
+      (h: { name: string; date: string }): Holiday => ({
+        id: `national-${h.date}`,
+        name: h.name,
+        holidayDate: new Date(h.date),
+        type: HOLIDAY_CATEGORIES.NATIONAL.value,
+        companyId: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
   } catch (error) {
     console.error('データ取得に失敗しました。', error);
     throw error;
