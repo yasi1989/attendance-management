@@ -3,39 +3,69 @@ import { useForm } from 'react-hook-form';
 import { UserSchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserType } from '../type/userType';
+import { UserWithRelations } from '../type/fetchResultResponse';
+// cspell:disable-next-line
+import { toast } from 'sonner';
+import { ERROR_MESSAGE } from '@/consts/validate';
+import { deleteUserAction, editUserAction } from '../api/actions';
 
 type UseUsersProps = {
-  user?: UserType;
+  user?: UserWithRelations;
 };
 
 export const useUsers = ({ user }: UseUsersProps) => {
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof UserSchema>>({
-    defaultValues:
-      user
-        ? {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            roleId: user.roleId,
-            companyId: user.companyId,
-          }
-        : {
-            id: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            roleId: '',
-            companyId: '',
-          },
+    defaultValues: {
+      id: '',
+      name: '',
+      email: '',
+      roleId: '',
+      companyId: '',
+    },
+    values: user ? { ...user } : undefined,
     resolver: zodResolver(UserSchema),
   });
   const onSubmit = (data: z.infer<typeof UserSchema>) => {
-    startTransition(() => {
-      console.log(data);
+    startTransition(async () => {
+      try {
+        const { success, error } = await editUserAction(data);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success('更新に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
     });
   };
   return { form, onSubmit, isSubmitted };
+};
+
+export const useDeleteUser = (id: string) => {
+  const [isSubmitted, startTransition] = useTransition();
+  const onDelete = () => {
+    startTransition(async () => {
+      try {
+        const { success, error } = await deleteUserAction(id);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success('削除に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
+    });
+  };
+  return { onDelete, isSubmitted };
 };

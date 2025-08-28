@@ -2,22 +2,22 @@
 
 import InputFormField from '@/components/form/InputFormField';
 import { useUsers } from '../hooks/useUsers';
-import { UserType } from '../type/userType';
-import { RoleType } from '../type/roleType';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
-import { Company } from '@/lib/actionTypes';
+import { Company, Role } from '@/lib/actionTypes';
+import { UserWithRelations } from '../type/fetchResultResponse';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
-type UserEditDialogProps = {
-  user?: UserType;
-  companies?: Company[];
-  roles?: RoleType[];
+type UpsertUserDialogProps = {
+  user?: UserWithRelations;
+  allCompanies?: Company[];
+  allRoles?: Role[];
   children?: React.ReactNode;
 };
 
-export function UserEditDialog({ user, companies, roles, children }: UserEditDialogProps) {
+export function UpsertUserDialog({ user, allCompanies, allRoles, children }: UpsertUserDialogProps) {
   const { form, onSubmit, isSubmitted } = useUsers({ user });
   const dialogConfig: DialogConfig = {
     title: 'ユーザ編集',
@@ -26,18 +26,17 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
     cancelButtonLabel: 'キャンセル',
   };
   const roleOptions = useMemo(() => {
-    return roles?.map((role) => ({ value: role.id, label: role.roleName })) || [];
-  }, [roles]);
+    return allRoles?.map((role) => ({ value: role.id, label: role.roleName })) || [];
+  }, [allRoles]);
   const companyOptions = useMemo(() => {
-    return companies?.map((company) => ({ value: company.id, label: company.name })) || [];
-  }, [companies]);
+    return allCompanies?.map((company) => ({ value: company.id, label: company.companyName })) || [];
+  }, [allCompanies]);
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="lastName" label="姓" form={form} maxLength={20} required />
-      <InputFormField name="firstName" label="名前" form={form} maxLength={20} required />
-      <InputFormField name="email" label="メールアドレス" form={form} maxLength={255} required />
-      <InputSelectFormField name="roleId" label="権限" form={form} options={roleOptions} />
       <InputSelectFormField name="companyId" label="所属会社" form={form} options={companyOptions} />
+      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATION_LIMITS.NAME_MAX_LENGTH} required />
+      <InputFormField name="email" label="メールアドレス" form={form} maxLength={VALIDATION_LIMITS.EMAIL_MAX_LENGTH} required />
+      <InputSelectFormField name="roleId" label="権限" form={form} options={roleOptions} />
     </div>
   );
   const triggerButton = children || <EditButton />;
