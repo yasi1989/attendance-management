@@ -17,10 +17,12 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
     defaultValues:
       type === FORM_MODE.EDIT.value && data
         ? {
+            id: data.id,
             name: data.name,
             holidayDate: data.holidayDate,
           }
         : {
+            id: '',
             name: '',
             holidayDate: new Date(),
           },
