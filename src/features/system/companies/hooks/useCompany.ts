@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Company } from '@/lib/actionTypes';
 import { FORM_MODE, FormMode } from '@/consts/formMode';
-import { addCompanyAction, editCompanyAction } from '../api/actions';
+import { addCompanyAction, deleteCompanyAction, editCompanyAction } from '../api/actions';
 // cspell:disable-next-line
 import { toast } from 'sonner';
 import { ERROR_MESSAGE } from '@/consts/validate';
@@ -58,4 +58,27 @@ export const useCompany = ({ type, data }: UseCompanyProps) => {
     });
   };
   return { form, onSubmit, isSubmitted };
+};
+
+export const useDeleteCompany = (id: string) => {
+  const [isSubmitted, startTransition] = useTransition();
+  const onDelete = () => {
+    startTransition(async () => {
+      try {
+        const { success, error } = await deleteCompanyAction(id);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success('削除に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
+    });
+  };
+  return { onDelete, isSubmitted };
 };

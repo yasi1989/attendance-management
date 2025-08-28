@@ -1,10 +1,9 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferSelectModel } from "drizzle-orm";
 import { companies } from "./db/schema";
 
-export type UpsertStateResult = {
+export type ActionStateResult = {
   error?: string | undefined;
   success: boolean;
 };
 
 export type Company = InferSelectModel<typeof companies>;
-export type InsertCompany = InferInsertModel<typeof companies>

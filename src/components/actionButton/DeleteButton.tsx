@@ -5,7 +5,7 @@ import ConfirmDialog from '../dialog/ConfirmDialog';
 type DeleteButtonProps = {
   title?: string;
   description?: string;
-  onDelete: () => Promise<void>;
+  onDelete: () => void;
   isLoading?: boolean;
   disabled?: boolean;
   children?: React.ReactNode;

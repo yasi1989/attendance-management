@@ -18,7 +18,7 @@ type ConfirmDialogProps = {
   description: string;
   cancelLabel?: string;
   actionLabel?: string;
-  onAction?: () => Promise<void>;
+  onAction?: () => void;
   isLoading?: boolean;
 };
 

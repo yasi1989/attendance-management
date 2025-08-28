@@ -2,14 +2,14 @@
 import { db } from '@/lib/db/drizzle';
 import { companies } from '@/lib/db/schema';
 import { z } from 'zod';
-import { UpsertStateResult } from '@/lib/actionTypes';
+import { ActionStateResult } from '@/lib/actionTypes';
 import { eq } from 'drizzle-orm';
 import { actionErrorHandler } from '@/lib/errorHandler';
 import { revalidatePath } from 'next/cache';
 import { URLS } from '@/consts/urls';
 import { AddCompanySchema, EditCompanySchema } from '../lib/formSchema';
 
-export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>): Promise<UpsertStateResult> => {
+export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { companyName, domain } = values;
     const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
@@ -27,7 +27,7 @@ export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>)
   }
 };
 
-export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<UpsertStateResult> => {
+export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { id, companyName, domain } = values;
 
@@ -55,8 +55,9 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
   }
 };
 
-export const deleteCompanyAction = async (id: string): Promise<UpsertStateResult> => {
+export const deleteCompanyAction = async (id: string): Promise<ActionStateResult> => {
   try {
+    console.log(id);
     const company = await db.query.companies.findFirst({ where: eq(companies.id, id) });
     if (!company) {
       return { success: false, error: '会社が見つかりませんでした。' };

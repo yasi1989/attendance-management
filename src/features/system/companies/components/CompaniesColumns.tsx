@@ -143,7 +143,7 @@ export const companyColumns: ColumnDef<Company>[] = [
       return (
         <div className="flex space-x-1 items-center justify-center">
           <UpsertCompanyDialog type={FORM_MODE.EDIT.value} data={row.original} />
-          <DeleteCompanyDialog />
+          <DeleteCompanyDialog id={row.original.id} />
         </div>
       );
     },
