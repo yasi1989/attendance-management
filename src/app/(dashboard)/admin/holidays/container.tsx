@@ -11,7 +11,6 @@ type HolidaysContainerProps = {
 
 const HolidaysContainer = async ({ year, category }: HolidaysContainerProps) => {
   const holidays: Holiday[] = [];
-
   if (category === HOLIDAY_CATEGORIES_WITH_ALL.ALL.value) {
     const [companyHolidays, nationalHolidays] = await Promise.all([
       fetchCompanyHolidays(year),

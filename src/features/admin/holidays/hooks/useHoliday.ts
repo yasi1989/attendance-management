@@ -3,34 +3,51 @@ import { useForm } from 'react-hook-form';
 import { HolidaySchema } from '../lib/formSchema';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { HolidayType } from '../type/holidayType';
 import { FORM_MODE, FormMode } from '@/consts/formMode';
+import { Holiday } from '@/lib/actionTypes';
+import { addHolidayAction, editHolidayAction } from '../api/actions';
+import { ERROR_MESSAGE } from '@/consts/validate';
+// cspell:disable-next-line
+import { toast } from 'sonner';
+import { getFormModeName } from '@/lib/formMode';
 
 type UseHolidayProps = {
   type: FormMode;
-  data?: HolidayType;
+  data?: Holiday;
+};
+
+const actions = {
+  add: addHolidayAction,
+  edit: editHolidayAction,
 };
 
 export const useHoliday = ({ type, data }: UseHolidayProps) => {
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof HolidaySchema>>({
-    defaultValues:
-      type === FORM_MODE.EDIT.value && data
-        ? {
-            id: data.id,
-            name: data.name,
-            holidayDate: data.holidayDate,
-          }
-        : {
-            id: '',
-            name: '',
-            holidayDate: new Date(),
-          },
+    defaultValues: {
+      id: '',
+      name: '',
+      holidayDate: new Date(),
+    },
+    values: type === FORM_MODE.EDIT.value && data ? { ...data } : undefined,
     resolver: zodResolver(HolidaySchema),
   });
   const onSubmit = (data: z.infer<typeof HolidaySchema>) => {
-    startTransition(() => {
-      console.log(data);
+    startTransition(async () => {
+      try {
+        const { success, error } = await actions[type](data);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success(getFormModeName(type) + 'に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
     });
   };
   return { form, onSubmit, isSubmitted };

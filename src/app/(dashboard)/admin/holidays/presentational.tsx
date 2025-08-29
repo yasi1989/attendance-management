@@ -7,6 +7,7 @@ import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysY
 import { AddButton } from '@/components/button/AddButton';
 import { Holiday } from '@/lib/actionTypes';
 import { HolidayCategoryTypeWithAll } from '@/types/holiday';
+import { FORM_MODE } from '@/consts/formMode';
 
 type HolidaysPresentationalProps = {
   holidays: Holiday[];
@@ -22,7 +23,7 @@ const HolidaysPresentational = ({ holidays, currentYear, currentCategory }: Holi
         description="登録されている休日を確認・管理できます"
         icon={<CalendarDays className="w-6 h-6 text-white" />}
         actionDialog={
-          <UpsertHolidayDialog type="add">
+          <UpsertHolidayDialog type={FORM_MODE.ADD.value}>
             <AddButton label="休日登録" />
           </UpsertHolidayDialog>
         }

@@ -4,6 +4,7 @@ import { db } from '@/lib/db/drizzle';
 import { Holiday } from '@/lib/actionTypes';
 import { endOfYear, startOfYear } from 'date-fns';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
+import { URLS } from '@/consts/urls';
 
 export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => {
   try {
@@ -25,8 +26,8 @@ export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => 
       throw new Error('所属会社がありません。');
     }
     const companyId = user.companyId;
-    const startDate = startOfYear(new Date(year));
-    const endDate = endOfYear(new Date(year));
+    const startDate = startOfYear(new Date(year, 0, 1));
+    const endDate = endOfYear(new Date(year, 11, 31));
     return await db.query.holidays.findMany({
       where: (holidays, { eq, and, gte, lte }) =>
         and(
@@ -44,7 +45,7 @@ export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => 
 
 export const fetchNationalHolidays = async (year: number): Promise<Holiday[]> => {
   try {
-    const response = await fetch(`https://api.national-holidays.jp/${year}`);
+    const response = await fetch(`${URLS.API_HOLIDAYS}/${year}`);
     if (!response.ok) {
       throw new Error('国民の祝日データ取得に失敗しました。');
     }
