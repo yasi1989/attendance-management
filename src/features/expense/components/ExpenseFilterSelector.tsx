@@ -10,13 +10,8 @@ import { STATUS_WITH_ALL } from '@/consts/status';
 import { StatusTypeWithAll } from '@/types/statusType';
 import { URL_PARAMS } from '@/consts/urls';
 import { getMonthOptions, getYearOptions } from '@/lib/date';
-import {
-  DISPLAY_MONTH_OPTIONS_LENGTH,
-  DISPLAY_MONTH_OPTIONS_OFFSET,
-  DISPLAY_YEAR_OPTIONS_LENGTH,
-  DISPLAY_YEAR_OPTIONS_OFFSET,
-} from '@/consts/date';
 import { EXPENSE_CATEGORIES_WITH_ALL } from '@/consts/expense';
+import { DISPLAY_DATE_OPTIONS } from '@/consts/date';
 
 type ExpenseFilterSelectorProps = {
   currentYear: number;
@@ -32,8 +27,8 @@ const ExpenseFilterSelector = ({
   currentExpenseType,
 }: ExpenseFilterSelectorProps) => {
   const router = useRouter();
-  const yearOptions = getYearOptions(currentYear, DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET);
-  const months = getMonthOptions(DISPLAY_MONTH_OPTIONS_LENGTH, DISPLAY_MONTH_OPTIONS_OFFSET);
+  const yearOptions = getYearOptions(currentYear, DISPLAY_DATE_OPTIONS.YEAR_LENGTH, DISPLAY_DATE_OPTIONS.YEAR_OFFSET);
+  const months = getMonthOptions(DISPLAY_DATE_OPTIONS.MONTH_LENGTH, DISPLAY_DATE_OPTIONS.MONTH_OFFSET);
   const yearSelectItems = useMemo(
     () =>
       yearOptions.map((year) => (
