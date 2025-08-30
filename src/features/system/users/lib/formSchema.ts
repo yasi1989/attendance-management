@@ -1,9 +1,9 @@
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 import { z } from 'zod';
 
 export const UserSchema = z.object({
   id: z.string(),
-  name: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
+  name: z.string().min(VALIDATIONS.MIN_LENGTH, {
     message: '名前は必須です。',
   }),
   email: z.string().email({

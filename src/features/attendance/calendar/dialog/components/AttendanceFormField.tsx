@@ -4,11 +4,11 @@ import InputTextFormField from '@/components/form/InputTextFormField';
 import { ATTENDANCES } from '../../../../../consts/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 import { z } from 'zod';
-import InputDateFormField from '@/components/form/InputDateFormField';
 import { useMemo } from 'react';
 import { AttendanceType } from '../../types/attendance';
 import AttendanceTimeField from './AttendanceTimeField';
 import AttendanceHalfDayField from './AttendanceHalfDayField';
+import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 
 interface AttendanceFormFieldsProps {
   form: UseFormReturn<z.infer<typeof AttendanceFormSchema>>;
@@ -38,7 +38,7 @@ const AttendanceFormFields = ({
     attendanceType === ATTENDANCES.WORK.value || (attendanceType === ATTENDANCES.PAID.value && isHalfDay);
   return (
     <div className="space-y-4">
-      <InputDateFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
+      <InputCalendarFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
       <InputSelectFormField
         form={form}
         name="attendanceType"

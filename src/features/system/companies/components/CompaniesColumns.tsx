@@ -4,10 +4,10 @@ import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Company } from '@/lib/actionTypes';
-import { formatDateToISOString } from '@/lib/date';
 import { UpsertCompanyDialog } from './UpsertCompanyDialog';
 import DeleteCompanyDialog from './DeleteCompanyDialog';
 import { FORM_MODE } from '@/consts/formMode';
+import { formatDateForDisplay } from '@/lib/dateClient';
 
 export const companyColumns: ColumnDef<Company>[] = [
   {
@@ -103,7 +103,7 @@ export const companyColumns: ColumnDef<Company>[] = [
       );
     },
     cell: ({ row }) => {
-      const formattedDate = formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(row.original.createdAt);
       return (
         <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
           {formattedDate}
@@ -121,7 +121,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     },
     filterFn: (row, id, value) => {
       const createdAt = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(createdAt, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(createdAt);
       return formattedDate.includes(value);
     },
   },

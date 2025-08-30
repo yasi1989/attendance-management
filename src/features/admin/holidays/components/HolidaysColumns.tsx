@@ -5,9 +5,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { HolidayType } from '../type/holidayType';
 import { UpsertHolidayDialog } from './UpsertHolidayDialog';
-import { formatDateToISOString } from '@/lib/date';
 import DeleteHolidayDialog from './DeleteHolidayDialog';
 import { FORM_MODE } from '@/consts/formMode';
+import { formatDateForDisplay } from '@/lib/dateClient';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [
   {
@@ -67,7 +67,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       );
     },
     cell: ({ row }) => {
-      const formattedDate = formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(row.original.holidayDate);
       return (
         <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
           {formattedDate}
@@ -85,7 +85,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     },
     filterFn: (row, id, value) => {
       const holidayDate = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(holidayDate, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(holidayDate);
       return formattedDate.includes(value);
     },
   },
