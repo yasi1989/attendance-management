@@ -3,9 +3,9 @@ import { signIn } from '@/auth';
 import { SignInSchema } from '../lib/formSchema';
 import z from 'zod';
 import { AuthError } from 'next-auth';
-import { UpsertStateResult } from '@/lib/actionTypes';
+import { ActionStateResult } from '@/lib/actionTypes';
 
-export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<UpsertStateResult> => {
+export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<ActionStateResult> => {
   try {
     const submission = SignInSchema.safeParse(data);
     if (!submission.success) {
