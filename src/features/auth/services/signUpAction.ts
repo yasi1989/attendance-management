@@ -7,8 +7,8 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { UpsertStateResult } from '@/lib/actionTypes';
-export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<UpsertStateResult> => {
+import { ActionStateResult } from '@/lib/actionTypes';
+export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<ActionStateResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
     if (!submission.success) {

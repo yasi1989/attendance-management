@@ -11,10 +11,10 @@ import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';
 import { EditButton } from '@/components/actionButton/EditButton';
 import { ViewButton } from '@/components/actionButton/ViewButton';
-import { formatDateToISOString } from '@/lib/date';
 import { truncate } from '@/lib/utils';
 import { canPerformRequest, getStatusByValue } from '@/lib/status';
 import { getExpenseTypeName } from '@/lib/expense';
+import { formatDateForDisplay } from '@/lib/dateClient';
 
 export const expenseColumns: ColumnDef<ExpenseItem>[] = [
   {
@@ -79,9 +79,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     cell: ({ row }) => (
       <div
         className="font-semibold text-slate-900 dark:text-slate-100"
-        title={formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd')}
+        title={formatDateForDisplay(row.original.expenseDate)}
       >
-        {formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd')}
+        {formatDateForDisplay(row.original.expenseDate)}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
@@ -92,7 +92,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       japaneseLabel: '発生日',
     },
     filterFn: (row, _id, filterValue) => {
-      return formatDateToISOString(row.original.expenseDate, 'yyyy-MM-dd').includes(filterValue);
+      return formatDateForDisplay(row.original.expenseDate).includes(filterValue);
     },
   },
   {
@@ -118,9 +118,9 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
     cell: ({ row }) => (
       <div
         className="font-semibold text-slate-900 dark:text-slate-100"
-        title={formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd')}
+        title={formatDateForDisplay(row.original.requestDate)}
       >
-        {formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd')}
+        {formatDateForDisplay(row.original.requestDate)}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
@@ -131,7 +131,7 @@ export const expenseColumns: ColumnDef<ExpenseItem>[] = [
       japaneseLabel: '申請日',
     },
     filterFn: (row, _id, filterValue) => {
-      return formatDateToISOString(row.original.requestDate, 'yyyy-MM-dd').includes(filterValue);
+      return formatDateForDisplay(row.original.requestDate).includes(filterValue);
     },
   },
   {

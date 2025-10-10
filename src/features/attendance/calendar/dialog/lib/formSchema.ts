@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const AttendanceFormSchema = z
   .object({
@@ -16,8 +16,8 @@ export const AttendanceFormSchema = z
     comment: z
       .string()
       .max(
-        VALIDATION_LIMITS.COMMENT_MAX_LENGTH,
-        `コメントは${VALIDATION_LIMITS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
+        VALIDATIONS.COMMENT_MAX_LENGTH,
+        `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
       )
       .optional(),
   })

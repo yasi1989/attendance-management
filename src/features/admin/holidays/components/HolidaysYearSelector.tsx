@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { URL_PARAMS, URLS } from '@/consts/urls';
 import { useRouter } from 'next/navigation';
 import { getYearOptions } from '@/lib/date';
-import { DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET } from '@/consts/date';
+import { DISPLAY_DATE_OPTIONS } from '@/consts/date';
 import { startTransition, useCallback, useMemo } from 'react';
 import { CalendarDays } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -18,7 +18,7 @@ type HolidaysYearSelectorProps = {
 
 const HolidaysYearSelector = ({ currentYear, currentCategory }: HolidaysYearSelectorProps) => {
   const router = useRouter();
-  const yearOptions = getYearOptions(currentYear, DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET);
+  const yearOptions = getYearOptions(currentYear, DISPLAY_DATE_OPTIONS.YEAR_LENGTH, DISPLAY_DATE_OPTIONS.YEAR_OFFSET);
   const yearSelectItems = useMemo(
     () =>
       yearOptions.map((year) => (

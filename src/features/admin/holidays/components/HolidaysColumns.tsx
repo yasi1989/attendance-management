@@ -4,13 +4,13 @@ import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { UpsertHolidayDialog } from './UpsertHolidayDialog';
-import { formatDateToISOString } from '@/lib/date';
 import DeleteHolidayDialog from './DeleteHolidayDialog';
 import { FORM_MODE } from '@/consts/formMode';
 import { Holiday } from '@/lib/actionTypes';
 import { getHolidayCategoryName } from '@/lib/holiday';
 import HolidayTypeBadge from '@/components/layout/HolidayTypeBadge';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
+import { formatDateForDisplay } from '@/lib/dateClient';
 
 export const holidaysColumns: ColumnDef<Holiday>[] = [
   {
@@ -70,7 +70,7 @@ export const holidaysColumns: ColumnDef<Holiday>[] = [
       );
     },
     cell: ({ row }) => {
-      const formattedDate = formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(row.original.holidayDate);
       return (
         <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
           {formattedDate}
@@ -88,7 +88,7 @@ export const holidaysColumns: ColumnDef<Holiday>[] = [
     },
     filterFn: (row, id, value) => {
       const holidayDate = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(holidayDate, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(holidayDate);
       return formattedDate.includes(value);
     },
   },

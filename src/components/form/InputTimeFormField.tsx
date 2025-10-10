@@ -1,7 +1,7 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
-import { timestampToTimeString, timeStringToTimestamp } from '@/lib/date';
+import { formatTimeForDisplay, parseTimestampInputTimeString } from '@/lib/dateClient';
 
 type InputTimeFormFieldProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;
@@ -25,7 +25,7 @@ const InputTimeFormField = <T extends Record<string, unknown>>({
   rules,
   description,
   disabled = false,
-  baseDate = new Date()
+  baseDate = new Date(),
 }: InputTimeFormFieldProps<T>) => {
   return (
     <FormField
@@ -44,9 +44,9 @@ const InputTimeFormField = <T extends Record<string, unknown>>({
                 placeholder={placeholder}
                 className={className}
                 disabled={disabled}
-                value={timestampToTimeString(field.value as number)}
+                value={formatTimeForDisplay(field.value as number)}
                 onChange={(e) => {
-                  const timestamp = timeStringToTimestamp(e.target.value, baseDate);
+                  const timestamp = parseTimestampInputTimeString(e.target.value, baseDate);
                   field.onChange(timestamp);
                 }}
                 onBlur={field.onBlur}

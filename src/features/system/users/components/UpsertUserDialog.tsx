@@ -8,7 +8,7 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
 import { Company, Role } from '@/lib/actionTypes';
 import { UserWithRelations } from '../type/fetchResultResponse';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 type UpsertUserDialogProps = {
   user?: UserWithRelations;
@@ -34,8 +34,8 @@ export function UpsertUserDialog({ user, allCompanies, allRoles, children }: Ups
   const formContent = (
     <div className="flex flex-col gap-4">
       <InputSelectFormField name="companyId" label="所属会社" form={form} options={companyOptions} />
-      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATION_LIMITS.NAME_MAX_LENGTH} required />
-      <InputFormField name="email" label="メールアドレス" form={form} maxLength={VALIDATION_LIMITS.EMAIL_MAX_LENGTH} required />
+      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATIONS.NAME_MAX_LENGTH} required />
+      <InputFormField name="email" label="メールアドレス" form={form} maxLength={VALIDATIONS.EMAIL_MAX_LENGTH} required />
       <InputSelectFormField name="roleId" label="権限" form={form} options={roleOptions} />
     </div>
   );

@@ -1,16 +1,7 @@
 import { relations } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  decimal,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-} from 'drizzle-orm/pg-core';
+import { boolean, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
+import { dateOnly } from './customTypes';
 
 export const companies = pgTable('companies', {
   id: text('id')
@@ -18,8 +9,8 @@ export const companies = pgTable('companies', {
     .$defaultFn(() => crypto.randomUUID()),
   companyName: text('company_name').notNull(),
   domain: text('domain').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -34,8 +25,8 @@ export const departments = pgTable('departments', {
   departmentName: text('department_name').notNull(),
   parentDepartmentId: text('parent_department_id'),
   managerUserId: text('manager_user_id'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -48,8 +39,8 @@ export const roles = pgTable('roles', {
   roleName: text('role_name').notNull(),
   isPersonalRole: boolean('is_personal_role').notNull().default(false),
   isSystemRole: boolean('is_system_role').notNull().default(false),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -66,8 +57,8 @@ export const users = pgTable('users', {
   companyId: text('company_id').references(() => companies.id),
   departmentId: text('department_id').references(() => departments.id),
   roleId: text('role_id').references(() => roles.id),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -88,8 +79,8 @@ export const accounts = pgTable(
     scope: text('scope'),
     id_token: text('id_token'),
     session_state: text('session_state'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
       .defaultNow()
       .$onUpdate(() => new Date()),
   },
@@ -106,8 +97,8 @@ export const sessions = pgTable('sessions', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   expires: timestamp('expires', { mode: 'date' }).notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -117,15 +108,19 @@ export const holidays = pgTable('holidays', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
+<<<<<<< HEAD
   holidayDate: date('holiday_date', { mode: 'date' }).notNull(),
   type: text('type', {
     enum: ['National', 'Company'],
   }).notNull(),
+=======
+  holidayDate: dateOnly('holiday_date').notNull(),
+>>>>>>> timezone
   companyId: text('company_id')
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -143,10 +138,17 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
+<<<<<<< HEAD
   targetMonth: date('target_month', { mode: 'date' }).notNull(),
   submittedAt: timestamp('submitted_at'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
+=======
+  targetMonth: dateOnly('target_month').notNull(),
+  submittedAt: timestamp('submitted_at', { mode: 'date' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
+>>>>>>> timezone
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -161,7 +163,11 @@ export const attendances = pgTable('attendances', {
   monthlyAttendanceApprovalId: text('monthly_attendance_approval_id').references(() => monthlyAttendanceApprovals.id, {
     onDelete: 'cascade',
   }),
+<<<<<<< HEAD
   workDate: date('work_date', { mode: 'date' }).notNull(),
+=======
+  workDate: dateOnly('work_date').notNull(),
+>>>>>>> timezone
   startTime: integer('start_time'),
   endTime: integer('end_time'),
   breakTime: integer('break_time'),
@@ -173,8 +179,8 @@ export const attendances = pgTable('attendances', {
     enum: ['Am', 'Pm'],
   }),
   comment: text('comment'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -193,9 +199,9 @@ export const monthlyAttendanceSummaries = pgTable('monthly_attendance_summaries'
   overtimeHours: decimal('overtime_hours', { precision: 10, scale: 2 }).notNull(),
   categoryBreakdown: jsonb('category_breakdown').notNull(),
   issues: text('issues').array(),
-  calculatedAt: timestamp('calculated_at').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  calculatedAt: timestamp('calculated_at', { withTimezone: true }).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -213,10 +219,10 @@ export const groupExpenseApprovals = pgTable('group_expense_approvals', {
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-  submittedAt: timestamp('submitted_at'),
+  submittedAt: timestamp('submitted_at', { mode: 'date' }),
   purpose: text('purpose'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -231,7 +237,11 @@ export const expenses = pgTable('expenses', {
   groupExpenseApprovalId: text('group_expense_approval_id').references(() => groupExpenseApprovals.id, {
     onDelete: 'cascade',
   }),
+<<<<<<< HEAD
   expenseDate: date('expense_date', { mode: 'date' }).notNull(),
+=======
+  expenseDate: dateOnly('expense_date').notNull(),
+>>>>>>> timezone
   amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
   description: text('description').notNull(),
   expenseType: text('expense_type', {
@@ -239,8 +249,8 @@ export const expenses = pgTable('expenses', {
   }).notNull(),
   receiptUrl: text('receipt_url'),
   routeDetails: jsonb('route_details'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -256,9 +266,9 @@ export const groupExpenseSummaries = pgTable('group_expense_summaries', {
   itemCount: integer('item_count').notNull(),
   categoryBreakdown: jsonb('category_breakdown').notNull(),
   issues: text('issues').array(),
-  calculatedAt: timestamp('calculated_at').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  calculatedAt: timestamp('calculated_at', { withTimezone: true }).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -277,10 +287,10 @@ export const attendanceApprovalSteps = pgTable('attendance_approval_steps', {
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-  approvedAt: timestamp('approved_at'),
+  approvedAt: timestamp('approved_at', { mode: 'date' }),
   comment: text('comment'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -299,10 +309,10 @@ export const expenseGroupApprovalSteps = pgTable('expense_group_approval_steps',
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-  approvedAt: timestamp('approved_at'),
+  approvedAt: timestamp('approved_at', { mode: 'date' }),
   comment: text('comment'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
     .$onUpdate(() => new Date()),
 });

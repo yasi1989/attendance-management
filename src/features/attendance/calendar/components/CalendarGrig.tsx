@@ -4,9 +4,9 @@ import AttendanceDialog from '../dialog/components/AttendanceDialog';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { AttendanceDataResponse } from '../types/attendance';
 import { generateCalendarWeeks } from '../lib/calendarUtils';
-import { formatDateToISOString } from '@/lib/date';
 import { StatusType } from '@/types/statusType';
 import { canPerformRequest } from '@/lib/status';
+import { formatDateForDisplay } from '@/lib/dateClient';
 
 type CalendarGridProps = {
   currentYear: number;
@@ -28,7 +28,7 @@ const CalendarGrid = ({ currentYear, currentMonth, currentDate, initialData, mon
             isSameDay(attendance.date, day),
           );
           const holidayInfo = initialData.holidays?.find((holiday) => isSameDay(holiday.holidayDate, day));
-          const dayKey = formatDateToISOString(day);
+          const dayKey = formatDateForDisplay(day);
           const isDisabled = monthlyStatus && !canPerformRequest(monthlyStatus);
           const isDateCellCurrentMonth = isSameMonth(day, currentYearMonth);
           return isDateCellCurrentMonth ? (
