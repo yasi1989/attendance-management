@@ -4,7 +4,7 @@ import { DepartmentType } from '@/features/system/users/type/departmentType';
 import ApprovalBulkForm from './ApprovalBulkForm';
 import { useSearchParams } from 'next/navigation';
 import { URL_PARAMS } from '@/consts/urls';
-import { createAttendanceApprovalsColumns } from '../table/AttendanceApprovalsColumns';
+import { createAttendanceApprovalsColumns } from '../table/CreateAttendanceApprovalsColumns';
 
 type MonthlyAttendanceApprovalsTableProps = {
   attendances: MonthlyAttendanceApprovalItem[];
