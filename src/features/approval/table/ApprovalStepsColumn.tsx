@@ -6,7 +6,7 @@ import { formatDateToISOString } from '@/lib/date';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { truncate } from '@/lib/utils';
 
-export const columns: ColumnDef<ApprovalStepType>[] = [
+export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
   {
     accessorKey: 'approver',
     id: 'approver',

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { compareAsc } from 'date-fns';
 import StatusBadge from '@/components/layout/StatusBadge';
-import ExpenseTypeBadge from './ExpenseTypeBadge';
+import ExpenseTypeBadge from '../components/ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
 import { ExpenseItem } from '../type/ExpenseType';

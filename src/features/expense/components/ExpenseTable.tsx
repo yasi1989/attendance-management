@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table/DataTable';
-import { expenseColumns } from './ExpenseColumns';
+import { expenseColumns } from '../table/ExpenseColumns';
 import { ExpenseItem } from '../type/ExpenseType';
 import ExpenseBulkForm from './ExpenseBulkForm';
 import { useSearchParams } from 'next/navigation';

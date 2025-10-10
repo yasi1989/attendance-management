@@ -1,64 +1,20 @@
-import { ArrowUpDown, Building, User, Mail, Shield, Settings } from 'lucide-react';
+import { ArrowUpDown, Settings, User, Mail, Building, Shield } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { UserType } from '../type/userType';
-import { RoleType } from '../type/roleType';
-import { CompanyType } from '../../companies/type/companyType';
-import { UserEditDialog } from './UpsertUserDialog';
-import UserDeleteDialog from './DeleteUserDialog';
+import { UserType } from '@/features/system/users/type/userType';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { RoleType } from '@/features/system/users/type/roleType';
+import { getDepartmentPath } from '../lib/departmentUtils';
+import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
+import DeleteEmployeeDialog from '../components/DeleteEmployeeDialog';
 
-type ColumnsDefProps = {
-  companies: CompanyType[];
+type EmployeesColumnsProps = {
+  departments: DepartmentType[];
   roles: RoleType[];
 };
 
-export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
-  const columns: ColumnDef<UserType>[] = [
-    {
-      accessorKey: 'companyName',
-      id: 'companyName',
-      header: ({ column }) => (
-        <div className="flex items-center justify-center">
-          <Button
-            variant="ghost"
-            className="p-0 h-auto hover:bg-transparent"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            <div className="flex items-center gap-1 md:gap-2">
-              <Building className="h-3 w-3 md:h-4 md:w-4" />
-              <span>会社名</span>
-              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
-            </div>
-          </Button>
-        </div>
-      ),
-      cell: ({ row }) => {
-        const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-        const companyName = company ? company.name : '未設定';
-        return (
-          <div className="font-semibold text-slate-900 dark:text-slate-100" title={companyName}>
-            {companyName}
-          </div>
-        );
-      },
-      sortingFn: (rowA, rowB) => {
-        const companyA = companies.find((c: CompanyType) => c.id === rowA.original.companyId);
-        const companyB = companies.find((c: CompanyType) => c.id === rowB.original.companyId);
-
-        const nameA = companyA ? companyA.name : '未設定';
-        const nameB = companyB ? companyB.name : '未設定';
-
-        return nameA.localeCompare(nameB, 'ja', { numeric: true });
-      },
-      meta: {
-        enableColumnFilter: true,
-        japaneseLabel: '会社名',
-      },
-      filterFn: (row, _id, filterValue) => {
-        const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-        return company ? company.name.includes(filterValue) : false;
-      },
-    },
+export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<UserType>[] => {
+  return [
     {
       accessorKey: 'name',
       id: 'name',
@@ -122,15 +78,53 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
           {row.original.email}
         </div>
       ),
-      sortingFn: (rowA, rowB) => {
-        return rowA.original.email.localeCompare(rowB.original.email, 'en', { numeric: true });
-      },
       meta: {
         enableColumnFilter: true,
         japaneseLabel: 'メールアドレス',
       },
+    },
+    {
+      accessorKey: 'departmentName',
+      id: 'departmentName',
+      header: ({ column }) => (
+        <div className="flex items-center justify-center">
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Building className="h-3 w-3 md:h-4 md:w-4" />
+              <span>部署名</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => {
+        const departmentPath = getDepartmentPath(departments, row.original.departmentId);
+        return (
+          <div className="text-slate-900 dark:text-slate-100" title={departmentPath}>
+            {departmentPath}
+          </div>
+        );
+      },
+      sortingFn: (rowA, rowB) => {
+        const departmentA = departments.find((d: DepartmentType) => d.id === rowA.original.departmentId);
+        const departmentB = departments.find((d: DepartmentType) => d.id === rowB.original.departmentId);
+
+        const nameA = departmentA ? departmentA.departmentName : '未設定';
+        const nameB = departmentB ? departmentB.departmentName : '未設定';
+
+        return nameA.localeCompare(nameB, 'ja', { numeric: true });
+      },
+      meta: {
+        enableColumnFilter: true,
+        japaneseLabel: '部署名',
+      },
       filterFn: (row, _id, filterValue) => {
-        return row.original.email.includes(filterValue);
+        const department = departments.find((d: DepartmentType) => d.id === row.original.departmentId);
+        return department ? department.departmentName.includes(filterValue) : false;
       },
     },
     {
@@ -180,27 +174,26 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
     },
     {
       id: 'actions',
-      header: () => (
-        <div className="flex items-center justify-center">
-          <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
-            <div className="flex items-center gap-1 md:gap-2">
-              <Settings className="h-3 w-3 md:h-4 md:w-4" />
-              <span>操作</span>
-            </div>
-          </Button>
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex space-x-1 items-center justify-center">
-          <UserEditDialog user={row.original} companies={companies} roles={roles} />
-          <UserDeleteDialog />
-        </div>
-      ),
-      meta: {
-        enableColumnFilter: false,
-        japaneseLabel: '操作',
+      header: () => {
+        return (
+          <div className="flex items-center justify-center">
+            <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+              <div className="flex items-center gap-1 md:gap-2">
+                <Settings className="h-3 w-3 md:h-4 md:w-4" />
+                <span>操作</span>
+              </div>
+            </Button>
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-1 items-center justify-center">
+            <UpdateEmployeeDialog user={row.original} departments={departments} roles={roles} />
+            <DeleteEmployeeDialog />
+          </div>
+        );
       },
     },
   ];
-  return columns;
 };

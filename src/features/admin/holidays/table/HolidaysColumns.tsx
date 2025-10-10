@@ -4,9 +4,9 @@ import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { HolidayType } from '../type/holidayType';
-import { UpsertHolidayDialog } from './UpsertHolidayDialog';
+import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
 import { formatDateToISOString } from '@/lib/date';
-import DeleteHolidayDialog from './DeleteHolidayDialog';
+import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
 import { FORM_MODE } from '@/consts/formMode';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [
