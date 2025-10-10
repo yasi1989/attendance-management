@@ -108,14 +108,10 @@ export const holidays = pgTable('holidays', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
-<<<<<<< HEAD
-  holidayDate: date('holiday_date', { mode: 'date' }).notNull(),
+  holidayDate: dateOnly('holiday_date').notNull(),
   type: text('type', {
     enum: ['National', 'Company'],
   }).notNull(),
-=======
-  holidayDate: dateOnly('holiday_date').notNull(),
->>>>>>> timezone
   companyId: text('company_id')
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
@@ -138,17 +134,10 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
   statusCode: text('status_code', {
     enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-<<<<<<< HEAD
-  targetMonth: date('target_month', { mode: 'date' }).notNull(),
-  submittedAt: timestamp('submitted_at'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at')
-=======
   targetMonth: dateOnly('target_month').notNull(),
   submittedAt: timestamp('submitted_at', { mode: 'date' }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
->>>>>>> timezone
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
@@ -163,11 +152,7 @@ export const attendances = pgTable('attendances', {
   monthlyAttendanceApprovalId: text('monthly_attendance_approval_id').references(() => monthlyAttendanceApprovals.id, {
     onDelete: 'cascade',
   }),
-<<<<<<< HEAD
-  workDate: date('work_date', { mode: 'date' }).notNull(),
-=======
   workDate: dateOnly('work_date').notNull(),
->>>>>>> timezone
   startTime: integer('start_time'),
   endTime: integer('end_time'),
   breakTime: integer('break_time'),
@@ -237,11 +222,7 @@ export const expenses = pgTable('expenses', {
   groupExpenseApprovalId: text('group_expense_approval_id').references(() => groupExpenseApprovals.id, {
     onDelete: 'cascade',
   }),
-<<<<<<< HEAD
-  expenseDate: date('expense_date', { mode: 'date' }).notNull(),
-=======
   expenseDate: dateOnly('expense_date').notNull(),
->>>>>>> timezone
   amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
   description: text('description').notNull(),
   expenseType: text('expense_type', {

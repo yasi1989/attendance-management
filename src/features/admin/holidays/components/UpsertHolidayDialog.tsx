@@ -8,7 +8,7 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import { FormMode } from '@/consts/formMode';
 import { getFormModeName } from '@/lib/formMode';
 import { Holiday } from '@/lib/actionTypes';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 type UpsertHolidayDialogProps = {
   type: FormMode;
@@ -26,7 +26,7 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
   };
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="name" label="休日名" form={form} maxLength={VALIDATION_LIMITS.NAME_MAX_LENGTH} required />
+      <InputFormField name="name" label="休日名" form={form} maxLength={VALIDATIONS.NAME_MAX_LENGTH} required />
       <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
     </div>
   );
