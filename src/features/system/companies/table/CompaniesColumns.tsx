@@ -5,8 +5,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { CompanyType } from '../type/companyType';
 import { formatDateToISOString } from '@/lib/date';
-import { UpsertCompanyDialog } from './UpsertCompanyDialog';
-import DeleteCompanyDialog from './DeleteCompanyDialog';
+import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
+import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
 import { FORM_MODE } from '@/consts/formMode';
 
 export const companyColumns: ColumnDef<CompanyType>[] = [

@@ -8,10 +8,10 @@ import { useTransition } from 'react';
 import { formatCurrency } from '@/lib/currency';
 import { StatusType } from '@/types/statusType';
 import { DataTable } from '@/components/table/DataTable';
-import { columns } from '../../components/ApprovalStepsColumn';
 import ApprovalActions from './ApprovalActions';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 import { useDialogState } from '@/hooks/useDialogState';
+import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
 
 type ExpenseDetailDialogProps = {
   status: StatusType;
@@ -98,7 +98,7 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
               )}
 
               <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                <DataTable columns={columns} data={expense.approvalSteps} />
+                <DataTable columns={approvalStepsColumns} data={expense.approvalSteps} />
               </div>
             </div>
           </form>

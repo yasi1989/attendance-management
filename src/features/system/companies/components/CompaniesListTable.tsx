@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table/DataTable';
-import { companyColumns } from './CompaniesColumns';
+import { companyColumns } from '../table/CompaniesColumns';
 import { CompanyType } from '../type/companyType';
 
 type CompaniesListTableProps = {
