@@ -1,4 +1,5 @@
-import { CheckCircle, Clock, Settings, Shield } from 'lucide-react';
+import { URLS } from '@/consts/urls';
+import { CheckCircle, Clock, Settings, Users } from 'lucide-react';
 
 export const data = {
   user: {
@@ -8,22 +9,17 @@ export const data = {
   },
   navMain: [
     {
-      title: '申請・届出',
+      title: '勤怠・経費',
       url: '#',
       icon: Clock,
-      isActive: true,
       items: [
         {
-          title: '勤怠カレンダー',
-          url: '/calendar',
+          title: '勤怠入力',
+          url: URLS.ATTENDANCE_CALENDAR,
         },
         {
           title: '経費申請',
-          url: '/expense/add',
-        },
-        {
-          title: '経費申請履歴',
-          url: '/expense/history',
+          url: URLS.EXPENSE,
         },
       ],
     },
@@ -33,31 +29,27 @@ export const data = {
       icon: CheckCircle,
       items: [
         {
-          title: '承認待ち一覧',
-          url: '/approval/pending',
-        },
-        {
-          title: '承認履歴',
-          url: '/approval/history',
+          title: '承認管理',
+          url: URLS.APPROVAL,
         },
       ],
     },
     {
-      title: '会社管理',
+      title: '組織管理',
       url: '#',
-      icon: Shield,
+      icon: Users,
       items: [
         {
-          title: '社員管理',
-          url: '/company-admin/employees',
+          title: '従業員管理',
+          url: URLS.ADMIN_EMPLOYEES,
         },
         {
-          title: '部署・役職管理',
-          url: '/company-admin/departments',
+          title: '部署・役職',
+          url: URLS.ADMIN_DEPARTMENTS,
         },
         {
-          title: '休日カレンダー',
-          url: '/company-admin/holiday',
+          title: '休日設定',
+          url: URLS.ADMIN_HOLIDAYS,
         },
       ],
     },
@@ -67,12 +59,12 @@ export const data = {
       icon: Settings,
       items: [
         {
-          title: 'ユーザ管理',
-          url: '/system-admin/users',
+          title: 'ユーザー管理',
+          url: URLS.SYSTEM_USERS,
         },
         {
-          title: '会社管理',
-          url: '/system-admin/company',
+          title: 'テナント管理',
+          url: URLS.SYSTEM_COMPANIES,
         },
       ],
     },

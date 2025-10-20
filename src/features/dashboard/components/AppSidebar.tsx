@@ -18,8 +18,8 @@ import { data } from "../const/sideMenuItems"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar variant="inset" {...props}>
-      <SidebarHeader>
+    <Sidebar variant="inset" {...props} className="bg-sidebar-gradient">
+      <SidebarHeader className="sidebar-header-gradient">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="sidebar-footer-gradient">
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
