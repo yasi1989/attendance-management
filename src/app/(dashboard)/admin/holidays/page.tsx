@@ -25,10 +25,10 @@ const HolidayPage = async ({ params, searchParams }: HolidayPageProps) => {
 
   if (resolvedParams.params) {
     year = resolvedParams.params[0] ? Number(resolvedParams.params[0]) : now.getFullYear();
-    category = resolvedParams.params[1] ? resolvedParams.params[1] : HOLIDAY_CATEGORIES_WITH_ALL.COMPANY.value;
+    category = resolvedParams.params[1] ? resolvedParams.params[1] : HOLIDAY_CATEGORIES_WITH_ALL.ALL.value;
   } else {
     year = resolvedParams.year ? Number(resolvedParams.year) : now.getFullYear();
-    category = resolvedParams.category ? resolvedParams.category : HOLIDAY_CATEGORIES_WITH_ALL.COMPANY.value;
+    category = resolvedParams.category ? resolvedParams.category : HOLIDAY_CATEGORIES_WITH_ALL.ALL.value;
   }
 
   if (resolvedSearchParams.year && typeof resolvedSearchParams.year === 'string') {
@@ -40,7 +40,7 @@ const HolidayPage = async ({ params, searchParams }: HolidayPageProps) => {
   }
 
   const validatedYear = isValidYear(year) ? year : now.getFullYear();
-  const validatedCategory = isValidHolidayCategoryWithAll(category) ? category : HOLIDAY_CATEGORIES_WITH_ALL.COMPANY.value;
+  const validatedCategory = isValidHolidayCategoryWithAll(category) ? category : HOLIDAY_CATEGORIES_WITH_ALL.ALL.value;
 
   return (
     <Suspense fallback={<CommonSkeleton />}>

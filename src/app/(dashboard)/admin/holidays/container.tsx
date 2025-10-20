@@ -17,6 +17,7 @@ const HolidaysContainer = async ({ year, category }: HolidaysContainerProps) => 
       fetchNationalHolidays(year),
     ]);
     holidays.push(...companyHolidays, ...nationalHolidays);
+    holidays.sort((a, b) => a.holidayDate.getTime() - b.holidayDate.getTime());
   } else if (category === HOLIDAY_CATEGORIES_WITH_ALL.COMPANY.value) {
     const companyHolidays = await fetchCompanyHolidays(year);
     holidays.push(...companyHolidays);
