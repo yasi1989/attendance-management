@@ -4,7 +4,6 @@ import { useTransition } from 'react';
 import { signIn } from 'next-auth/react';
 import { SOCIAL_PROVIDERS } from '@/consts/providers';
 import { URLS } from '@/consts/urls';
-import { Loader2 } from 'lucide-react';
 
 const SocialLoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -24,7 +23,7 @@ const SocialLoginForm = () => {
           disabled={isPending}
         >
           <FontAwesomeIcon icon={provider.icon} className="mr-2 h-4 w-4" />
-          {isPending ? <Loader2 className="animate-spin" /> : provider.name}
+          {provider.name}
         </Button>
       ))}
     </div>
