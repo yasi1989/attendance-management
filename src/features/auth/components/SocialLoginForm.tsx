@@ -16,7 +16,7 @@ const SocialLoginForm = () => {
           className="cursor-pointer h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02]"
           onClick={() => {
             startTransition(async () => {
-              await signIn(provider.id, { callbackUrl: URLS.ROOT });
+              await signIn(provider.id);
             });
           }}
         >
