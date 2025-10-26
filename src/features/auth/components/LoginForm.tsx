@@ -1,14 +1,12 @@
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Clock, Shield, Users } from 'lucide-react';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import SeparatorInMessage from '@/components/layout/SeparatorInMessage';
+import SocialLoginForm from './SocialLoginForm';
 
 const LoginForm = () => {
   const [activeTab, setActiveTab] = useState<string>('signin');
@@ -90,25 +88,7 @@ const LoginForm = () => {
             </Tabs>
 
             <SeparatorInMessage message="またはソーシャルログイン" />
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="outline"
-                type="button"
-                className="cursor-pointer h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02]"
-              >
-                <FontAwesomeIcon icon={faGithub} className="mr-2 h-4 w-4" />
-                GitHub
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="cursor-pointer h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02]"
-              >
-                <FontAwesomeIcon icon={faGoogle} className="mr-2 h-4 w-4" />
-                Google
-              </Button>
-            </div>
+            <SocialLoginForm />
 
             <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-center space-x-4 text-xs text-slate-500 dark:text-slate-400">
