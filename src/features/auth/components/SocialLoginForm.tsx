@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { startTransition } from 'react';
 import { signIn } from 'next-auth/react';
 import { SOCIAL_PROVIDERS } from '@/consts/providers';
+import { URLS } from '@/consts/urls';
 
 const SocialLoginForm = () => {
   return (
@@ -15,7 +16,7 @@ const SocialLoginForm = () => {
           className="cursor-pointer h-11 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-[1.02]"
           onClick={() => {
             startTransition(async () => {
-              await signIn(provider.id);
+              await signIn(provider.id, { callbackUrl: URLS.ROOT });
             });
           }}
         >
