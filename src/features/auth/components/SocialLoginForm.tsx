@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { startTransition } from 'react';
 import { signIn } from 'next-auth/react';
 import { SOCIAL_PROVIDERS } from '@/consts/providers';
-import { URLS } from '@/consts/urls';
 
 const SocialLoginForm = () => {
   return (
