@@ -5,10 +5,13 @@ import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { SignUpActionResult } from '../type/signUpType';
-import { signIn } from '@/auth';
-import { AuthError } from 'next-auth';
-export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<SignUpActionResult> => {
+import { AuthResult } from '../type/authResult';
+import { credentialsSignIn } from '../lib/authUtils';
+import { RoleType } from '@/types/role';
+import { getRoleByCode } from '../lib/roleCashe';
+import { ROLE } from '@/consts/role';
+
+export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
     if (!submission.success) {
@@ -31,13 +34,15 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
 
+    const role: RoleType = await getRoleByCode(ROLE.PERSONAL_USER);
+
     const insertResult = await db
       .insert(users)
       .values({
         name: data.name,
         email: data.email,
         hashedPassword,
-        roleId: '123e4567-e89b-12d3-a456-426614176004',
+        roleId: role.id,
       })
       .returning();
 
@@ -49,11 +54,16 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
       };
     }
 
-    await signIn('credentials', {
-      email: submission.data.email,
-      password: submission.data.password,
-      redirect: false,
-    });
+    const signInResult = await credentialsSignIn(submission.data.email, submission.data.password);
+
+    if (!signInResult.isSuccess) {
+      return {
+        isSuccess: true,
+        data: {
+          redirectUrl: '/login',
+        },
+      };
+    }
 
     return {
       isSuccess: true,
@@ -61,24 +71,9 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     };
   } catch (error) {
     console.error('SignUp error:', error);
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-        case 'CallbackRouteError':
-          return {
-            isSuccess: false,
-            error: { message: '新規登録に失敗しました。' },
-          };
-        default:
-          return {
-            isSuccess: false,
-            error: { message: '認証処理でエラーが発生しました。' },
-          };
-      }
-    }
     return {
       isSuccess: false,
-      error: { message: '認証処理でエラーが発生しました。' },
+      error: { message: '新規登録中にエラーが発生しました。' },
     };
   }
 };

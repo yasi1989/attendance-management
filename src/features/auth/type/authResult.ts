@@ -1,4 +1,4 @@
-export type SignOutActionResult =
+export type AuthResult =
   | {
       isSuccess: true;
       data?: {
