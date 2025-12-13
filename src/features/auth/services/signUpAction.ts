@@ -8,8 +8,9 @@ import { z } from 'zod';
 import { AuthResult } from '../type/authResult';
 import { credentialsSignIn } from '../lib/authUtils';
 import { RoleType } from '@/types/role';
-import { getRoleByCode } from '../lib/roleCashe';
+import { getRoleByCode } from '../lib/roleCache';
 import { ROLE } from '@/consts/role';
+import { URLS } from '@/consts/urls';
 
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
@@ -60,14 +61,14 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
       return {
         isSuccess: true,
         data: {
-          redirectUrl: '/login',
+          redirectUrl: URLS.LOGIN,
         },
       };
     }
 
     return {
       isSuccess: true,
-      data: { redirectUrl: '/attendance/calendar' },
+      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
     };
   } catch (error) {
     console.error('SignUp error:', error);
