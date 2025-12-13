@@ -1,16 +1,15 @@
 'use server';
+import { ROLE } from '@/consts/role';
+import { URLS } from '@/consts/urls';
 import { SignUpSchema } from '@/features/auth/lib/formSchema';
+import { credentialsSignIn } from '@/features/auth/lib/authUtils';
+import { getRoleByCode } from '@/features/auth/lib/roleCache';
+import { AuthResult } from '@/features/auth/type/authResult';
 import { db } from '@/lib/db/drizzle';
 import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { AuthResult } from '../type/authResult';
-import { credentialsSignIn } from '../lib/authUtils';
-import { RoleType } from '@/types/role';
-import { getRoleByCode } from '../lib/roleCache';
-import { ROLE } from '@/consts/role';
-import { URLS } from '@/consts/urls';
 
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
@@ -33,11 +32,10 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
       };
     }
 
+    const role = await getRoleByCode(ROLE.PERSONAL_USER);
     const hashedPassword = await bcrypt.hash(data.password, 12);
 
-    const role: RoleType = await getRoleByCode(ROLE.PERSONAL_USER);
-
-    const insertResult = await db
+    const [newUser] = await db
       .insert(users)
       .values({
         name: data.name,
@@ -47,7 +45,7 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
       })
       .returning();
 
-    if (!insertResult || insertResult.length === 0) {
+    if (!newUser) {
       console.error('User insert failed: No data returned');
       return {
         isSuccess: false,
@@ -55,20 +53,13 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
       };
     }
 
-    const signInResult = await credentialsSignIn(submission.data.email, submission.data.password);
-
-    if (!signInResult.isSuccess) {
-      return {
-        isSuccess: true,
-        data: {
-          redirectUrl: URLS.LOGIN,
-        },
-      };
-    }
+    const signInResult = await credentialsSignIn(data.email, data.password);
 
     return {
       isSuccess: true,
-      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
+      data: {
+        redirectUrl: signInResult.isSuccess ? URLS.ATTENDANCE_CALENDAR : URLS.LOGIN,
+      },
     };
   } catch (error) {
     console.error('SignUp error:', error);

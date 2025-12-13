@@ -1,46 +1,98 @@
+import { getProviderName } from '@/consts/providers';
+import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
 import { env } from '@/env';
+import { getRoleByCode } from '@/features/auth/lib/roleCache';
 import { db } from '@/lib/db/drizzle';
 import { accounts, sessions, users } from '@/lib/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import type { NextAuthConfig } from 'next-auth';
+import type { Adapter } from 'next-auth/adapters';
 import Credentials from 'next-auth/providers/credentials';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-export const config = {
-  adapter: DrizzleAdapter(db, {
+const createCustomAdapter = (): Adapter => {
+  const baseAdapter = DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
     sessionsTable: sessions,
-  }),
-  callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'github') {
-        return true;
-      }
-      if (account?.provider === 'google') {
-        return true;
-      }
+  });
 
-      if (account?.provider !== 'credentials') {
-        return false;
-      }
+  return {
+    ...baseAdapter,
 
-      if (!user.id) {
-        return false;
-      }
-
+    async createUser(userData) {
       const existingUser = await db.query.users.findFirst({
-        where: eq(users.id, user.id),
+        where: eq(users.email, userData.email!),
       });
 
-      if (!existingUser) {
-        return false;
+      if (existingUser) {
+        if (existingUser.hashedPassword) {
+          throw new Error(
+            'このメールアドレスは既にメールアドレス/パスワードで登録されています。そちらでログインしてください。'
+          );
+        }
+        return existingUser;
       }
 
+      const role = await getRoleByCode(ROLE.PERSONAL_USER);
+
+      const [newUser] = await db
+        .insert(users)
+        .values({
+          id: crypto.randomUUID(),
+          name: userData.name!,
+          email: userData.email!,
+          emailVerified: userData.emailVerified ?? null,
+          image: userData.image ?? null,
+          roleId: role.id,
+        })
+        .returning();
+
+      return newUser;
+    },
+
+    async linkAccount(account) {
+      const user = await db.query.users.findFirst({
+        where: eq(users.id, account.userId),
+      });
+
+      if (!user) {
+        throw new Error('ユーザーが見つかりません。');
+      }
+
+      if (user.hashedPassword) {
+        throw new Error(
+          'このメールアドレスは既にメールアドレス/パスワードで登録されています。そちらでログインしてください。'
+        );
+      }
+
+      const existingAccount = await db.query.accounts.findFirst({
+        where: (accounts, { and, eq }) =>
+          and(eq(accounts.userId, account.userId), eq(accounts.provider, account.provider)),
+      });
+
+      if (existingAccount) {
+        return;
+      }
+
+      await db.insert(accounts).values(account);
+    },
+  };
+};
+
+export const config = {
+  adapter: createCustomAdapter(),
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === 'credentials') {
+        return !!user.id && !!(await db.query.users.findFirst({
+          where: eq(users.id, user.id),
+        }));
+      }
       return true;
     },
 
@@ -48,22 +100,17 @@ export const config = {
       if (token.sub) {
         session.user.id = token.sub;
       }
-
       return session;
     },
 
     async jwt({ token }) {
-      if (!token.sub) {
-        return token;
-      }
+      if (!token.sub) return token;
 
       const existingUser = await db.query.users.findFirst({
         where: eq(users.id, token.sub),
       });
 
-      if (!existingUser) {
-        return token;
-      }
+      if (!existingUser) return token;
 
       token.name = existingUser.name;
       token.email = existingUser.email;
@@ -88,7 +135,7 @@ export const config = {
       },
       authorize: async (credentials) => {
         if (!(typeof credentials?.email === 'string' && typeof credentials?.password === 'string')) {
-          throw new Error('Invalid credentials.');
+          throw new Error('メールアドレスとパスワードを入力してください。');
         }
 
         const user = await db.query.users.findFirst({
@@ -96,17 +143,27 @@ export const config = {
         });
 
         if (!user) {
-          throw new Error('User not found');
+          throw new Error('ユーザーが見つかりません。');
         }
 
-        if (!user?.hashedPassword) {
-          throw new Error('User has no password');
+        if (!user.hashedPassword) {
+          const linkedAccounts = await db.query.accounts.findMany({
+            where: eq(accounts.userId, user.id),
+          });
+
+          if (linkedAccounts.length > 0) {
+            const providerNames = linkedAccounts.map((acc) => getProviderName(acc.provider));
+            throw new Error(
+              `このメールアドレスは${providerNames.join(', ')}で登録されています。そちらでログインしてください。`
+            );
+          }
+          throw new Error('パスワードが設定されていません。');
         }
 
         const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
 
         if (!isCorrectPassword) {
-          throw new Error('Incorrect password');
+          throw new Error('パスワードが正しくありません。');
         }
 
         return {
