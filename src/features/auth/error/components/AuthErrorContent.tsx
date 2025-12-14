@@ -62,22 +62,22 @@ export default function AuthErrorContent() {
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md relative">
         {/* 背景のグラデーション装飾 */}
-        <div className="absolute -top-4 -left-4 w-72 h-72 bg-linear-gradient-to-r from-red-400 to-orange-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-pulse" />
-        <div className="absolute -bottom-8 -right-4 w-72 h-72 bg-linear-gradient-to-r from-orange-400 to-pink-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-bounce" />
+        <div className="absolute -top-4 -left-4 w-72 h-72 bg-linear-to-r from-red-400 to-orange-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-pulse" />
+        <div className="absolute -bottom-8 -right-4 w-72 h-72 bg-linear-to-r from-orange-400 to-pink-500 rounded-full mix-blend-multiply blur-xl opacity-20 animate-bounce" />
 
         <Card className="relative backdrop-blur-sm bg-white/90 dark:bg-slate-900/90 shadow-2xl border-0 ring-1 ring-slate-200/50 dark:ring-slate-700/50">
           <CardHeader className="space-y-6 pb-8">
             <div className="flex flex-col items-center space-y-4">
               {/* エラーアイコン */}
               <div className="relative">
-                <div className="w-16 h-16 bg-linear-gradient-to-r from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 bg-linear-to-r from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
                   <AlertCircle className="w-8 h-8 text-white" />
                 </div>
               </div>
 
               {/* エラータイトル */}
               <div className="text-center space-y-2">
-                <CardTitle className="text-3xl font-bold bg-linear-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                <CardTitle className="text-3xl font-bold bg-linear-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
                   {errorInfo.title}
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
@@ -91,7 +91,7 @@ export default function AuthErrorContent() {
             {/* 戻るボタン */}
             <Button
               asChild
-              className="w-full h-12 bg-linear-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200"
+              className="w-full h-12 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200"
             >
               <Link href="/login" className="flex items-center justify-center space-x-2">
                 <ArrowLeft className="w-4 h-4" />
