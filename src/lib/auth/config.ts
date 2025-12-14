@@ -32,7 +32,7 @@ const createCustomAdapter = (): Adapter => {
       if (existingUser) {
         if (existingUser.hashedPassword) {
           throw new Error(
-            'このメールアドレスは既にメールアドレス/パスワードで登録されています。そちらでログインしてください。'
+            'このメールアドレスは既にメールアドレス/パスワードで登録されています。そちらでログインしてください。',
           );
         }
         return existingUser;
@@ -64,12 +64,6 @@ const createCustomAdapter = (): Adapter => {
         throw new Error('ユーザーが見つかりません。');
       }
 
-      if (user.hashedPassword) {
-        throw new Error(
-          'このメールアドレスは既にメールアドレス/パスワードで登録されています。そちらでログインしてください。'
-        );
-      }
-
       const existingAccount = await db.query.accounts.findFirst({
         where: (accounts, { and, eq }) =>
           and(eq(accounts.userId, account.userId), eq(accounts.provider, account.provider)),
@@ -88,11 +82,35 @@ export const config = {
   adapter: createCustomAdapter(),
   callbacks: {
     async signIn({ user, account }) {
-      if (account?.provider === 'credentials') {
-        return !!user.id && !!(await db.query.users.findFirst({
-          where: eq(users.id, user.id),
-        }));
+      if (account?.provider !== 'credentials') {
+        const existingUser = await db.query.users.findFirst({
+          where: eq(users.email, user.email!),
+        });
+
+        if (existingUser) {
+          if (existingUser.hashedPassword) {
+            return '/error?error=PasswordAccountExists';
+          }
+
+          const existingAccount = await db.query.accounts.findFirst({
+            where: eq(accounts.userId, existingUser.id),
+          });
+
+          if (existingAccount && existingAccount.provider !== account?.provider) {
+            return `/error?error=OAuthAccountExists&existingProvider=${existingAccount.provider}`;
+          }
+        }
       }
+
+      if (account?.provider === 'credentials') {
+        return !!(
+          user.id &&
+          (await db.query.users.findFirst({
+            where: eq(users.id, user.id),
+          }))
+        );
+      }
+
       return true;
     },
 
@@ -154,7 +172,7 @@ export const config = {
           if (linkedAccounts.length > 0) {
             const providerNames = linkedAccounts.map((acc) => getProviderName(acc.provider));
             throw new Error(
-              `このメールアドレスは${providerNames.join(', ')}で登録されています。そちらでログインしてください。`
+              `このメールアドレスは${providerNames.join(', ')}で登録されています。そちらでログインしてください。`,
             );
           }
           throw new Error('パスワードが設定されていません。');
@@ -175,10 +193,11 @@ export const config = {
     }),
   ],
   pages: {
-    signIn: URLS.ATTENDANCE_CALENDAR,
+    signIn: URLS.LOGIN,
+    error: URLS.AUTH_ERROR,
   },
   trustHost: true,
   debug: process.env.NODE_ENV === 'development',
   session: { strategy: 'jwt' },
   secret: env.AUTH_SECRET,
-} as const satisfies NextAuthConfig;
+} satisfies NextAuthConfig;

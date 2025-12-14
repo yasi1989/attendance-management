@@ -10,6 +10,7 @@ export const URLS = {
   SYSTEM_USERS: '/system/users',
   SYSTEM_COMPANIES: '/system/companies',
   API_AUTH: '/api/auth',
+  AUTH_ERROR: '/error',
 };
 
 export const URL_PARAMS = {
