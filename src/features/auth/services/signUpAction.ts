@@ -6,10 +6,11 @@ import { credentialsSignIn } from '@/features/auth/lib/authUtils';
 import { getRoleByCode } from '@/features/auth/lib/roleCache';
 import { AuthResult } from '@/features/auth/type/authResult';
 import { db } from '@/lib/db/drizzle';
-import { users } from '@/lib/db/schema';
+import { accounts, users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
+import { getProviderName } from '@/consts/providers';
 
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
@@ -26,10 +27,26 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     });
 
     if (existingUser) {
-      return {
-        isSuccess: false,
-        error: { message: 'このメールアドレスは既に登録されています。' },
-      };
+      if (existingUser.hashedPassword) {
+        return {
+          isSuccess: false,
+          error: { message: 'このメールアドレスは既に登録されています。' },
+        };
+      }
+
+      const existingAccounts = await db.query.accounts.findMany({
+        where: eq(accounts.userId, existingUser.id),
+      });
+
+      if (existingAccounts.length > 0) {
+        const providerNames = existingAccounts.map((acc) => getProviderName(acc.provider));
+        return {
+          isSuccess: false,
+          error: {
+            message: `このメールアドレスは既に${providerNames.join(', ')}で登録されています。${providerNames.join(', ')}でログインしてください。`,
+          },
+        };
+      }
     }
 
     const role = await getRoleByCode(ROLE.PERSONAL_USER);
