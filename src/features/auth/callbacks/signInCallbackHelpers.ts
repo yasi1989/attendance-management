@@ -20,7 +20,7 @@ export const validateOAuthSignIn = async (email: string, provider: string): Prom
   if (existingUser.hashedPassword) {
     return {
       isValid: false,
-      errorUrl: `${URLS.AUTH_ERROR}?${URL_PARAMS.auth.EXISTING_PROVIDER}=${AUTH_ERROR_CODES.PASSWORD_ACCOUNT_EXISTS}`,
+      errorUrl: `${URLS.AUTH_ERROR}?${URL_PARAMS.auth.ERROR}=${AUTH_ERROR_CODES.PASSWORD_ACCOUNT_EXISTS}`,
     };
   }
 
@@ -31,7 +31,7 @@ export const validateOAuthSignIn = async (email: string, provider: string): Prom
   if (existingAccount && existingAccount.provider !== provider) {
     return {
       isValid: false,
-      errorUrl: `${URLS.AUTH_ERROR}?${URL_PARAMS.auth.EXISTING_PROVIDER}=${AUTH_ERROR_CODES.OAUTH_ACCOUNT_EXISTS}&${URL_PARAMS.auth.EXISTING_PROVIDER}=${existingAccount.provider}`,
+      errorUrl: `${URLS.AUTH_ERROR}?${URL_PARAMS.auth.ERROR}=${AUTH_ERROR_CODES.OAUTH_ACCOUNT_EXISTS}&${URL_PARAMS.auth.EXISTING_PROVIDER}=${existingAccount.provider}`,
     };
   }
 
