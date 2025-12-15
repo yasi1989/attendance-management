@@ -47,7 +47,7 @@ const getStatusIndicator = (status: StatusType) => {
 const getStatusStyles = (status: StatusType) => {
   const statusInfo = getStatusByValue(status);
   if (!statusInfo) return '';
-  return cn(STATUS_COLORS[statusInfo.value], 'ring-2 bg-gradient-to-br');
+  return cn(STATUS_COLORS[statusInfo.value], 'ring-2 bg-linear-to-br');
 };
 
 const CalendarDateCell = ({
@@ -72,9 +72,9 @@ const CalendarDateCell = ({
           ? 'bg-white dark:bg-gray-900'
           : 'bg-gray-50/30 dark:bg-gray-800/20 text-gray-400 dark:text-gray-600',
         isTodayDate &&
-          'ring-2 ring-blue-500 dark:ring-blue-400 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
+          'ring-2 ring-blue-500 dark:ring-blue-400 bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
         attendanceData && getStatusStyles(attendanceData.status),
-        'hover:bg-gradient-to-br hover:from-blue-50/50 hover:to-purple-50/50 dark:hover:from-blue-950/20 dark:hover:to-purple-950/20',
+        'hover:bg-linear-to-br hover:from-blue-50/50 hover:to-purple-50/50 dark:hover:from-blue-950/20 dark:hover:to-purple-950/20',
         isDateCellCurrentMonth && 'cursor-pointer',
       )}
     >
@@ -96,7 +96,7 @@ const CalendarDateCell = ({
           </Badge>
         )}
         {isTodayDate && (
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-linear-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
         )}
       </div>
 

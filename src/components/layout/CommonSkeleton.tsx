@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const CommonSkeleton = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-gray-900 dark:to-gray-800 p-4 md:p-6">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50/30 dark:from-gray-900 dark:to-gray-800 p-4 md:p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center space-x-3">
@@ -18,7 +18,7 @@ const CommonSkeleton = () => {
         </div>
 
         <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-0 shadow-xl rounded-2xl overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-white/80 to-blue-50/50 dark:from-gray-800/80 dark:to-gray-700/50 border-b border-gray-100/50 dark:border-gray-700/50 px-6 py-5">
+          <CardHeader className="bg-linear-to-r from-white/80 to-blue-50/50 dark:from-gray-800/80 dark:to-gray-700/50 border-b border-gray-100/50 dark:border-gray-700/50 px-6 py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Skeleton className="w-2 h-8 rounded-full" />
