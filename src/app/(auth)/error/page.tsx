@@ -1,15 +1,10 @@
-import AuthErrorContent from '@/features/auth/error/components/AuthErrorContent';
+import { AuthErrorContent } from '@/features/auth/error/components/AuthErrorContent';
+import { AuthErrorFallback } from '@/features/auth/error/components/AuthErrorFallback';
 import { Suspense } from 'react';
 
 export default function AuthErrorPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
-        </div>
-      }
-    >
+    <Suspense fallback={<AuthErrorFallback />}>
       <AuthErrorContent />
     </Suspense>
   );

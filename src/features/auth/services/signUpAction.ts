@@ -1,51 +1,50 @@
 'use server';
+
 import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
-import { SignUpSchema } from '@/features/auth/lib/formSchema';
-import { credentialsSignIn } from '@/features/auth/lib/authUtils';
-import { getRoleByCode } from '@/features/auth/lib/roleCache';
-import { AuthResult } from '@/features/auth/type/authResult';
 import { db } from '@/lib/db/drizzle';
-import { accounts, users } from '@/lib/db/schema';
+import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
-import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { getProviderName } from '@/consts/providers';
+import { credentialsSignIn } from '../lib/authUtils';
+import { SignUpSchema } from '../lib/formSchema';
+import { getRoleByCode } from '../lib/roleCache';
+import { checkExistingUser } from '../lib/userValidation';
+import { AuthResult } from '../type/authResult';
+import { createLinkedAccountErrorMessage, getLinkedAccounts } from '../lib/accountValidation';
 
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
+
     if (!submission.success) {
       return {
         isSuccess: false,
-        error: { message: submission.error.message },
+        error: { message: submission.error.errors[0]?.message || 'バリデーションエラー' },
       };
     }
 
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.email, data.email),
-    });
+    const userCheck = await checkExistingUser(data.email);
 
-    if (existingUser) {
-      if (existingUser.hashedPassword) {
+    if (userCheck.exists) {
+      if (userCheck.hasPassword) {
         return {
           isSuccess: false,
           error: { message: 'このメールアドレスは既に登録されています。' },
         };
       }
 
-      const existingAccounts = await db.query.accounts.findMany({
-        where: eq(accounts.userId, existingUser.id),
-      });
+      if (userCheck.userId) {
+        const linkedAccountsInfo = await getLinkedAccounts(userCheck.userId);
 
-      if (existingAccounts.length > 0) {
-        const providerNames = existingAccounts.map((acc) => getProviderName(acc.provider));
-        return {
-          isSuccess: false,
-          error: {
-            message: `このメールアドレスは既に${providerNames.join(', ')}で登録されています。${providerNames.join(', ')}でログインしてください。`,
-          },
-        };
+        if (linkedAccountsInfo.hasLinkedAccounts) {
+          return {
+            isSuccess: false,
+            error: {
+              message: createLinkedAccountErrorMessage(linkedAccountsInfo.providerNames),
+            },
+          };
+        }
       }
     }
 

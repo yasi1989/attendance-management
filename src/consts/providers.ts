@@ -1,16 +1,20 @@
-import { faGithub, faGoogle, IconDefinition } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faGoogle, type IconDefinition } from '@fortawesome/free-brands-svg-icons';
 
-export const PROVIDER_TYPES: Record<string, string> = {
+export const PROVIDER_TYPES = {
   PASSWORD: 'password',
   GITHUB: 'github',
   GOOGLE: 'google',
 } as const;
 
-export const SOCIAL_PROVIDERS: {
-  id: (typeof PROVIDER_TYPES)[keyof typeof PROVIDER_TYPES];
+export type ProviderType = (typeof PROVIDER_TYPES)[keyof typeof PROVIDER_TYPES];
+
+export interface SocialProvider {
+  id: ProviderType;
   name: string;
   icon: IconDefinition;
-}[] = [
+}
+
+export const SOCIAL_PROVIDERS: readonly SocialProvider[] = [
   {
     id: PROVIDER_TYPES.GITHUB,
     name: 'GitHub',
@@ -23,24 +27,12 @@ export const SOCIAL_PROVIDERS: {
   },
 ] as const;
 
-export const getProviderName = (providerType: (typeof PROVIDER_TYPES)[keyof typeof PROVIDER_TYPES]) => {
-  switch (providerType) {
-    case PROVIDER_TYPES.GITHUB:
-      return 'GitHub';
-    case PROVIDER_TYPES.GOOGLE:
-      return 'Google';
-    case PROVIDER_TYPES.PASSWORD:
-      return 'メール＋パスワード';
-    default:
-      return providerType;
-  }
+const PROVIDER_NAME_MAP: Record<ProviderType, string> = {
+  [PROVIDER_TYPES.GITHUB]: 'GitHub',
+  [PROVIDER_TYPES.GOOGLE]: 'Google',
+  [PROVIDER_TYPES.PASSWORD]: 'メール＋パスワード',
 };
 
-export const getAlreadyRegisteredMessage = (providerType: (typeof PROVIDER_TYPES)[keyof typeof PROVIDER_TYPES]) => {
-  const providerName = getProviderName(providerType);
-  return {
-    error: `このメールアドレスは既に${providerName}で登録されています`,
-    message: `${providerName}でログインしていただくか、または別のメールアドレスで登録してください`,
-    existingMethods: providerType,
-  };
+export const getProviderName = (providerType: string): string => {
+  return PROVIDER_NAME_MAP[providerType as ProviderType] ?? providerType;
 };

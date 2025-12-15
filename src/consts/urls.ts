@@ -32,4 +32,8 @@ export const URL_PARAMS = {
   adminHolidays: {
     YEAR: 'year',
   },
+  auth: {
+    ERROR: 'error',
+    EXISTING_PROVIDER: 'existingProvider',
+  },
 };

@@ -1,27 +1,26 @@
 'use server';
+
+import { URLS } from '@/consts/urls';
 import { credentialsSignIn } from '../lib/authUtils';
 import { SignInSchema } from '../lib/formSchema';
-import z from 'zod';
 import { AuthResult } from '../type/authResult';
-import { URLS } from '@/consts/urls';
+import { z } from 'zod';
 
 export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<AuthResult> => {
   try {
     const submission = SignInSchema.safeParse(data);
+
     if (!submission.success) {
       return {
         isSuccess: false,
-        error: { message: submission.error.message },
+        error: { message: submission.error.errors[0]?.message || 'バリデーションエラー' },
       };
     }
 
     const signInResult = await credentialsSignIn(submission.data.email, submission.data.password);
 
     if (!signInResult.isSuccess) {
-      return {
-        isSuccess: false,
-        error: { message: signInResult.error?.message || 'ログインに失敗しました' },
-      };
+      return signInResult;
     }
 
     return {
