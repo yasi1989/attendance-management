@@ -25,7 +25,7 @@ export const credentialsSignIn = async (email: string, password: string): Promis
         case 'CallbackRouteError':
           return {
             isSuccess: false,
-            error: { message: '認証に失敗しました。入力内容を確認してください。' },
+            error: { message: error.cause?.err?.message || '認証に失敗しました。入力内容を確認してください。' },
           };
         default:
           return {

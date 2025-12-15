@@ -30,13 +30,13 @@ export const credentialsProvider = Credentials({
         throw new Error(createLinkedAccountErrorMessage(linkedAccountsInfo.providerNames));
       }
 
-      throw new Error('パスワードが設定されていません。');
+      throw new Error('メールアドレスまたはパスワードが間違っています。');
     }
 
     const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
 
     if (!isCorrectPassword) {
-      throw new Error('パスワードが正しくありません。');
+      throw new Error('メールアドレスまたはパスワードが間違っています。');
     }
 
     return {
