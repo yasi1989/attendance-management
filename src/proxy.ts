@@ -1,5 +1,5 @@
-import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import { URLS } from '@/consts/urls';
 
 export default auth((req) => {
@@ -11,9 +11,7 @@ export default auth((req) => {
   }
 
   const publicPaths = [URLS.LOGIN, URLS.API_AUTH, URLS.AUTH_ERROR];
-  const isPublicPath = publicPaths.some(
-    (path) => reqUrl.pathname === path || reqUrl.pathname.startsWith(path)
-  );
+  const isPublicPath = publicPaths.some((path) => reqUrl.pathname === path || reqUrl.pathname.startsWith(path));
 
   if (!req.auth && !isPublicPath) {
     return NextResponse.redirect(new URL(URLS.LOGIN, req.url));
