@@ -1,4 +1,5 @@
 export const URLS = {
+  ROOT: '/',
   LOGIN: '/login',
   ATTENDANCE_CALENDAR: '/attendance/calendar',
   EXPENSE: '/expense',
@@ -8,6 +9,8 @@ export const URLS = {
   ADMIN_HOLIDAYS: '/admin/holidays',
   SYSTEM_USERS: '/system/users',
   SYSTEM_COMPANIES: '/system/companies',
+  API_AUTH: '/api/auth',
+  AUTH_ERROR: '/error',
 };
 
 export const URL_PARAMS = {
@@ -28,5 +31,9 @@ export const URL_PARAMS = {
   },
   adminHolidays: {
     YEAR: 'year',
+  },
+  auth: {
+    ERROR: 'error',
+    EXISTING_PROVIDER: 'existingProvider',
   },
 };

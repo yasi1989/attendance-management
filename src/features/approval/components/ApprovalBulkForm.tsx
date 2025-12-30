@@ -42,7 +42,7 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
           <Button
             type="button"
             size="lg"
-            className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            className="flex-1 bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
             onClick={() => handleBatchApproval(STATUS.APPROVED.value, selectedIds)}
           >
@@ -58,7 +58,7 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
             type="button"
             variant="outline"
             size="lg"
-            className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            className="flex-1 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
             onClick={() => handleBatchApproval(STATUS.REJECTED.value, selectedIds)}
           >
@@ -71,9 +71,9 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
           </Button>
         </div>
 
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
+        <div className="bg-linear-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
             <div>
               <h4 className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-1">重要な注意事項</h4>
               <ul className="text-xs text-amber-700 dark:text-amber-400 space-y-1">

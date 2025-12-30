@@ -1,7 +1,7 @@
 import { Form } from '@/components/ui/form';
-import { useSignUpForm } from '../hooks/useLoginForm';
 import InputFormField from '@/components/form/InputFormField';
 import AuthButton from './AuthButton';
+import { useSignUpForm } from '../hooks/useSignUpForm';
 
 const SignUpForm = () => {
   const { form, onSubmit, isPending } = useSignUpForm();
