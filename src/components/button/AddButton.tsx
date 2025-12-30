@@ -19,7 +19,7 @@ export const AddButton = ({
     <Button
       disabled={disabled || isLoading}
       className={`
-        bg-gradient-to-r from-blue-600 to-indigo-600 
+        bg-linear-to-r from-blue-600 to-indigo-600 
         hover:from-blue-700 hover:to-indigo-700 
         dark:from-blue-500 dark:to-indigo-500 
         dark:hover:from-blue-600 dark:hover:to-indigo-600 

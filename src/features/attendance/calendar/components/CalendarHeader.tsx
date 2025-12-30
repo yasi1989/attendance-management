@@ -24,10 +24,10 @@ const CalendarHeader = ({
   canSubmit,
 }: CalendarHeaderProps) => {
   return (
-    <CardHeader className="border-b border-slate-200/30 dark:border-slate-700/30 bg-gradient-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm px-6 py-6 transition-all duration-300">
+    <CardHeader className="border-b border-slate-200/30 dark:border-slate-700/30 bg-linear-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm px-6 py-6 transition-all duration-300">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
             <Calendar className="h-6 w-6 text-white" />
           </div>
           <div className="min-w-0 flex-1">

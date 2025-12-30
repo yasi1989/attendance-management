@@ -32,7 +32,7 @@ export const DeleteButton = ({
       size="icon"
       disabled={disabled || isLoading}
       onClick={showConfirmation ? undefined : onDelete}
-      className={`${sizeClasses} rounded-md bg-gradient-to-r from-red-50/90 to-rose-50/90 hover:from-red-100/90 hover:to-rose-100/90 dark:from-red-900/30 dark:to-rose-900/30 dark:hover:from-red-800/40 dark:hover:to-rose-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-red-200/30 dark:border-red-700/30 disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`${sizeClasses} rounded-md bg-linear-to-r from-red-50/90 to-rose-50/90 hover:from-red-100/90 hover:to-rose-100/90 dark:from-red-900/30 dark:to-rose-900/30 dark:hover:from-red-800/40 dark:hover:to-rose-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-red-200/30 dark:border-red-700/30 disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       <Trash2 className={`${iconSizeClasses} text-red-600 dark:text-red-400`} />
     </Button>

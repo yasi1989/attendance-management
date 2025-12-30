@@ -37,7 +37,7 @@ const AttendanceStatusInformation = ({
       {isDisabled && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 dark:bg-yellow-900/20 dark:border-yellow-800">
           <div className="flex items-start space-x-2">
-            <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
+            <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 shrink-0 pt-1" />
             <p className="text-xs text-yellow-800 dark:text-yellow-300">
               申請済みまたは承認済みのため編集できません。
             </p>
@@ -48,7 +48,7 @@ const AttendanceStatusInformation = ({
       {!isDisabled && (isWeekend || holidayInfo) && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 dark:bg-red-900/20 dark:border-red-800">
           <div className="flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0 pt-1" />
+            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 pt-1" />
             <p className="text-xs text-red-800 dark:text-red-300">
               通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
             </p>

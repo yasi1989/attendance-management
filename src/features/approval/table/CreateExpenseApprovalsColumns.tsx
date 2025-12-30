@@ -5,18 +5,20 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { formatCurrency } from '@/lib/currency';
-import { ExpenseDetailDialog } from './dialogs/ExpenseDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
 import { canPerformApprovalOrRejection } from '@/lib/status';
+import { ExpenseDetailDialog } from '../components/dialogs/ExpenseDetailDialog';
 
 type ExpenseApprovalsColumnsProps = {
   departments: DepartmentType[];
 };
 
-export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
-  const columns: ColumnDef<MonthlyExpenseApprovalItem>[] = [
+export const createExpenseApprovalsColumns = ({
+  departments,
+}: ExpenseApprovalsColumnsProps): ColumnDef<MonthlyExpenseApprovalItem>[] => {
+  return [
     {
       id: 'select',
       header: ({ table }) => {
@@ -243,5 +245,4 @@ export const columnsDef = ({ departments }: ExpenseApprovalsColumnsProps) => {
       },
     },
   ];
-  return columns;
 };

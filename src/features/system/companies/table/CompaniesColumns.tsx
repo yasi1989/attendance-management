@@ -1,18 +1,18 @@
 'use client';
 
-import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
+import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { HolidayType } from '../type/holidayType';
-import { UpsertHolidayDialog } from './UpsertHolidayDialog';
+import { Company } from '@/lib/actionTypes';
 import { formatDateToISOString } from '@/lib/date';
-import DeleteHolidayDialog from './DeleteHolidayDialog';
+import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
+import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
 import { FORM_MODE } from '@/consts/formMode';
 
-export const holidaysColumns: ColumnDef<HolidayType>[] = [
+export const companyColumns: ColumnDef<Company>[] = [
   {
-    accessorKey: 'name',
-    id: 'name',
+    accessorKey: 'companyName',
+    id: 'companyName',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -22,8 +22,8 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             <div className="flex items-center gap-1 md:gap-2">
-              <Gift className="h-3 w-3 md:h-4 md:w-4" />
-              <span>祝日名</span>
+              <Building className="h-3 w-3 md:h-4 md:w-4" />
+              <span>会社名</span>
               <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
             </div>
           </Button>
@@ -31,24 +31,60 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.name}>
-        {row.original.name}
+      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.companyName}>
+        {row.original.companyName}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return rowA.original.name.localeCompare(rowB.original.name, 'ja', { numeric: true });
+      return rowA.original.companyName.localeCompare(rowB.original.companyName, 'ja', { numeric: true });
     },
     meta: {
       enableColumnFilter: true,
-      japaneseLabel: '祝日名',
+      japaneseLabel: '会社名',
     },
     filterFn: (row, _id, filterValue) => {
-      return row.original.name.includes(filterValue);
+      return row.original.companyName.includes(filterValue);
     },
   },
   {
-    accessorKey: 'holidayDate',
-    id: 'holidayDate',
+    accessorKey: 'domain',
+    id: 'domain',
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center justify-center">
+          <Button
+            variant="ghost"
+            className="p-0 h-auto hover:bg-transparent"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            <div className="flex items-center gap-1 md:gap-2">
+              <Globe className="h-3 w-3 md:h-4 md:w-4" />
+              <span>ドメイン</span>
+              <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
+            </div>
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-slate-900 dark:text-slate-100" title={row.original.domain}>
+        {row.original.domain}
+      </div>
+    ),
+    sortingFn: (rowA, rowB) => {
+      return rowA.original.domain.localeCompare(rowB.original.domain, 'en', { numeric: true });
+    },
+    meta: {
+      enableColumnFilter: true,
+      japaneseLabel: 'ドメイン',
+    },
+    filterFn: (row, _id, filterValue) => {
+      return row.original.domain.includes(filterValue);
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    id: 'createdAt',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -59,7 +95,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
           >
             <div className="flex items-center gap-1 md:gap-2">
               <Calendar className="h-3 w-3 md:h-4 md:w-4" />
-              <span>日付</span>
+              <span>作成日</span>
               <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
             </div>
           </Button>
@@ -67,7 +103,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       );
     },
     cell: ({ row }) => {
-      const formattedDate = formatDateToISOString(row.original.holidayDate, 'yyyy-MM-dd');
+      const formattedDate = formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd');
       return (
         <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
           {formattedDate}
@@ -75,17 +111,17 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
       );
     },
     sortingFn: (rowA, rowB) => {
-      const dateA = new Date(rowA.original.holidayDate);
-      const dateB = new Date(rowB.original.holidayDate);
+      const dateA = new Date(rowA.original.createdAt);
+      const dateB = new Date(rowB.original.createdAt);
       return dateA.getTime() - dateB.getTime();
     },
     meta: {
       enableColumnFilter: true,
-      japaneseLabel: '日付',
+      japaneseLabel: '作成日',
     },
     filterFn: (row, id, value) => {
-      const holidayDate = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(holidayDate, 'yyyy-MM-dd');
+      const createdAt = row.getValue(id) as Date;
+      const formattedDate = formatDateToISOString(createdAt, 'yyyy-MM-dd');
       return formattedDate.includes(value);
     },
   },
@@ -106,8 +142,8 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
-          <DeleteHolidayDialog />
+          <UpsertCompanyDialog type={FORM_MODE.EDIT.value} data={row.original} />
+          <DeleteCompanyDialog id={row.original.id} />
         </div>
       );
     },

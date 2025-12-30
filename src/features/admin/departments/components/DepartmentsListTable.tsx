@@ -2,8 +2,8 @@
 
 import { DataTable } from '@/components/table/DataTable';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { columnsDef } from './DepartmentsColumns';
 import { UserType } from '@/features/system/users/type/userType';
+import { createDepartmentsColumns } from '../table/CreateDepartmentsColumns';
 
 type DepartmentsListTableProps = {
   departments: DepartmentType[];
@@ -11,8 +11,7 @@ type DepartmentsListTableProps = {
 };
 
 const DepartmentsListTable = ({ departments, users }: DepartmentsListTableProps) => {
-  const columns = columnsDef(departments, users);
-  return <DataTable columns={columns} data={departments} enableFilter />;
+  return <DataTable columns={createDepartmentsColumns(departments, users)} data={departments} enableFilter />;
 };
 
 export default DepartmentsListTable;

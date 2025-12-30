@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table/DataTable';
-import { holidaysColumns } from './HolidaysColumns';
+import { holidaysColumns } from '../table/HolidaysColumns';
 import { HolidayType } from '../type/holidayType';
 
 type HolidaysListTableProps = {

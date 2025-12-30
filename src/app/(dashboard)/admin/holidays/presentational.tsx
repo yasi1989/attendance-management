@@ -27,8 +27,8 @@ const HolidaysPresentational = ({ data, currentYear }: HolidaysPresentationalPro
         }
       />
 
-      <CardContent className="bg-gradient-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
-        <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600">
+      <CardContent className="bg-linear-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
+        <div className="flex items-center space-x-4 p-4 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600">
           <div className="flex items-center space-x-2">
             <CalendarDays className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-200">表示年度:</Label>

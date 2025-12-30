@@ -29,7 +29,7 @@ export const ViewButton = ({
       size="icon"
       onClick={onClick}
       disabled={disabled}
-      className={`${sizeClasses} rounded-md bg-gradient-to-r from-emerald-50/90 to-teal-50/90 hover:from-emerald-100/90 hover:to-teal-100/90 dark:from-emerald-900/30 dark:to-teal-900/30 dark:hover:from-emerald-800/40 dark:hover:to-teal-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-emerald-200/30 dark:border-emerald-700/30 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`${sizeClasses} rounded-md bg-linear-to-r from-emerald-50/90 to-teal-50/90 hover:from-emerald-100/90 hover:to-teal-100/90 dark:from-emerald-900/30 dark:to-teal-900/30 dark:hover:from-emerald-800/40 dark:hover:to-teal-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-emerald-200/30 dark:border-emerald-700/30 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       <Receipt className={`${iconSizeClasses} text-emerald-600 dark:text-emerald-400`} />
     </Button>

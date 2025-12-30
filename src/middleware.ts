@@ -11,7 +11,7 @@ export default auth((req: NextAuthRequest) => {
     return NextResponse.redirect(new URL(redirectPath, req.url));
   }
 
-  const publicPaths = [URLS.LOGIN, URLS.API_AUTH];
+  const publicPaths = [URLS.LOGIN, URLS.API_AUTH, URLS.AUTH_ERROR];
   const isPublicPath = publicPaths.some((path) => reqUrl.pathname === path || reqUrl.pathname.startsWith(path));
   if (!req.auth && !isPublicPath) {
     return NextResponse.redirect(new URL(URLS.LOGIN, req.url));

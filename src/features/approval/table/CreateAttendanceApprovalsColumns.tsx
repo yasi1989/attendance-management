@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import StatusBadge from '../../../components/layout/StatusBadge';
 import { canPerformApprovalOrRejection } from '@/lib/status';
+import { AttendanceDetailDialog } from '../components/dialogs/AttendanceDetailDialog';
 
 type AttendanceApprovalsColumnsProps = {
   departments: DepartmentType[];
 };
 
-export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => {
-  const columns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
+export const createAttendanceApprovalsColumns = ({ departments }: AttendanceApprovalsColumnsProps): ColumnDef<MonthlyAttendanceApprovalItem>[] => {
+  return [
     {
       id: 'select',
       header: ({ table }) => {
@@ -267,5 +267,4 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       },
     },
   ];
-  return columns;
 };
