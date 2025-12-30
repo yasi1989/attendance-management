@@ -1,14 +1,14 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { UserType } from '../type/userType';
-import { CompanyType } from '../../companies/type/companyType';
-import { RoleType } from '../type/roleType';
+import { Company } from '@/lib/actionTypes';
 import { createUsersColumns } from '../table/CreateUsersColumns';
+import { RoleType } from '../type/roleType';
+import { UserType } from '../type/userType';
 
 type UsersListTableProps = {
   users: UserType[];
-  companies: CompanyType[];
+  companies: Company[];
   roles: RoleType[];
 };
 
