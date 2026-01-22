@@ -1,5 +1,5 @@
-import { VALIDATION_LIMITS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
 export const UserSchema = z.object({
   id: z.string(),

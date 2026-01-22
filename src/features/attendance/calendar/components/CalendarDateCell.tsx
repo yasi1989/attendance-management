@@ -1,14 +1,14 @@
-import { cn } from '@/lib/utils';
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
 import { Coffee } from 'lucide-react';
-import { AttendanceData } from '../types/attendance';
-import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { Badge } from '@/components/ui/badge';
-import { StatusType } from '@/types/statusType';
-import { getStatusByValue } from '@/lib/status';
 import { STATUS } from '@/consts/status';
-import { isLeaveType } from '../../../../lib/attendance';
+import { HolidayType } from '@/features/admin/holidays/type/holidayType';
+import { getStatusByValue } from '@/lib/status';
+import { cn } from '@/lib/utils';
+import { StatusType } from '@/types/statusType';
 import { LEAVES } from '../../../../consts/attendance';
+import { isLeaveType } from '../../../../lib/attendance';
+import { AttendanceData } from '../types/attendance';
 
 type CalendarDateCellProps = {
   day: Date;

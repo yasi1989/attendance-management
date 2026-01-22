@@ -1,5 +1,5 @@
-import { InferSelectModel } from "drizzle-orm";
-import { companies } from "./db/schema";
+import { InferSelectModel } from 'drizzle-orm';
+import { companies } from './db/schema';
 
 export type ActionStateResult = {
   error?: string | undefined;

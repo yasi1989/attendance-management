@@ -1,13 +1,13 @@
 'use client';
 
-import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Calendar, Globe, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { FORM_MODE } from '@/consts/formMode';
 import { Company } from '@/lib/actionTypes';
 import { formatDateToISOString } from '@/lib/date';
-import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
 import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
-import { FORM_MODE } from '@/consts/formMode';
+import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
 
 export const companyColumns: ColumnDef<Company>[] = [
   {

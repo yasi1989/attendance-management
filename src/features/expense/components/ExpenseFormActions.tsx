@@ -1,6 +1,6 @@
+import { UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
-import { UseFormReturn } from 'react-hook-form';
 
 type ExpenseFormActionsProps<T extends Record<string, unknown>> = {
   form: UseFormReturn<T>;

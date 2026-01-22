@@ -1,7 +1,7 @@
+import { AlertCircle, Clock, Lock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { AlertCircle, Clock, Lock } from 'lucide-react';
 import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { AttendanceData } from '../../types/attendance';
 
@@ -12,11 +12,7 @@ type AttendanceStatusInformationProps = {
   isDisabled?: boolean;
 };
 
-const AttendanceStatusInformation = ({
-  holidayInfo,
-  isWeekend,
-  isDisabled,
-}: AttendanceStatusInformationProps) => {
+const AttendanceStatusInformation = ({ holidayInfo, isWeekend, isDisabled }: AttendanceStatusInformationProps) => {
   return (
     <div className="space-y-4">
       <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-base space-y-2 sm:space-y-0">
@@ -38,9 +34,7 @@ const AttendanceStatusInformation = ({
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 dark:bg-yellow-900/20 dark:border-yellow-800">
           <div className="flex items-start space-x-2">
             <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 shrink-0 pt-1" />
-            <p className="text-xs text-yellow-800 dark:text-yellow-300">
-              申請済みまたは承認済みのため編集できません。
-            </p>
+            <p className="text-xs text-yellow-800 dark:text-yellow-300">申請済みまたは承認済みのため編集できません。</p>
           </div>
         </div>
       )}

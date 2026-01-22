@@ -1,5 +1,5 @@
-import { VALIDATION_LIMITS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
 export const DepartmentSchema = z.object({
   departmentName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {

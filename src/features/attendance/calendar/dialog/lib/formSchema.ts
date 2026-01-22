@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
 import { VALIDATION_LIMITS } from '@/consts/validate';
+import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
 
 export const AttendanceFormSchema = z
   .object({

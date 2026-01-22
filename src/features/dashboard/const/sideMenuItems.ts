@@ -1,5 +1,5 @@
-import { URLS } from '@/consts/urls';
 import { CheckCircle, Clock, Settings, Users } from 'lucide-react';
+import { URLS } from '@/consts/urls';
 
 export const data = {
   user: {

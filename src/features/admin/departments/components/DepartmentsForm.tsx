@@ -1,10 +1,10 @@
+import { PlusCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
-import { Button } from '@/components/ui/button';
-import { PlusCircle } from 'lucide-react';
-import DepartmentsListTable from './DepartmentsListTable';
 import { UserType } from '@/features/system/users/type/userType';
+import DepartmentsListTable from './DepartmentsListTable';
+import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
 
 type DepartmentsFormProps = {
   departments: DepartmentType[];

@@ -1,10 +1,10 @@
-import { CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
 import { Calendar } from 'lucide-react';
-import AttendanceBulkDialog from '../dialog/components/AttendanceBulkDialog';
-import { StatusType } from '@/types/statusType';
 import StatusBadge from '@/components/layout/StatusBadge';
-import CalendarNavigation from './CalendarNavigation';
+import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { StatusType } from '@/types/statusType';
+import AttendanceBulkDialog from '../dialog/components/AttendanceBulkDialog';
 import { formatDisplayYearMonth } from '../lib/calendarUtils';
+import CalendarNavigation from './CalendarNavigation';
 
 type CalendarHeaderProps = {
   currentDate: Date;
@@ -13,7 +13,7 @@ type CalendarHeaderProps = {
   goToToday: () => void;
   monthlyStatus: StatusType;
   canSubmit: boolean;
-}
+};
 
 const CalendarHeader = ({
   currentDate,

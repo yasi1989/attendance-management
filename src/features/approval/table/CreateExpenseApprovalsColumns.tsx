@@ -1,15 +1,15 @@
-import { User, Building2, Clock, Timer, Settings, List, Check } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { Building2, Check, Clock, List, Settings, Timer, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { formatCurrency } from '@/lib/currency';
-import { Badge } from '@/components/ui/badge';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
-import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
 import { canPerformApprovalOrRejection } from '@/lib/status';
+import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
 import { ExpenseDetailDialog } from '../components/dialogs/ExpenseDetailDialog';
+import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 
 type ExpenseApprovalsColumnsProps = {
   departments: DepartmentType[];

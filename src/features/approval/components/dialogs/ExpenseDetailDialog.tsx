@@ -1,17 +1,17 @@
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { Button } from '@/components/ui/button';
-import { MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
-import { IndividualApprovalType } from '../../lib/formSchema';
-import { Form } from '@/components/ui/form';
 import { useTransition } from 'react';
+import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
+import { DataTable } from '@/components/table/DataTable';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
+import { useDialogState } from '@/hooks/useDialogState';
 import { formatCurrency } from '@/lib/currency';
 import { StatusType } from '@/types/statusType';
-import { DataTable } from '@/components/table/DataTable';
-import ApprovalActions from './ApprovalActions';
-import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
-import { useDialogState } from '@/hooks/useDialogState';
+import { useIndividualApproval } from '../../hooks/useApprovalForm';
+import { IndividualApprovalType } from '../../lib/formSchema';
 import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
+import { MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
+import ApprovalActions from './ApprovalActions';
 
 type ExpenseDetailDialogProps = {
   status: StatusType;

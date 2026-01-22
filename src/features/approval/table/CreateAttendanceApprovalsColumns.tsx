@@ -1,20 +1,22 @@
-import { User, Building2, Clock, Timer, BarChart3, Settings, List, Check } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { BarChart3, Building2, Check, Clock, List, Settings, Timer, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { Badge } from '@/components/ui/badge';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import StatusBadge from '../../../components/layout/StatusBadge';
 import { canPerformApprovalOrRejection } from '@/lib/status';
+import StatusBadge from '../../../components/layout/StatusBadge';
 import { AttendanceDetailDialog } from '../components/dialogs/AttendanceDetailDialog';
+import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 
 type AttendanceApprovalsColumnsProps = {
   departments: DepartmentType[];
 };
 
-export const createAttendanceApprovalsColumns = ({ departments }: AttendanceApprovalsColumnsProps): ColumnDef<MonthlyAttendanceApprovalItem>[] => {
+export const createAttendanceApprovalsColumns = ({
+  departments,
+}: AttendanceApprovalsColumnsProps): ColumnDef<MonthlyAttendanceApprovalItem>[] => {
   return [
     {
       id: 'select',

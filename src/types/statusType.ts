@@ -1,4 +1,4 @@
-import { STATUS_ACTIONS, STATUS_WITH_ALL, STATUS } from '@/consts/status';
+import { STATUS, STATUS_ACTIONS, STATUS_WITH_ALL } from '@/consts/status';
 
 export type StatusRequestType = (typeof STATUS_ACTIONS.actionRequest)[number];
 export type StatusApprovalOrRejectionType = (typeof STATUS_ACTIONS.actionApprovalOrRejection)[number];

@@ -1,11 +1,11 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { UpsertDepartmentDialog } from '@/features/admin/departments/components/UpsertDepartmentDialog';
-import DepartmentsListTable from '@/features/admin/departments/components/DepartmentsListTable';
-import { UserType } from '@/features/system/users/type/userType';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Building } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
+import CommonPageHeader from '@/components/layout/CommonPageHeader';
+import { Card, CardContent } from '@/components/ui/card';
+import DepartmentsListTable from '@/features/admin/departments/components/DepartmentsListTable';
+import { UpsertDepartmentDialog } from '@/features/admin/departments/components/UpsertDepartmentDialog';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { UserType } from '@/features/system/users/type/userType';
 
 type DepartmentsPresentationalProps = {
   departments: DepartmentType[];

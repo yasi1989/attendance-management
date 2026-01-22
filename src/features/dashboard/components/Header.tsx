@@ -1,12 +1,12 @@
 'use client';
 
+import { Clock } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { usePathname } from 'next/navigation';
-import { Clock } from 'lucide-react';
 import { data } from '../const/sideMenuItems';
 import { AttendanceButton } from './AttendanceButton';
-import { useState, useEffect } from 'react';
 
 const Header = () => {
   const pathname = usePathname();
@@ -102,7 +102,9 @@ const Header = () => {
               }`}
             />
             <span className="font-medium">{headerIsWorking ? '勤務中' : '退勤中'}</span>
-            {headerWorkStartTime && headerIsWorking && <span className="text-xs opacity-80">({headerWorkStartTime}〜)</span>}
+            {headerWorkStartTime && headerIsWorking && (
+              <span className="text-xs opacity-80">({headerWorkStartTime}〜)</span>
+            )}
           </div>
         </div>
 

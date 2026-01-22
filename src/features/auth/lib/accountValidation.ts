@@ -1,7 +1,7 @@
+import { eq } from 'drizzle-orm';
 import { getProviderName } from '@/consts/providers';
 import { db } from '@/lib/db/drizzle';
 import { accounts } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
 
 export interface LinkedAccountInfo {
   hasLinkedAccounts: boolean;

@@ -1,4 +1,4 @@
-import type { Account, User, Profile } from 'next-auth';
+import type { Account, Profile, User } from 'next-auth';
 import type { AdapterUser } from 'next-auth/adapters';
 import { validateCredentialsSignIn, validateOAuthSignIn } from './signInCallbackHelpers';
 

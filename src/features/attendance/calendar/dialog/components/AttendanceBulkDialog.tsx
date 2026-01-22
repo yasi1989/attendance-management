@@ -1,3 +1,6 @@
+import { AlertTriangle, Send } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,11 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Send, AlertTriangle } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 import { formatDisplayYearMonth } from '../../lib/calendarUtils';
 
 type AttendanceBulkDialogProps = {

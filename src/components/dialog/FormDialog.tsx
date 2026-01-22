@@ -1,11 +1,11 @@
 'use client';
 
-import { Form } from '@/components/ui/form';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
-import DialogHeaderWithClose from './DialogHeaderWithClose';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
 import { useDialogState } from '@/hooks/useDialogState';
+import DialogHeaderWithClose from './DialogHeaderWithClose';
 
 export type DialogConfig = {
   title: string;

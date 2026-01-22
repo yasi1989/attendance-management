@@ -1,7 +1,7 @@
 import { fetchExpenses } from '@/features/expense/services/fetchExpense';
+import { ExpenseCategoryTypeWithAll } from '@/types/expense';
 import { StatusTypeWithAll } from '@/types/statusType';
 import ExpensePresentational from './presentational';
-import { ExpenseCategoryTypeWithAll } from '@/types/expense';
 
 type ExpenseContainerProps = {
   year: number;

@@ -1,7 +1,7 @@
 import { DollarSign } from 'lucide-react';
-import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
 
 type ExpenseApprovalsTabsProps = {
   expenses: MonthlyExpenseApprovalItem[];

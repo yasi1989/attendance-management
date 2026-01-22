@@ -1,5 +1,5 @@
-import { StatusType } from '@/types/statusType';
 import { ExpenseCategoryType } from '@/types/expense';
+import { StatusType } from '@/types/statusType';
 
 export type RouteDetail = {
   from: string;

@@ -1,7 +1,7 @@
 'use server';
 
-import { db } from '@/lib/db/drizzle';
 import { Company } from '@/lib/actionTypes';
+import { db } from '@/lib/db/drizzle';
 
 export const fetchCompanies = async (): Promise<Company[]> => {
   try {

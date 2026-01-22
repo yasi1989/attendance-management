@@ -1,9 +1,9 @@
-import { User, Calendar, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { Calendar, CheckCircle2, MessageCircle, User } from 'lucide-react';
+import StatusBadge from '@/components/layout/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { ApprovalStepType } from '@/features/approval/type/approvalStepType';
 import { formatDateToISOString } from '@/lib/date';
-import StatusBadge from '@/components/layout/StatusBadge';
 import { truncate } from '@/lib/utils';
 
 export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [

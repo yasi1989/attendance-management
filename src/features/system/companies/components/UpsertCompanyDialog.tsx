@@ -1,12 +1,12 @@
 'use client';
 
-import InputFormField from '@/components/form/InputFormField';
-import { useCompany } from '../hooks/useCompany';
-import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import { EditButton } from '@/components/actionButton/EditButton';
-import { Company } from '@/lib/actionTypes';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
+import InputFormField from '@/components/form/InputFormField';
 import { FormMode } from '@/consts/formMode';
+import { Company } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
+import { useCompany } from '../hooks/useCompany';
 
 type UpsertCompanyDialogProps = {
   type: FormMode;

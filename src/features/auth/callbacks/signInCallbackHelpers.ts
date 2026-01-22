@@ -1,8 +1,8 @@
+import { eq } from 'drizzle-orm';
+import { URL_PARAMS, URLS } from '@/consts/urls';
 import { db } from '@/lib/db/drizzle';
 import { accounts } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
 import { findUserByEmail, findUserById } from '../adapter/adapterHelpers';
-import { URL_PARAMS, URLS } from '@/consts/urls';
 import { AUTH_ERROR_CODES } from '../const/authErrorConst';
 
 export interface OAuthSignInValidation {

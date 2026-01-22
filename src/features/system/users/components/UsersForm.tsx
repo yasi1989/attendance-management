@@ -1,8 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { UserType } from '../type/userType';
-import { RoleType } from '../type/roleType';
-import UsersListTable from './UsersListTable';
 import { Company } from '@/lib/actionTypes';
+import { RoleType } from '../type/roleType';
+import { UserType } from '../type/userType';
+import UsersListTable from './UsersListTable';
+
 type UsersFormProps = {
   users: UserType[];
   companies: Company[];

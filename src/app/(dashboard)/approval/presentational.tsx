@@ -1,14 +1,14 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { CheckCircle } from 'lucide-react';
-import { StatusTypeWithAll } from '@/types/statusType';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
+import { Card, CardContent } from '@/components/ui/card';
+import ApprovalExpenseItemsTab from '@/features/approval/components/ApprovalExpenseItemsTab';
+import ApprovalFilterSelector from '@/features/approval/components/ApprovalFilterSelector';
 import { MonthlyAttendanceApprovalItem } from '@/features/approval/type/monthlyAttendanceApprovalType';
 import { MonthlyExpenseApprovalItem } from '@/features/approval/type/monthlyExpenseApprovalType';
-import ApprovalFilterSelector from '@/features/approval/components/ApprovalFilterSelector';
-import ApprovalExpenseItemsTab from '@/features/approval/components/ApprovalExpenseItemsTab';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { StatusTypeWithAll } from '@/types/statusType';
 
 type ApprovalPresentationalProps = {
   attendances: MonthlyAttendanceApprovalItem[];
@@ -27,7 +27,6 @@ const ApprovalPresentational = ({
   currentMonth,
   currentStatus,
 }: ApprovalPresentationalProps) => {
-
   return (
     <Card className="shadow-2xl border-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl ring-1 ring-slate-200/50 dark:ring-slate-800/50 overflow-hidden">
       <CommonPageHeader
