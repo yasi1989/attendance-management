@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import ConfirmDialog from '../dialog/ConfirmDialog';
 
 type DeleteButtonProps = {
   title?: string;
-  description?: string;
+  description?: string | React.ReactNode;
   onDelete: () => void;
   isLoading?: boolean;
   disabled?: boolean;
@@ -45,12 +45,7 @@ export const DeleteButton = ({
   }
 
   return (
-    <ConfirmDialog
-      title={title}
-      description={description}
-      onAction={onDelete}
-      isLoading={isLoading}
-    >
+    <ConfirmDialog title={title} description={description} onAction={onDelete} isLoading={isLoading}>
       {finalButton}
     </ConfirmDialog>
   );

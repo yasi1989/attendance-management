@@ -1,21 +1,20 @@
+import { Loader2, Trash2, TriangleAlert } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Loader2, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
 
 type ConfirmDialogProps = {
   children?: React.ReactNode;
   title: string;
-  description: string;
+  description: string | React.ReactNode;
   cancelLabel?: string;
   actionLabel?: string;
   onAction?: () => void;
@@ -40,12 +39,10 @@ const ConfirmDialog = ({
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 shadow-2xl">
         <AlertDialogHeader className="space-y-3">
-          <AlertDialogTitle className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-            {title}
+          <AlertDialogTitle className="text-xl font-semibold text-slate-900 dark:text-slate-100 flex items-center">
+            <TriangleAlert className="mr-2 h-6 w-6 text-red-600 dark:text-red-400" /> {title}
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            {description}
-          </AlertDialogDescription>
+          <div className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed space-y-3">{description}</div>
         </AlertDialogHeader>
         <AlertDialogFooter className="gap-3 pt-4 border-slate-200/30 dark:border-slate-700/30">
           <AlertDialogCancel className="bg-linear-to-r from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 text-slate-600 dark:text-slate-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm transition-all duration-200 font-medium">

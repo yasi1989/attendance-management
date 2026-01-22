@@ -27,3 +27,10 @@ export async function getRoleByCode(roleCode: string): Promise<RoleType> {
   if (!role) throw new Error(`Role '${roleCode}' not found`);
   return role;
 }
+
+export async function getRoleById(roleId: string): Promise<RoleType> {
+  const cache = await getRoleCache();
+  const role = Array.from(cache.values()).find((r) => r.id === roleId);
+  if (!role) throw new Error(`Role with id '${roleId}' not found`);
+  return role;
+}
