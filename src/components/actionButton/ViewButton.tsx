@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Receipt } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type ViewButtonProps = {
   onClick?: () => void;

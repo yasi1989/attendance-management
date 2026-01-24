@@ -1,5 +1,5 @@
 import { getProviderName } from '@/consts/providers';
-import { AuthErrorParams, ErrorInfo, AuthErrorType } from '../type/errorTypes';
+import { AuthErrorParams, AuthErrorType, ErrorInfo } from '../type/errorTypes';
 
 export const getErrorInfo = ({ error, existingProvider }: AuthErrorParams): ErrorInfo => {
   if (!error) {

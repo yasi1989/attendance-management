@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
   ApprovalCommentSchema,
   type ApprovalCommentType,
-  type IndividualApprovalType,
   type BatchApprovalType,
+  type IndividualApprovalType,
 } from '../lib/formSchema';
 
 // 個別承認用のフック

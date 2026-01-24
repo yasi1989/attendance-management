@@ -1,5 +1,5 @@
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 
 interface DialogHeaderWithCloseProps {

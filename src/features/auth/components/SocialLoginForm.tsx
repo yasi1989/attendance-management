@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '@/components/ui/button';
-import { useTransition } from 'react';
 import { signIn } from 'next-auth/react';
+import { useTransition } from 'react';
+import { Button } from '@/components/ui/button';
 import { SOCIAL_PROVIDERS } from '@/consts/providers';
 import { URLS } from '@/consts/urls';
 

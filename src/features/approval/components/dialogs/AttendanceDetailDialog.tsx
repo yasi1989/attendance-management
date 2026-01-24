@@ -1,17 +1,17 @@
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { Button } from '@/components/ui/button';
-import { MonthlyAttendanceApprovalItem } from '../../type/monthlyAttendanceApprovalType';
-import { IndividualApprovalType } from '../../lib/formSchema';
-import { Form } from '@/components/ui/form';
 import { useTransition } from 'react';
-import { StatusType } from '@/types/statusType';
-import { DataTable } from '@/components/table/DataTable';
-import ApprovalActions from './ApprovalActions';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
+import { DataTable } from '@/components/table/DataTable';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
 import { STATUS } from '@/consts/status';
 import { useDialogState } from '@/hooks/useDialogState';
+import { StatusType } from '@/types/statusType';
+import { useIndividualApproval } from '../../hooks/useApprovalForm';
+import { IndividualApprovalType } from '../../lib/formSchema';
 import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
+import { MonthlyAttendanceApprovalItem } from '../../type/monthlyAttendanceApprovalType';
+import ApprovalActions from './ApprovalActions';
 
 type AttendanceDetailDialogProps = {
   status: StatusType;

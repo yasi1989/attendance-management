@@ -1,9 +1,9 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { UserType } from '@/features/system/users/type/userType';
-import { RoleType } from '@/features/system/users/type/roleType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { RoleType } from '@/features/system/users/type/roleType';
+import { UserType } from '@/features/system/users/type/userType';
 import { createEmployeeColumns } from '../table/CreateEmployeeColumns';
 
 type EmployeesListTableProps = {

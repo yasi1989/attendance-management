@@ -5,3 +5,5 @@ export const ROLE = {
   GENERAL_USER: 'GENERAL_USER',
   PERSONAL_USER: 'PERSONAL_USER',
 } as const;
+
+export type RoleCodeType = (typeof ROLE)[keyof typeof ROLE];

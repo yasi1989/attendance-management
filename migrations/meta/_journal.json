@@ -15,6 +15,13 @@
       "when": 1753715420096,
       "tag": "0001_romantic_namora",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755256722171,
+      "tag": "0002_bored_paibok",
+      "breakpoints": true
     }
   ]
 }

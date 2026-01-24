@@ -1,15 +1,15 @@
 'use client';
 
+import { useMemo } from 'react';
+import { EditButton } from '@/components/actionButton/EditButton';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputFormField from '@/components/form/InputFormField';
-import { useEmployee } from '../hooks/useEmployees';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
-import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
+import { UserType } from '@/features/system/users/type/userType';
+import { useEmployee } from '../hooks/useEmployees';
 import { getDepartmentPath } from '../lib/departmentUtils';
-import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
-import { EditButton } from '@/components/actionButton/EditButton';
-import { useMemo } from 'react';
 
 type UpsertEmployeeDialogProps = {
   user: UserType;
@@ -24,7 +24,6 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
     title: '社員編集',
     description: '社員情報を更新してください。',
     submitButtonLabel: '更新',
-    cancelButtonLabel: 'キャンセル',
   };
   const departmentOptions = useMemo(() => {
     return departments.map((d) => ({ value: d.id, label: getDepartmentPath(departments, d.id) }));

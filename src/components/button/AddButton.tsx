@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { ComponentProps } from 'react';
+import { Button } from '@/components/ui/button';
 
 type AddButtonProps = ComponentProps<typeof Button> & {
   label: string;
@@ -35,9 +35,7 @@ export const AddButton = ({
       {...props}
     >
       {isLoading ? (
-        <>
-          <div className="animate-spin mr-2 h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
-        </>
+        <div className="animate-spin mr-2 h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
       ) : (
         <>
           <Plus className="h-4 w-4 mr-2" />

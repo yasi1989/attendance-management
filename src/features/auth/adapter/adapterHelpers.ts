@@ -1,9 +1,9 @@
+import { and, eq } from 'drizzle-orm';
+import type { AdapterUser } from 'next-auth/adapters';
 import { ROLE } from '@/consts/role';
 import { db } from '@/lib/db/drizzle';
 import { accounts, users } from '@/lib/db/schema';
-import { eq, and } from 'drizzle-orm';
 import { getRoleByCode } from '../lib/roleCache';
-import type { AdapterUser } from 'next-auth/adapters';
 
 export interface UserCreationData {
   name: string;

@@ -1,6 +1,6 @@
-import { env } from '@/env';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
+import { env } from '@/env';
 
 export const githubProvider = GitHub({
   clientId: env.AUTH_GITHUB_ID,

@@ -1,12 +1,12 @@
-import { ArrowUpDown, Settings, User, Mail, Building, Shield } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
-import { getDepartmentPath } from '../lib/departmentUtils';
-import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
+import { UserType } from '@/features/system/users/type/userType';
 import DeleteEmployeeDialog from '../components/DeleteEmployeeDialog';
+import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
+import { getDepartmentPath } from '../lib/departmentUtils';
 
 type EmployeesColumnsProps = {
   departments: DepartmentType[];

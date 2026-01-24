@@ -1,18 +1,18 @@
 'use client';
 
-import InputFormField from '@/components/form/InputFormField';
-import { useUsers } from '../hooks/useUsers';
-import { UserType } from '../type/userType';
-import { CompanyType } from '../../companies/type/companyType';
-import { RoleType } from '../type/roleType';
-import InputSelectFormField from '@/components/form/InputSelectFormField';
-import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
-import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
+import { EditButton } from '@/components/actionButton/EditButton';
+import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
+import InputFormField from '@/components/form/InputFormField';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
+import { Company } from '@/lib/actionTypes';
+import { useUsers } from '../hooks/useUsers';
+import { RoleType } from '../type/roleType';
+import { UserType } from '../type/userType';
 
 type UserEditDialogProps = {
   user?: UserType;
-  companies?: CompanyType[];
+  companies?: Company[];
   roles?: RoleType[];
   children?: React.ReactNode;
 };
@@ -29,7 +29,7 @@ export function UserEditDialog({ user, companies, roles, children }: UserEditDia
     return roles?.map((role) => ({ value: role.id, label: role.roleName })) || [];
   }, [roles]);
   const companyOptions = useMemo(() => {
-    return companies?.map((company) => ({ value: company.id, label: company.name })) || [];
+    return companies?.map((company) => ({ value: company.id, label: company.companyName })) || [];
   }, [companies]);
   const formContent = (
     <div className="flex flex-col gap-4">

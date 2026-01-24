@@ -1,9 +1,9 @@
 import { Banknote } from 'lucide-react';
-import { ExpenseFormSchema } from '../lib/formSchema';
 import { UseFormReturn } from 'react-hook-form';
 import z from 'zod';
-import InputFormField from '@/components/form/InputFormField';
 import InputFileFormField from '@/components/form/InputFileFormField';
+import InputFormField from '@/components/form/InputFormField';
+import { ExpenseFormSchema } from '../lib/formSchema';
 
 type ExpenseReimbursementFieldProps = {
   form: UseFormReturn<z.infer<typeof ExpenseFormSchema>>;

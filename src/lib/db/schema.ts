@@ -1,24 +1,13 @@
 import { relations } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  decimal,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
-
-export type StatusType = 'Draft' | 'Submitted' | 'Approved' | 'Rejected';
 
 export const companies = pgTable('companies', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   companyName: text('company_name').notNull(),
+  domain: text('domain').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
     .defaultNow()

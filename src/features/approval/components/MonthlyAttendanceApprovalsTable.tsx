@@ -1,10 +1,10 @@
-import { DataTable } from '@/components/table/DataTable';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import ApprovalBulkForm from './ApprovalBulkForm';
 import { useSearchParams } from 'next/navigation';
+import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { createAttendanceApprovalsColumns } from '../table/CreateAttendanceApprovalsColumns';
+import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
+import ApprovalBulkForm from './ApprovalBulkForm';
 
 type MonthlyAttendanceApprovalsTableProps = {
   attendances: MonthlyAttendanceApprovalItem[];

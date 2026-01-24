@@ -1,7 +1,7 @@
-import { db } from '@/lib/db/drizzle';
-import { accounts, sessions, users } from '@/lib/db/schema';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import type { Adapter } from 'next-auth/adapters';
+import { db } from '@/lib/db/drizzle';
+import { accounts, sessions, users } from '@/lib/db/schema';
 import { createNewUser, findUserByEmail, findUserById, isAccountAlreadyLinked } from './adapterHelpers';
 
 export const createCustomAdapter = (): Adapter => {

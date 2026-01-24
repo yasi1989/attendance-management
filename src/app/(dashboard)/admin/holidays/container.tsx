@@ -1,5 +1,5 @@
-import { fetchHolidays } from "@/features/admin/holidays/services/fetchHolidays";
-import HolidaysPresentational from "./presentational";
+import { fetchHolidays } from '@/features/admin/holidays/services/fetchHolidays';
+import HolidaysPresentational from './presentational';
 
 type HolidaysContainerProps = {
   year: number;

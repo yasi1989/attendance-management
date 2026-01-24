@@ -1,10 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { HolidaySchema } from '../lib/formSchema';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { HolidayType } from '../type/holidayType';
 import { FORM_MODE, FormMode } from '@/consts/formMode';
+import { HolidaySchema } from '../lib/formSchema';
+import { HolidayType } from '../type/holidayType';
 
 type UseHolidayProps = {
   type: FormMode;
@@ -15,7 +15,7 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
   const [isSubmitted, startTransition] = useTransition();
   const form = useForm<z.infer<typeof HolidaySchema>>({
     defaultValues:
-      type === FORM_MODE.EDIT && data
+      type === FORM_MODE.EDIT.value && data
         ? {
             name: data.name,
             holidayDate: data.holidayDate,

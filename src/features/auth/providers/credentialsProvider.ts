@@ -1,9 +1,9 @@
-import { db } from '@/lib/db/drizzle';
-import { users } from '@/lib/db/schema';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import Credentials from 'next-auth/providers/credentials';
-import { getLinkedAccounts, createLinkedAccountErrorMessage } from '../lib/accountValidation';
+import { db } from '@/lib/db/drizzle';
+import { users } from '@/lib/db/schema';
+import { createLinkedAccountErrorMessage, getLinkedAccounts } from '../lib/accountValidation';
 
 export const credentialsProvider = Credentials({
   credentials: {

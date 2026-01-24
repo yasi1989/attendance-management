@@ -1,7 +1,7 @@
 import { Plus, Train } from 'lucide-react';
-import { ExpenseFormSchema } from '../lib/formSchema';
 import z from 'zod';
 import { Button } from '@/components/ui/button';
+import { ExpenseFormSchema } from '../lib/formSchema';
 import { RouteFormItem } from './RouteFormItem';
 
 type ExpenseTransportInfoFieldProps = {
@@ -11,7 +11,12 @@ type ExpenseTransportInfoFieldProps = {
   isDisabled: boolean;
 };
 
-const ExpenseTransportInfoField = ({ fields, handleAddRoute, handleRemoveRoute, isDisabled }: ExpenseTransportInfoFieldProps) => {
+const ExpenseTransportInfoField = ({
+  fields,
+  handleAddRoute,
+  handleRemoveRoute,
+  isDisabled,
+}: ExpenseTransportInfoFieldProps) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">

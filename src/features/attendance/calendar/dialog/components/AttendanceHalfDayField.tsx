@@ -1,10 +1,11 @@
+import { useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import { AttendanceFormSchema } from '../lib/formSchema';
 import InputCheckboxFormField from '@/components/form/InputCheckboxFormField';
 import InputRadioFormField from '@/components/form/InputRadioFormField';
-import { useMemo } from 'react';
 import { HALF_DAYS } from '../../../../../consts/attendance';
+import { AttendanceFormSchema } from '../lib/formSchema';
+
 type AttendanceHalfDayFieldProps = {
   form: UseFormReturn<z.infer<typeof AttendanceFormSchema>>;
   isHalfDay?: boolean;

@@ -1,14 +1,14 @@
-import { ArrowUpDown, Building, User, Mail, Shield, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UserType } from '../type/userType';
-import { RoleType } from '../type/roleType';
-import { CompanyType } from '../../companies/type/companyType';
-import { UserEditDialog } from '../components/UpsertUserDialog';
+import { Company } from '@/lib/actionTypes';
 import UserDeleteDialog from '../components/DeleteUserDialog';
+import { UserEditDialog } from '../components/UpsertUserDialog';
+import { RoleType } from '../type/roleType';
+import { UserType } from '../type/userType';
 
 type ColumnsDefProps = {
-  companies: CompanyType[];
+  companies: Company[];
   roles: RoleType[];
 };
 
@@ -33,8 +33,8 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         </div>
       ),
       cell: ({ row }) => {
-        const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-        const companyName = company ? company.name : '未設定';
+        const company = companies.find((c) => c.id === row.original.companyId);
+        const companyName = company ? company.companyName : '未設定';
         return (
           <div className="font-semibold text-slate-900 dark:text-slate-100" title={companyName}>
             {companyName}
@@ -42,11 +42,11 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         );
       },
       sortingFn: (rowA, rowB) => {
-        const companyA = companies.find((c: CompanyType) => c.id === rowA.original.companyId);
-        const companyB = companies.find((c: CompanyType) => c.id === rowB.original.companyId);
+        const companyA = companies.find((c) => c.id === rowA.original.companyId);
+        const companyB = companies.find((c) => c.id === rowB.original.companyId);
 
-        const nameA = companyA ? companyA.name : '未設定';
-        const nameB = companyB ? companyB.name : '未設定';
+        const nameA = companyA ? companyA.companyName : '未設定';
+        const nameB = companyB ? companyB.companyName : '未設定';
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
@@ -55,8 +55,8 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         japaneseLabel: '会社名',
       },
       filterFn: (row, _id, filterValue) => {
-        const company = companies.find((c: CompanyType) => c.id === row.original.companyId);
-        return company ? company.name.includes(filterValue) : false;
+        const company = companies.find((c: Company) => c.id === row.original.companyId);
+        return company ? company.companyName.includes(filterValue) : false;
       },
     },
     {

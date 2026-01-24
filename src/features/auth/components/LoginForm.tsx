@@ -1,11 +1,11 @@
 'use client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Clock, Shield, Users } from 'lucide-react';
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
 import { useState } from 'react';
 import SeparatorInMessage from '@/components/layout/SeparatorInMessage';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import SignInForm from './SignInForm';
+import SignUpForm from './SignUpForm';
 import SocialLoginForm from './SocialLoginForm';
 
 const LoginForm = () => {

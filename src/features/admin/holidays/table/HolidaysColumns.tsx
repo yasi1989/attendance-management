@@ -1,13 +1,13 @@
 'use client';
 
-import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Calendar, Gift, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { HolidayType } from '../type/holidayType';
-import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
+import { FORM_MODE } from '@/consts/formMode';
 import { formatDateToISOString } from '@/lib/date';
 import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
-import { FORM_MODE } from '@/consts/formMode';
+import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
+import { HolidayType } from '../type/holidayType';
 
 export const holidaysColumns: ColumnDef<HolidayType>[] = [
   {
@@ -106,7 +106,7 @@ export const holidaysColumns: ColumnDef<HolidayType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertHolidayDialog type={FORM_MODE.EDIT} data={row.original} />
+          <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
           <DeleteHolidayDialog />
         </div>
       );

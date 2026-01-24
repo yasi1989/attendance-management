@@ -1,5 +1,5 @@
-import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { departments, users } from '@/features/system/users/const/mockData';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
 
 export const fetchDepartments = async (): Promise<{ departments: DepartmentType[]; users: UserType[] }> => {

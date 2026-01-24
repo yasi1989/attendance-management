@@ -1,8 +1,9 @@
-import { VALIDATION_LIMITS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
-export const CompanySchema = z.object({
-  name: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
+const FormSchema = z.object({
+  id: z.string(),
+  companyName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
     message: '会社名は必須です。',
   }),
   domain: z
@@ -13,3 +14,6 @@ export const CompanySchema = z.object({
     .refine((value) => VALIDATION_LIMITS.DOMAIN_REGEX.test(value), '有効なドメイン形式で入力してください。')
     .refine((value) => !value.includes('@'), "ドメインには'@'を含めないでください。"),
 });
+
+export const AddCompanySchema = FormSchema;
+export const EditCompanySchema = FormSchema.extend({ id: z.string().nonempty({ message: 'IDは必須です。' }) });

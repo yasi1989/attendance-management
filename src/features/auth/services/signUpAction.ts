@@ -1,17 +1,17 @@
 'use server';
 
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
 import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
 import { db } from '@/lib/db/drizzle';
 import { users } from '@/lib/db/schema';
-import bcrypt from 'bcryptjs';
-import { z } from 'zod';
+import { createLinkedAccountErrorMessage, getLinkedAccounts } from '../lib/accountValidation';
 import { credentialsSignIn } from '../lib/authUtils';
 import { SignUpSchema } from '../lib/formSchema';
 import { getRoleByCode } from '../lib/roleCache';
 import { checkExistingUser } from '../lib/userValidation';
 import { AuthResult } from '../type/authResult';
-import { createLinkedAccountErrorMessage, getLinkedAccounts } from '../lib/accountValidation';
 
 export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {

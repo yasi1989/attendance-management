@@ -1,10 +1,10 @@
+import { UserCog } from 'lucide-react';
+import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
-import { UserType } from '@/features/system/users/type/userType';
+import EmployeesListTable from '@/features/admin/employees/components/EmployeesListTable';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
-import EmployeesListTable from '@/features/admin/employees/components/EmployeesListTable';
-import CommonPageHeader from '@/components/layout/CommonPageHeader';
-import { UserCog } from 'lucide-react';
+import { UserType } from '@/features/system/users/type/userType';
 
 type EmployeesPresentationalProps = {
   users: UserType[];

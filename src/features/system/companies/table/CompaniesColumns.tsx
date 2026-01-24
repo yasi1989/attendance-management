@@ -1,18 +1,18 @@
 'use client';
 
-import { ArrowUpDown, Building, Globe, Calendar, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Calendar, Globe, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { CompanyType } from '../type/companyType';
-import { formatDateToISOString } from '@/lib/date';
-import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
-import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
 import { FORM_MODE } from '@/consts/formMode';
+import { Company } from '@/lib/actionTypes';
+import { formatDateToISOString } from '@/lib/date';
+import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
+import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
 
-export const companyColumns: ColumnDef<CompanyType>[] = [
+export const companyColumns: ColumnDef<Company>[] = [
   {
-    accessorKey: 'name',
-    id: 'name',
+    accessorKey: 'companyName',
+    id: 'companyName',
     header: ({ column }) => {
       return (
         <div className="flex items-center justify-center">
@@ -31,19 +31,19 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.name}>
-        {row.original.name}
+      <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.companyName}>
+        {row.original.companyName}
       </div>
     ),
     sortingFn: (rowA, rowB) => {
-      return rowA.original.name.localeCompare(rowB.original.name, 'ja', { numeric: true });
+      return rowA.original.companyName.localeCompare(rowB.original.companyName, 'ja', { numeric: true });
     },
     meta: {
       enableColumnFilter: true,
       japaneseLabel: '会社名',
     },
     filterFn: (row, _id, filterValue) => {
-      return row.original.name.includes(filterValue);
+      return row.original.companyName.includes(filterValue);
     },
   },
   {
@@ -142,8 +142,8 @@ export const companyColumns: ColumnDef<CompanyType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertCompanyDialog type={FORM_MODE.EDIT} data={row.original} />
-          <DeleteCompanyDialog />
+          <UpsertCompanyDialog type={FORM_MODE.EDIT.value} data={row.original} />
+          <DeleteCompanyDialog id={row.original.id} />
         </div>
       );
     },

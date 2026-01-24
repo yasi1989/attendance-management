@@ -1,10 +1,10 @@
 'use server';
 
+import { z } from 'zod';
 import { URLS } from '@/consts/urls';
 import { credentialsSignIn } from '../lib/authUtils';
 import { SignInSchema } from '../lib/formSchema';
 import { AuthResult } from '../type/authResult';
-import { z } from 'zod';
 
 export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<AuthResult> => {
   try {

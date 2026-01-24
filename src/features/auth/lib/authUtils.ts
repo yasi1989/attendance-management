@@ -1,6 +1,6 @@
 'use server';
-import { signIn } from '@/auth';
-import { AuthError } from 'next-auth';
+import { AuthError, Session } from 'next-auth';
+import { auth, signIn } from '@/auth';
 import { AuthResult } from '../type/authResult';
 
 export const credentialsSignIn = async (email: string, password: string): Promise<AuthResult> => {
@@ -40,4 +40,18 @@ export const credentialsSignIn = async (email: string, password: string): Promis
       error: { message: 'サーバーエラーが発生しました。時間をおいて再度お試しください。' },
     };
   }
+};
+
+export const requireAuth = async () => {
+  const _session = await auth();
+  if (!_session?.user?.id) {
+    throw new Error('認証情報が見つかりませんでした。');
+  }
+  return _session as Session & {
+    user: {
+      id: string;
+      email?: string | null;
+      name?: string | null;
+    };
+  };
 };

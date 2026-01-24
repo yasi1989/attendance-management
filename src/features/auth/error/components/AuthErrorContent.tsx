@@ -1,13 +1,13 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { AlertCircle, ArrowLeft, Clock, Shield } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, ArrowLeft, Clock, Shield } from 'lucide-react';
+import { URL_PARAMS, URLS } from '@/consts/urls';
 import { getErrorInfo } from '../lib/getErrorInfo';
 import { AuthErrorType } from '../type/errorTypes';
-import { URL_PARAMS, URLS } from '@/consts/urls';
 
 export const AuthErrorContent = () => {
   const searchParams = useSearchParams();
