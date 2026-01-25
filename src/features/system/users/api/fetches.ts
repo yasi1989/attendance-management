@@ -13,8 +13,8 @@ export const fetchUsers = async (): Promise<FetchUsersDataResponse> => {
       orderBy: (users, { asc }) => [asc(users.companyId), asc(users.name)],
     });
     const companies = await db.query.companies.findMany();
-    const allRoles = await db.query.roles.findMany();
-    return { usersData, companies, allRoles };
+    const roles = await db.query.roles.findMany();
+    return { usersData, companies, roles };
   } catch (error) {
     console.error('データ取得に失敗しました。', error);
     throw error;
