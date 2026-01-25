@@ -1,21 +1,24 @@
-import { User, Building2, Clock, Timer, BarChart3, Settings, List, Check } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { Building2, Check, Clock, List, Settings, Timer, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { AttendanceDetailDialog } from './dialogs/AttendanceDetailDialog';
-import { Badge } from '@/components/ui/badge';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import StatusBadge from '../../../components/layout/StatusBadge';
+import { formatCurrency } from '@/lib/currency';
 import { canPerformApprovalOrRejection } from '@/lib/status';
+import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
+import { ExpenseDetailDialog } from '../components/dialogs/ExpenseDetailDialog';
+import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 
-type AttendanceApprovalsColumnsProps = {
+type ExpenseApprovalsColumnsProps = {
   departments: DepartmentType[];
 };
 
-export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => {
-  const columns: ColumnDef<MonthlyAttendanceApprovalItem>[] = [
+export const createExpenseApprovalsColumns = ({
+  departments,
+}: ExpenseApprovalsColumnsProps): ColumnDef<MonthlyExpenseApprovalItem>[] => {
+  return [
     {
       id: 'select',
       header: ({ table }) => {
@@ -100,7 +103,7 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <StatusBadge status={row.original.status} />
+          <ApprovalStatusBadge status={row.original.status} />
         </div>
       ),
     },
@@ -151,69 +154,44 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       },
     },
     {
-      accessorKey: 'actualWorkDays',
-      id: 'actualWorkDays',
+      accessorKey: 'totalAmount',
+      id: 'totalAmount',
       header: () => {
         return (
           <div className="flex items-center justify-center">
             <Button variant="ghost">
               <Clock />
-              出勤
+              申請金額
             </Button>
           </div>
         );
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div className="text-slate-900 dark:text-slate-100">{row.original.actualWorkDays}</div>
-          <div className="text-slate-500 dark:text-slate-400">/{row.original.totalWorkDays}</div>
+          <div className="text-slate-900 dark:text-slate-100">{formatCurrency(row.original.totalAmount)}</div>
         </div>
       ),
+      meta: {
+        enableColumnFilter: true,
+        japaneseLabel: '申請金額',
+      },
     },
     {
-      accessorKey: 'totalWorkHours',
-      id: 'totalWorkHours',
+      accessorKey: 'itemCount',
+      id: 'itemCount',
       header: () => {
         return (
           <div className="flex items-center justify-center">
             <Button variant="ghost">
               <Timer />
-              労働
+              件数
             </Button>
           </div>
         );
       },
       cell: ({ row }) => (
         <div className="text-center">
-          <div className="text-slate-900 dark:text-slate-100">{row.original.totalWorkHours}h</div>
-          <div className="text-slate-500 dark:text-slate-400">({row.original.regularHours}h)</div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'overtimeHours',
-      id: 'overtimeHours',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <BarChart3 />
-              残業
-            </Button>
-          </div>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="text-center">
-          <Badge
-            className={`${
-              row.original.overtimeHours > 0
-                ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/20'
-                : 'text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-950/20'
-            }`}
-          >
-            {row.original.overtimeHours}h
-          </Badge>
+          <div className="text-slate-900 dark:text-slate-100">{row.original.itemCount}</div>
         </div>
       ),
     },
@@ -231,12 +209,12 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
         );
       },
       cell: ({ row }) => (
-        <div className="flex items-center justify-center">
+        <div className="text-center">
           <div className="flex flex-wrap gap-1">
             {Object.entries(row.original.categoryBreakdown).map(
               ([category, item]) =>
                 item.count > 0 && (
-                  <Badge key={category} variant="outline">
+                  <Badge key={category} variant="outline" className="text-xs">
                     {item.name}
                     {item.count}
                   </Badge>
@@ -261,11 +239,10 @@ export const columnsDef = ({ departments }: AttendanceApprovalsColumnsProps) => 
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center">
-            <AttendanceDetailDialog status={row.original.status} attendance={row.original} />
+            <ExpenseDetailDialog status={row.original.status} expense={row.original} />
           </div>
         );
       },
     },
   ];
-  return columns;
 };

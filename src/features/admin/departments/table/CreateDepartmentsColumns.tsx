@@ -1,16 +1,19 @@
 'use client';
 
-import { ArrowUpDown, Building, Building2, Settings, User } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Building2, Settings, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
-import DeleteDepartmentDialog from './DeleteDepartmentDialog';
-import { UserType } from '@/features/system/users/type/userType';
 import { FORM_MODE } from '@/consts/formMode';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { UserType } from '@/features/system/users/type/userType';
+import DeleteDepartmentDialog from '../components/DeleteDepartmentDialog';
+import { UpsertDepartmentDialog } from '../components/UpsertDepartmentDialog';
 
-export const columnsDef = (departments: DepartmentType[], users: UserType[]) => {
-  const columns: ColumnDef<DepartmentType>[] = [
+export const createDepartmentsColumns = (
+  departments: DepartmentType[],
+  users: UserType[],
+): ColumnDef<DepartmentType>[] => {
+  return [
     {
       accessorKey: 'departmentName',
       id: 'departmentName',
@@ -166,6 +169,4 @@ export const columnsDef = (departments: DepartmentType[], users: UserType[]) => 
       },
     },
   ];
-
-  return columns;
 };

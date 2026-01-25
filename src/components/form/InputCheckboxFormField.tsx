@@ -1,5 +1,5 @@
+import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 import { Checkbox } from '../ui/checkbox';
 
 type InputCheckboxFormFieldProps<T extends Record<string, unknown>> = {

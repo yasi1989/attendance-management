@@ -1,15 +1,5 @@
 import { relations } from 'drizzle-orm';
-import {
-  boolean,
-  date,
-  decimal,
-  integer,
-  jsonb,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-} from 'drizzle-orm/pg-core';
+import { boolean, date, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 
 export const companies = pgTable('companies', {

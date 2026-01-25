@@ -1,23 +1,23 @@
-import { ArrowUpDown, Settings, User, Mail, Building, Shield } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UserType } from '@/features/system/users/type/userType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
+import { UserType } from '@/features/system/users/type/userType';
+import DeleteEmployeeDialog from '../components/DeleteEmployeeDialog';
+import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
 import { getDepartmentPath } from '../lib/departmentUtils';
-import { UpdateEmployeeDialog } from './UpdateEmployeeDialog';
-import DeleteEmployeeDialog from './DeleteEmployeeDialog';
 
 type EmployeesColumnsProps = {
   departments: DepartmentType[];
   roles: RoleType[];
 };
 
-export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
-  const columns: ColumnDef<UserType>[] = [
+export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<UserType>[] => {
+  return [
     {
-      accessorKey: 'lastName',
-      id: 'lastName',
+      accessorKey: 'name',
+      id: 'name',
       header: ({ column }) => (
         <div className="flex items-center justify-center">
           <Button
@@ -196,5 +196,4 @@ export const columnsDef = ({ departments, roles }: EmployeesColumnsProps) => {
       },
     },
   ];
-  return columns;
 };

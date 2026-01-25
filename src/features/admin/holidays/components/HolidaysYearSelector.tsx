@@ -1,11 +1,11 @@
 'use client';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { URL_PARAMS, URLS } from '@/consts/urls';
 import { useRouter } from 'next/navigation';
-import { getYearOptions } from '@/lib/date';
-import { DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET } from '@/consts/date';
 import { startTransition, useCallback, useMemo } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET } from '@/consts/date';
+import { URL_PARAMS, URLS } from '@/consts/urls';
+import { getYearOptions } from '@/lib/date';
 
 type HolidaysYearSelectorProps = {
   currentYear: number;

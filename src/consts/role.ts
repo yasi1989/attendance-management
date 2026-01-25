@@ -1,0 +1,9 @@
+export const ROLE = {
+  SYSTEM_ADMIN: 'SYSTEM_ADMIN',
+  COMPANY_ADMIN: 'COMPANY_ADMIN',
+  DEPARTMENT_ADMIN: 'DEPARTMENT_ADMIN',
+  GENERAL_USER: 'GENERAL_USER',
+  PERSONAL_USER: 'PERSONAL_USER',
+} as const;
+
+export type RoleCodeType = (typeof ROLE)[keyof typeof ROLE];

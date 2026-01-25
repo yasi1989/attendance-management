@@ -1,12 +1,12 @@
-import CalendarWeekdayHeader from './CalendarWeekdayHeader';
-import CalendarDateCell from './CalendarDateCell';
-import AttendanceDialog from '../dialog/components/AttendanceDialog';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { AttendanceDataResponse } from '../types/attendance';
-import { generateCalendarWeeks } from '../lib/calendarUtils';
 import { formatDateToISOString } from '@/lib/date';
-import { StatusType } from '@/types/statusType';
 import { canPerformRequest } from '@/lib/status';
+import { StatusType } from '@/types/statusType';
+import AttendanceDialog from '../dialog/components/AttendanceDialog';
+import { generateCalendarWeeks } from '../lib/calendarUtils';
+import { AttendanceDataResponse } from '../types/attendance';
+import CalendarDateCell from './CalendarDateCell';
+import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 
 type CalendarGridProps = {
   currentYear: number;
@@ -20,7 +20,7 @@ const CalendarGrid = ({ currentYear, currentMonth, currentDate, initialData, mon
   const weeks = generateCalendarWeeks(currentYear, currentMonth);
   const currentYearMonth = new Date(currentYear, currentMonth - 1, 1);
   return (
-    <div className="grid grid-cols-7 bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-800/30 dark:to-gray-900">
+    <div className="grid grid-cols-7 bg-linear-to-b from-gray-50/50 to-white dark:from-gray-800/30 dark:to-gray-900">
       <CalendarWeekdayHeader />
       {weeks.map((week) =>
         week.map((day) => {

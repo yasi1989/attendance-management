@@ -1,6 +1,6 @@
+import { z } from 'zod';
 import { STATUS, STATUS_ACTIONS } from '@/consts/status';
 import { VALIDATION_LIMITS } from '@/consts/validate';
-import { z } from 'zod';
 
 export const IndividualApprovalSchema = z.object({
   id: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, 'IDは必須です'),

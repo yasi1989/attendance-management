@@ -1,5 +1,5 @@
-import { VALIDATION_LIMITS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATION_LIMITS } from '@/consts/validate';
 
 const BaseLoginSchema = z.object({
   email: z

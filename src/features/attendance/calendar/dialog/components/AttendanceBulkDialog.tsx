@@ -1,3 +1,6 @@
+import { AlertTriangle, Send } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,11 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Send, AlertTriangle } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 import { formatDisplayYearMonth } from '../../lib/calendarUtils';
 
 type AttendanceBulkDialogProps = {
@@ -51,7 +51,7 @@ const AttendanceBulkDialog = ({ currentDate, canSubmit }: AttendanceBulkDialogPr
         <Button
           size="lg"
           disabled={!canSubmit}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-blue-500 dark:to-indigo-500 dark:hover:from-blue-600 dark:hover:to-indigo-600 text-white shadow-sm hover:shadow-md hover:scale-105 focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 dark:focus:ring-blue-400/40 transition-all duration-200 font-medium backdrop-blur-sm"
+          className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-blue-500 dark:to-indigo-500 dark:hover:from-blue-600 dark:hover:to-indigo-600 text-white shadow-sm hover:shadow-md hover:scale-105 focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 dark:focus:ring-blue-400/40 transition-all duration-200 font-medium backdrop-blur-sm"
         >
           <Send className="h-4 w-4 mr-2" />
           月次申請
@@ -85,9 +85,9 @@ const AttendanceBulkDialog = ({ currentDate, canSubmit }: AttendanceBulkDialogPr
               <span className="text-xs text-slate-400 dark:text-slate-500">{comment.length}/500</span>
             </div>
           </div>
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
+          <div className="bg-linear-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
               <div>
                 <h4 className="text-sm font-medium text-amber-800 dark:text-amber-300 mb-1">重要な注意事項</h4>
                 <ul className="text-xs text-amber-700 dark:text-amber-400 space-y-1">
@@ -112,7 +112,7 @@ const AttendanceBulkDialog = ({ currentDate, canSubmit }: AttendanceBulkDialogPr
           <Button
             onClick={handleSubmit}
             size="lg"
-            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+            className="bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             disabled={isSubmitted}
           >
             {isSubmitted ? (

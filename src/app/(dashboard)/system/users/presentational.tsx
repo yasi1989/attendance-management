@@ -1,7 +1,7 @@
+import { Users } from 'lucide-react';
+import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import UsersListTable from '@/features/system/users/components/UsersListTable';
-import CommonPageHeader from '@/components/layout/CommonPageHeader';
-import { Users } from 'lucide-react';
 import { FetchUsersDataResponse } from '@/features/system/users/type/fetchResultResponse';
 
 type UsersPresentationalProps = {
@@ -17,7 +17,7 @@ const UsersPresentational = ({ users }: UsersPresentationalProps) => {
         icon={<Users className="w-6 h-6 text-white" />}
       />
 
-      <CardContent className="bg-gradient-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
+      <CardContent className="bg-linear-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
         <div className="overflow-x-auto">
           <UsersListTable users={users} />
         </div>

@@ -1,15 +1,15 @@
 'use client';
 
-import InputFormField from '@/components/form/InputFormField';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import InputSelectFormField from '@/components/form/InputSelectFormField';
-import { useDepartments } from '../hooks/useDepartments';
-import { UserType } from '@/features/system/users/type/userType';
-import { EditButton } from '@/components/actionButton/EditButton';
 import { useMemo } from 'react';
+import { EditButton } from '@/components/actionButton/EditButton';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
+import InputFormField from '@/components/form/InputFormField';
+import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { FormMode } from '@/consts/formMode';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { UserType } from '@/features/system/users/type/userType';
 import { getFormModeName } from '@/lib/formMode';
+import { useDepartments } from '../hooks/useDepartments';
 
 type UpsertDepartmentDialogProps = {
   type: FormMode;

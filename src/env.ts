@@ -1,5 +1,5 @@
-import { createEnv } from '@t3-oss/env-nextjs'
-import { z } from 'zod'
+import { createEnv } from '@t3-oss/env-nextjs';
+import { z } from 'zod';
 
 export const env = createEnv({
   server: {
@@ -11,8 +11,7 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: z.string(),
     AUTH_GOOGLE_SECRET: z.string(),
   },
-  client: {
-  },
+  client: {},
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     AUTH_DRIZZLE_URL: process.env.AUTH_DRIZZLE_URL,
@@ -22,4 +21,4 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
   },
-})
+});
