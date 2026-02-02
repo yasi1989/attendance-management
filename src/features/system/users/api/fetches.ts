@@ -4,17 +4,23 @@ import { FetchUsersDataResponse } from '../type/fetchResultResponse';
 
 export const fetchUsers = async (): Promise<FetchUsersDataResponse> => {
   try {
-    const usersData = await db.query.users.findMany({
-      with: {
-        company: true,
-        department: true,
-        role: true,
-      },
-      orderBy: (users, { asc }) => [asc(users.companyId), asc(users.name)],
-    });
-    const companies = await db.query.companies.findMany();
-    const roles = await db.query.roles.findMany();
-    return { usersData, companies, roles };
+    const [usersData, companies, roles] = await Promise.all([
+      db.query.users.findMany({
+        with: {
+          company: true,
+          department: true,
+          role: true,
+        },
+        orderBy: (users, { asc }) => [asc(users.companyId), asc(users.name)],
+      }),
+      db.query.companies.findMany({
+        orderBy: (companies, { asc }) => [asc(companies.companyName)],
+      }),
+      db.query.roles.findMany({
+        orderBy: (roles, { asc }) => [asc(roles.roleName)],
+      }),
+    ]);
+    return { usersData, companies, roles: roles };
   } catch (error) {
     console.error('データ取得に失敗しました。', error);
     throw error;
