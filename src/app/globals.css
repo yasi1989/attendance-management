@@ -126,15 +126,15 @@
 
 @layer utilities {
   .bg-app-gradient {
-    @apply transition-all duration-500 ease-out bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-indigo-900 dark:to-slate-800;
+    @apply transition-all duration-500 ease-out bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-indigo-900 dark:to-slate-800;
   }
   
   .bg-sidebar-gradient {
-    @apply transform transition-all duration-300 ease-in-out bg-gradient-to-b from-white/95 to-blue-50/95 dark:from-gray-800/95 dark:to-purple-800/95 backdrop-blur-sm shadow-md;
+    @apply transform transition-all duration-300 ease-in-out bg-linear-to-b from-white/95 to-blue-50/95 dark:from-gray-800/95 dark:to-purple-800/95 backdrop-blur-sm shadow-md;
   }
 
   .sidebar-menu-item {
-    @apply transform transition-all duration-200 ease-in-out rounded-lg p-2 bg-transparent hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-indigo-50/80 dark:hover:from-slate-700/60 dark:hover:to-indigo-800/60;
+    @apply transform transition-all duration-200 ease-in-out rounded-lg p-2 bg-transparent hover:bg-linear-to-r hover:from-blue-50/80 hover:to-indigo-50/80 dark:hover:from-slate-700/60 dark:hover:to-indigo-800/60;
   }
   
   .sidebar-menu-item:hover {
@@ -142,27 +142,27 @@
   }
 
   .sidebar-header-gradient {
-    @apply bg-gradient-to-r from-white/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm border-b border-slate-200/30 dark:border-slate-700/30 transition-all duration-300 rounded-lg;
+    @apply bg-linear-to-r from-white/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm border-b border-slate-200/30 dark:border-slate-700/30 transition-all duration-300 rounded-lg;
   }
   
   .sidebar-header-gradient:hover {
-    @apply bg-gradient-to-r from-blue-50/95 to-indigo-50/95 dark:from-slate-700/95 dark:to-indigo-800/95 shadow-md;
+    @apply bg-linear-to-r from-blue-50/95 to-indigo-50/95 dark:from-slate-700/95 dark:to-indigo-800/95 shadow-md;
   }
 
   .sidebar-footer-gradient {
-    @apply bg-gradient-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 transition-all duration-300 rounded-lg cursor-pointer;
+    @apply bg-linear-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 transition-all duration-300 rounded-lg cursor-pointer;
   }
   
   .sidebar-footer-gradient:hover {
-    @apply bg-gradient-to-r from-blue-50/95 to-indigo-100/95 dark:from-purple-800/95 dark:to-indigo-900/95 shadow-lg;
+    @apply bg-linear-to-r from-blue-50/95 to-indigo-100/95 dark:from-purple-800/95 dark:to-indigo-900/95 shadow-lg;
   }
 
   .sidebar-menu-active {
-    @apply bg-gradient-to-r from-blue-500/15 to-indigo-500/15 dark:from-blue-400/25 dark:to-indigo-400/25 border-l-4 border-blue-500 dark:border-blue-400 shadow-md text-blue-700 dark:text-blue-300 font-medium;
+    @apply bg-linear-to-r from-blue-500/15 to-indigo-500/15 dark:from-blue-400/25 dark:to-indigo-400/25 border-l-4 border-blue-500 dark:border-blue-400 shadow-md text-blue-700 dark:text-blue-300 font-medium;
   }
   
   .sidebar-menu-active:hover {
-    @apply bg-gradient-to-r from-blue-500/20 to-indigo-500/20 dark:from-blue-400/30 dark:to-indigo-400/30 shadow-lg translate-x-1;
+    @apply bg-linear-to-r from-blue-500/20 to-indigo-500/20 dark:from-blue-400/30 dark:to-indigo-400/30 shadow-lg translate-x-1;
   }
   
   .sidebar-menu-active svg {
@@ -170,22 +170,22 @@
   }
   
   .sidebar-menu-active[data-level="sub"] {
-    @apply bg-gradient-to-r from-indigo-500/12 to-purple-500/12 dark:from-indigo-400/20 dark:to-purple-400/20 border-l-2 border-indigo-500 dark:border-indigo-400 ml-2;
+    @apply bg-linear-to-r from-indigo-500/12 to-purple-500/12 dark:from-indigo-400/20 dark:to-purple-400/20 border-l-2 border-indigo-500 dark:border-indigo-400 ml-2;
   }
 
   .header-gradient {
-    @apply border-b border-slate-200/30 dark:border-slate-700/30 bg-gradient-to-r from-white/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm transition-all duration-300;
+    @apply border-b border-slate-200/30 dark:border-slate-700/30 bg-linear-to-r from-white/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm transition-all duration-300;
   }
 
   .content-edit-button {
-    @apply bg-gradient-to-r from-blue-50/90 to-indigo-50/90 hover:from-blue-100/90 hover:to-indigo-100/90 dark:from-blue-900/30 dark:to-indigo-900/30 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-blue-200/30 dark:border-blue-700/30;
+    @apply bg-linear-to-r from-blue-50/90 to-indigo-50/90 hover:from-blue-100/90 hover:to-indigo-100/90 dark:from-blue-900/30 dark:to-indigo-900/30 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-blue-200/30 dark:border-blue-700/30;
   }
 
   .content-delete-button {
-    @apply bg-gradient-to-r from-red-50/90 to-rose-50/90 hover:from-red-100/90 hover:to-rose-100/90 dark:from-red-900/30 dark:to-rose-900/30 dark:hover:from-red-800/40 dark:hover:to-rose-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-red-200/30 dark:border-red-700/30;
+    @apply bg-linear-to-r from-red-50/90 to-rose-50/90 hover:from-red-100/90 hover:to-rose-100/90 dark:from-red-900/30 dark:to-rose-900/30 dark:hover:from-red-800/40 dark:hover:to-rose-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-red-200/30 dark:border-red-700/30;
   }
 
   .content-receipt-button {
-    @apply bg-gradient-to-r from-emerald-50/90 to-teal-50/90 hover:from-emerald-100/90 hover:to-teal-100/90 dark:from-emerald-900/30 dark:to-teal-900/30 dark:hover:from-emerald-800/40 dark:hover:to-teal-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-emerald-200/30 dark:border-emerald-700/30;
+    @apply bg-linear-to-r from-emerald-50/90 to-teal-50/90 hover:from-emerald-100/90 hover:to-teal-100/90 dark:from-emerald-900/30 dark:to-teal-900/30 dark:hover:from-emerald-800/40 dark:hover:to-teal-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-emerald-200/30 dark:border-emerald-700/30;
   }
 }

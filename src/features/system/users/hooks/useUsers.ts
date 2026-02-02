@@ -1,13 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { UserSchema } from '../lib/formSchema';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserWithRelations } from '../type/fetchResultResponse';
 // cspell:disable-next-line
 import { toast } from 'sonner';
+import { z } from 'zod';
 import { ERROR_MESSAGE } from '@/consts/validate';
 import { deleteUserAction, editUserAction } from '../api/actions';
+import { UserSchema } from '../lib/formSchema';
+import { UserWithRelations } from '../type/fetchResultResponse';
 
 type UseUsersProps = {
   user?: UserWithRelations;

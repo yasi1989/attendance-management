@@ -1,13 +1,13 @@
-import { Card, CardContent } from '@/components/ui/card';
 import { CalendarDays } from 'lucide-react';
-import { UpsertHolidayDialog } from '@/features/admin/holidays/components/UpsertHolidayDialog';
-import HolidaysListTable from '@/features/admin/holidays/components/HolidaysListTable';
-import CommonPageHeader from '@/components/layout/CommonPageHeader';
-import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysYearSelector';
 import { AddButton } from '@/components/button/AddButton';
+import CommonPageHeader from '@/components/layout/CommonPageHeader';
+import { Card, CardContent } from '@/components/ui/card';
+import { FORM_MODE } from '@/consts/formMode';
+import HolidaysListTable from '@/features/admin/holidays/components/HolidaysListTable';
+import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysYearSelector';
+import { UpsertHolidayDialog } from '@/features/admin/holidays/components/UpsertHolidayDialog';
 import { Holiday } from '@/lib/actionTypes';
 import { HolidayCategoryTypeWithAll } from '@/types/holiday';
-import { FORM_MODE } from '@/consts/formMode';
 
 type HolidaysPresentationalProps = {
   holidays: Holiday[];
@@ -29,7 +29,7 @@ const HolidaysPresentational = ({ holidays, currentYear, currentCategory }: Holi
         }
       />
 
-      <CardContent className="bg-gradient-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
+      <CardContent className="bg-linear-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">
         <HolidaysYearSelector currentYear={currentYear} currentCategory={currentCategory} />
         <div className="overflow-x-auto">
           <HolidaysListTable holidays={holidays} />

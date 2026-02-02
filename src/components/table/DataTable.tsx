@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -9,15 +8,16 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  RowSelectionState,
   SortingState,
   useReactTable,
-  RowSelectionState,
 } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ChevronLeft, ChevronRight, Database, Filter, Search, Users } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Search, Filter, ChevronLeft, ChevronRight, Database, Users } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface ColumnDataMeta {
   enableColumnFilter?: boolean;
@@ -111,7 +111,7 @@ export function DataTable<TData>({
       {enableFilter && columns.filter((column) => column.meta?.enableColumnFilter).length > 0 && (
         <div className="flex md:flex-row flex-col md:items-center items-start justify-between p-4 gap-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg shadow-sm">
+            <div className="flex items-center justify-center w-8 h-8 bg-linear-to-br from-blue-400 to-blue-500 rounded-lg shadow-sm">
               <Filter className="w-4 h-4 text-white" />
             </div>
             <div>

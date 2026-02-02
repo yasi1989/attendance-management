@@ -1,10 +1,10 @@
-import { DataTable } from '@/components/table/DataTable';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { columnsDef } from './ExpenseApprovalsColumns';
-import ApprovalBulkForm from './ApprovalBulkForm';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import { useSearchParams } from 'next/navigation';
+import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { createExpenseApprovalsColumns } from '../table/CreateExpenseApprovalsColumns';
+import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import ApprovalBulkForm from './ApprovalBulkForm';
 
 type MonthlyExpenseApprovalsTableProps = {
   expenses: MonthlyExpenseApprovalItem[];
@@ -16,14 +16,12 @@ const MonthlyExpenseApprovalsTable = ({ expenses, departments }: MonthlyExpenseA
   const currentYear = searchParams.get(URL_PARAMS.approval.YEAR);
   const currentMonth = searchParams.get(URL_PARAMS.approval.MONTH);
   const currentStatus = searchParams.get(URL_PARAMS.approval.STATUS);
-
-  const columns = columnsDef({ departments });
   const renderBulkActions = (selectedIds: string[]) => <ApprovalBulkForm selectedIds={selectedIds} />;
   const filterKey = `${currentYear}-${currentMonth}-${currentStatus}`;
 
   return (
     <DataTable
-      columns={columns}
+      columns={createExpenseApprovalsColumns({ departments })}
       data={expenses}
       enableSelection
       enableFilter

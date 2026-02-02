@@ -1,13 +1,12 @@
-import { useForm } from 'react-hook-form';
-import { SignUpSchema } from '@/features/auth/lib/formSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { z } from 'zod';
+import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
 // cspell:disable-next-line
 import { toast } from 'sonner';
+import type { z } from 'zod';
+import { SignUpSchema } from '@/features/auth/lib/formSchema';
 import { signUpAction } from '../services/signUpAction';
-import { useRouter } from 'next/navigation';
-import { URLS } from '@/consts/urls';
 
 export const useSignUpForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -24,13 +23,13 @@ export const useSignUpForm = () => {
   const onSubmit = (data: z.infer<typeof SignUpSchema>) => {
     startTransition(async () => {
       const result = await signUpAction(data);
-      if (!result.success) {
-        toast.error(result.error);
+      if (!result.isSuccess) {
+        toast.error(result.error?.message);
         return;
       }
 
       toast.success('新規登録に成功しました。');
-      router.push(URLS.ATTENDANCE_CALENDAR);
+      router.push(result.data?.redirectUrl || '/');
       router.refresh();
     });
   };

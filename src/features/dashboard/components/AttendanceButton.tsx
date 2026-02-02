@@ -1,9 +1,9 @@
 // components/AttendanceButton.tsx
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { LogIn, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface AttendanceButtonProps {
   className?: string;

@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/table/DataTable';
-import { holidaysColumns } from './HolidaysColumns';
 import { Holiday } from '@/lib/actionTypes';
+import { holidaysColumns } from '../table/HolidaysColumns';
 
 type HolidaysListTableProps = {
   holidays: Holiday[];

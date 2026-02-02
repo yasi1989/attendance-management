@@ -8,6 +8,6 @@ export type UserWithRelations = User & {
 
 export type FetchUsersDataResponse = {
   usersData: UserWithRelations[];
-  allCompanies: Company[];
-  allRoles: Role[];
+  companies: Company[];
+  roles: Role[];
 };

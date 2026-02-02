@@ -1,10 +1,10 @@
 'use server';
-import { auth } from '@/auth';
-import { db } from '@/lib/db/drizzle';
-import { Holiday } from '@/lib/actionTypes';
 import { endOfYear, startOfYear } from 'date-fns';
+import { auth } from '@/auth';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
 import { URLS } from '@/consts/urls';
+import { Holiday } from '@/lib/actionTypes';
+import { db } from '@/lib/db/drizzle';
 
 export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => {
   try {

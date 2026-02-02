@@ -1,4 +1,4 @@
-import { FileText, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, FileText } from 'lucide-react';
 
 export const STATUS = {
   PENDING: { value: 'Pending', label: '未申請', icon: FileText },

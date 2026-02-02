@@ -1,5 +1,5 @@
-import { VALIDATIONS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const HolidaySchema = z.object({
   id: z.string(),

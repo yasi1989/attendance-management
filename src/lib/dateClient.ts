@@ -1,6 +1,6 @@
-import { VALIDATION_DATE, VALIDATION_DATE_FORMAT } from '@/consts/validate';
-import { format, isValid, parse, startOfDay, parseISO } from 'date-fns';
+import { format, isValid, parse, parseISO, startOfDay } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import { VALIDATION_DATE, VALIDATION_DATE_FORMAT } from '@/consts/validate';
 
 const toDateObject = (date: Date | string | number | undefined | null): Date | null => {
   if (date == null) return null;
@@ -35,9 +35,9 @@ export const parseTimestampInputTimeString = (
 ): number | undefined => {
   if (!timeString) return undefined;
 
-  const parseTime = VALIDATION_DATE_FORMAT.TIMES
-    .map((format) => parse(timeString, format, startOfDay(baseDate)))
-    .find((date) => isValid(date));
+  const parseTime = VALIDATION_DATE_FORMAT.TIMES.map((format) => parse(timeString, format, startOfDay(baseDate))).find(
+    (date) => isValid(date),
+  );
   if (parseTime) return parseTime.getTime();
 
   const isoTime = parseISO(timeString);

@@ -1,8 +1,9 @@
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import InputTimeFormField from '@/components/form/InputTimeFormField';
 import { Separator } from '@/components/ui/separator';
-import { UseFormReturn } from 'react-hook-form';
 import { AttendanceFormSchema } from '../lib/formSchema';
-import { z } from 'zod';
+
 type AttendanceTimeFieldProps = {
   form: UseFormReturn<z.infer<typeof AttendanceFormSchema>>;
   isDisabled?: boolean;

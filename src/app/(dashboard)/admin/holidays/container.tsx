@@ -1,8 +1,8 @@
-import { fetchCompanyHolidays, fetchNationalHolidays } from '@/features/admin/holidays/api/fetches';
-import HolidaysPresentational from './presentational';
-import { HolidayCategoryTypeWithAll } from '@/types/holiday';
 import { HOLIDAY_CATEGORIES_WITH_ALL } from '@/consts/holiday';
+import { fetchCompanyHolidays, fetchNationalHolidays } from '@/features/admin/holidays/api/fetches';
 import { Holiday } from '@/lib/actionTypes';
+import { HolidayCategoryTypeWithAll } from '@/types/holiday';
+import HolidaysPresentational from './presentational';
 
 type HolidaysContainerProps = {
   year: number;

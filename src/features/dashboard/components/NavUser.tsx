@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2, LogOutIcon, MoreVerticalIcon, UserCircleIcon } from 'lucide-react';
-
+import { useTransition } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import { useTransition } from 'react';
 import signOutAction from '@/features/auth/services/signOutAction';
 
 export function NavUser({
@@ -74,13 +73,13 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem className='cursor-pointer'>
+              <DropdownMenuItem className="cursor-pointer">
                 <UserCircleIcon />
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleSignOut()} disabled={isPending} className='cursor-pointer'>
+            <DropdownMenuItem onClick={() => handleSignOut()} disabled={isPending} className="cursor-pointer">
               <LogOutIcon />
               {isPending ? <Loader2 className="animate-spin" /> : 'Log out'}
             </DropdownMenuItem>

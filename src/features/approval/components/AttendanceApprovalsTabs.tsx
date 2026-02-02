@@ -1,7 +1,7 @@
 import { Clock } from 'lucide-react';
-import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
+import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
 
 type AttendanceApprovalsTabsProps = {
   attendances: MonthlyAttendanceApprovalItem[];

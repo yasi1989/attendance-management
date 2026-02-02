@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
-import HolidaysContainer from './container';
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
-import { isValidYear } from '@/lib/date';
 import { HOLIDAY_CATEGORIES_WITH_ALL } from '@/consts/holiday';
+import { isValidYear } from '@/lib/date';
 import { isValidHolidayCategoryWithAll } from '@/lib/holiday';
+import HolidaysContainer from './container';
 
 type HolidayPageProps = {
   params: Promise<{

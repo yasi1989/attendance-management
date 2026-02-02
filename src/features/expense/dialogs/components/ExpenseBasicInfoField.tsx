@@ -1,12 +1,12 @@
+import { Calendar, Lock } from 'lucide-react';
+import { useMemo } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import z from 'zod';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import InputTextFormField from '@/components/form/InputTextFormField';
-import { Calendar, Lock } from 'lucide-react';
-import { useMemo } from 'react';
 import { EXPENSE_CATEGORIES } from '@/consts/expense';
-import z from 'zod';
 import { ExpenseFormSchema } from '../lib/formSchema';
-import { UseFormReturn } from 'react-hook-form';
 
 type ExpenseBasicInfoFieldProps = {
   form: UseFormReturn<z.infer<typeof ExpenseFormSchema>>;
@@ -32,7 +32,7 @@ const ExpenseBasicInfoField = ({ form, isDisabled, handleExpenseTypeChange }: Ex
       {isDisabled && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 dark:bg-yellow-900/20 dark:border-yellow-800">
           <div className="flex items-start space-x-2">
-            <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 flex-shrink-0 pt-1" />
+            <Lock className="w-4 h-4 text-yellow-600 dark:text-yellow-400 shrink-0 pt-1" />
             <p className="text-xs text-yellow-800 dark:text-yellow-300">
               この経費データは申請済みまたは承認済みのため編集できません。
             </p>

@@ -1,17 +1,17 @@
-import { ArrowUpDown, Building, User, Mail, Shield, Settings } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { UpsertUserDialog } from './UpsertUserDialog';
-import UserDeleteDialog from './DeleteUserDialog';
 import { Company, Role } from '@/lib/actionTypes';
+import UserDeleteDialog from '../components/DeleteUserDialog';
+import { UpsertUserDialog } from '../components/UpsertUserDialog';
 import { UserWithRelations } from '../type/fetchResultResponse';
 
 type ColumnsDefProps = {
-  allCompanies: Company[];
-  allRoles: Role[];
+  companies: Company[];
+  roles: Role[];
 };
 
-export const columnsDef = ({ allCompanies, allRoles }: ColumnsDefProps) => {
+export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
   const columns: ColumnDef<UserWithRelations>[] = [
     {
       accessorKey: 'companyName',
@@ -189,7 +189,7 @@ export const columnsDef = ({ allCompanies, allRoles }: ColumnsDefProps) => {
       ),
       cell: ({ row }) => (
         <div className="flex space-x-1 items-center justify-center">
-          <UpsertUserDialog user={row.original} allCompanies={allCompanies} allRoles={allRoles} />
+          <UpsertUserDialog user={row.original} companies={companies} roles={roles} />
           <UserDeleteDialog id={row.original.id} />
         </div>
       ),

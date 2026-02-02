@@ -1,7 +1,7 @@
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
-import { ApprovalStepType } from './approvalStepType';
 import { StatusType } from '@/types/statusType';
+import { ApprovalStepType } from './approvalStepType';
 
 export type MonthlyExpenseApprovalItem = {
   id: string;

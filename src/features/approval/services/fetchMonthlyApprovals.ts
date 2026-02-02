@@ -1,9 +1,9 @@
-import { sampleMonthlyApprovals } from '../const/mockData';
+import { STATUS_WITH_ALL } from '@/consts/status';
+import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { StatusTypeWithAll } from '@/types/statusType';
+import { sampleMonthlyApprovals } from '../const/mockData';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { STATUS_WITH_ALL } from '@/consts/status';
 
 type FetchMonthlyApprovalsParams = {
   year: number;

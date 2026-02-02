@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
 import { addDays, addMonths, eachDayOfInterval, endOfMonth, startOfMonth, subDays, subMonths } from 'date-fns';
+import { useCallback, useMemo, useState } from 'react';
 
 export const useCalendar = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());

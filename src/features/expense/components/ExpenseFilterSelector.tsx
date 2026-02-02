@@ -1,17 +1,16 @@
 'use client';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useRouter } from 'next/navigation';
 import { CalendarDays } from 'lucide-react';
-import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
 import { startTransition, useCallback, useMemo } from 'react';
-import { URLS } from '@/consts/urls';
-import { STATUS_WITH_ALL } from '@/consts/status';
-import { StatusTypeWithAll } from '@/types/statusType';
-import { URL_PARAMS } from '@/consts/urls';
-import { getMonthOptions, getYearOptions } from '@/lib/date';
-import { EXPENSE_CATEGORIES_WITH_ALL } from '@/consts/expense';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DISPLAY_DATE_OPTIONS } from '@/consts/date';
+import { EXPENSE_CATEGORIES_WITH_ALL } from '@/consts/expense';
+import { STATUS_WITH_ALL } from '@/consts/status';
+import { URL_PARAMS, URLS } from '@/consts/urls';
+import { getMonthOptions, getYearOptions } from '@/lib/date';
+import { StatusTypeWithAll } from '@/types/statusType';
 
 type ExpenseFilterSelectorProps = {
   currentYear: number;
@@ -106,7 +105,7 @@ const ExpenseFilterSelector = ({
   );
 
   return (
-    <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600">
+    <div className="flex items-center space-x-4 p-4 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-blue-100 dark:border-gray-600">
       <div className="flex items-center space-x-2">
         <CalendarDays className="w-5 h-5 text-blue-600 dark:text-blue-400" />
         <Label className="text-sm font-medium text-gray-700 dark:text-gray-200">表示条件:</Label>

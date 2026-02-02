@@ -1,16 +1,16 @@
 'use client';
 
-import { ArrowUpDown, Calendar, Settings, Gift } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
-import { UpsertHolidayDialog } from './UpsertHolidayDialog';
-import DeleteHolidayDialog from './DeleteHolidayDialog';
-import { FORM_MODE } from '@/consts/formMode';
-import { Holiday } from '@/lib/actionTypes';
-import { getHolidayCategoryName } from '@/lib/holiday';
+import { ArrowUpDown, Calendar, Gift, Settings } from 'lucide-react';
 import HolidayTypeBadge from '@/components/layout/HolidayTypeBadge';
+import { Button } from '@/components/ui/button';
+import { FORM_MODE } from '@/consts/formMode';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
+import { Holiday } from '@/lib/actionTypes';
 import { formatDateForDisplay } from '@/lib/dateClient';
+import { getHolidayCategoryName } from '@/lib/holiday';
+import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
+import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
 
 export const holidaysColumns: ColumnDef<Holiday>[] = [
   {

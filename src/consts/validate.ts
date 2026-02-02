@@ -11,7 +11,7 @@ export const VALIDATIONS = {
   MAX_MB,
   MAX_FILE_SIZE: MAX_MB * 1024 * 1024,
   ACCEPTED_FILE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
-  DOMAIN_REGEX: /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.([a-zA-Z]{2,})+$/,
+  DOMAIN_REGEX: /^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
   PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
   TIME_REGEX: /^(\d{1,2}):\d{1,2}$/,
 };

@@ -1,83 +1,87 @@
 'use server';
-import { SignUpSchema } from '@/features/auth/lib/formSchema';
+
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
+import { ROLE } from '@/consts/role';
+import { URLS } from '@/consts/urls';
 import { db } from '@/lib/db/drizzle';
 import { users } from '@/lib/db/schema';
-import bcrypt from 'bcryptjs';
-import { eq } from 'drizzle-orm';
-import { z } from 'zod';
-import { signIn } from '@/auth';
-import { AuthError } from 'next-auth';
-import { ActionStateResult } from '@/lib/actionTypes';
-export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<ActionStateResult> => {
+import { createLinkedAccountErrorMessage, getLinkedAccounts } from '../lib/accountValidation';
+import { credentialsSignIn } from '../lib/authUtils';
+import { SignUpSchema } from '../lib/formSchema';
+import { getRoleByCode } from '../lib/roleCache';
+import { checkExistingUser } from '../lib/userValidation';
+import { AuthResult } from '../type/authResult';
+
+export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<AuthResult> => {
   try {
     const submission = SignUpSchema.safeParse(data);
+
     if (!submission.success) {
       return {
-        success: false,
-        error: submission.error.message,
+        isSuccess: false,
+        error: { message: submission.error.errors[0]?.message || 'バリデーションエラー' },
       };
     }
 
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.email, data.email),
-    });
+    const userCheck = await checkExistingUser(data.email);
 
-    if (existingUser) {
-      return {
-        success: false,
-        error: 'このメールアドレスは既に登録されています。',
-      };
+    if (userCheck.exists) {
+      if (userCheck.hasPassword) {
+        return {
+          isSuccess: false,
+          error: { message: 'このメールアドレスは既に登録されています。' },
+        };
+      }
+
+      if (userCheck.userId) {
+        const linkedAccountsInfo = await getLinkedAccounts(userCheck.userId);
+
+        if (linkedAccountsInfo.hasLinkedAccounts) {
+          return {
+            isSuccess: false,
+            error: {
+              message: createLinkedAccountErrorMessage(linkedAccountsInfo.providerNames),
+            },
+          };
+        }
+      }
     }
 
+    const role = await getRoleByCode(ROLE.PERSONAL_USER);
     const hashedPassword = await bcrypt.hash(data.password, 12);
 
-    const insertResult = await db
+    const [newUser] = await db
       .insert(users)
       .values({
         name: data.name,
         email: data.email,
         hashedPassword,
-        roleId: '123e4567-e89b-12d3-a456-426614176004',
+        roleId: role.id,
       })
       .returning();
 
-    if (!insertResult || insertResult.length === 0) {
+    if (!newUser) {
       console.error('User insert failed: No data returned');
       return {
-        success: false,
-        error: '新規登録に失敗しました。',
+        isSuccess: false,
+        error: { message: '新規登録に失敗しました。' },
       };
     }
 
-    await signIn('credentials', {
-      email: submission.data.email,
-      password: submission.data.password,
-      redirect: false,
-    });
+    const signInResult = await credentialsSignIn(data.email, data.password);
 
     return {
-      success: true,
+      isSuccess: true,
+      data: {
+        redirectUrl: signInResult.isSuccess ? URLS.ATTENDANCE_CALENDAR : URLS.LOGIN,
+      },
     };
   } catch (error) {
     console.error('SignUp error:', error);
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-        case 'CallbackRouteError':
-          return {
-            success: false,
-            error: '新規登録に失敗しました。',
-          };
-        default:
-          return {
-            success: false,
-            error: '認証処理でエラーが発生しました。',
-          };
-      }
-    }
     return {
-      success: false,
-      error: '認証処理でエラーが発生しました。',
+      isSuccess: false,
+      error: { message: '新規登録中にエラーが発生しました。' },
     };
   }
 };

@@ -1,17 +1,19 @@
 'use server';
-import { db } from '@/lib/db/drizzle';
-import z from 'zod';
-import { UserSchema } from '../lib/formSchema';
-import { ActionStateResult } from '@/lib/actionTypes';
 import { eq } from 'drizzle-orm';
-import { users } from '@/lib/db/schema';
 import { revalidatePath } from 'next/cache';
+import z from 'zod';
 import { URLS } from '@/consts/urls';
+import { requireSystemAdmin } from '@/features/auth/lib/authRoleUtils';
+import { ActionStateResult } from '@/lib/actionTypes';
+import { db } from '@/lib/db/drizzle';
+import { users } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
+import { UserSchema } from '../lib/formSchema';
 
 export const editUserAction = async (values: z.infer<typeof UserSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, roleId, companyId } = values;
+    await requireSystemAdmin();
     const [currentUser, existingUser] = await Promise.all([
       db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
       db.query.users.findFirst({
@@ -42,11 +44,11 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
 
 export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    const user = await db.query.users.findFirst({ where: eq(users.id, id) });
-    if (!user) {
+    await requireSystemAdmin();
+    const result = await db.delete(users).where(eq(users.id, id));
+    if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
-    await db.delete(users).where(eq(users.id, id));
     revalidatePath(URLS.SYSTEM_USERS);
     return { success: true };
   } catch (error) {
