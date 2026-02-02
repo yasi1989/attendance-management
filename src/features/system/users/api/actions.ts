@@ -45,11 +45,10 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
 export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
   try {
     await requireSystemAdmin();
-    const user = await db.query.users.findFirst({ where: eq(users.id, id) });
-    if (!user) {
+    const result = await db.delete(users).where(eq(users.id, id));
+    if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
-    await db.delete(users).where(eq(users.id, id));
     revalidatePath(URLS.SYSTEM_USERS);
     return { success: true };
   } catch (error) {

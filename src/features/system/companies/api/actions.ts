@@ -62,11 +62,10 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
 export const deleteCompanyAction = async (id: string): Promise<ActionStateResult> => {
   try {
     await requireSystemAdmin();
-    const company = await db.query.companies.findFirst({ where: (companies, { eq }) => eq(companies.id, id) });
-    if (!company) {
+    const result = await db.delete(companies).where(eq(companies.id, id));
+    if (result.rowCount === 0) {
       return { success: false, error: '会社が見つかりませんでした。' };
     }
-    await db.delete(companies).where(eq(companies.id, id));
     revalidatePath(URLS.SYSTEM_COMPANIES);
     return { success: true };
   } catch (error) {

@@ -7,7 +7,7 @@ type DeleteUserDialogProps = {
 
 const UserDeleteDialog = ({ id }: DeleteUserDialogProps) => {
   const { onDelete, isSubmitted } = useDeleteUser(id);
-  const _description = (
+  const description = (
     <>
       <p className="font-semibold block">この操作は取り消すことができません。</p>
       <div className="block rounded-md bg-destructive/10 p-3 text-sm">
@@ -20,7 +20,7 @@ const UserDeleteDialog = ({ id }: DeleteUserDialogProps) => {
       </div>
     </>
   );
-  return <DeleteButton onDelete={onDelete} isLoading={isSubmitted} description={_description} />;
+  return <DeleteButton onDelete={onDelete} isLoading={isSubmitted} description={description} />;
 };
 
 export default UserDeleteDialog;
