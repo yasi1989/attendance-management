@@ -15,9 +15,6 @@ export const addHolidayAction = async (values: z.infer<typeof HolidaySchema>): P
   try {
     const { name, holidayDate } = values;
     const { user } = await requireCompanyAdmin();
-    if (!user?.companyId) {
-      throw new Error('所属会社がありません。');
-    }
     const existHoliday = await db.query.holidays.findFirst({
       where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate)),
     });
@@ -44,9 +41,6 @@ export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): 
   try {
     const { id, name, holidayDate } = values;
     const { user } = await requireCompanyAdmin();
-    if (!user?.companyId) {
-      throw new Error('所属会社がありません。');
-    }
     const existHoliday = await db.query.holidays.findFirst({
       where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate)),
     });
