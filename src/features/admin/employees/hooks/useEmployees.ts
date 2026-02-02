@@ -1,9 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { EmployeeSchema } from '../lib/formSchema';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { UserType } from '@/features/system/users/type/userType';
+import { EmployeeSchema } from '../lib/formSchema';
+
 type UseEmployeeProps = {
   user: UserType;
 };

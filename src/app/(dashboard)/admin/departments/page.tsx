@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import DepartmentsContainer from './container';
 import CommonSkeleton from '@/components/layout/CommonSkeleton';
+import DepartmentsContainer from './container';
 
 const DepartmentsPage = () => {
   return (

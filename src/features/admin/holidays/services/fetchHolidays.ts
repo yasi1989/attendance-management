@@ -3,7 +3,6 @@ import { holidays } from '../const/mockData';
 import { HolidayType } from '../type/holidayType';
 
 export const fetchHolidays = async (year?: number): Promise<HolidayType[]> => {
-
   await new Promise((resolve) => setTimeout(resolve, 300));
 
   // TODO: 会社に紐づく休日を取得

@@ -1,7 +1,7 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { columnsDef } from './UsersColumns';
+import { columnsDef } from '../table/CreateUsersColumns';
 import { FetchUsersDataResponse } from '../type/fetchResultResponse';
 
 type UsersListTableProps = {
@@ -9,8 +9,8 @@ type UsersListTableProps = {
 };
 
 const UsersListTable = ({ users }: UsersListTableProps) => {
-  const { allCompanies, allRoles, usersData } = users;
-  const columns = columnsDef({ allCompanies, allRoles });
+  const { companies, roles, usersData } = users;
+  const columns = columnsDef({ companies, roles });
   return <DataTable data={usersData} columns={columns} enableFilter />;
 };
 

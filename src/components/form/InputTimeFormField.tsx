@@ -1,6 +1,6 @@
+import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 import { formatTimeForDisplay, parseTimestampInputTimeString } from '@/lib/dateClient';
 
 type InputTimeFormFieldProps<T extends Record<string, unknown>> = {

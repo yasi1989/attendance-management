@@ -1,6 +1,6 @@
+import { z } from 'zod';
 import { STATUS, STATUS_ACTIONS } from '@/consts/status';
 import { VALIDATIONS } from '@/consts/validate';
-import { z } from 'zod';
 
 export const IndividualApprovalSchema = z.object({
   id: z.string().min(VALIDATIONS.MIN_LENGTH, 'IDは必須です'),
@@ -9,10 +9,7 @@ export const IndividualApprovalSchema = z.object({
   }),
   comment: z
     .string()
-    .max(
-      VALIDATIONS.COMMENT_MAX_LENGTH,
-      `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
-    )
+    .max(VALIDATIONS.COMMENT_MAX_LENGTH, `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`)
     .optional(),
   approvedById: z.string().min(VALIDATIONS.MIN_LENGTH, '承認者IDは必須です'),
 });
@@ -24,10 +21,7 @@ export const BatchApprovalSchema = z.object({
   }),
   comment: z
     .string()
-    .max(
-      VALIDATIONS.COMMENT_MAX_LENGTH,
-      `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
-    )
+    .max(VALIDATIONS.COMMENT_MAX_LENGTH, `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`)
     .optional(),
   approvedById: z.string().min(VALIDATIONS.MIN_LENGTH, '承認者IDは必須です'),
 });
@@ -35,10 +29,7 @@ export const BatchApprovalSchema = z.object({
 export const ApprovalCommentSchema = z.object({
   comment: z
     .string()
-    .max(
-      VALIDATIONS.COMMENT_MAX_LENGTH,
-      `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
-    )
+    .max(VALIDATIONS.COMMENT_MAX_LENGTH, `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`)
     .optional(),
 });
 

@@ -1,4 +1,4 @@
-import { DeleteButton } from "@/components/actionButton/DeleteButton";
+import { DeleteButton } from '@/components/actionButton/DeleteButton';
 
 const DeleteHolidayDialog = () => {
   return <DeleteButton onDelete={async () => {}} />;

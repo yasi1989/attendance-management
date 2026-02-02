@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type AuthButtonProps = {
   label: string;
@@ -8,7 +8,7 @@ type AuthButtonProps = {
 
 const AuthButton = ({ label, isPending = false }: AuthButtonProps) => {
   return (
-    <Button type="submit" className="w-full cursor-pointer" disabled={isPending} >
+    <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
       {isPending ? <Loader2 className="animate-spin" /> : label}
     </Button>
   );

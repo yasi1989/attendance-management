@@ -1,4 +1,3 @@
-
 import { fetchCompanies } from '@/features/system/companies/api/fetches';
 import CompaniesPresentational from './presentational';
 

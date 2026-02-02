@@ -1,6 +1,6 @@
+import { z } from 'zod';
 import { EXPENSE_CATEGORIES_LIST } from '@/consts/expense';
 import { VALIDATIONS } from '@/consts/validate';
-import { z } from 'zod';
 
 export const RouteInfoSchema = z.object({
   id: z.string().optional(),

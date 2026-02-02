@@ -1,5 +1,5 @@
+import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import type { UseFormReturn, RegisterOptions, Path } from 'react-hook-form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 type InputRadioFormFieldProps<T extends Record<string, unknown>> = {

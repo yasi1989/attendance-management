@@ -1,5 +1,5 @@
-import { VALIDATIONS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const DepartmentSchema = z.object({
   departmentName: z.string().min(VALIDATIONS.MIN_LENGTH, {

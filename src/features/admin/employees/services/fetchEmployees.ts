@@ -1,7 +1,5 @@
 import { companies } from '@/features/system/companies/const/mockData';
-import { users } from '@/features/system/users/const/mockData';
-import { departments } from '@/features/system/users/const/mockData';
-import { roles } from '@/features/system/users/const/mockData';
+import { departments, roles, users } from '@/features/system/users/const/mockData';
 
 export const fetchEmployees = async () => {
   await new Promise((resolve) => setTimeout(resolve, 300));

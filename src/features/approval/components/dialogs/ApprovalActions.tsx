@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle } from 'lucide-react';
-import InputTextFormField from '@/components/form/InputTextFormField';
 import { UseFormReturn } from 'react-hook-form';
-import { ApprovalCommentType, IndividualApprovalType } from '../../lib/formSchema';
+import InputTextFormField from '@/components/form/InputTextFormField';
+import { Button } from '@/components/ui/button';
 import { STATUS } from '@/consts/status';
+import { ApprovalCommentType, IndividualApprovalType } from '../../lib/formSchema';
 
 interface ApprovalActionsProps {
   form: UseFormReturn<ApprovalCommentType>;

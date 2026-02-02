@@ -1,5 +1,5 @@
-import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
 
 interface DialogHeaderWithCloseProps {
@@ -17,7 +17,7 @@ const DialogHeaderWithClose = ({ title, onClose, isCloseButtonVisible = true }: 
           <Button
             type="button"
             onClick={onClose}
-            className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200"
+            className="shrink-0 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 flex items-center justify-center transition-colors duration-200"
             aria-label="ダイアログを閉じる"
           >
             <X className="w-4 h-4 text-gray-600 dark:text-gray-400" />

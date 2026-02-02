@@ -1,5 +1,5 @@
-import { VALIDATIONS } from '@/consts/validate';
 import { z } from 'zod';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const HolidaySchema = z.object({
   name: z.string().min(VALIDATIONS.MIN_LENGTH, {

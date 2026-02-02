@@ -1,49 +1,37 @@
 'use server';
-import { signIn } from '@/auth';
-import { SignInSchema } from '../lib/formSchema';
-import z from 'zod';
-import { AuthError } from 'next-auth';
-import { ActionStateResult } from '@/lib/actionTypes';
 
-export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<ActionStateResult> => {
+import { z } from 'zod';
+import { URLS } from '@/consts/urls';
+import { credentialsSignIn } from '../lib/authUtils';
+import { SignInSchema } from '../lib/formSchema';
+import { AuthResult } from '../type/authResult';
+
+export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<AuthResult> => {
   try {
     const submission = SignInSchema.safeParse(data);
+
     if (!submission.success) {
       return {
-        success: false,
-        error: submission.error.message,
+        isSuccess: false,
+        error: { message: submission.error.errors[0]?.message || 'バリデーションエラー' },
       };
     }
 
-    await signIn('credentials', {
-      email: submission.data.email,
-      password: submission.data.password,
-      redirect: false,
-    });
+    const signInResult = await credentialsSignIn(submission.data.email, submission.data.password);
+
+    if (!signInResult.isSuccess) {
+      return signInResult;
+    }
 
     return {
-      success: true,
+      isSuccess: true,
+      data: { redirectUrl: URLS.ATTENDANCE_CALENDAR },
     };
   } catch (error) {
-    console.error('Signin error:', error);
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-        case 'CallbackRouteError':
-          return {
-            success: false,
-            error: 'メールアドレスまたはパスワードが間違っています',
-          };
-        default:
-          return {
-            success: false,
-            error: '認証処理でエラーが発生しました。',
-          };
-      }
-    }
+    console.error('SignIn action error:', error);
     return {
-      success: false,
-      error: '認証処理でエラーが発生しました。',
+      isSuccess: false,
+      error: { message: 'ログイン処理中にエラーが発生しました。' },
     };
   }
 };

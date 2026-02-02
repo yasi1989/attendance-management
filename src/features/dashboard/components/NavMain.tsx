@@ -1,7 +1,7 @@
 'use client';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
-import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarGroup,

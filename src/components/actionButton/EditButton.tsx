@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Edit, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type EditButtonProps = {
   onClick?: () => void;
@@ -27,7 +27,7 @@ export const EditButton = ({
       size="icon"
       onClick={onClick}
       disabled={disabled}
-      className={`${sizeClasses} rounded-md bg-gradient-to-r from-blue-50/90 to-indigo-50/90 hover:from-blue-100/90 hover:to-indigo-100/90 dark:from-blue-900/30 dark:to-indigo-900/30 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-blue-200/30 dark:border-blue-700/30 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`${sizeClasses} rounded-md bg-linear-to-r from-blue-50/90 to-indigo-50/90 hover:from-blue-100/90 hover:to-indigo-100/90 dark:from-blue-900/30 dark:to-indigo-900/30 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 shadow-sm hover:shadow-md backdrop-blur-sm transition-all duration-200 border border-blue-200/30 dark:border-blue-700/30 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       <span className={`${iconSizeClasses} text-blue-600 dark:text-blue-400`}>
         {editable ? <Edit className="h-full w-full" /> : <FileText className="h-full w-full" />}
