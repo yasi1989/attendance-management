@@ -23,4 +23,10 @@ export const requireRole = (allowsRoles: RoleCodeType[]) => async () => {
 };
 
 export const requireSystemAdmin = async () => requireRole([ROLE.SYSTEM_ADMIN])();
-export const requireCompanyAdmin = async () => requireRole([ROLE.COMPANY_ADMIN])();
+export const requireCompanyAdmin = async () => {
+  const result = await requireRole([ROLE.COMPANY_ADMIN])();
+  if (!result.user.companyId) {
+    throw new Error('会社情報が設定されていません');
+  }
+  return result as typeof result & { user: { companyId: string } };
+};
