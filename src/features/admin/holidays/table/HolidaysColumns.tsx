@@ -147,7 +147,7 @@ export const holidaysColumns: ColumnDef<Holiday>[] = [
       row.original.type === HOLIDAY_CATEGORIES.COMPANY.value && (
         <div className="flex space-x-1 items-center justify-center">
           <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
-          <DeleteHolidayDialog />
+          <DeleteHolidayDialog id={row.original.id} />
         </div>
       ),
   },

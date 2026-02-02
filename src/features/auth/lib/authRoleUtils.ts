@@ -23,3 +23,4 @@ export const requireRole = (allowsRoles: RoleCodeType[]) => async () => {
 };
 
 export const requireSystemAdmin = async () => requireRole([ROLE.SYSTEM_ADMIN])();
+export const requireCompanyAdmin = async () => requireRole([ROLE.COMPANY_ADMIN])();

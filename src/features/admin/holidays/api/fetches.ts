@@ -1,27 +1,14 @@
 'use server';
 import { endOfYear, startOfYear } from 'date-fns';
-import { auth } from '@/auth';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
 import { URLS } from '@/consts/urls';
+import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { Holiday } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 
 export const fetchCompanyHolidays = async (year: number): Promise<Holiday[]> => {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      throw new Error('ログインしてください');
-    }
-
-    const userId = session.user.id;
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, userId),
-    });
-
-    if (!user) {
-      throw new Error('ユーザーが見つかりません。');
-    }
-
+    const { user } = await requireCompanyAdmin();
     if (!user?.companyId) {
       throw new Error('所属会社がありません。');
     }

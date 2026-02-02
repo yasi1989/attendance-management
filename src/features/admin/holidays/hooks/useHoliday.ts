@@ -8,7 +8,7 @@ import { FORM_MODE, FormMode } from '@/consts/formMode';
 import { ERROR_MESSAGE } from '@/consts/validate';
 import { Holiday } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
-import { addHolidayAction, editHolidayAction } from '../api/actions';
+import { addHolidayAction, deleteHolidayAction, editHolidayAction } from '../api/actions';
 import { HolidaySchema } from '../lib/formSchema';
 
 type UseHolidayProps = {
@@ -51,4 +51,27 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
     });
   };
   return { form, onSubmit, isSubmitted };
+};
+
+export const useDeleteHoliday = (id: string) => {
+  const [isSubmitted, startTransition] = useTransition();
+  const onDelete = () => {
+    startTransition(async () => {
+      try {
+        const { success, error } = await deleteHolidayAction(id);
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+        } else {
+          toast.success('削除に成功しました。');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
+    });
+  };
+  return { onDelete, isSubmitted };
 };

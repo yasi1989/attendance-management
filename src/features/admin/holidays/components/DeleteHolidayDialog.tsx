@@ -1,7 +1,13 @@
 import { DeleteButton } from '@/components/actionButton/DeleteButton';
+import { useDeleteHoliday } from '../hooks/useHoliday';
 
-const DeleteHolidayDialog = () => {
-  return <DeleteButton onDelete={async () => {}} />;
+type DeleteHolidayDialogProps = {
+  id: string;
+};
+
+const DeleteHolidayDialog = ({ id }: DeleteHolidayDialogProps) => {
+  const { onDelete, isSubmitted } = useDeleteHoliday(id);
+  return <DeleteButton onDelete={onDelete} isLoading={isSubmitted} />;
 };
 
 export default DeleteHolidayDialog;
