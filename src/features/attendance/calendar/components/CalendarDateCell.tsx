@@ -2,7 +2,7 @@ import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
 import { Coffee } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { STATUS } from '@/consts/status';
-import { HolidayType } from '@/features/admin/holidays/type/holidayType';
+import { Holiday } from '@/lib/actionTypes';
 import { getStatusByValue } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import { StatusType } from '@/types/statusType';
@@ -14,7 +14,7 @@ type CalendarDateCellProps = {
   day: Date;
   currentDate: Date;
   attendanceData?: AttendanceData;
-  holidayInfo?: HolidayType;
+  holidayInfo?: Holiday;
   isDateCellCurrentMonth?: boolean;
 };
 

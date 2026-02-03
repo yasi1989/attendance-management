@@ -1,4 +1,4 @@
-import { HolidayType } from '@/features/admin/holidays/type/holidayType';
+import { Holiday } from '@/lib/actionTypes';
 import { StatusType } from '@/types/statusType';
 import { ATTENDANCES, HALF_DAYS, LEAVES } from '../../../../consts/attendance';
 
@@ -32,7 +32,7 @@ export type AttendanceSummary = {
 
 export type AttendanceDataResponse = {
   monthlyAttendance: MonthlyAttendance;
-  holidays: HolidayType[];
+  holidays: Holiday[];
 };
 
 export type AttendanceType = (typeof ATTENDANCES)[keyof typeof ATTENDANCES]['value'];
