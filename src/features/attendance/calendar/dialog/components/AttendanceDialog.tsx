@@ -5,8 +5,8 @@ import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { HolidayType } from '@/features/admin/holidays/type/holidayType';
 import { useDialogState } from '@/hooks/useDialogState';
+import { Holiday } from '@/lib/actionTypes';
 import { AttendanceData } from '../../types/attendance';
 import { useAttendance } from '../hooks/useAttendance';
 import AttendanceFormFields from './AttendanceFormField';
@@ -15,7 +15,7 @@ import AttendanceStatusInformation from './AttendanceStatusInformation';
 type AttendanceDialogProps = {
   day: Date;
   attendanceData?: AttendanceData;
-  holidayInfo?: HolidayType;
+  holidayInfo?: Holiday;
   isDisabled?: boolean;
   triggerContent?: React.ReactElement;
 };
