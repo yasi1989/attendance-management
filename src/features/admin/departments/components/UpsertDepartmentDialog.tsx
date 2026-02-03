@@ -5,17 +5,18 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputFormField from '@/components/form/InputFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
+import { SELECT_EMPTY } from '@/consts/form';
 import { FormMode } from '@/consts/formMode';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UserType } from '@/features/system/users/type/userType';
+import { VALIDATIONS } from '@/consts/validate';
+import { Department, User } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
 import { useDepartments } from '../hooks/useDepartments';
 
 type UpsertDepartmentDialogProps = {
   type: FormMode;
-  userDepartment?: DepartmentType;
-  allDepartments: DepartmentType[];
-  users: UserType[];
+  userDepartment?: Department;
+  allDepartments: Department[];
+  users: User[];
   children?: React.ReactNode;
 };
 
@@ -34,14 +35,20 @@ export function UpsertDepartmentDialog({
     submitButtonLabel: modeName,
   };
   const companyOptions = useMemo(() => {
-    return allDepartments.map((d) => ({ value: d.id, label: d.departmentName }));
+    return [SELECT_EMPTY, ...allDepartments.map((d) => ({ value: d.id, label: d.departmentName }))];
   }, [allDepartments]);
   const userOptions = useMemo(() => {
-    return users.map((d) => ({ value: d.id, label: `${d.firstName} ${d.lastName}` }));
+    return [SELECT_EMPTY, ...users.map((d) => ({ value: d.id, label: d.name }))];
   }, [users]);
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="departmentName" label="部署名" form={form} required maxLength={100} />
+      <InputFormField
+        name="departmentName"
+        label="部署名"
+        form={form}
+        required
+        maxLength={VALIDATIONS.NAME_MAX_LENGTH}
+      />
       <InputSelectFormField name="parentDepartmentId" label="親部署" form={form} options={companyOptions} />
       <InputSelectFormField name="managerUserId" label="部門責任者" form={form} options={userOptions} />
     </div>

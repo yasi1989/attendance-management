@@ -1,18 +1,15 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Building, Building2, Settings, User } from 'lucide-react';
+import { ArrowUpDown, Building, Building2, Settings, UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SELECT_EMPTY } from '@/consts/form';
 import { FORM_MODE } from '@/consts/formMode';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UserType } from '@/features/system/users/type/userType';
+import { Department, User } from '@/lib/actionTypes';
 import DeleteDepartmentDialog from '../components/DeleteDepartmentDialog';
 import { UpsertDepartmentDialog } from '../components/UpsertDepartmentDialog';
 
-export const createDepartmentsColumns = (
-  departments: DepartmentType[],
-  users: UserType[],
-): ColumnDef<DepartmentType>[] => {
+export const createDepartmentsColumns = (departments: Department[], users: User[]): ColumnDef<Department>[] => {
   return [
     {
       accessorKey: 'departmentName',
@@ -66,7 +63,7 @@ export const createDepartmentsColumns = (
       },
       cell: ({ row }) => {
         const parentDepartment = departments.find((d) => d.id === row.original.parentDepartmentId);
-        const parentDepartmentName = parentDepartment ? parentDepartment.departmentName : '未設定';
+        const parentDepartmentName = parentDepartment ? parentDepartment.departmentName : SELECT_EMPTY.label;
         return (
           <div className="text-slate-900 dark:text-slate-100" title={`${parentDepartmentName}`}>
             {parentDepartmentName}
@@ -77,8 +74,8 @@ export const createDepartmentsColumns = (
         const parentDepartmentA = departments.find((d) => d.id === rowA.original.parentDepartmentId);
         const parentDepartmentB = departments.find((d) => d.id === rowB.original.parentDepartmentId);
 
-        const nameA = parentDepartmentA ? parentDepartmentA.departmentName : '未設定';
-        const nameB = parentDepartmentB ? parentDepartmentB.departmentName : '未設定';
+        const nameA = parentDepartmentA ? parentDepartmentA.departmentName : SELECT_EMPTY.label;
+        const nameB = parentDepartmentB ? parentDepartmentB.departmentName : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
@@ -103,7 +100,7 @@ export const createDepartmentsColumns = (
               onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             >
               <div className="flex items-center gap-1 md:gap-2">
-                <User className="h-3 w-3 md:h-4 md:w-4" />
+                <UserIcon className="h-3 w-3 md:h-4 md:w-4" />
                 <span>部門責任者</span>
                 <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
               </div>
@@ -113,7 +110,7 @@ export const createDepartmentsColumns = (
       },
       cell: ({ row }) => {
         const managerUser = users.find((d) => d.id === row.original.managerUserId);
-        const managerUserName = managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定';
+        const managerUserName = managerUser ? `${managerUser.name}` : SELECT_EMPTY.label;
         return (
           <div className="text-slate-900 dark:text-slate-100" title={`${managerUserName}`}>
             {managerUserName}
@@ -125,8 +122,8 @@ export const createDepartmentsColumns = (
         const managerUserA = users.find((d) => d.id === rowA.original.managerUserId);
         const managerUserB = users.find((d) => d.id === rowB.original.managerUserId);
 
-        const nameA = managerUserA ? `${managerUserA.firstName} ${managerUserA.lastName}` : '未設定';
-        const nameB = managerUserB ? `${managerUserB.firstName} ${managerUserB.lastName}` : '未設定';
+        const nameA = managerUserA ? managerUserA.name : SELECT_EMPTY.label;
+        const nameB = managerUserB ? managerUserB.name : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
@@ -136,7 +133,7 @@ export const createDepartmentsColumns = (
       },
       filterFn: (row, _id, filterValue) => {
         const managerUser = users.find((d) => d.id === row.original.managerUserId);
-        const managerUserName = managerUser ? `${managerUser.firstName} ${managerUser.lastName}` : '未設定';
+        const managerUserName = managerUser ? managerUser.name : SELECT_EMPTY.label;
         return managerUserName.includes(filterValue);
       },
     },
@@ -163,7 +160,7 @@ export const createDepartmentsColumns = (
               allDepartments={departments}
               users={users}
             />
-            <DeleteDepartmentDialog />
+            <DeleteDepartmentDialog id={row.original.id} />
           </div>
         );
       },

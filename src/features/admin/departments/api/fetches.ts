@@ -6,9 +6,6 @@ import { FetchDepartmentsDataResponse } from '../type/fetchResultResponse';
 export const fetchDepartments = async (): Promise<FetchDepartmentsDataResponse> => {
   try {
     const { user } = await requireCompanyAdmin();
-    if (!user.companyId) {
-      throw new Error('Company ID が設定されていません');
-    }
     const [myDepartments, myCompanyUsers] = await Promise.all([
       db.query.departments.findMany({
         where: (departments, { eq }) => eq(departments.companyId, user.companyId),
