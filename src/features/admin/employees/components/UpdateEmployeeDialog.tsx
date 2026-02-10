@@ -5,16 +5,15 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputFormField from '@/components/form/InputFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { RoleType } from '@/features/system/users/type/roleType';
-import { UserType } from '@/features/system/users/type/userType';
+import { VALIDATIONS } from '@/consts/validate';
+import { Department, Role, User } from '@/lib/actionTypes';
 import { useEmployee } from '../hooks/useEmployees';
 import { getDepartmentPath } from '../lib/departmentUtils';
 
 type UpsertEmployeeDialogProps = {
-  user: UserType;
-  departments: DepartmentType[];
-  roles: RoleType[];
+  user: User;
+  departments: Department[];
+  roles: Role[];
   children?: React.ReactNode;
 };
 
@@ -33,9 +32,14 @@ export function UpdateEmployeeDialog({ user, departments, roles, children }: Ups
   }, [roles]);
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="lastName" label="姓" form={form} maxLength={20} required />
-      <InputFormField name="firstName" label="名" form={form} maxLength={20} required />
-      <InputFormField name="email" label="メールアドレス" form={form} maxLength={255} required />
+      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATIONS.NAME_MAX_LENGTH} required />
+      <InputFormField
+        name="email"
+        label="メールアドレス"
+        form={form}
+        maxLength={VALIDATIONS.EMAIL_MAX_LENGTH}
+        required
+      />
       <InputSelectFormField name="departmentId" label="部署" form={form} options={departmentOptions} />
       <InputSelectFormField name="roleId" label="権限" form={form} options={roleOptions} />
     </div>

@@ -3,15 +3,12 @@ import { VALIDATIONS } from '@/consts/validate';
 
 export const EmployeeSchema = z.object({
   id: z.string(),
-  firstName: z.string().min(VALIDATIONS.MIN_LENGTH, {
-    message: '名前は必須です。',
-  }),
-  lastName: z.string().min(VALIDATIONS.MIN_LENGTH, {
-    message: '姓は必須です。',
+  name: z.string().min(VALIDATIONS.MIN_LENGTH, {
+    message: '従業員名は必須です。',
   }),
   email: z.string().email({
     message: '有効なメールアドレスを入力してください。',
   }),
-  departmentId: z.string().optional(),
-  roleId: z.string().optional(),
+  departmentId: z.string().optional().nullable(),
+  roleId: z.string().optional().nullable(),
 });
