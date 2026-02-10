@@ -22,6 +22,20 @@
       "when": 1755256722171,
       "tag": "0002_bored_paibok",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1756346143685,
+      "tag": "0003_tearful_turbo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1756356701319,
+      "tag": "0004_chief_carnage",
+      "breakpoints": true
     }
   ]
 }

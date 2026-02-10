@@ -1,19 +1,18 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Company } from '@/lib/actionTypes';
+import { Company, Role } from '@/lib/actionTypes';
 import UserDeleteDialog from '../components/DeleteUserDialog';
-import { UserEditDialog } from '../components/UpsertUserDialog';
-import { RoleType } from '../type/roleType';
-import { UserType } from '../type/userType';
+import { UpsertUserDialog } from '../components/UpsertUserDialog';
+import { UserWithRelations } from '../type/fetchResultResponse';
 
 type ColumnsDefProps = {
   companies: Company[];
-  roles: RoleType[];
+  roles: Role[];
 };
 
-export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): ColumnDef<UserType>[] => {
-  return [
+export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
+  const columns: ColumnDef<UserWithRelations>[] = [
     {
       accessorKey: 'companyName',
       id: 'companyName',
@@ -33,7 +32,7 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         </div>
       ),
       cell: ({ row }) => {
-        const company = companies.find((c) => c.id === row.original.companyId);
+        const company = row.original.company;
         const companyName = company ? company.companyName : '未設定';
         return (
           <div className="font-semibold text-slate-900 dark:text-slate-100" title={companyName}>
@@ -42,8 +41,8 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         );
       },
       sortingFn: (rowA, rowB) => {
-        const companyA = companies.find((c) => c.id === rowA.original.companyId);
-        const companyB = companies.find((c) => c.id === rowB.original.companyId);
+        const companyA = rowA.original.company;
+        const companyB = rowB.original.company;
 
         const nameA = companyA ? companyA.companyName : '未設定';
         const nameB = companyB ? companyB.companyName : '未設定';
@@ -55,7 +54,7 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         japaneseLabel: '会社名',
       },
       filterFn: (row, _id, filterValue) => {
-        const company = companies.find((c: Company) => c.id === row.original.companyId);
+        const company = row.original.company;
         return company ? company.companyName.includes(filterValue) : false;
       },
     },
@@ -78,16 +77,15 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         </div>
       ),
       cell: ({ row }) => {
-        const fullName = `${row.original.lastName} ${row.original.firstName}`;
         return (
-          <div className="font-semibold text-slate-900 dark:text-slate-100" title={fullName}>
-            {fullName}
+          <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.name}>
+            {row.original.name}
           </div>
         );
       },
       sortingFn: (rowA, rowB) => {
-        const nameA = `${rowA.original.lastName} ${rowA.original.firstName}`;
-        const nameB = `${rowB.original.lastName} ${rowB.original.firstName}`;
+        const nameA = rowA.original.name;
+        const nameB = rowB.original.name;
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
       meta: {
@@ -95,8 +93,7 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         japaneseLabel: '名前',
       },
       filterFn: (row, _id, filterValue) => {
-        const name = `${row.original.lastName} ${row.original.firstName}`;
-        return name.includes(filterValue);
+        return row.original.name.includes(filterValue);
       },
     },
     {
@@ -152,7 +149,7 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         </div>
       ),
       cell: ({ row }) => {
-        const role = roles.find((r: RoleType) => r.id === row.original.roleId);
+        const role = row.original.role;
         const roleName = role ? role.roleName : '未設定';
         return (
           <div className="text-slate-900 dark:text-slate-100" title={roleName}>
@@ -161,8 +158,8 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         );
       },
       sortingFn: (rowA, rowB) => {
-        const roleA = roles.find((r: RoleType) => r.id === rowA.original.roleId);
-        const roleB = roles.find((r: RoleType) => r.id === rowB.original.roleId);
+        const roleA = rowA.original.role;
+        const roleB = rowB.original.role;
 
         const nameA = roleA ? roleA.roleName : '未設定';
         const nameB = roleB ? roleB.roleName : '未設定';
@@ -174,7 +171,7 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
         japaneseLabel: '権限',
       },
       filterFn: (row, _id, filterValue) => {
-        const role = roles.find((r: RoleType) => r.id === row.original.roleId);
+        const role = row.original.role;
         return role ? role.roleName.includes(filterValue) : false;
       },
     },
@@ -192,8 +189,8 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
       ),
       cell: ({ row }) => (
         <div className="flex space-x-1 items-center justify-center">
-          <UserEditDialog user={row.original} companies={companies} roles={roles} />
-          <UserDeleteDialog />
+          <UpsertUserDialog user={row.original} companies={companies} roles={roles} />
+          <UserDeleteDialog id={row.original.id} />
         </div>
       ),
       meta: {
@@ -202,4 +199,5 @@ export const createUsersColumns = ({ companies, roles }: ColumnsDefProps): Colum
       },
     },
   ];
+  return columns;
 };

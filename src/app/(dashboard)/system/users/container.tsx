@@ -1,9 +1,9 @@
-import { fetchUsersData } from '@/features/system/users/services/fetchUsers';
+import { fetchUsers } from '@/features/system/users/api/fetches';
 import UsersPresentational from './presentational';
 
 const UsersContainer = async () => {
-  const { users, companies, roles } = await fetchUsersData();
-  return <UsersPresentational users={users} companies={companies} roles={roles} />;
+  const users = await fetchUsers();
+  return <UsersPresentational users={users} />;
 };
 
 export default UsersContainer;

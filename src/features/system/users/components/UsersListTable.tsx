@@ -1,19 +1,17 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { Company } from '@/lib/actionTypes';
-import { createUsersColumns } from '../table/CreateUsersColumns';
-import { RoleType } from '../type/roleType';
-import { UserType } from '../type/userType';
+import { columnsDef } from '../table/CreateUsersColumns';
+import { FetchUsersDataResponse } from '../type/fetchResultResponse';
 
 type UsersListTableProps = {
-  users: UserType[];
-  companies: Company[];
-  roles: RoleType[];
+  users: FetchUsersDataResponse;
 };
 
-const UsersListTable = ({ users, companies, roles }: UsersListTableProps) => {
-  return <DataTable data={users} columns={createUsersColumns({ companies, roles })} enableFilter />;
+const UsersListTable = ({ users }: UsersListTableProps) => {
+  const { companies, roles, usersData } = users;
+  const columns = columnsDef({ companies, roles });
+  return <DataTable data={usersData} columns={columns} enableFilter />;
 };
 
 export default UsersListTable;
