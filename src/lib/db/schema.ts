@@ -149,9 +149,6 @@ export const attendances = pgTable('attendances', {
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  monthlyAttendanceApprovalId: text('monthly_attendance_approval_id').references(() => monthlyAttendanceApprovals.id, {
-    onDelete: 'cascade',
-  }),
   workDate: dateOnly('work_date').notNull(),
   startTime: integer('start_time'),
   endTime: integer('end_time'),
@@ -383,10 +380,6 @@ export const attendancesRelations = relations(attendances, ({ one }) => ({
     fields: [attendances.userId],
     references: [users.id],
   }),
-  monthlyAttendanceApproval: one(monthlyAttendanceApprovals, {
-    fields: [attendances.monthlyAttendanceApprovalId],
-    references: [monthlyAttendanceApprovals.id],
-  }),
 }));
 
 export const expensesRelations = relations(expenses, ({ one }) => ({
@@ -400,18 +393,12 @@ export const expensesRelations = relations(expenses, ({ one }) => ({
   }),
 }));
 
-export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ one, many }) => ({
-  user: one(users, {
-    fields: [monthlyAttendanceApprovals.userId],
-    references: [users.id],
-  }),
-  company: one(companies, {
-    fields: [monthlyAttendanceApprovals.companyId],
-    references: [companies.id],
-  }),
-  attendances: many(attendances),
-  summary: one(monthlyAttendanceSummaries),
+export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ many, one }) => ({
   approvalSteps: many(attendanceApprovalSteps),
+  summary: one(monthlyAttendanceSummaries, {
+    fields: [monthlyAttendanceApprovals.id],
+    references: [monthlyAttendanceSummaries.monthlyAttendanceApprovalId],
+  }),
 }));
 
 export const monthlyAttendanceSummariesRelations = relations(monthlyAttendanceSummaries, ({ one }) => ({

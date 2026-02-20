@@ -5,10 +5,10 @@ import CalendarFooter from '@/features/attendance/calendar/components/CalendarFo
 import CalendarGrid from '@/features/attendance/calendar/components/CalendarGrig';
 import CalendarHeader from '@/features/attendance/calendar/components/CalendarHeader';
 import { useCalendarNavigation } from '@/features/attendance/calendar/hooks/useCalendarNavigation';
-import { AttendanceDataResponse } from '@/features/attendance/calendar/types/attendance';
+import { FetchMonthlyAttendanceDataResponse } from '@/features/attendance/calendar/types/fetchResultResponse';
 
 interface CalendarPresentationalProps {
-  initialData: AttendanceDataResponse;
+  initialData: FetchMonthlyAttendanceDataResponse;
   initialYear: number;
   initialMonth: number;
 }
@@ -20,7 +20,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
   );
 
   const currentDate = new Date(currentYear, currentMonth - 1, 1);
-  const monthlyStatus = initialData.monthlyAttendance.monthlyStatus;
+  const monthlyStatus = initialData.attendances.;
 
   return (
     <div className="relative">

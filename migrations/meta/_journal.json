@@ -43,6 +43,13 @@
       "when": 1756368176433,
       "tag": "0005_familiar_corsair",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1770969491906,
+      "tag": "0006_living_vengeance",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { getAttendanceData } from '@/features/attendance/calendar/services/attendanceService';
+import { fetchMonthlyAttendance } from '@/features/attendance/calendar/api/fetches';
 import CalendarPresentational from './presentational';
 
 type CalendarDataLoaderProps = {
@@ -7,8 +7,8 @@ type CalendarDataLoaderProps = {
 };
 
 const CalendarContainer = async ({ year, month }: CalendarDataLoaderProps) => {
-  const monthlyAttendance = await getAttendanceData(year, month);
-  return <CalendarPresentational initialData={monthlyAttendance} initialYear={year} initialMonth={month} />;
+  const initialData = await fetchMonthlyAttendance(year, month);
+  return <CalendarPresentational initialData={initialData} initialYear={year} initialMonth={month} />;
 };
 
 export default CalendarContainer;

@@ -1,4 +1,4 @@
-import { Holiday } from '@/lib/actionTypes';
+import { Holiday, MonthlyAttendanceApproval, MonthlyAttendanceSummary } from '@/lib/actionTypes';
 import { StatusType } from '@/types/statusType';
 import { ATTENDANCES, HALF_DAYS, LEAVES } from '../../../../consts/attendance';
 
@@ -34,6 +34,14 @@ export type AttendanceDataResponse = {
   monthlyAttendance: MonthlyAttendance;
   holidays: Holiday[];
 };
+
+export type ApprovalWithSummary = MonthlyAttendanceApproval & {
+  summary: MonthlyAttendanceSummary | null;
+};
+
+export type SummaryResult =
+  | (MonthlyAttendanceSummary & { source: 'database' })
+  | (MonthlyAttendanceSummary & { source: 'calculated' });
 
 export type AttendanceType = (typeof ATTENDANCES)[keyof typeof ATTENDANCES]['value'];
 export type LeaveType = (typeof LEAVES)[keyof typeof LEAVES]['value'];

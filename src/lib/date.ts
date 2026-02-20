@@ -1,4 +1,5 @@
 import { VALIDATION_DATE } from '@/consts/validate';
+import { formatDateForDisplay } from './dateClient';
 
 export const getYearOptions = (currentYear: number, length: number, offset: number): number[] => {
   return Array.from({ length }, (_, i) => currentYear - offset + i);
@@ -26,4 +27,41 @@ export function isValidHour(hour: number): boolean {
 
 export function isValidMinute(minute: number): boolean {
   return !Number.isNaN(minute) && minute >= VALIDATION_DATE.MINUTE.MIN && minute <= VALIDATION_DATE.MINUTE.MAX;
+}
+
+export const getYearMonthRange = (year: number, month: number): { startDate: Date; endDate: Date } => {
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 0);
+
+  return { startDate, endDate };
+};
+
+export const getYearRange = (year: number): { startDate: Date; endDate: Date } => {
+  const startDate = new Date(year, 0, 1);
+  const endDate = new Date(year, 11, 31);
+
+  return { startDate, endDate };
+};
+
+export function calculateWorkDays(startDate: Date, endDate: Date, holidayDatesSet: Set<string>): string[] {
+  const workDays: string[] = [];
+  const current = new Date(startDate);
+
+  while (current <= endDate) {
+    const dateStr = formatDateForDisplay(current);
+    const dayOfWeek = current.getDay();
+    const isWorkDay = dayOfWeek !== 0 && dayOfWeek !== 6 && !holidayDatesSet.has(dateStr);
+
+    if (isWorkDay) {
+      workDays.push(dateStr);
+    }
+
+    current.setDate(current.getDate() + 1);
+  }
+
+  return workDays;
+}
+
+export function getMissingWorkDays(workDays: string[], registeredDatesSet: Set<string>): string[] {
+  return workDays.filter((dateStr) => !registeredDatesSet.has(dateStr));
 }

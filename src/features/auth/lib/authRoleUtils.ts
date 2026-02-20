@@ -30,3 +30,18 @@ export const requireCompanyAdmin = async () => {
   }
   return result as typeof result & { user: { companyId: string } };
 };
+
+export const requireAttendanceAccess = async () => {
+  const result = await requireRole([
+    ROLE.DEPARTMENT_ADMIN,
+    ROLE.COMPANY_ADMIN,
+    ROLE.GENERAL_USER,
+    ROLE.PERSONAL_USER,
+  ])();
+
+  if (result.user.role?.roleCode !== ROLE.PERSONAL_USER && !result.user.companyId) {
+    throw new Error('会社情報が設定されていません');
+  }
+
+  return result;
+};
