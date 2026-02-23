@@ -1,5 +1,5 @@
 'use server';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
@@ -42,7 +42,7 @@ export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): 
     const { id, name, holidayDate } = values;
     const { user } = await requireCompanyAdmin();
     const existHoliday = await db.query.holidays.findFirst({
-      where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate)),
+      where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate), ne(holidays.id, id)),
     });
     if (existHoliday) {
       return {
@@ -63,8 +63,8 @@ export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): 
 
 export const deleteHolidayAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireCompanyAdmin();
-    const result = await db.delete(holidays).where(eq(holidays.id, id));
+    const { user } = await requireCompanyAdmin();
+    const result = await db.delete(holidays).where(and(eq(holidays.id, id), eq(holidays.companyId, user.companyId)));
     if (result.rowCount === 0) {
       return { success: false, error: '祝日が見つかりませんでした。' };
     }

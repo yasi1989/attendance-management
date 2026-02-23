@@ -1,9 +1,9 @@
 import { DataTable } from '@/components/table/DataTable';
-import { Holiday } from '@/lib/actionTypes';
 import { holidaysColumns } from '../table/HolidaysColumns';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
 type HolidaysListTableProps = {
-  holidays: Holiday[];
+  holidays: HolidayDisplay[];
 };
 
 const HolidaysListTable = ({ holidays }: HolidaysListTableProps) => {

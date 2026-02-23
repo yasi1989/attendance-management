@@ -11,8 +11,9 @@ import { formatDateForDisplay } from '@/lib/dateClient';
 import { getHolidayCategoryName } from '@/lib/holiday';
 import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
 import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
-export const holidaysColumns: ColumnDef<Holiday>[] = [
+export const holidaysColumns: ColumnDef<HolidayDisplay>[] = [
   {
     accessorKey: 'name',
     id: 'name',
@@ -144,7 +145,7 @@ export const holidaysColumns: ColumnDef<Holiday>[] = [
       );
     },
     cell: ({ row }) =>
-      row.original.type === HOLIDAY_CATEGORIES.COMPANY.value && (
+      isCompanyHoliday(row.original) && (
         <div className="flex space-x-1 items-center justify-center">
           <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
           <DeleteHolidayDialog id={row.original.id} />
@@ -152,3 +153,7 @@ export const holidaysColumns: ColumnDef<Holiday>[] = [
       ),
   },
 ];
+
+const isCompanyHoliday = (holiday: HolidayDisplay): holiday is Holiday => {
+  return holiday.type === HOLIDAY_CATEGORIES.COMPANY.value;
+};
