@@ -6,7 +6,6 @@ import HolidayTypeBadge from '@/components/layout/HolidayTypeBadge';
 import { Button } from '@/components/ui/button';
 import { FORM_MODE } from '@/consts/formMode';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
-import { Holiday } from '@/lib/actionTypes';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { getHolidayCategoryName } from '@/lib/holiday';
 import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
@@ -145,7 +144,7 @@ export const holidaysColumns: ColumnDef<HolidayDisplay>[] = [
       );
     },
     cell: ({ row }) =>
-      isCompanyHoliday(row.original) && (
+      row.original.type === HOLIDAY_CATEGORIES.COMPANY.value && (
         <div className="flex space-x-1 items-center justify-center">
           <UpsertHolidayDialog type={FORM_MODE.EDIT.value} data={row.original} />
           <DeleteHolidayDialog id={row.original.id} />
@@ -153,7 +152,3 @@ export const holidaysColumns: ColumnDef<HolidayDisplay>[] = [
       ),
   },
 ];
-
-const isCompanyHoliday = (holiday: HolidayDisplay): holiday is Holiday => {
-  return holiday.type === HOLIDAY_CATEGORIES.COMPANY.value;
-};

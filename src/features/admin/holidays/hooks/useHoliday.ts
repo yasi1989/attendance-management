@@ -6,14 +6,14 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { FORM_MODE, FormMode } from '@/consts/formMode';
 import { ERROR_MESSAGE } from '@/consts/validate';
-import { Holiday } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
 import { addHolidayAction, deleteHolidayAction, editHolidayAction } from '../api/actions';
 import { HolidaySchema } from '../lib/formSchema';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
 type UseHolidayProps = {
   type: FormMode;
-  data?: Holiday;
+  data?: HolidayDisplay;
 };
 
 const actions = {
@@ -29,7 +29,10 @@ export const useHoliday = ({ type, data }: UseHolidayProps) => {
       name: '',
       holidayDate: new Date(),
     },
-    values: type === FORM_MODE.EDIT.value && data ? { ...data } : undefined,
+    values:
+      type === FORM_MODE.EDIT.value && data
+        ? { id: data.id, name: data.name, holidayDate: data.holidayDate }
+        : undefined,
     resolver: zodResolver(HolidaySchema),
   });
   const onSubmit = (data: z.infer<typeof HolidaySchema>) => {
