@@ -1,6 +1,7 @@
 'use server';
 
 import bcrypt from 'bcryptjs';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
@@ -70,6 +71,7 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     }
 
     const signInResult = await credentialsSignIn(data.email, data.password);
+    revalidatePath(URLS.ATTENDANCE_CALENDAR);
 
     return {
       isSuccess: true,

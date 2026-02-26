@@ -6,13 +6,13 @@ import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import InputFormField from '@/components/form/InputFormField';
 import { FormMode } from '@/consts/formMode';
 import { VALIDATIONS } from '@/consts/validate';
-import { Holiday } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
 import { useHoliday } from '../hooks/useHoliday';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
 type UpsertHolidayDialogProps = {
   type: FormMode;
-  data?: Holiday;
+  data?: HolidayDisplay;
   children?: React.ReactNode;
 };
 
