@@ -1,3 +1,5 @@
+'use client';
+
 import { Building2 } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';

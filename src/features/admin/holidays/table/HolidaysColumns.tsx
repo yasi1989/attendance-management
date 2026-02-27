@@ -6,13 +6,13 @@ import HolidayTypeBadge from '@/components/layout/HolidayTypeBadge';
 import { Button } from '@/components/ui/button';
 import { FORM_MODE } from '@/consts/formMode';
 import { HOLIDAY_CATEGORIES } from '@/consts/holiday';
-import { Holiday } from '@/lib/actionTypes';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { getHolidayCategoryName } from '@/lib/holiday';
 import DeleteHolidayDialog from '../components/DeleteHolidayDialog';
 import { UpsertHolidayDialog } from '../components/UpsertHolidayDialog';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
-export const holidaysColumns: ColumnDef<Holiday>[] = [
+export const holidaysColumns: ColumnDef<HolidayDisplay>[] = [
   {
     accessorKey: 'name',
     id: 'name',
