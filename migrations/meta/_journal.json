@@ -36,6 +36,13 @@
       "when": 1756356701319,
       "tag": "0004_chief_carnage",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1756368176433,
+      "tag": "0005_familiar_corsair",
+      "breakpoints": true
     }
   ]
 }

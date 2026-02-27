@@ -10,6 +10,7 @@ export const URLS = {
   SYSTEM_USERS: '/system/users',
   SYSTEM_COMPANIES: '/system/companies',
   API_AUTH: '/api/auth',
+  API_HOLIDAYS: 'https://api.national-holidays.jp',
   AUTH_ERROR: '/error',
 };
 
@@ -31,6 +32,7 @@ export const URL_PARAMS = {
   },
   adminHolidays: {
     YEAR: 'year',
+    CATEGORY: 'category',
   },
   auth: {
     ERROR: 'error',
