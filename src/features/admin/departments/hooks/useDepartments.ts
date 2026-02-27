@@ -26,8 +26,8 @@ export const useDepartments = ({ type, userDepartment }: UseDepartmentsProps) =>
     defaultValues: {
       id: '',
       departmentName: '',
-      parentDepartmentId: '',
-      managerUserId: '',
+      parentDepartmentId: null,
+      managerUserId: null,
     },
     values: type === FORM_MODE.EDIT.value && userDepartment ? { ...userDepartment } : undefined,
     resolver: zodResolver(DepartmentSchema),

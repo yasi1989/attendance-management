@@ -69,6 +69,14 @@ export const deleteDepartmentAction = async (id: string): Promise<ActionStateRes
   try {
     const { user } = await requireCompanyAdmin();
 
+    const children = await db
+      .select({ id: departments.id })
+      .from(departments)
+      .where(and(eq(departments.parentDepartmentId, id), eq(departments.companyId, user.companyId)));
+    if (children.length > 0) {
+      return { success: false, error: '子部署が存在するため削除できません。先に子部署を削除してください。' };
+    }
+
     const result = await db
       .delete(departments)
       .where(and(eq(departments.id, id), eq(departments.companyId, user.companyId)));

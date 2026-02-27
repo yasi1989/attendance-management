@@ -11,7 +11,7 @@ import { ExpenseFormSchema } from '../lib/formSchema';
 type ExpenseBasicInfoFieldProps = {
   form: UseFormReturn<z.infer<typeof ExpenseFormSchema>>;
   isDisabled: boolean;
-  handleExpenseTypeChange: (value: string) => void;
+  handleExpenseTypeChange: (value: string | null) => void;
 };
 
 const ExpenseBasicInfoField = ({ form, isDisabled, handleExpenseTypeChange }: ExpenseBasicInfoFieldProps) => {

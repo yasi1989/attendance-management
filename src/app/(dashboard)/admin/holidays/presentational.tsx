@@ -1,3 +1,5 @@
+'use client';
+
 import { CalendarDays } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
@@ -6,11 +8,11 @@ import { FORM_MODE } from '@/consts/formMode';
 import HolidaysListTable from '@/features/admin/holidays/components/HolidaysListTable';
 import HolidaysYearSelector from '@/features/admin/holidays/components/HolidaysYearSelector';
 import { UpsertHolidayDialog } from '@/features/admin/holidays/components/UpsertHolidayDialog';
-import { Holiday } from '@/lib/actionTypes';
+import { HolidayDisplay } from '@/features/admin/holidays/type/holidaysDisplayType';
 import { HolidayCategoryTypeWithAll } from '@/types/holiday';
 
 type HolidaysPresentationalProps = {
-  holidays: Holiday[];
+  holidays: HolidayDisplay[];
   currentYear: number;
   currentCategory: HolidayCategoryTypeWithAll;
 };
