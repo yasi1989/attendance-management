@@ -1,3 +1,5 @@
+'use client';
+
 import { CalendarDays } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
