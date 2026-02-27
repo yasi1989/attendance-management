@@ -5,12 +5,7 @@ import { useRouter } from 'next/navigation';
 import { startTransition, useCallback, useMemo } from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import {
-  DISPLAY_MONTH_OPTIONS_LENGTH,
-  DISPLAY_MONTH_OPTIONS_OFFSET,
-  DISPLAY_YEAR_OPTIONS_LENGTH,
-  DISPLAY_YEAR_OPTIONS_OFFSET,
-} from '@/consts/date';
+import { DISPLAY_DATE_OPTIONS } from '@/consts/date';
 import { STATUS_WITH_ALL } from '@/consts/status';
 import { URL_PARAMS, URLS } from '@/consts/urls';
 import { getMonthOptions, getYearOptions } from '@/lib/date';
@@ -24,8 +19,8 @@ type ApprovalFilterSelectorProps = {
 
 const ApprovalFilterSelector = ({ currentYear, currentMonth, currentStatus }: ApprovalFilterSelectorProps) => {
   const router = useRouter();
-  const yearOptions = getYearOptions(currentYear, DISPLAY_YEAR_OPTIONS_LENGTH, DISPLAY_YEAR_OPTIONS_OFFSET);
-  const months = getMonthOptions(DISPLAY_MONTH_OPTIONS_LENGTH, DISPLAY_MONTH_OPTIONS_OFFSET);
+  const yearOptions = getYearOptions(currentYear, DISPLAY_DATE_OPTIONS.YEAR_LENGTH, DISPLAY_DATE_OPTIONS.YEAR_OFFSET);
+  const months = getMonthOptions(DISPLAY_DATE_OPTIONS.MONTH_LENGTH, DISPLAY_DATE_OPTIONS.MONTH_OFFSET);
   const yearSelectItems = useMemo(
     () =>
       yearOptions.map((year) => (

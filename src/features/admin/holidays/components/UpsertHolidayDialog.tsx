@@ -5,13 +5,14 @@ import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import InputFormField from '@/components/form/InputFormField';
 import { FormMode } from '@/consts/formMode';
+import { VALIDATIONS } from '@/consts/validate';
 import { getFormModeName } from '@/lib/formMode';
 import { useHoliday } from '../hooks/useHoliday';
-import { HolidayType } from '../type/holidayType';
+import { HolidayDisplay } from '../type/holidaysDisplayType';
 
 type UpsertHolidayDialogProps = {
   type: FormMode;
-  data?: HolidayType;
+  data?: HolidayDisplay;
   children?: React.ReactNode;
 };
 
@@ -25,7 +26,7 @@ export function UpsertHolidayDialog({ type, data, children }: UpsertHolidayDialo
   };
   const formContent = (
     <div className="flex flex-col gap-4">
-      <InputFormField name="name" label="休日名" form={form} maxLength={100} required />
+      <InputFormField name="name" label="休日名" form={form} maxLength={VALIDATIONS.NAME_MAX_LENGTH} required />
       <InputCalendarFormField name="holidayDate" label="日付" form={form} required />
     </div>
   );

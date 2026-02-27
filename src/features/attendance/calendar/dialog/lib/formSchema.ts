@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
 
 export const AttendanceFormSchema = z
@@ -15,10 +15,7 @@ export const AttendanceFormSchema = z
     rest: z.number().optional(),
     comment: z
       .string()
-      .max(
-        VALIDATION_LIMITS.COMMENT_MAX_LENGTH,
-        `コメントは${VALIDATION_LIMITS.COMMENT_MAX_LENGTH}文字以内で入力してください`,
-      )
+      .max(VALIDATIONS.COMMENT_MAX_LENGTH, `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`)
       .optional(),
   })
   .superRefine((data, ctx) => {

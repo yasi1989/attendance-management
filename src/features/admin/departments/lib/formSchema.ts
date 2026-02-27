@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const DepartmentSchema = z.object({
-  departmentName: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
+  departmentName: z.string().min(VALIDATIONS.MIN_LENGTH, {
     message: '部署名は必須です。',
   }),
   parentDepartmentId: z.string().optional(),

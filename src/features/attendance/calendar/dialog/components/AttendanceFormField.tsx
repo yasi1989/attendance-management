@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import InputDateFormField from '@/components/form/InputDateFormField';
+import z from 'zod';
+import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import { ATTENDANCES } from '../../../../../consts/attendance';
@@ -38,7 +38,7 @@ const AttendanceFormFields = ({
     attendanceType === ATTENDANCES.WORK.value || (attendanceType === ATTENDANCES.PAID.value && isHalfDay);
   return (
     <div className="space-y-4">
-      <InputDateFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
+      <InputCalendarFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
       <InputSelectFormField
         form={form}
         name="attendanceType"

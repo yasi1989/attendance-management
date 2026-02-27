@@ -5,7 +5,7 @@ import { EditButton } from '@/components/actionButton/EditButton';
 import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputFormField from '@/components/form/InputFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 import { Company, Role } from '@/lib/actionTypes';
 import { useUsers } from '../hooks/useUsers';
 import { UserWithRelations } from '../type/fetchResultResponse';
@@ -34,12 +34,12 @@ export function UpsertUserDialog({ user, companies, roles, children }: UpsertUse
   const formContent = (
     <div className="flex flex-col gap-4">
       <InputSelectFormField name="companyId" label="所属会社" form={form} options={companyOptions} />
-      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATION_LIMITS.NAME_MAX_LENGTH} required />
+      <InputFormField name="name" label="名前" form={form} maxLength={VALIDATIONS.NAME_MAX_LENGTH} required />
       <InputFormField
         name="email"
         label="メールアドレス"
         form={form}
-        maxLength={VALIDATION_LIMITS.EMAIL_MAX_LENGTH}
+        maxLength={VALIDATIONS.EMAIL_MAX_LENGTH}
         required
       />
       <InputSelectFormField name="roleId" label="権限" form={form} options={roleOptions} />

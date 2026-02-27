@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 const BaseLoginSchema = z.object({
   email: z
@@ -10,18 +10,18 @@ const BaseLoginSchema = z.object({
     .min(1, {
       message: 'メールアドレスは必須です。',
     })
-    .max(VALIDATION_LIMITS.EMAIL_MAX_LENGTH, {
-      message: `${VALIDATION_LIMITS.EMAIL_MAX_LENGTH}文字以内で入力してください。`,
+    .max(VALIDATIONS.EMAIL_MAX_LENGTH, {
+      message: `${VALIDATIONS.EMAIL_MAX_LENGTH}文字以内で入力してください。`,
     }),
   password: z
     .string()
-    .min(VALIDATION_LIMITS.MIN_PASSWORD_LENGTH, {
-      message: `${VALIDATION_LIMITS.MIN_PASSWORD_LENGTH}文字以上で入力してください。`,
+    .min(VALIDATIONS.MIN_PASSWORD_LENGTH, {
+      message: `${VALIDATIONS.MIN_PASSWORD_LENGTH}文字以上で入力してください。`,
     })
-    .max(VALIDATION_LIMITS.PASSWORD_MAX_LENGTH, {
-      message: `${VALIDATION_LIMITS.PASSWORD_MAX_LENGTH}文字以内で入力してください。`,
+    .max(VALIDATIONS.PASSWORD_MAX_LENGTH, {
+      message: `${VALIDATIONS.PASSWORD_MAX_LENGTH}文字以内で入力してください。`,
     })
-    .regex(VALIDATION_LIMITS.PASSWORD_REGEX, {
+    .regex(VALIDATIONS.PASSWORD_REGEX, {
       message: 'パスワードには英小文字、英大文字、数字、特殊文字（!@#$%^&*）を含めてください。',
     }),
 });
@@ -30,10 +30,10 @@ export const SignInSchema = BaseLoginSchema;
 export const SignUpSchema = BaseLoginSchema.extend({
   name: z
     .string()
-    .min(VALIDATION_LIMITS.MIN_LENGTH, {
+    .min(VALIDATIONS.MIN_LENGTH, {
       message: '名前は必須です。',
     })
-    .max(VALIDATION_LIMITS.NAME_MAX_LENGTH, {
-      message: `${VALIDATION_LIMITS.NAME_MAX_LENGTH}文字以内で入力してください。`,
+    .max(VALIDATIONS.NAME_MAX_LENGTH, {
+      message: `${VALIDATIONS.NAME_MAX_LENGTH}文字以内で入力してください。`,
     }),
 });

@@ -1,8 +1,8 @@
 import { users } from '@/features/system/users/const/mockData';
+import { Holiday } from '@/lib/actionTypes';
 import { holidays } from '../const/mockData';
-import { HolidayType } from '../type/holidayType';
 
-export const fetchHolidays = async (year?: number): Promise<HolidayType[]> => {
+export const fetchHolidays = async (year?: number): Promise<Holiday[]> => {
   await new Promise((resolve) => setTimeout(resolve, 300));
 
   // TODO: 会社に紐づく休日を取得

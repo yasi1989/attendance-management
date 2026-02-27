@@ -7,14 +7,3 @@ export const WEEKDAYS_WITH_STYLES = [
   { name: '金', fullName: '金曜日', textColor: 'text-gray-700 dark:text-gray-300' },
   { name: '土', fullName: '土曜日', textColor: 'text-blue-600 dark:text-blue-400' },
 ] as const;
-
-export const VALIDATION_CONSTANTS = {
-  YEAR: {
-    MIN: 2020,
-    MAX: 2040,
-  },
-  MONTH: {
-    MIN: 1,
-    MAX: 12,
-  },
-} as const;

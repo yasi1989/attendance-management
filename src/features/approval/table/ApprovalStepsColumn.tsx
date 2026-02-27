@@ -3,7 +3,7 @@ import { Calendar, CheckCircle2, MessageCircle, User } from 'lucide-react';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { ApprovalStepType } from '@/features/approval/type/approvalStepType';
-import { formatDateToISOString } from '@/lib/date';
+import { formatDateForDisplay } from '@/lib/dateClient';
 import { truncate } from '@/lib/utils';
 
 export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
@@ -66,8 +66,8 @@ export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
         className="text-slate-900 dark:text-slate-100 min-w-[70px] flex items-center justify-center"
         title={`${row.original.approvedAt}`}
       >
-        <span className="block md:hidden">{formatDateToISOString(row.original.approvedAt, 'MM/dd')}</span>
-        <span className="hidden md:block">{formatDateToISOString(row.original.approvedAt, 'yyyy-MM-dd')}</span>
+        <span className="block md:hidden">{formatDateForDisplay(row.original.approvedAt, 'MM/dd')}</span>
+        <span className="hidden md:block">{formatDateForDisplay(row.original.approvedAt)}</span>
       </div>
     ),
   },

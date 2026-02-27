@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import { VALIDATION_LIMITS } from '@/consts/validate';
+import { VALIDATIONS } from '@/consts/validate';
 
 export const HolidaySchema = z.object({
-  name: z.string().min(VALIDATION_LIMITS.MIN_LENGTH, {
+  id: z.string(),
+  name: z.string().min(VALIDATIONS.MIN_LENGTH, {
     message: '休日名は必須です。',
   }),
   holidayDate: z.date({

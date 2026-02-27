@@ -5,7 +5,7 @@ import { ArrowUpDown, Building, Calendar, Globe, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FORM_MODE } from '@/consts/formMode';
 import { Company } from '@/lib/actionTypes';
-import { formatDateToISOString } from '@/lib/date';
+import { formatDateForDisplay } from '@/lib/dateClient';
 import DeleteCompanyDialog from '../components/DeleteCompanyDialog';
 import { UpsertCompanyDialog } from '../components/UpsertCompanyDialog';
 
@@ -103,7 +103,7 @@ export const companyColumns: ColumnDef<Company>[] = [
       );
     },
     cell: ({ row }) => {
-      const formattedDate = formatDateToISOString(row.original.createdAt, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(row.original.createdAt);
       return (
         <div className="flex items-center justify-center text-slate-900 dark:text-slate-100" title={formattedDate}>
           {formattedDate}
@@ -121,7 +121,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     },
     filterFn: (row, id, value) => {
       const createdAt = row.getValue(id) as Date;
-      const formattedDate = formatDateToISOString(createdAt, 'yyyy-MM-dd');
+      const formattedDate = formatDateForDisplay(createdAt);
       return formattedDate.includes(value);
     },
   },
