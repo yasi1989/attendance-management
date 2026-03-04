@@ -1,23 +1,9 @@
-import { Holiday, MonthlyAttendanceApproval, MonthlyAttendanceSummary } from '@/lib/actionTypes';
+import { ATTENDANCES, HALF_DAYS, LEAVES } from '@/consts/attendance';
+import { Attendance, Holiday, MonthlyAttendanceApproval } from '@/lib/actionTypes';
 import { StatusType } from '@/types/statusType';
-import { ATTENDANCES, HALF_DAYS, LEAVES } from '../../../../consts/attendance';
-
-export type AttendanceData = {
-  date: Date;
-  status: StatusType;
-  workHours?: number;
-  overtimeHours?: number;
-  attendanceType: AttendanceType;
-  isHalfDay?: boolean;
-  halfDayType?: HalfDayType;
-  check_in?: number;
-  check_out?: number;
-  rest?: number;
-  comment?: string;
-};
 
 export type MonthlyAttendance = {
-  attendanceData: AttendanceData[];
+  attendanceData: Attendance[];
   canSubmit: boolean;
   monthlyStatus: StatusType;
 };
@@ -39,10 +25,28 @@ export type ApprovalWithSummary = MonthlyAttendanceApproval & {
   summary: MonthlyAttendanceSummary | null;
 };
 
-export type SummaryResult =
-  | (MonthlyAttendanceSummary & { source: 'database' })
-  | (MonthlyAttendanceSummary & { source: 'calculated' });
-
 export type AttendanceType = (typeof ATTENDANCES)[keyof typeof ATTENDANCES]['value'];
 export type LeaveType = (typeof LEAVES)[keyof typeof LEAVES]['value'];
 export type HalfDayType = (typeof HALF_DAYS)[keyof typeof HALF_DAYS]['value'];
+
+export type AttendanceAggregation = {
+  actualWorkDays: number;
+  totalMinutes: number;
+  regularMinutes: number;
+  overtimeMinutes: number;
+  categoryBreakdown: Record<string, number>;
+  issues: string[];
+};
+
+export type MonthlyAttendanceSummary = {
+  totalWorkDays: number;
+  actualWorkDays: number;
+  totalWorkHours: string;
+  regularHours: string;
+  overtimeHours: string;
+  categoryBreakdown: unknown;
+  issues: string[] | null;
+  canSubmit: boolean;
+};
+
+export type WorkTimeResult = { workMinutes: number; error: null } | { workMinutes: 0; error: string };

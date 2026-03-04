@@ -11,7 +11,7 @@ type CalendarHeaderProps = {
   previousMonth: () => void;
   nextMonth: () => void;
   goToToday: () => void;
-  monthlyStatus: StatusType;
+  monthlyStatus?: StatusType;
   canSubmit: boolean;
 };
 

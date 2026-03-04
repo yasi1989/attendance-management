@@ -1,10 +1,10 @@
 import { isSameDay, isSameMonth } from 'date-fns';
+import { FetchMonthlyAttendanceDataResponse } from '@/features/attendance/calendar/types/fetchResultResponse';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { canPerformRequest } from '@/lib/status';
 import { StatusType } from '@/types/statusType';
 import AttendanceDialog from '../dialog/components/AttendanceDialog';
 import { generateCalendarWeeks } from '../lib/calendarUtils';
-import { AttendanceDataResponse } from '../types/attendance';
 import CalendarDateCell from './CalendarDateCell';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 
@@ -12,8 +12,8 @@ type CalendarGridProps = {
   currentYear: number;
   currentMonth: number;
   currentDate: Date;
-  initialData: AttendanceDataResponse;
-  monthlyStatus: StatusType;
+  initialData: FetchMonthlyAttendanceDataResponse;
+  monthlyStatus?: StatusType;
 };
 
 const CalendarGrid = ({ currentYear, currentMonth, currentDate, initialData, monthlyStatus }: CalendarGridProps) => {
@@ -24,9 +24,7 @@ const CalendarGrid = ({ currentYear, currentMonth, currentDate, initialData, mon
       <CalendarWeekdayHeader />
       {weeks.map((week) =>
         week.map((day) => {
-          const targetDate = initialData.monthlyAttendance?.attendanceData?.find((attendance) =>
-            isSameDay(attendance.date, day),
-          );
+          const targetDate = initialData.attendances?.find((attendance) => isSameDay(attendance.workDate, day));
           const holidayInfo = initialData.holidays?.find((holiday) => isSameDay(holiday.holidayDate, day));
           const dayKey = formatDateForDisplay(day);
           const isDisabled = monthlyStatus && !canPerformRequest(monthlyStatus);
@@ -46,6 +44,7 @@ const CalendarGrid = ({ currentYear, currentMonth, currentDate, initialData, mon
                   attendanceData={targetDate}
                   holidayInfo={holidayInfo}
                   isDateCellCurrentMonth={isDateCellCurrentMonth}
+                  monthlyStatus={monthlyStatus}
                 />
               }
             />

@@ -6,15 +6,14 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { useDialogState } from '@/hooks/useDialogState';
-import { Holiday } from '@/lib/actionTypes';
-import { AttendanceData } from '../../types/attendance';
+import { Attendance, Holiday } from '@/lib/actionTypes';
 import { useAttendance } from '../hooks/useAttendance';
 import AttendanceFormFields from './AttendanceFormField';
 import AttendanceStatusInformation from './AttendanceStatusInformation';
 
 type AttendanceDialogProps = {
   day: Date;
-  attendanceData?: AttendanceData;
+  attendanceData?: Attendance;
   holidayInfo?: Holiday;
   isDisabled?: boolean;
   triggerContent?: React.ReactElement;

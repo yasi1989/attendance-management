@@ -4,7 +4,7 @@ import { getStatusByValue } from '@/lib/status';
 import { StatusType } from '@/types/statusType';
 
 interface StatusBadgeProps {
-  status: StatusType;
+  status?: StatusType;
   className?: string;
   useIcon?: boolean;
 }
@@ -20,7 +20,7 @@ const STATUS_COLORS: Record<StatusType, string> = {
     'bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800',
 };
 
-const getStatusStyle = (status: StatusType, className?: string, useIcon?: boolean) => {
+const getStatusStyle = (status?: StatusType, className?: string, useIcon?: boolean) => {
   const statusInfo = getStatusByValue(status);
   if (!statusInfo) return '';
   const label = statusInfo?.label;

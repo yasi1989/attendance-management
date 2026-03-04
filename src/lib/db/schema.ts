@@ -132,7 +132,7 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
   statusCode: text('status_code', {
-    enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
+    enum: ['Pending', 'Submitted', 'Rejected', 'Approved'],
   }).notNull(),
   targetMonth: dateOnly('target_month').notNull(),
   submittedAt: timestamp('submitted_at', { mode: 'date' }),

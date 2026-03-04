@@ -1,3 +1,4 @@
+import { eachDayOfInterval } from 'date-fns';
 import { VALIDATION_DATE } from '@/consts/validate';
 import { formatDateForDisplay } from './dateClient';
 
@@ -44,22 +45,14 @@ export const getYearRange = (year: number): { startDate: Date; endDate: Date } =
 };
 
 export function calculateWorkDays(startDate: Date, endDate: Date, holidayDatesSet: Set<string>): string[] {
-  const workDays: string[] = [];
-  const current = new Date(startDate);
+  return eachDayOfInterval({ start: startDate, end: endDate })
+    .map((date) => formatDateForDisplay(date))
+    .filter((dateStr) => isWorkDay(dateStr, holidayDatesSet));
+}
 
-  while (current <= endDate) {
-    const dateStr = formatDateForDisplay(current);
-    const dayOfWeek = current.getDay();
-    const isWorkDay = dayOfWeek !== 0 && dayOfWeek !== 6 && !holidayDatesSet.has(dateStr);
-
-    if (isWorkDay) {
-      workDays.push(dateStr);
-    }
-
-    current.setDate(current.getDate() + 1);
-  }
-
-  return workDays;
+function isWorkDay(dateStr: string, holidayDatesSet: Set<string>): boolean {
+  const dayOfWeek = new Date(dateStr).getDay();
+  return dayOfWeek !== 0 && dayOfWeek !== 6 && !holidayDatesSet.has(dateStr);
 }
 
 export function getMissingWorkDays(workDays: string[], registeredDatesSet: Set<string>): string[] {

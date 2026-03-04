@@ -1,8 +1,8 @@
 import { STATUS, STATUS_ACTIONS, STATUS_WITH_ALL_LIST } from '@/consts/status';
 import { StatusTypeWithAll } from '@/types/statusType';
 
-export const getStatusByValue = (value: string) => {
-  return Object.values(STATUS).find((status) => status.value === value);
+export const getStatusByValue = (value?: string) => {
+  return Object.values(STATUS).find((status) => status.value === value) ?? STATUS.PENDING;
 };
 
 export const canPerformRequest = (status: string) => {
