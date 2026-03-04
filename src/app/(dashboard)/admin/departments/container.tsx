@@ -1,4 +1,4 @@
-import { fetchDepartments } from '@/features/admin/departments/services/fetchDepartments';
+import { fetchDepartments } from '@/features/admin/departments/api/fetches';
 import DepartmentsPresentational from './presentational';
 
 const DepartmentsContainer = async () => {

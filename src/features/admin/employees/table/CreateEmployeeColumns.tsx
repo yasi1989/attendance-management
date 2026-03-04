@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SELECT_EMPTY } from '@/consts/form';
 import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { RoleType } from '@/features/system/users/type/roleType';
 import { UserType } from '@/features/system/users/type/userType';
@@ -113,8 +114,8 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         const departmentA = departments.find((d: DepartmentType) => d.id === rowA.original.departmentId);
         const departmentB = departments.find((d: DepartmentType) => d.id === rowB.original.departmentId);
 
-        const nameA = departmentA ? departmentA.departmentName : '未設定';
-        const nameB = departmentB ? departmentB.departmentName : '未設定';
+        const nameA = departmentA ? departmentA.departmentName : SELECT_EMPTY.label;
+        const nameB = departmentB ? departmentB.departmentName : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
@@ -147,7 +148,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
       ),
       cell: ({ row }) => {
         const role = roles.find((r: RoleType) => r.id === row.original.roleId);
-        const roleName = role ? role.roleName : '未設定';
+        const roleName = role ? role.roleName : SELECT_EMPTY.label;
         return (
           <div className="text-slate-900 dark:text-slate-100" title={roleName}>
             {roleName}
@@ -158,8 +159,8 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         const roleA = roles.find((r: RoleType) => r.id === rowA.original.roleId);
         const roleB = roles.find((r: RoleType) => r.id === rowB.original.roleId);
 
-        const nameA = roleA ? roleA.roleName : '未設定';
-        const nameB = roleB ? roleB.roleName : '未設定';
+        const nameA = roleA ? roleA.roleName : SELECT_EMPTY.label;
+        const nameB = roleB ? roleB.roleName : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },

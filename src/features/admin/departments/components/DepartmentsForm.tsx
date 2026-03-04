@@ -1,14 +1,13 @@
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UserType } from '@/features/system/users/type/userType';
+import { Department, User } from '@/lib/actionTypes';
 import DepartmentsListTable from './DepartmentsListTable';
 import { UpsertDepartmentDialog } from './UpsertDepartmentDialog';
 
 type DepartmentsFormProps = {
-  departments: DepartmentType[];
-  users: UserType[];
+  departments: Department[];
+  users: User[];
 };
 
 const DepartmentsForm = ({ departments, users }: DepartmentsFormProps) => {

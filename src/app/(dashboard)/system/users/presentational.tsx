@@ -1,3 +1,5 @@
+'use client';
+
 import { Users } from 'lucide-react';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';

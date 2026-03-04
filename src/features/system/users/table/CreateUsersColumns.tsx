@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SELECT_EMPTY } from '@/consts/form';
 import { Company, Role } from '@/lib/actionTypes';
 import UserDeleteDialog from '../components/DeleteUserDialog';
 import { UpsertUserDialog } from '../components/UpsertUserDialog';
@@ -33,7 +34,7 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
       ),
       cell: ({ row }) => {
         const company = row.original.company;
-        const companyName = company ? company.companyName : '未設定';
+        const companyName = company ? company.companyName : SELECT_EMPTY.label;
         return (
           <div className="font-semibold text-slate-900 dark:text-slate-100" title={companyName}>
             {companyName}
@@ -44,8 +45,8 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
         const companyA = rowA.original.company;
         const companyB = rowB.original.company;
 
-        const nameA = companyA ? companyA.companyName : '未設定';
-        const nameB = companyB ? companyB.companyName : '未設定';
+        const nameA = companyA ? companyA.companyName : SELECT_EMPTY.label;
+        const nameB = companyB ? companyB.companyName : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
@@ -150,7 +151,7 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
       ),
       cell: ({ row }) => {
         const role = row.original.role;
-        const roleName = role ? role.roleName : '未設定';
+        const roleName = role ? role.roleName : SELECT_EMPTY.label;
         return (
           <div className="text-slate-900 dark:text-slate-100" title={roleName}>
             {roleName}
@@ -161,8 +162,8 @@ export const columnsDef = ({ companies, roles }: ColumnsDefProps) => {
         const roleA = rowA.original.role;
         const roleB = rowB.original.role;
 
-        const nameA = roleA ? roleA.roleName : '未設定';
-        const nameB = roleB ? roleB.roleName : '未設定';
+        const nameA = roleA ? roleA.roleName : SELECT_EMPTY.label;
+        const nameB = roleB ? roleB.roleName : SELECT_EMPTY.label;
 
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },

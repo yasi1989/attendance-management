@@ -1,15 +1,17 @@
+'use client';
+
 import { Building } from 'lucide-react';
 import { AddButton } from '@/components/button/AddButton';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
+import { FORM_MODE } from '@/consts/formMode';
 import DepartmentsListTable from '@/features/admin/departments/components/DepartmentsListTable';
 import { UpsertDepartmentDialog } from '@/features/admin/departments/components/UpsertDepartmentDialog';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { UserType } from '@/features/system/users/type/userType';
+import { Department, User } from '@/lib/actionTypes';
 
 type DepartmentsPresentationalProps = {
-  departments: DepartmentType[];
-  users: UserType[];
+  departments: Department[];
+  users: User[];
 };
 
 const DepartmentsPresentational = ({ departments, users }: DepartmentsPresentationalProps) => {
@@ -20,7 +22,7 @@ const DepartmentsPresentational = ({ departments, users }: DepartmentsPresentati
         description="登録されている部署・役職情報を確認・管理できます"
         icon={<Building className="w-6 h-6 text-white" />}
         actionDialog={
-          <UpsertDepartmentDialog type="add" allDepartments={departments} users={users}>
+          <UpsertDepartmentDialog type={FORM_MODE.ADD.value} allDepartments={departments} users={users}>
             <AddButton label="部署・役職登録" />
           </UpsertDepartmentDialog>
         }

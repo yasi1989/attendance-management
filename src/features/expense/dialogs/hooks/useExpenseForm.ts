@@ -70,7 +70,7 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
   }, []);
 
   const handleExpenseTypeChange = useCallback(
-    (value: string) => {
+    (value: string | null) => {
       if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
         form.setValue(ROUTES_FIELD_NAME, [INITIAL_ROUTE]);
         form.setValue(AMOUNT_FIELD_NAME, 0);
