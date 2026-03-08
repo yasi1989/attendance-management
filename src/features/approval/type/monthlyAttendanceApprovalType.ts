@@ -1,5 +1,5 @@
-import { DepartmentType } from '@/features/system/users/type/departmentType';
 import { UserType } from '@/features/system/users/type/userType';
+import { Department } from '@/lib/actionTypes';
 import { StatusType } from '@/types/statusType';
 import { ApprovalStepType } from './approvalStepType';
 
@@ -7,7 +7,7 @@ export type MonthlyAttendanceApprovalItem = {
   id: string;
   userId: string;
   user: UserType & {
-    department: DepartmentType;
+    department: Department;
   };
   status: StatusType;
   targetMonth: Date;
