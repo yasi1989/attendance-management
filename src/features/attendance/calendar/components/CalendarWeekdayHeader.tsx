@@ -8,7 +8,7 @@ const CalendarWeekdayHeader = () => {
         <div
           className={cn(
             'border-r border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/30',
-            'py-4 text-center text-sm font-semibold',
+            'py-2 text-center text-sm font-semibold',
             'last:border-r-0',
             day.textColor,
           )}

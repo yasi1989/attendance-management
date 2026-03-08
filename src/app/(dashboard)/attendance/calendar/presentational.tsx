@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import CalendarFooter from '@/features/attendance/calendar/components/CalendarFooter';
 import CalendarGrid from '@/features/attendance/calendar/components/CalendarGrig';
 import CalendarHeader from '@/features/attendance/calendar/components/CalendarHeader';
 import CalendarMonthlySummary from '@/features/attendance/calendar/components/CalendarMonthlySummary';
@@ -43,7 +42,6 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
             monthlyStatus={monthlyStatus}
           />
         </CardContent>
-        <CalendarFooter />
         <CalendarMonthlySummary summary={initialData.monthlyAttendanceSummary} />
       </Card>
     </div>

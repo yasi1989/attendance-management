@@ -48,7 +48,7 @@ const CalendarDateCell = ({
   return (
     <div
       className={cn(
-        'relative h-28 sm:h-32 lg:h-36 p-3 sm:p-4',
+        'relative h-24 sm:h-28 lg:h-32 p-2 sm:p-3',
         'border border-gray-200/50 dark:border-gray-700/50 last:border-r-0',
         'transition-all duration-300 group',
         'hover:scale-[1.02] hover:z-10 hover:shadow-xl space-y-1',
@@ -64,7 +64,7 @@ const CalendarDateCell = ({
     >
       <div
         className={cn(
-          'text-sm sm:text-base font-semibold mb-1 sm:mb-2 relative flex items-center justify-between',
+          'text-sm font-semibold mb-1 relative flex items-center justify-between',
           isSaturday(day) && isCurrentMonth && 'text-blue-600 dark:text-blue-400',
           (isSunday(day) || holidayInfo) && isCurrentMonth && 'text-red-600 dark:text-red-400',
           isTodayDate && 'text-blue-700 dark:text-blue-300',

@@ -1,6 +1,7 @@
 'use client';
-import { AlertTriangle, BarChart3, Briefcase, CalendarCheck, Clock, TrendingUp, Zap } from 'lucide-react';
+import { AlertTriangle, BarChart3, Briefcase, CalendarCheck, Clock, TrendingUp, Umbrella, Zap } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { LEAVES } from '@/consts/attendance';
 import { cn } from '@/lib/utils';
 import { MonthlyAttendanceSummary } from '@/types/attendance';
 
@@ -46,6 +47,30 @@ const StatCard = ({
   </div>
 );
 
+const LEAVE_DISPLAY = [
+  {
+    value: LEAVES.PAID.value,
+    label: LEAVES.PAID.label,
+    colorClass: 'text-emerald-600 dark:text-emerald-400',
+    dotClass: 'bg-emerald-400',
+    bgClass: 'bg-emerald-50 dark:bg-emerald-950/30',
+  },
+  {
+    value: LEAVES.ABSENCE.value,
+    label: LEAVES.ABSENCE.label,
+    colorClass: 'text-red-600 dark:text-red-400',
+    dotClass: 'bg-red-400',
+    bgClass: 'bg-red-50 dark:bg-red-950/30',
+  },
+  {
+    value: LEAVES.SPECIAL.value,
+    label: LEAVES.SPECIAL.label,
+    colorClass: 'text-purple-600 dark:text-purple-400',
+    dotClass: 'bg-purple-400',
+    bgClass: 'bg-purple-50 dark:bg-purple-950/30',
+  },
+] as const;
+
 const CalendarMonthlySummary = ({ summary, className }: CalendarMonthlySummaryProps) => {
   const attendanceRate =
     summary.totalWorkDays > 0 ? Math.round((summary.actualWorkDays / summary.totalWorkDays) * 100) : 0;
@@ -55,8 +80,14 @@ const CalendarMonthlySummary = ({ summary, className }: CalendarMonthlySummaryPr
   const totalNum = parseFloat(summary.totalWorkHours);
   const regularRatio = totalNum > 0 ? (regularNum / totalNum) * 100 : 0;
 
+  const leaveEntries = LEAVE_DISPLAY.map((item) => ({
+    ...item,
+    count: (summary.categoryBreakdown as Record<string, number>)[item.value] ?? 0,
+  }));
+  const totalLeaveDays = leaveEntries.reduce((sum, item) => sum + item.count, 0);
+
   return (
-    <div className={cn('space-y-4 m-4', className)}>
+    <div className={cn('space-y-2 mx-4', className)}>
       <div className="flex items-center gap-3">
         <div className="flex items-center justify-center w-9 h-9 bg-linear-to-r from-violet-600 to-indigo-600 rounded-lg shadow-sm">
           <BarChart3 className="h-5 w-5 text-white" />
@@ -107,7 +138,7 @@ const CalendarMonthlySummary = ({ summary, className }: CalendarMonthlySummaryPr
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="p-4 rounded-xl border border-gray-200/60 dark:border-gray-700/60 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -151,6 +182,30 @@ const CalendarMonthlySummary = ({ summary, className }: CalendarMonthlySummaryPr
               <span className="w-2 h-2 rounded-full bg-orange-400 inline-block" />
               残業 {overtimeNum.toFixed(1)}h
             </span>
+          </div>
+        </div>
+
+        <div className="p-4 rounded-xl border border-gray-200/60 dark:border-gray-700/60 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm space-y-2">
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Umbrella className="h-4 w-4 text-violet-500" />
+              休暇内訳
+            </div>
+            <span className="text-sm font-bold text-gray-900 dark:text-gray-100">
+              {totalLeaveDays}
+              <span className="text-xs font-normal text-gray-500 dark:text-gray-400 ml-0.5">日</span>
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {leaveEntries.map((item) => (
+              <div key={item.value} className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                  <span className={cn('w-2 h-2 rounded-full inline-block shrink-0', item.dotClass)} />
+                  {item.label}
+                </span>
+                <span className={cn('text-xs font-semibold', item.colorClass)}>{item.count}日</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

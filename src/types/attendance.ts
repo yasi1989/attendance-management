@@ -1,25 +1,5 @@
 import { ATTENDANCES, HALF_DAYS, LEAVES } from '@/consts/attendance';
-import { Attendance, Holiday, MonthlyAttendanceApproval } from '@/lib/actionTypes';
-import { StatusType } from '@/types/statusType';
-
-export type MonthlyAttendance = {
-  attendanceData: Attendance[];
-  canSubmit: boolean;
-  monthlyStatus: StatusType;
-};
-
-export type AttendanceSummary = {
-  totalWorkDays: number;
-  totalWorkHours: number;
-  totalOvertimeHours: number;
-  approvedDays: number;
-  submittedDays: number;
-};
-
-export type AttendanceDataResponse = {
-  monthlyAttendance: MonthlyAttendance;
-  holidays: Holiday[];
-};
+import { MonthlyAttendanceApproval } from '@/lib/actionTypes';
 
 export type ApprovalWithSummary = MonthlyAttendanceApproval & {
   summary: MonthlyAttendanceSummary | null;
