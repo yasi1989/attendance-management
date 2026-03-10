@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { formatCurrency } from '@/lib/currency';
 import { canPerformApprovalOrRejection } from '@/lib/status';
 import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
@@ -12,7 +12,7 @@ import { ExpenseDetailDialog } from '../components/dialogs/ExpenseDetailDialog';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 
 type ExpenseApprovalsColumnsProps = {
-  departments: DepartmentType[];
+  departments: Department[];
 };
 
 export const createExpenseApprovalsColumns = ({
@@ -146,7 +146,7 @@ export const createExpenseApprovalsColumns = ({
         japaneseLabel: '所属',
       },
       filterFn: (row, _id, filterValue) => {
-        const department = departments.find((d: DepartmentType) => d.id === row.original.user.departmentId);
+        const department = departments.find((d: Department) => d.id === row.original.user.departmentId);
         const departmentPath = getDepartmentPath(departments, row.original.user.departmentId);
         return department
           ? department.departmentName.includes(filterValue) || departmentPath.includes(filterValue)

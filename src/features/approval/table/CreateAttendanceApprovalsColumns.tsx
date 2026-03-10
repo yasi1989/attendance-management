@@ -4,14 +4,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { getDepartmentPath } from '@/features/admin/employees/lib/departmentUtils';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { canPerformApprovalOrRejection } from '@/lib/status';
 import StatusBadge from '../../../components/layout/StatusBadge';
 import { AttendanceDetailDialog } from '../components/dialogs/AttendanceDetailDialog';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 
 type AttendanceApprovalsColumnsProps = {
-  departments: DepartmentType[];
+  departments: Department[];
 };
 
 export const createAttendanceApprovalsColumns = ({
@@ -145,7 +145,7 @@ export const createAttendanceApprovalsColumns = ({
         japaneseLabel: '所属',
       },
       filterFn: (row, _id, filterValue) => {
-        const department = departments.find((d: DepartmentType) => d.id === row.original.user.departmentId);
+        const department = departments.find((d: Department) => d.id === row.original.user.departmentId);
         const departmentPath = getDepartmentPath(departments, row.original.user.departmentId);
         return department
           ? department.departmentName.includes(filterValue) || departmentPath.includes(filterValue)

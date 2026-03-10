@@ -14,10 +14,16 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
   try {
     const { id, name, email, departmentId, roleId } = values;
     await requireCompanyAdmin();
-    const existingUser = await db.query.users.findFirst({
-      where: (users, { eq, and, ne }) => and(eq(users.email, email), ne(users.id, id)),
-    });
-    if (existingUser) {
+    const [currentUser, existingUser] = await Promise.all([
+      db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
+      db.query.users.findFirst({
+        where: (users, { eq, and, ne }) => and(eq(users.email, email), ne(users.id, id)),
+      }),
+    ]);
+    if (!currentUser) {
+      return { success: false, error: 'ユーザーが見つかりませんでした。' };
+    }
+    if (currentUser.email !== email && existingUser) {
       return { success: false, error: 'メールアドレスが重複しています。' };
     }
     await db
