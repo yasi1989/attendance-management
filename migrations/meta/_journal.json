@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1753447803827,
-      "tag": "0000_confused_runaways",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1753715420096,
-      "tag": "0001_romantic_namora",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1755256722171,
-      "tag": "0002_bored_paibok",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1756346143685,
-      "tag": "0003_tearful_turbo",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1756356701319,
-      "tag": "0004_chief_carnage",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1756368176433,
-      "tag": "0005_familiar_corsair",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1770969491906,
-      "tag": "0006_living_vengeance",
+      "when": 1773131331412,
+      "tag": "0000_tough_grandmaster",
       "breakpoints": true
     }
   ]

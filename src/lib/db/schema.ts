@@ -156,7 +156,7 @@ export const attendances = pgTable('attendances', {
   attendanceType: text('attendance_type', {
     enum: ['Work', 'Paid', 'Absence', 'Special'],
   }).notNull(),
-  isHalfDay: boolean('is_half_day').default(false),
+  isHalfDay: boolean('is_half_day').default(false).notNull(),
   halfDayType: text('half_day_type', {
     enum: ['Am', 'Pm'],
   }),

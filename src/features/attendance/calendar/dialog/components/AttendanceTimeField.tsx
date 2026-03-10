@@ -10,9 +10,9 @@ type AttendanceTimeFieldProps = {
 };
 
 const TIME_FIELDS = [
-  { name: 'check_in' as const, label: '出勤時間' },
-  { name: 'check_out' as const, label: '退勤時間' },
-  { name: 'rest' as const, label: '休憩時間' },
+  { name: 'startTime' as const, label: '出勤時間' },
+  { name: 'endTime' as const, label: '退勤時間' },
+  { name: 'breakTime' as const, label: '休憩時間' },
 ] as const;
 
 const AttendanceTimeField = ({ form, isDisabled }: AttendanceTimeFieldProps) => {
