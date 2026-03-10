@@ -4,10 +4,10 @@ import { UserCog } from 'lucide-react';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import EmployeesListTable from '@/features/admin/employees/components/EmployeesListTable';
-import { Department, Role, User } from '@/lib/actionTypes';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 
 type EmployeesPresentationalProps = {
-  users: User[];
+  users: PublicUser[];
   departments: Department[];
   roles: Role[];
 };

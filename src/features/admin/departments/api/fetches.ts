@@ -12,6 +12,10 @@ export const fetchDepartments = async (): Promise<FetchDepartmentsDataResponse> 
         orderBy: (departments, { asc }) => [asc(departments.departmentName)],
       }),
       db.query.users.findMany({
+        columns: {
+          hashedPassword: false,
+          emailVerified: false,
+        },
         where: (users, { eq }) => eq(users.companyId, user.companyId),
         with: {
           department: true,

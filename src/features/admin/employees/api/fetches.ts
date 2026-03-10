@@ -9,6 +9,10 @@ export const fetchEmployees = async (): Promise<FetchEmployeesDataResponse> => {
     const { user } = await requireCompanyAdmin();
     const [users, departments, roles] = await Promise.all([
       db.query.users.findMany({
+        columns: {
+          hashedPassword: false,
+          emailVerified: false,
+        },
         where: (users, { eq }) => eq(users.companyId, user.companyId),
         with: {
           department: true,

@@ -6,12 +6,12 @@ import FormDialog, { DialogConfig } from '@/components/dialog/FormDialog';
 import InputFormField from '@/components/form/InputFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { VALIDATIONS } from '@/consts/validate';
-import { Department, Role, User } from '@/lib/actionTypes';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 import { useEmployee } from '../hooks/useEmployees';
 import { getDepartmentPath } from '../lib/departmentUtils';
 
 type UpsertEmployeeDialogProps = {
-  user: User;
+  user: PublicUser;
   departments: Department[];
   roles: Role[];
   children?: React.ReactNode;

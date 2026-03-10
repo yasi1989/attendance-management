@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Building, Mail, Settings, Shield, UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SELECT_EMPTY } from '@/consts/form';
-import { Department, Role, User } from '@/lib/actionTypes';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 import DeleteEmployeeDialog from '../components/DeleteEmployeeDialog';
 import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
 import { getDepartmentPath } from '../lib/departmentUtils';
@@ -12,7 +12,7 @@ type EmployeesColumnsProps = {
   roles: Role[];
 };
 
-export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<User>[] => {
+export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<PublicUser>[] => {
   return [
     {
       accessorKey: 'name',

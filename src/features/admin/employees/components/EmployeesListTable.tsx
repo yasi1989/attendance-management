@@ -1,11 +1,11 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { Department, Role, User } from '@/lib/actionTypes';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 import { createEmployeeColumns } from '../table/CreateEmployeeColumns';
 
 type EmployeesListTableProps = {
-  users: User[];
+  users: PublicUser[];
   departments: Department[];
   roles: Role[];
 };

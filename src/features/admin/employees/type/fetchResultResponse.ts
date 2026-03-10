@@ -1,7 +1,7 @@
-import { Department, Role, User } from '@/lib/actionTypes';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 
 export type FetchEmployeesDataResponse = {
-  users: User[];
+  users: PublicUser[];
   departments: Department[];
   roles: Role[];
 };

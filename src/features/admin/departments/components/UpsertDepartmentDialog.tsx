@@ -8,7 +8,7 @@ import InputSelectFormField from '@/components/form/InputSelectFormField';
 import { SELECT_EMPTY } from '@/consts/form';
 import { FormMode } from '@/consts/formMode';
 import { VALIDATIONS } from '@/consts/validate';
-import { Department, User } from '@/lib/actionTypes';
+import { Department, PublicUser } from '@/lib/actionTypes';
 import { getFormModeName } from '@/lib/formMode';
 import { useDepartments } from '../hooks/useDepartments';
 
@@ -16,7 +16,7 @@ type UpsertDepartmentDialogProps = {
   type: FormMode;
   userDepartment?: Department;
   allDepartments: Department[];
-  users: User[];
+  users: PublicUser[];
   children?: React.ReactNode;
 };
 
