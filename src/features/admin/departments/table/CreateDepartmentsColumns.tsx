@@ -5,11 +5,11 @@ import { ArrowUpDown, Building, Building2, Settings, UserIcon } from 'lucide-rea
 import { Button } from '@/components/ui/button';
 import { SELECT_EMPTY } from '@/consts/form';
 import { FORM_MODE } from '@/consts/formMode';
-import { Department, User } from '@/lib/actionTypes';
+import { Department, PublicUser } from '@/lib/actionTypes';
 import DeleteDepartmentDialog from '../components/DeleteDepartmentDialog';
 import { UpsertDepartmentDialog } from '../components/UpsertDepartmentDialog';
 
-export const createDepartmentsColumns = (departments: Department[], users: User[]): ColumnDef<Department>[] => {
+export const createDepartmentsColumns = (departments: Department[], users: PublicUser[]): ColumnDef<Department>[] => {
   return [
     {
       accessorKey: 'departmentName',

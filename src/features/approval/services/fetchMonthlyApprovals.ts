@@ -1,5 +1,5 @@
 import { STATUS_WITH_ALL } from '@/consts/status';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { StatusTypeWithAll } from '@/types/statusType';
 import { sampleMonthlyApprovals } from '../const/mockData';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
@@ -14,7 +14,7 @@ type FetchMonthlyApprovalsParams = {
 export type FetchMonthlyApprovalsResponse = {
   attendances: MonthlyAttendanceApprovalItem[];
   expenses: MonthlyExpenseApprovalItem[];
-  myCompanyDepartments: DepartmentType[];
+  myCompanyDepartments: Department[];
 };
 
 const getFixedData = <T extends MonthlyAttendanceApprovalItem | MonthlyExpenseApprovalItem>(

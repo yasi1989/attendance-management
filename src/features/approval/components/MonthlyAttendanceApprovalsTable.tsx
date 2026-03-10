@@ -1,14 +1,14 @@
 import { useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { createAttendanceApprovalsColumns } from '../table/CreateAttendanceApprovalsColumns';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import ApprovalBulkForm from './ApprovalBulkForm';
 
 type MonthlyAttendanceApprovalsTableProps = {
   attendances: MonthlyAttendanceApprovalItem[];
-  departments: DepartmentType[];
+  departments: Department[];
 };
 
 const MonthlyAttendanceApprovalsTable = ({ attendances, departments }: MonthlyAttendanceApprovalsTableProps) => {

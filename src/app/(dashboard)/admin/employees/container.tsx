@@ -1,4 +1,4 @@
-import { fetchEmployees } from '@/features/admin/employees/services/fetchEmployees';
+import { fetchEmployees } from '@/features/admin/employees/api/fetches';
 import EmployeesPresentational from './presentational';
 
 const EmployeesContainer = async () => {

@@ -4,14 +4,12 @@ import { UserCog } from 'lucide-react';
 import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import EmployeesListTable from '@/features/admin/employees/components/EmployeesListTable';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { RoleType } from '@/features/system/users/type/roleType';
-import { UserType } from '@/features/system/users/type/userType';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 
 type EmployeesPresentationalProps = {
-  users: UserType[];
-  departments: DepartmentType[];
-  roles: RoleType[];
+  users: PublicUser[];
+  departments: Department[];
+  roles: Role[];
 };
 
 const EmployeesPresentational = ({ users, departments, roles }: EmployeesPresentationalProps) => {
