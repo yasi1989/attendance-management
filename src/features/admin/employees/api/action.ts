@@ -35,7 +35,7 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
         roleId,
       })
       .where(eq(users.id, id));
-    revalidatePath(URLS.ADMIN_EMPLOYEES);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -49,7 +49,7 @@ export const deleteEmployeeAction = async (id: string): Promise<ActionStateResul
     if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
-    revalidatePath(URLS.ADMIN_EMPLOYEES);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);

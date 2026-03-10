@@ -30,7 +30,7 @@ export const addHolidayAction = async (values: z.infer<typeof HolidaySchema>): P
       companyId: user.companyId,
       type: HOLIDAY_CATEGORIES.COMPANY.value,
     });
-    revalidatePath(URLS.ADMIN_HOLIDAYS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -54,7 +54,7 @@ export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): 
       .update(holidays)
       .set({ name, holidayDate, companyId: user.companyId, type: HOLIDAY_CATEGORIES.COMPANY.value })
       .where(eq(holidays.id, id));
-    revalidatePath(URLS.ADMIN_HOLIDAYS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -68,7 +68,7 @@ export const deleteHolidayAction = async (id: string): Promise<ActionStateResult
     if (result.rowCount === 0) {
       return { success: false, error: '祝日が見つかりませんでした。' };
     }
-    revalidatePath(URLS.ADMIN_HOLIDAYS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
