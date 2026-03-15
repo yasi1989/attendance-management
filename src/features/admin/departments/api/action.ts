@@ -8,7 +8,11 @@ import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { departments } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
-import { validateDepartmentName, validateManager, validateParentDepartment } from '../lib/actionValidate';
+import {
+  ensureUniqueDepartmentNameInCompany,
+  ensureValidManagerInCompany,
+  ensureValidParentDepartment,
+} from '../lib/actionValidate';
 import { DepartmentSchema } from '../lib/formSchema';
 
 export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchema>): Promise<ActionStateResult> => {
@@ -16,11 +20,11 @@ export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchem
     const { departmentName, parentDepartmentId, managerUserId } = values;
     const { user } = await requireCompanyAdmin();
 
-    const nameError = await validateDepartmentName(departmentName, user.companyId);
+    const nameError = await ensureUniqueDepartmentNameInCompany(departmentName, user.companyId);
     if (nameError) return nameError;
-    const parentError = await validateParentDepartment(parentDepartmentId, user.companyId);
+    const parentError = await ensureValidParentDepartment(parentDepartmentId, user.companyId);
     if (parentError) return parentError;
-    const managerError = await validateManager(managerUserId, user.companyId);
+    const managerError = await ensureValidManagerInCompany(managerUserId, user.companyId);
     if (managerError) return managerError;
 
     await db.insert(departments).values({
@@ -29,8 +33,7 @@ export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchem
       managerUserId: managerUserId ?? null,
       companyId: user.companyId,
     });
-
-    revalidatePath(URLS.ADMIN_DEPARTMENTS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -42,11 +45,11 @@ export const editDepartmentAction = async (values: z.infer<typeof DepartmentSche
     const { id, departmentName, parentDepartmentId, managerUserId } = values;
     const { user } = await requireCompanyAdmin();
 
-    const nameError = await validateDepartmentName(departmentName, user.companyId, id);
+    const nameError = await ensureUniqueDepartmentNameInCompany(departmentName, user.companyId, id);
     if (nameError) return nameError;
-    const parentError = await validateParentDepartment(parentDepartmentId, user.companyId, id);
+    const parentError = await ensureValidParentDepartment(parentDepartmentId, user.companyId, id);
     if (parentError) return parentError;
-    const managerError = await validateManager(managerUserId, user.companyId);
+    const managerError = await ensureValidManagerInCompany(managerUserId, user.companyId);
     if (managerError) return managerError;
 
     await db
@@ -57,8 +60,7 @@ export const editDepartmentAction = async (values: z.infer<typeof DepartmentSche
         managerUserId: managerUserId ?? null,
       })
       .where(and(eq(departments.id, id), eq(departments.companyId, user.companyId)));
-
-    revalidatePath(URLS.ADMIN_DEPARTMENTS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -84,7 +86,7 @@ export const deleteDepartmentAction = async (id: string): Promise<ActionStateRes
       return { success: false, error: '部署が見つかりませんでした。' };
     }
 
-    revalidatePath(URLS.ADMIN_DEPARTMENTS);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);

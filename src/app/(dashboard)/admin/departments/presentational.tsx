@@ -7,11 +7,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FORM_MODE } from '@/consts/formMode';
 import DepartmentsListTable from '@/features/admin/departments/components/DepartmentsListTable';
 import { UpsertDepartmentDialog } from '@/features/admin/departments/components/UpsertDepartmentDialog';
-import { Department, User } from '@/lib/actionTypes';
+import { Department, PublicUser } from '@/lib/actionTypes';
 
 type DepartmentsPresentationalProps = {
   departments: Department[];
-  users: User[];
+  users: PublicUser[];
 };
 
 const DepartmentsPresentational = ({ departments, users }: DepartmentsPresentationalProps) => {

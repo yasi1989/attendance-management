@@ -5,12 +5,12 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { FORM_MODE } from '@/consts/formMode';
 import { ERROR_MESSAGE } from '@/consts/validate';
-import { User } from '@/lib/actionTypes';
+import { PublicUser } from '@/lib/actionTypes';
 import { deleteEmployeeAction, editEmployeeAction } from '../api/action';
 import { EmployeeSchema } from '../lib/formSchema';
 
 type UseEmployeeProps = {
-  user: User;
+  user: PublicUser;
 };
 
 export const useEmployee = ({ user }: UseEmployeeProps) => {

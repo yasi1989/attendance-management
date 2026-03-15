@@ -3,7 +3,7 @@ import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { departments, users } from '@/lib/db/schema';
 
-export const validateParentDepartment = async (
+export const ensureValidParentDepartment = async (
   parentDepartmentId: string | null | undefined,
   companyId: string,
   selfId?: string,
@@ -21,7 +21,7 @@ export const validateParentDepartment = async (
   return null;
 };
 
-export const validateManager = async (
+export const ensureValidManagerInCompany = async (
   managerUserId: string | null | undefined,
   companyId: string,
 ): Promise<ActionStateResult | null> => {
@@ -35,7 +35,7 @@ export const validateManager = async (
   return null;
 };
 
-export const validateDepartmentName = async (
+export const ensureUniqueDepartmentNameInCompany = async (
   departmentName: string,
   companyId: string,
   excludeId?: string,
