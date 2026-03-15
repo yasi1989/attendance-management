@@ -5,6 +5,11 @@ import z from 'zod';
 import { URLS } from '@/consts/urls';
 import { requireSystemAdmin } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
+import {
+  ensureUserInCompany,
+  ensureUserNotDepartmentManager,
+  ensureUserNotInApprovalFlows,
+} from '@/lib/actionValidate';
 import { db } from '@/lib/db/drizzle';
 import { users } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
@@ -45,6 +50,16 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
 export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
   try {
     await requireSystemAdmin();
+
+    const userError = await ensureUserInCompany(id);
+    if (userError) return userError;
+
+    const approvalError = await ensureUserNotInApprovalFlows(id);
+    if (approvalError) return approvalError;
+
+    const managerError = await ensureUserNotDepartmentManager(id);
+    if (managerError) return managerError;
+
     const result = await db.delete(users).where(eq(users.id, id));
     if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
