@@ -5,17 +5,16 @@ import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../co
 export const AttendanceFormSchema = z
   .object({
     date: z.date({ message: '勤務日を設定してください' }),
-    attendanceType: z.enum([...ATTENDANCES_LIST] as [string, ...string[]], { message: '勤怠種別を選択してください' }),
-    isHalfDay: z.boolean().isNullable(),
-    halfDayType: z
-      .enum([...HALF_DAYS_LIST] as [string, ...string[]], { message: '午前半休または午後半休を選択してください' })
-      .optional(),
-    startTime: z.number().optional(),
-    endTime: z.number().optional(),
-    breakTime: z.number().optional(),
+    attendanceType: z.enum(ATTENDANCES_LIST, { message: '勤怠種別を選択してください' }),
+    isHalfDay: z.boolean(),
+    halfDayType: z.enum(HALF_DAYS_LIST, { message: '午前半休または午後半休を選択してください' }).nullable().optional(),
+    startTime: z.number().nullable().optional(),
+    endTime: z.number().nullable().optional(),
+    breakTime: z.number().nullable().optional(),
     comment: z
       .string()
       .max(VALIDATIONS.COMMENT_MAX_LENGTH, `コメントは${VALIDATIONS.COMMENT_MAX_LENGTH}文字以内で入力してください`)
+      .nullable()
       .optional(),
   })
   .superRefine((data, ctx) => {

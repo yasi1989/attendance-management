@@ -7,7 +7,7 @@ import { ERROR_MESSAGE } from '@/consts/validate';
 import { Attendance } from '@/lib/actionTypes';
 import { AttendanceType, HalfDayType } from '@/types/attendance';
 import { ATTENDANCES, HALF_DAYS } from '../../../../../consts/attendance';
-import { createAttendanceAction, deleteAttendanceAction, updateAttendanceAction } from '../api/actions';
+import { createAttendanceAction, deleteAttendanceAction, updateAttendanceAction } from '../../api/action';
 import { AttendanceFormSchema } from '../lib/formSchema';
 
 type UseAttendanceProps = {
@@ -60,8 +60,9 @@ export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendance
   const onSubmit = (data: z.infer<typeof AttendanceFormSchema>) => {
     startTransition(async () => {
       try {
-        const action = attendanceData ? updateAttendanceAction : createAttendanceAction;
-        const { success, error } = await action(data);
+        const { success, error } = await (attendanceData
+          ? updateAttendanceAction(attendanceData.id, data)
+          : createAttendanceAction(data));
         if (!success) {
           toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
         } else {
@@ -111,13 +112,14 @@ export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendance
   };
 };
 
-export const useDeleteAttendance = (attendanceId: string) => {
-  const [isPending, startTransition] = useTransition();
+export const useDeleteAttendance = (id: string) => {
+  const [isDeletePending, startTransition] = useTransition();
 
   const onDelete = () => {
+    if (!id) return;
     startTransition(async () => {
       try {
-        const { success, error } = await deleteAttendanceAction(attendanceId);
+        const { success, error } = await deleteAttendanceAction(id);
         if (!success) {
           toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
         } else {
@@ -133,5 +135,5 @@ export const useDeleteAttendance = (attendanceId: string) => {
     });
   };
 
-  return { onDelete, isPending };
+  return { onDelete, isDeletePending };
 };
