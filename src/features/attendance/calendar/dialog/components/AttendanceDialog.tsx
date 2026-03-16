@@ -26,7 +26,7 @@ const AttendanceDialog = ({
   isAttendanceEditLocked,
 }: AttendanceDialogProps) => {
   const isWeekend = isSaturday(day) || isSunday(day);
-
+  const _isSpecialDay = isWeekend || !!holidayInfo;
   const {
     form,
     onSubmit,
@@ -47,7 +47,7 @@ const AttendanceDialog = ({
         <div>{triggerContent}</div>
       </DialogTrigger>
 
-      <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="[&>button]:hidden w-full sm:max-w-2xl lg:max-w-3xl max-h-[90vh] overflow-y-auto p-4 gap-4 shadow-2xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
             <DialogHeaderWithClose title="勤怠申請" onClose={handleCloseButtonClick} />
@@ -73,7 +73,7 @@ const AttendanceDialog = ({
             </Card>
 
             {!isAttendanceEditLocked && (
-              <DialogFooter className="px-4 sm:px-6">
+              <DialogFooter className="px-1">
                 <DialogActionFooter
                   resetToDefault={resetToDefault}
                   onDelete={attendanceData ? onDelete : undefined}

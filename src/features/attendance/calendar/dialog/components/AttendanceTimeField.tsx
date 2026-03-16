@@ -1,3 +1,4 @@
+import { Clock } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import InputTimeFormField from '@/components/form/InputTimeFormField';
@@ -18,20 +19,22 @@ const TIME_FIELDS = [
 const AttendanceTimeField = ({ form, isDisabled }: AttendanceTimeFieldProps) => {
   return (
     <div className="space-y-4">
-      <Separator />
+      <Separator className="opacity-40" />
+      <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+        <Clock className="h-4 w-4 text-blue-500" />
+        勤務時間
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="space-y-2">
-          {TIME_FIELDS.map((field) => (
-            <InputTimeFormField
-              key={field.name}
-              form={form}
-              name={field.name}
-              label={field.label}
-              required
-              disabled={isDisabled}
-            />
-          ))}
-        </div>
+        {TIME_FIELDS.map((field) => (
+          <InputTimeFormField
+            key={field.name}
+            form={form}
+            name={field.name}
+            label={field.label}
+            required
+            disabled={isDisabled}
+          />
+        ))}
       </div>
     </div>
   );

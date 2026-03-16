@@ -37,7 +37,7 @@ const AttendanceFormFields = ({
   const shouldShowTimeField =
     attendanceType === ATTENDANCES.WORK.value || (attendanceType === ATTENDANCES.PAID.value && isHalfDay);
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <InputCalendarFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
       <InputSelectFormField
         form={form}
