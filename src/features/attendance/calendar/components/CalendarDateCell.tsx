@@ -5,7 +5,7 @@ import { Attendance, Holiday } from '@/lib/actionTypes';
 import { getStatusByValue } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import { StatusType } from '@/types/statusType';
-import { CalendarAttendanceSummary } from './CalendarAttendanceSummary';
+import { CalendarDateCellContent } from './CalendarDateCellContent';
 
 type CalendarDateCellProps = {
   day: Date;
@@ -85,7 +85,7 @@ const CalendarDateCell = ({
       </div>
 
       {attendanceData && isCurrentMonth && (
-        <CalendarAttendanceSummary attendanceData={attendanceData} monthlyStatus={monthlyStatus} />
+        <CalendarDateCellContent attendanceData={attendanceData} monthlyStatus={monthlyStatus} />
       )}
     </div>
   );

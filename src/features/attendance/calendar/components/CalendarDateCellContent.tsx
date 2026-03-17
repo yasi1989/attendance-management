@@ -1,6 +1,6 @@
 import { Coffee } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { LEAVES } from '@/consts/attendance';
+import { ATTENDANCES, LEAVES } from '@/consts/attendance';
 import { STATUS } from '@/consts/status';
 import { Attendance } from '@/lib/actionTypes';
 import { calcOvertimeHours, calcWorkHours, isLeaveType } from '@/lib/attendance';
@@ -8,7 +8,7 @@ import { getStatusByValue } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import { StatusType } from '@/types/statusType';
 
-type CalendarAttendanceSummaryProps = {
+type CalendarDateCellContentProps = {
   attendanceData: Attendance;
   monthlyStatus?: StatusType;
 };
@@ -22,17 +22,20 @@ const INDICATOR_COLORS: Record<StatusType, string> = {
 
 const getStatusIndicator = (status?: StatusType) => {
   const statusInfo = getStatusByValue(status);
-  if (!statusInfo) return '';
-  const iconClasses = 'h-3 w-3';
-  const Icon = statusInfo?.icon;
-  return <Icon className={cn(iconClasses, INDICATOR_COLORS[statusInfo.value])} />;
+  if (!statusInfo) return null;
+  const Icon = statusInfo.icon;
+  return <Icon className={cn('h-3 w-3', INDICATOR_COLORS[statusInfo.value])} />;
 };
 
-export const CalendarAttendanceSummary = ({ attendanceData, monthlyStatus }: CalendarAttendanceSummaryProps) => {
+const isHalfDay = (attendanceData: Attendance): boolean =>
+  attendanceData.attendanceType === ATTENDANCES.PAID.value && !!attendanceData.isHalfDay;
+
+export const CalendarDateCellContent = ({ attendanceData, monthlyStatus }: CalendarDateCellContentProps) => {
   const workHours = calcWorkHours(attendanceData.startTime, attendanceData.endTime, attendanceData.breakTime);
   const overtimeHours =
     calcOvertimeHours(attendanceData.startTime, attendanceData.endTime, attendanceData.breakTime) ?? 0;
   const leaveLabel = Object.values(LEAVES).find((type) => type.value === attendanceData.attendanceType)?.label;
+  const halfDay = isHalfDay(attendanceData);
 
   return (
     <div className="space-y-1">
@@ -43,20 +46,20 @@ export const CalendarAttendanceSummary = ({ attendanceData, monthlyStatus }: Cal
         )}
       </div>
 
-      {isLeaveType(attendanceData.attendanceType) ? (
+      {isLeaveType(attendanceData.attendanceType) && (
         <div className="flex items-center gap-1">
           <Coffee className="h-3 w-3 text-green-500" />
           <span className="text-xs text-green-600 dark:text-green-400 font-medium">{leaveLabel}</span>
         </div>
-      ) : (
-        workHours !== undefined && (
-          <div className="text-xs text-gray-600 dark:text-gray-400">
-            <div className="font-medium">{workHours}h</div>
-            {overtimeHours > 0 && (
-              <div className="text-orange-600 dark:text-orange-400 font-medium">+{overtimeHours}h</div>
-            )}
-          </div>
-        )
+      )}
+
+      {(!isLeaveType(attendanceData.attendanceType) || halfDay) && workHours !== undefined && (
+        <div className="text-xs text-gray-600 dark:text-gray-400">
+          <div className="font-medium">{workHours}h</div>
+          {overtimeHours > 0 && (
+            <div className="text-orange-600 dark:text-orange-400 font-medium">+{overtimeHours}h</div>
+          )}
+        </div>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -14,6 +14,12 @@ type UseAttendanceProps = {
   day: Date;
   attendanceData?: Attendance;
   isDisabled?: boolean;
+  onSuccess?: () => void;
+};
+
+type UseDeleteAttendanceProps = {
+  id: string;
+  onSuccess?: () => void;
 };
 
 const DEFAULT_FORM_VALUES = {
@@ -33,26 +39,39 @@ const TIME_FIELD_RESET = {
   comment: '',
 } as const;
 
-export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendanceProps) => {
+const toUndefined = <T>(value: T | null | undefined): T | undefined => value ?? undefined;
+
+const toFormValues = (day: Date, attendanceData: Attendance) => ({
+  date: day,
+  attendanceType: attendanceData.attendanceType as AttendanceType,
+  isHalfDay: attendanceData.isHalfDay,
+  halfDayType: toUndefined(attendanceData.halfDayType as HalfDayType | null),
+  startTime: toUndefined(attendanceData.startTime),
+  endTime: toUndefined(attendanceData.endTime),
+  breakTime: toUndefined(attendanceData.breakTime),
+  comment: toUndefined(attendanceData.comment),
+});
+
+const handleActionError = (error: unknown) => {
+  toast.error(
+    error instanceof Error ? `${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error.message}` : ERROR_MESSAGE.SYSTEM_ERROR,
+  );
+};
+
+export const useAttendance = ({ day, attendanceData, isDisabled, onSuccess }: UseAttendanceProps) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof AttendanceFormSchema>>({
     resolver: zodResolver(AttendanceFormSchema),
     defaultValues: { date: day, ...DEFAULT_FORM_VALUES },
-    values: attendanceData
-      ? {
-          date: day,
-          attendanceType: attendanceData.attendanceType as AttendanceType,
-          isHalfDay: attendanceData.isHalfDay,
-          halfDayType: attendanceData.halfDayType as HalfDayType,
-          startTime: attendanceData.startTime,
-          endTime: attendanceData.endTime,
-          breakTime: attendanceData.breakTime,
-          comment: attendanceData.comment,
-        }
-      : undefined,
     mode: 'onChange',
   });
+
+  useEffect(() => {
+    const values = attendanceData ? toFormValues(day, attendanceData) : { date: day, ...DEFAULT_FORM_VALUES };
+    form.reset(values);
+    form.clearErrors();
+  }, [attendanceData, day, form]);
 
   const attendanceType = form.watch('attendanceType') as AttendanceType;
   const isHalfDay = form.watch('isHalfDay') as boolean;
@@ -67,13 +86,10 @@ export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendance
           toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
         } else {
           toast.success(attendanceData ? '勤怠を更新しました。' : '勤怠を登録しました。');
+          onSuccess?.();
         }
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error.message}`);
-        } else {
-          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
-        }
+        handleActionError(error);
       }
     });
   };
@@ -96,7 +112,8 @@ export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendance
 
   const resetToDefault = () => {
     if (isDisabled) return;
-    form.reset({ date: day, ...DEFAULT_FORM_VALUES });
+    const values = attendanceData ? toFormValues(day, attendanceData) : { date: day, ...DEFAULT_FORM_VALUES };
+    form.reset(values);
     requestAnimationFrame(() => form.clearErrors());
   };
 
@@ -112,7 +129,7 @@ export const useAttendance = ({ day, attendanceData, isDisabled }: UseAttendance
   };
 };
 
-export const useDeleteAttendance = (id: string) => {
+export const useDeleteAttendance = ({ id, onSuccess }: UseDeleteAttendanceProps) => {
   const [isDeletePending, startTransition] = useTransition();
 
   const onDelete = () => {
@@ -124,13 +141,10 @@ export const useDeleteAttendance = (id: string) => {
           toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
         } else {
           toast.success('勤怠を削除しました。');
+          onSuccess?.();
         }
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error.message}`);
-        } else {
-          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
-        }
+        handleActionError(error);
       }
     });
   };

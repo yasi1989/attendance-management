@@ -26,7 +26,9 @@ const AttendanceDialog = ({
   isAttendanceEditLocked,
 }: AttendanceDialogProps) => {
   const isWeekend = isSaturday(day) || isSunday(day);
-  const _isSpecialDay = isWeekend || !!holidayInfo;
+
+  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState();
+
   const {
     form,
     onSubmit,
@@ -36,10 +38,17 @@ const AttendanceDialog = ({
     isHalfDay,
     resetToDefault,
     isPending,
-  } = useAttendance({ day, attendanceData, isDisabled: isAttendanceEditLocked });
+  } = useAttendance({
+    day,
+    attendanceData,
+    isDisabled: isAttendanceEditLocked,
+    onSuccess: handleCloseButtonClick,
+  });
 
-  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({ form });
-  const { onDelete, isDeletePending } = useDeleteAttendance(attendanceData?.id ?? '');
+  const { onDelete, isDeletePending } = useDeleteAttendance({
+    id: attendanceData?.id ?? '',
+    onSuccess: handleCloseButtonClick,
+  });
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>

@@ -7,26 +7,26 @@ import { AttendanceAggregation, MonthlyAttendanceSummary, WorkTimeResult } from 
 import { StatusType } from '@/types/statusType';
 import { minutesToHours } from './attendance';
 
-export function evaluateCanSubmit(
+export const evaluateCanSubmit = (
   status: StatusType | null,
   workDayDates: string[],
   attendances: Attendance[],
-): boolean {
+): boolean => {
   if (status === STATUS.SUBMITTED.value || status === STATUS.APPROVED.value) {
     return false;
   }
 
   const attendanceMap = new Map<string, Attendance>(attendances.map((a) => [formatDateForDisplay(a.workDate), a]));
   return findUnfilledWorkDays(workDayDates, attendanceMap).length === 0;
-}
+};
 
-export function calculateSummary(
+export const calculateSummary = (
   attendances: Attendance[],
   holidays: Holiday[],
   startDate: Date,
   endDate: Date,
   currentStatus: StatusType | null = null,
-): MonthlyAttendanceSummary {
+): MonthlyAttendanceSummary => {
   const holidayDatesSet = createHolidaySet(holidays);
   const workDays = calculateWorkDays(startDate, endDate, holidayDatesSet);
   const aggregation = aggregateAttendances(attendances);
@@ -41,27 +41,26 @@ export function calculateSummary(
     issues: aggregation.issues.length > 0 ? aggregation.issues : null,
     canSubmit: evaluateCanSubmit(currentStatus, workDays, attendances),
   };
-}
+};
 
-function findUnfilledWorkDays(workDayDates: string[], attendanceMap: Map<string, Attendance>): string[] {
-  return workDayDates.filter((dateStr) => isUnfilledWorkDay(dateStr, attendanceMap));
-}
+const findUnfilledWorkDays = (workDayDates: string[], attendanceMap: Map<string, Attendance>): string[] =>
+  workDayDates.filter((dateStr) => isUnfilledWorkDay(dateStr, attendanceMap));
 
-function isUnfilledWorkDay(dateStr: string, attendanceMap: Map<string, Attendance>): boolean {
+const isUnfilledWorkDay = (dateStr: string, attendanceMap: Map<string, Attendance>): boolean => {
   const record = attendanceMap.get(dateStr);
-
   if (!record) return true;
   if (record.attendanceType !== ATTENDANCES.WORK.value) return false;
-
   return record.startTime == null || record.endTime == null;
-}
+};
 
-function createHolidaySet(holidays: Holiday[]): Set<string> {
-  return new Set(holidays.map((h) => formatDateForDisplay(h.holidayDate)));
-}
+const createHolidaySet = (holidays: Holiday[]): Set<string> =>
+  new Set(holidays.map((h) => formatDateForDisplay(h.holidayDate)));
 
-function aggregateAttendances(attendances: Attendance[]): AttendanceAggregation {
-  const workAttendances = attendances.filter((a) => a.attendanceType === ATTENDANCES.WORK.value);
+const isWorkTimeTarget = (a: Attendance): boolean =>
+  a.attendanceType === ATTENDANCES.WORK.value || (a.attendanceType === ATTENDANCES.PAID.value && !!a.isHalfDay);
+
+const aggregateAttendances = (attendances: Attendance[]): AttendanceAggregation => {
+  const workAttendances = attendances.filter(isWorkTimeTarget);
   const workTimeResults = workAttendances.map((a) => ({ attendance: a, result: calculateWorkTime(a) }));
 
   const validResults = workTimeResults.filter((r) => !r.result.error) as {
@@ -70,27 +69,27 @@ function aggregateAttendances(attendances: Attendance[]): AttendanceAggregation 
   }[];
 
   const regularOvertimePairs = validResults.map(({ result }) => splitRegularAndOvertime(result.workMinutes));
+  const actualWorkDays = validResults.reduce((sum, { attendance }) => sum + (attendance.isHalfDay ? 0.5 : 1), 0);
 
   return {
-    actualWorkDays: validResults.length,
+    actualWorkDays,
     totalMinutes: validResults.reduce((sum, { result }) => sum + result.workMinutes, 0),
     regularMinutes: regularOvertimePairs.reduce((sum, { regular }) => sum + regular, 0),
     overtimeMinutes: regularOvertimePairs.reduce((sum, { overtime }) => sum + overtime, 0),
     categoryBreakdown: buildCategoryBreakdown(attendances),
     issues: workTimeResults.flatMap(({ result }) => (result.error ? [result.error] : [])),
   };
-}
+};
 
-function buildCategoryBreakdown(attendances: Attendance[]): Record<string, number> {
-  return Object.fromEntries(
+const buildCategoryBreakdown = (attendances: Attendance[]): Record<string, number> =>
+  Object.fromEntries(
     [...new Set(attendances.map((a) => a.attendanceType))].map((type) => [
       type,
       attendances.filter((a) => a.attendanceType === type).length,
     ]),
   );
-}
 
-function calculateWorkTime(attendance: Attendance): WorkTimeResult {
+const calculateWorkTime = (attendance: Attendance): WorkTimeResult => {
   const dateStr = formatDateForDisplay(attendance.workDate);
 
   if (attendance.startTime == null || attendance.endTime == null) {
@@ -105,9 +104,9 @@ function calculateWorkTime(attendance: Attendance): WorkTimeResult {
   }
 
   return { workMinutes, error: null };
-}
+};
 
-function splitRegularAndOvertime(workMinutes: number): { regular: number; overtime: number } {
+const splitRegularAndOvertime = (workMinutes: number): { regular: number; overtime: number } => {
   if (workMinutes <= WORK_RULES.REGULAR_WORK_MINUTES) {
     return { regular: workMinutes, overtime: 0 };
   }
@@ -115,4 +114,4 @@ function splitRegularAndOvertime(workMinutes: number): { regular: number; overti
     regular: WORK_RULES.REGULAR_WORK_MINUTES,
     overtime: workMinutes - WORK_RULES.REGULAR_WORK_MINUTES,
   };
-}
+};

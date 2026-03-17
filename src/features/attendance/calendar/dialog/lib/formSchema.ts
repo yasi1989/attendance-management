@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { VALIDATIONS } from '@/consts/validate';
-import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS_LIST } from '../../../../../consts/attendance';
+import { ATTENDANCES, ATTENDANCES_LIST, HALF_DAYS, HALF_DAYS_LIST, WORK_RULES } from '../../../../../consts/attendance';
 
 export const AttendanceFormSchema = z
   .object({
@@ -44,6 +44,29 @@ export const AttendanceFormSchema = z
         ctx.addIssue({
           code: 'custom',
           message: '出勤時間は退勤時間よりも前に設定してください',
+          path: ['endTime'],
+        });
+      }
+    }
+  })
+  .superRefine((data, ctx) => {
+    if (data.attendanceType !== ATTENDANCES.PAID.value || !data.isHalfDay) return;
+
+    if (data.halfDayType === HALF_DAYS.AM.value && data.startTime != null) {
+      if (data.startTime < WORK_RULES.HALF_DAY_AM_START_MINUTES) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `午前休の場合、出勤時間は${WORK_RULES.HALF_DAY_AM_START_LABEL}以降を設定してください`,
+          path: ['startTime'],
+        });
+      }
+    }
+
+    if (data.halfDayType === HALF_DAYS.PM.value && data.endTime != null) {
+      if (data.endTime > WORK_RULES.HALF_DAY_PM_END_MINUTES) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `午後休の場合、退勤時間は${WORK_RULES.HALF_DAY_PM_END_LABEL}以前を設定してください`,
           path: ['endTime'],
         });
       }
