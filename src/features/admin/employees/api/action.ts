@@ -1,9 +1,9 @@
 'use server';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import z from 'zod';
+import { z } from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireSystemAdmin } from '@/features/auth/lib/authRoleUtils';
+import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
 import {
   ensureUserInCompany,
@@ -13,14 +13,24 @@ import {
 import { db } from '@/lib/db/drizzle';
 import { users } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
-import { UserSchema } from '../lib/formSchema';
+import { checkDepartmentAssignable, ensureNonSystemAdminRole } from '../lib/actionValidate';
+import { EmployeeSchema } from '../lib/formSchema';
 
-export const editUserAction = async (values: z.infer<typeof UserSchema>): Promise<ActionStateResult> => {
+export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>): Promise<ActionStateResult> => {
   try {
-    const { id, name, email, roleId, companyId } = values;
-    await requireSystemAdmin();
+    const { id, name, email, departmentId, roleId } = values;
+    const { user } = await requireCompanyAdmin();
+    const [deptError, roleError] = await Promise.all([
+      checkDepartmentAssignable(departmentId, user.companyId),
+      ensureNonSystemAdminRole(roleId, user.companyId),
+    ]);
+    if (deptError) return deptError;
+    if (roleError) return roleError;
+
     const [currentUser, existingUser] = await Promise.all([
-      db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
+      db.query.users.findFirst({
+        where: (users, { eq, and }) => and(eq(users.id, id), eq(users.companyId, user.companyId)),
+      }),
       db.query.users.findFirst({
         where: (users, { eq, and, ne }) => and(eq(users.email, email), ne(users.id, id)),
       }),
@@ -36,8 +46,8 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
       .set({
         name,
         email,
+        departmentId,
         roleId,
-        companyId,
       })
       .where(eq(users.id, id));
     revalidatePath(URLS.ROOT, 'layout');
@@ -47,20 +57,20 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
   }
 };
 
-export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
+export const deleteEmployeeAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireSystemAdmin();
+    const { user } = await requireCompanyAdmin();
 
-    const userError = await ensureUserInCompany(id);
+    const userError = await ensureUserInCompany(id, user.companyId);
     if (userError) return userError;
 
     const approvalError = await ensureUserNotInApprovalFlows(id);
     if (approvalError) return approvalError;
 
-    const managerError = await ensureUserNotDepartmentManager(id);
+    const managerError = await ensureUserNotDepartmentManager(id, user.companyId);
     if (managerError) return managerError;
 
-    const result = await db.delete(users).where(eq(users.id, id));
+    const result = await db.delete(users).where(and(eq(users.id, id), eq(users.companyId, user.companyId)));
     if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }

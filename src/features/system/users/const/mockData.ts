@@ -1,14 +1,14 @@
-import { DepartmentType } from '../type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { RoleType } from '../type/roleType';
 import { UserType } from '../type/userType';
 
-export const departments: DepartmentType[] = [
+export const departments: Department[] = [
   {
     id: 'd1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     companyId: 'c1a2b3c4-5d6e-789f-a1b2-c3d4e5f67890',
     departmentName: '本部',
     managerUserId: 'u2a2b3c4-5d6e-789f-a1b2-c3d4e5f67891',
-    parentDepartmentId: undefined,
+    parentDepartmentId: null,
     createdAt: new Date('2025-01-01T00:00:00Z'),
     updatedAt: new Date('2025-06-16T02:54:00Z'),
   },

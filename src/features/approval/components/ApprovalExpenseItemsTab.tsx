@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { REQUEST_CATEGORIES } from '@/consts/requestsCategory';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import AttendanceApprovalsTabs from './AttendanceApprovalsTabs';
@@ -12,7 +12,7 @@ import ExpenseApprovalsTabs from './ExpenseApprovalsTabs';
 type ApprovalExpenseItemsTabProps = {
   attendances: MonthlyAttendanceApprovalItem[];
   expenses: MonthlyExpenseApprovalItem[];
-  myCompanyDepartments: DepartmentType[];
+  myCompanyDepartments: Department[];
 };
 
 const ApprovalExpenseItemsTab = ({ attendances, expenses, myCompanyDepartments }: ApprovalExpenseItemsTabProps) => {

@@ -1,6 +1,6 @@
-import { Company, Department, Role, User } from '@/lib/actionTypes';
+import { Company, Department, PublicUser, Role } from '@/lib/actionTypes';
 
-export type UserWithRelations = User & {
+export type UserWithRelations = PublicUser & {
   company: Company | null;
   department: Department | null;
   role: Role | null;

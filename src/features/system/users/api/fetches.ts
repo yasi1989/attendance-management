@@ -6,6 +6,10 @@ export const fetchUsers = async (): Promise<FetchUsersDataResponse> => {
   try {
     const [usersData, companies, roles] = await Promise.all([
       db.query.users.findMany({
+        columns: {
+          hashedPassword: false,
+          emailVerified: false,
+        },
         with: {
           company: true,
           department: true,

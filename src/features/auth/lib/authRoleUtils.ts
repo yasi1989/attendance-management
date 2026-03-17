@@ -7,6 +7,10 @@ import { requireAuth } from './authUtils';
 export const requireRole = (allowsRoles: RoleCodeType[]) => async () => {
   const session = await requireAuth();
   const user = await db.query.users.findFirst({
+    columns: {
+      hashedPassword: false,
+      emailVerified: false,
+    },
     where: eq(users.id, session.user.id),
     with: { role: true },
   });

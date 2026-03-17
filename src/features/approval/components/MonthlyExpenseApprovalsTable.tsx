@@ -1,14 +1,14 @@
 import { useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { createExpenseApprovalsColumns } from '../table/CreateExpenseApprovalsColumns';
 import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
 import ApprovalBulkForm from './ApprovalBulkForm';
 
 type MonthlyExpenseApprovalsTableProps = {
   expenses: MonthlyExpenseApprovalItem[];
-  departments: DepartmentType[];
+  departments: Department[];
 };
 
 const MonthlyExpenseApprovalsTable = ({ expenses, departments }: MonthlyExpenseApprovalsTableProps) => {

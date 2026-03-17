@@ -22,7 +22,7 @@ export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>)
       companyName,
       domain,
     });
-    revalidatePath(URLS.SYSTEM_COMPANIES);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -52,7 +52,7 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
         domain,
       })
       .where(eq(companies.id, id));
-    revalidatePath(URLS.SYSTEM_COMPANIES);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -66,7 +66,7 @@ export const deleteCompanyAction = async (id: string): Promise<ActionStateResult
     if (result.rowCount === 0) {
       return { success: false, error: '会社が見つかりませんでした。' };
     }
-    revalidatePath(URLS.SYSTEM_COMPANIES);
+    revalidatePath(URLS.ROOT, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);

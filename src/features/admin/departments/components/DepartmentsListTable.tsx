@@ -1,12 +1,12 @@
 'use client';
 
 import { DataTable } from '@/components/table/DataTable';
-import { Department, User } from '@/lib/actionTypes';
+import { Department, PublicUser } from '@/lib/actionTypes';
 import { createDepartmentsColumns } from '../table/CreateDepartmentsColumns';
 
 type DepartmentsListTableProps = {
   departments: Department[];
-  users: User[];
+  users: PublicUser[];
 };
 
 const DepartmentsListTable = ({ departments, users }: DepartmentsListTableProps) => {

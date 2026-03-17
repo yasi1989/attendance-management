@@ -71,7 +71,7 @@ export const signUpAction = async (data: z.infer<typeof SignUpSchema>): Promise<
     }
 
     const signInResult = await credentialsSignIn(data.email, data.password);
-    revalidatePath(URLS.ATTENDANCE_CALENDAR);
+    revalidatePath(URLS.ROOT, 'layout');
 
     return {
       isSuccess: true,

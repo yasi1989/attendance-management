@@ -1,7 +1,7 @@
 import { SELECT_EMPTY } from '@/consts/form';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 
-export const getDepartmentPath = (departments: DepartmentType[], departmentId?: string): string => {
+export const getDepartmentPath = (departments: Department[], departmentId?: string): string => {
   if (!departmentId) return SELECT_EMPTY.label;
 
   const department = departments.find((d) => d.id === departmentId);

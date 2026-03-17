@@ -7,13 +7,13 @@ import ApprovalExpenseItemsTab from '@/features/approval/components/ApprovalExpe
 import ApprovalFilterSelector from '@/features/approval/components/ApprovalFilterSelector';
 import { MonthlyAttendanceApprovalItem } from '@/features/approval/type/monthlyAttendanceApprovalType';
 import { MonthlyExpenseApprovalItem } from '@/features/approval/type/monthlyExpenseApprovalType';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
+import { Department } from '@/lib/actionTypes';
 import { StatusTypeWithAll } from '@/types/statusType';
 
 type ApprovalPresentationalProps = {
   attendances: MonthlyAttendanceApprovalItem[];
   expenses: MonthlyExpenseApprovalItem[];
-  myCompanyDepartments: DepartmentType[];
+  myCompanyDepartments: Department[];
   currentYear: number;
   currentMonth: number;
   currentStatus: StatusTypeWithAll;

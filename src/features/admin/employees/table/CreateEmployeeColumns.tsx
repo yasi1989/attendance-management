@@ -1,20 +1,18 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Building, Mail, Settings, Shield, User } from 'lucide-react';
+import { ArrowUpDown, Building, Mail, Settings, Shield, UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SELECT_EMPTY } from '@/consts/form';
-import { DepartmentType } from '@/features/system/users/type/departmentType';
-import { RoleType } from '@/features/system/users/type/roleType';
-import { UserType } from '@/features/system/users/type/userType';
+import { Department, PublicUser, Role } from '@/lib/actionTypes';
 import DeleteEmployeeDialog from '../components/DeleteEmployeeDialog';
 import { UpdateEmployeeDialog } from '../components/UpdateEmployeeDialog';
 import { getDepartmentPath } from '../lib/departmentUtils';
 
 type EmployeesColumnsProps = {
-  departments: DepartmentType[];
-  roles: RoleType[];
+  departments: Department[];
+  roles: Role[];
 };
 
-export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<UserType>[] => {
+export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsProps): ColumnDef<PublicUser>[] => {
   return [
     {
       accessorKey: 'name',
@@ -27,7 +25,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             <div className="flex items-center gap-1 md:gap-2">
-              <User className="h-3 w-3 md:h-4 md:w-4" />
+              <UserIcon className="h-3 w-3 md:h-4 md:w-4" />
               <span>名前</span>
               <ArrowUpDown className="h-3 w-3 md:h-4 md:w-4" />
             </div>
@@ -35,7 +33,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         </div>
       ),
       cell: ({ row }) => {
-        const fullName = `${row.original.lastName} ${row.original.firstName}`;
+        const fullName = `${row.original.name}`;
         return (
           <div className="font-semibold text-slate-900 dark:text-slate-100" title={fullName}>
             {fullName}
@@ -43,8 +41,8 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         );
       },
       sortingFn: (rowA, rowB) => {
-        const nameA = `${rowA.original.lastName} ${rowA.original.firstName}`;
-        const nameB = `${rowB.original.lastName} ${rowB.original.firstName}`;
+        const nameA = `${rowA.original.name}`;
+        const nameB = `${rowB.original.name}`;
         return nameA.localeCompare(nameB, 'ja', { numeric: true });
       },
       meta: {
@@ -52,7 +50,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         japaneseLabel: '名前',
       },
       filterFn: (row, _id, filterValue) => {
-        const name = `${row.original.lastName} ${row.original.firstName}`;
+        const name = `${row.original.name}`;
         return name.includes(filterValue);
       },
     },
@@ -103,7 +101,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         </div>
       ),
       cell: ({ row }) => {
-        const departmentPath = getDepartmentPath(departments, row.original.departmentId);
+        const departmentPath = getDepartmentPath(departments, row.original.departmentId ?? undefined);
         return (
           <div className="text-slate-900 dark:text-slate-100" title={departmentPath}>
             {departmentPath}
@@ -111,8 +109,8 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         );
       },
       sortingFn: (rowA, rowB) => {
-        const departmentA = departments.find((d: DepartmentType) => d.id === rowA.original.departmentId);
-        const departmentB = departments.find((d: DepartmentType) => d.id === rowB.original.departmentId);
+        const departmentA = departments.find((d: Department) => d.id === rowA.original.departmentId);
+        const departmentB = departments.find((d: Department) => d.id === rowB.original.departmentId);
 
         const nameA = departmentA ? departmentA.departmentName : SELECT_EMPTY.label;
         const nameB = departmentB ? departmentB.departmentName : SELECT_EMPTY.label;
@@ -124,7 +122,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         japaneseLabel: '部署名',
       },
       filterFn: (row, _id, filterValue) => {
-        const department = departments.find((d: DepartmentType) => d.id === row.original.departmentId);
+        const department = departments.find((d: Department) => d.id === row.original.departmentId);
         return department ? department.departmentName.includes(filterValue) : false;
       },
     },
@@ -147,7 +145,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         </div>
       ),
       cell: ({ row }) => {
-        const role = roles.find((r: RoleType) => r.id === row.original.roleId);
+        const role = roles.find((r: Role) => r.id === row.original.roleId);
         const roleName = role ? role.roleName : SELECT_EMPTY.label;
         return (
           <div className="text-slate-900 dark:text-slate-100" title={roleName}>
@@ -156,8 +154,8 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         );
       },
       sortingFn: (rowA, rowB) => {
-        const roleA = roles.find((r: RoleType) => r.id === rowA.original.roleId);
-        const roleB = roles.find((r: RoleType) => r.id === rowB.original.roleId);
+        const roleA = roles.find((r: Role) => r.id === rowA.original.roleId);
+        const roleB = roles.find((r: Role) => r.id === rowB.original.roleId);
 
         const nameA = roleA ? roleA.roleName : SELECT_EMPTY.label;
         const nameB = roleB ? roleB.roleName : SELECT_EMPTY.label;
@@ -169,7 +167,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         japaneseLabel: '権限',
       },
       filterFn: (row, _id, filterValue) => {
-        const role = roles.find((r: RoleType) => r.id === row.original.roleId);
+        const role = roles.find((r: Role) => r.id === row.original.roleId);
         return role ? role.roleName.includes(filterValue) : false;
       },
     },
@@ -191,7 +189,7 @@ export const createEmployeeColumns = ({ departments, roles }: EmployeesColumnsPr
         return (
           <div className="flex space-x-1 items-center justify-center">
             <UpdateEmployeeDialog user={row.original} departments={departments} roles={roles} />
-            <DeleteEmployeeDialog />
+            <DeleteEmployeeDialog id={row.original.id} />
           </div>
         );
       },
