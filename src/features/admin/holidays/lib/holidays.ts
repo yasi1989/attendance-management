@@ -3,6 +3,8 @@ import { URLS } from '@/consts/urls';
 import { Holiday } from '@/lib/actionTypes';
 import { getYearMonthRange, getYearRange } from '@/lib/date';
 import { db } from '@/lib/db/drizzle';
+import { HolidayDisplay, NationalHolidayDisplay } from '../type/holidaysDisplayType';
+import { NationalHolidayResponseSchema } from './fetchSchema';
 
 export interface GetCompanyHolidaysParams {
   companyId: string;
@@ -39,40 +41,40 @@ export const getCompanyHolidays = async ({ companyId, year, month }: GetCompanyH
   }
 };
 
-export const getNationalHolidays = async ({ year, month }: GetNationalHolidaysParams): Promise<Holiday[]> => {
+export const getNationalHolidays = async ({
+  year,
+  month,
+}: GetNationalHolidaysParams): Promise<NationalHolidayDisplay[]> => {
   try {
-    const response = await fetch(`${URLS.API_HOLIDAYS}/${year}`);
+    const url = month ? `${URLS.API_HOLIDAYS}/${year}/${month}` : `${URLS.API_HOLIDAYS}/${year}`;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('国民の祝日データ取得に失敗しました。');
     }
     const data = await response.json();
-
-    const allHolidays = data.map(
-      (h: { name: string; date: string }): Holiday => ({
+    const parsed = NationalHolidayResponseSchema.safeParse(data);
+    if (!parsed.success) {
+      console.error('APIレスポンスの形式が不正です。', parsed.error);
+      throw new Error('APIレスポンスの形式が不正です。');
+    }
+    return parsed.data.map(
+      (h: { name: string; date: string }): NationalHolidayDisplay => ({
         id: `national-${h.date}`,
         name: h.name,
         holidayDate: new Date(h.date),
         type: HOLIDAY_CATEGORIES.NATIONAL.value,
-        companyId: '',
+        companyId: undefined,
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
     );
-
-    if (month !== undefined) {
-      return allHolidays.filter(
-        (h: { holidayDate: { getMonth: () => number } }) => h.holidayDate.getMonth() === month - 1,
-      );
-    }
-
-    return allHolidays;
   } catch (error) {
     console.error('国民の祝日データ取得に失敗しました。', error);
     throw error;
   }
 };
 
-export const getAllHolidays = async ({ year, month, companyId }: GetAllHolidaysParams): Promise<Holiday[]> => {
+export const getAllHolidays = async ({ year, month, companyId }: GetAllHolidaysParams): Promise<HolidayDisplay[]> => {
   try {
     const [nationalHolidays, companyHolidays] = await Promise.all([
       getNationalHolidays({ year, month }),

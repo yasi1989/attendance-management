@@ -1,7 +1,8 @@
 import { isSameMonth, isSaturday, isSunday, isToday } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { STATUS } from '@/consts/status';
-import { Attendance, Holiday } from '@/lib/actionTypes';
+import { HolidayDisplay } from '@/features/admin/holidays/type/holidaysDisplayType';
+import { Attendance } from '@/lib/actionTypes';
 import { getStatusByValue } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import { StatusType } from '@/types/statusType';
@@ -11,7 +12,7 @@ type CalendarDateCellProps = {
   day: Date;
   currentDate: Date;
   attendanceData?: Attendance;
-  holidayInfo?: Holiday;
+  holidayInfo?: HolidayDisplay;
   isDateCellCurrentMonth?: boolean;
   monthlyStatus?: StatusType;
 };

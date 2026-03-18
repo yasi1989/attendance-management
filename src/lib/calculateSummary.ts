@@ -1,6 +1,7 @@
 import { ATTENDANCES, WORK_RULES } from '@/consts/attendance';
 import { STATUS } from '@/consts/status';
-import { Attendance, Holiday } from '@/lib/actionTypes';
+import { HolidayDisplay } from '@/features/admin/holidays/type/holidaysDisplayType';
+import { Attendance } from '@/lib/actionTypes';
 import { calculateWorkDays } from '@/lib/date';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { AttendanceAggregation, MonthlyAttendanceSummary, WorkTimeResult } from '@/types/attendance';
@@ -22,7 +23,7 @@ export const evaluateCanSubmit = (
 
 export const calculateSummary = (
   attendances: Attendance[],
-  holidays: Holiday[],
+  holidays: HolidayDisplay[],
   startDate: Date,
   endDate: Date,
   currentStatus: StatusType | null = null,
@@ -53,7 +54,7 @@ const isUnfilledWorkDay = (dateStr: string, attendanceMap: Map<string, Attendanc
   return record.startTime == null || record.endTime == null;
 };
 
-const createHolidaySet = (holidays: Holiday[]): Set<string> =>
+const createHolidaySet = (holidays: HolidayDisplay[]): Set<string> =>
   new Set(holidays.map((h) => formatDateForDisplay(h.holidayDate)));
 
 const isWorkTimeTarget = (a: Attendance): boolean =>

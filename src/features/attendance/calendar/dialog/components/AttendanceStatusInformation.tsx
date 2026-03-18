@@ -2,10 +2,11 @@ import { AlertCircle, Clock, Lock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Attendance, Holiday } from '@/lib/actionTypes';
+import { HolidayDisplay } from '@/features/admin/holidays/type/holidaysDisplayType';
+import { Attendance } from '@/lib/actionTypes';
 
 type AttendanceStatusInformationProps = {
-  holidayInfo?: Holiday;
+  holidayInfo?: HolidayDisplay;
   attendanceData?: Attendance;
   isWeekend: boolean;
   isDisabled?: boolean;
