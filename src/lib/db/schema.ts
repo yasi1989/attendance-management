@@ -167,27 +167,6 @@ export const attendances = pgTable('attendances', {
     .$onUpdate(() => new Date()),
 });
 
-export const monthlyAttendanceSummaries = pgTable('monthly_attendance_summaries', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  monthlyAttendanceApprovalId: text('monthly_attendance_approval_id')
-    .notNull()
-    .references(() => monthlyAttendanceApprovals.id, { onDelete: 'cascade' }),
-  totalWorkDays: integer('total_work_days').notNull(),
-  actualWorkDays: integer('actual_work_days').notNull(),
-  totalWorkHours: decimal('total_work_hours', { precision: 10, scale: 2 }).notNull(),
-  regularHours: decimal('regular_hours', { precision: 10, scale: 2 }).notNull(),
-  overtimeHours: decimal('overtime_hours', { precision: 10, scale: 2 }).notNull(),
-  categoryBreakdown: jsonb('category_breakdown').notNull(),
-  issues: text('issues').array(),
-  calculatedAt: timestamp('calculated_at', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-});
-
 export const groupExpenseApprovals = pgTable('group_expense_approvals', {
   id: text('id')
     .primaryKey()
@@ -395,17 +374,6 @@ export const expensesRelations = relations(expenses, ({ one }) => ({
 
 export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ many, one }) => ({
   approvalSteps: many(attendanceApprovalSteps),
-  summary: one(monthlyAttendanceSummaries, {
-    fields: [monthlyAttendanceApprovals.id],
-    references: [monthlyAttendanceSummaries.monthlyAttendanceApprovalId],
-  }),
-}));
-
-export const monthlyAttendanceSummariesRelations = relations(monthlyAttendanceSummaries, ({ one }) => ({
-  monthlyAttendanceApproval: one(monthlyAttendanceApprovals, {
-    fields: [monthlyAttendanceSummaries.monthlyAttendanceApprovalId],
-    references: [monthlyAttendanceApprovals.id],
-  }),
 }));
 
 export const groupExpenseApprovalsRelations = relations(groupExpenseApprovals, ({ one, many }) => ({

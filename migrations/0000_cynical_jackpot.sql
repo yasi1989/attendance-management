@@ -130,21 +130,6 @@ CREATE TABLE "monthly_attendance_approvals" (
 	"updated_at" timestamp with time zone DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "monthly_attendance_summaries" (
-	"id" text PRIMARY KEY NOT NULL,
-	"monthly_attendance_approval_id" text NOT NULL,
-	"total_work_days" integer NOT NULL,
-	"actual_work_days" integer NOT NULL,
-	"total_work_hours" numeric(10, 2) NOT NULL,
-	"regular_hours" numeric(10, 2) NOT NULL,
-	"overtime_hours" numeric(10, 2) NOT NULL,
-	"category_breakdown" jsonb NOT NULL,
-	"issues" text[],
-	"calculated_at" timestamp with time zone NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now()
-);
---> statement-breakpoint
 CREATE TABLE "roles" (
 	"id" text PRIMARY KEY NOT NULL,
 	"role_code" text NOT NULL,
@@ -194,7 +179,6 @@ ALTER TABLE "group_expense_summaries" ADD CONSTRAINT "group_expense_summaries_gr
 ALTER TABLE "holidays" ADD CONSTRAINT "holidays_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "monthly_attendance_approvals" ADD CONSTRAINT "monthly_attendance_approvals_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "monthly_attendance_approvals" ADD CONSTRAINT "monthly_attendance_approvals_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "monthly_attendance_summaries" ADD CONSTRAINT "monthly_attendance_summaries_monthly_attendance_approval_id_monthly_attendance_approvals_id_fk" FOREIGN KEY ("monthly_attendance_approval_id") REFERENCES "public"."monthly_attendance_approvals"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "users" ADD CONSTRAINT "users_company_id_companies_id_fk" FOREIGN KEY ("company_id") REFERENCES "public"."companies"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "users" ADD CONSTRAINT "users_department_id_departments_id_fk" FOREIGN KEY ("department_id") REFERENCES "public"."departments"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

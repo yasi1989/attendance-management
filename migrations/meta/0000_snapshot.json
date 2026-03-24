@@ -1,5 +1,5 @@
 {
-  "id": "c4ed4409-da4f-44a6-ae08-f83ec51aab32",
+  "id": "7ee1f18a-f28f-4bcb-9e6c-df6b0f349041",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -957,107 +957,6 @@
           "tableTo": "companies",
           "columnsFrom": [
             "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.monthly_attendance_summaries": {
-      "name": "monthly_attendance_summaries",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "monthly_attendance_approval_id": {
-          "name": "monthly_attendance_approval_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "total_work_days": {
-          "name": "total_work_days",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "actual_work_days": {
-          "name": "actual_work_days",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "total_work_hours": {
-          "name": "total_work_hours",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "regular_hours": {
-          "name": "regular_hours",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "overtime_hours": {
-          "name": "overtime_hours",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category_breakdown": {
-          "name": "category_breakdown",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "issues": {
-          "name": "issues",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "calculated_at": {
-          "name": "calculated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "monthly_attendance_summaries_monthly_attendance_approval_id_monthly_attendance_approvals_id_fk": {
-          "name": "monthly_attendance_summaries_monthly_attendance_approval_id_monthly_attendance_approvals_id_fk",
-          "tableFrom": "monthly_attendance_summaries",
-          "tableTo": "monthly_attendance_approvals",
-          "columnsFrom": [
-            "monthly_attendance_approval_id"
           ],
           "columnsTo": [
             "id"
