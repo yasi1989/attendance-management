@@ -6,19 +6,28 @@ export const isLeaveType = (attendanceType?: string): attendanceType is LeaveTyp
   return LEAVES_LIST.includes(attendanceType as LeaveType);
 };
 
-export const minutesToHours = (minutes: number): string => {
-  return (minutes / 60).toFixed(2);
+export const formatMinutesToHours = (minutes: number): string => (minutes / 60).toFixed(2);
+
+export const calcWorkMinutes = (
+  startTime: number | null,
+  endTime: number | null,
+  breakTime: number | null,
+): number | undefined => {
+  if (startTime == null || endTime == null) return undefined;
+  const minutes = endTime - startTime - (breakTime ?? WORK_RULES.DEFAULT_BREAK_MINUTES);
+  return minutes > 0 ? minutes : undefined;
 };
+
+export const minutesToHours = (minutes: number): number => Math.round((minutes / 60) * 10) / 10;
 
 export const calcWorkHours = (
   startTime: number | null,
   endTime: number | null,
   breakTime: number | null,
 ): number | undefined => {
-  if (startTime == null || endTime == null) return undefined;
-  const workMinutes = endTime - startTime - (breakTime ?? WORK_RULES.DEFAULT_BREAK_MINUTES);
-  if (workMinutes <= 0) return undefined;
-  return Math.round((workMinutes / 60) * 10) / 10;
+  const minutes = calcWorkMinutes(startTime, endTime, breakTime);
+  if (minutes == null) return undefined;
+  return minutesToHours(minutes);
 };
 
 export const calcOvertimeHours = (
@@ -26,11 +35,8 @@ export const calcOvertimeHours = (
   endTime: number | null,
   breakTime: number | null,
 ): number | undefined => {
-  if (startTime == null || endTime == null) return undefined;
-
-  const workMinutes = endTime - startTime - (breakTime ?? WORK_RULES.DEFAULT_BREAK_MINUTES);
-  if (workMinutes <= WORK_RULES.REGULAR_WORK_MINUTES) return 0;
-
-  const overtimeMinutes = workMinutes - WORK_RULES.REGULAR_WORK_MINUTES;
-  return Math.round((overtimeMinutes / 60) * 10) / 10;
+  const minutes = calcWorkMinutes(startTime, endTime, breakTime);
+  if (minutes == null) return undefined;
+  if (minutes <= WORK_RULES.REGULAR_WORK_MINUTES) return 0;
+  return minutesToHours(minutes - WORK_RULES.REGULAR_WORK_MINUTES);
 };

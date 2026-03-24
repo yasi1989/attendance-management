@@ -6,7 +6,7 @@ import { calculateWorkDays } from '@/lib/date';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { AttendanceAggregation, MonthlyAttendanceSummary, WorkTimeResult } from '@/types/attendance';
 import { StatusType } from '@/types/statusType';
-import { minutesToHours } from './attendance';
+import { formatMinutesToHours } from './attendance';
 
 export const evaluateCanSubmit = (
   status: StatusType | null,
@@ -35,9 +35,9 @@ export const calculateSummary = (
   return {
     totalWorkDays: workDays.length,
     actualWorkDays: aggregation.actualWorkDays,
-    totalWorkHours: minutesToHours(aggregation.totalMinutes),
-    regularHours: minutesToHours(aggregation.regularMinutes),
-    overtimeHours: minutesToHours(aggregation.overtimeMinutes),
+    totalWorkHours: formatMinutesToHours(aggregation.totalMinutes),
+    regularHours: formatMinutesToHours(aggregation.regularMinutes),
+    overtimeHours: formatMinutesToHours(aggregation.overtimeMinutes),
     categoryBreakdown: aggregation.categoryBreakdown,
     issues: aggregation.issues.length > 0 ? aggregation.issues : null,
     canSubmit: evaluateCanSubmit(currentStatus, workDays, attendances),
