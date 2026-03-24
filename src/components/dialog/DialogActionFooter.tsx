@@ -1,5 +1,6 @@
 import { RotateCcw, Save, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 type DialogActionFooterProps = {
   resetToDefault: () => void;
@@ -16,41 +17,56 @@ const DialogActionFooter = ({
 }: DialogActionFooterProps) => {
   const isAnyPending = isPending || isDeletePending;
 
+  const ResetButton: React.ReactNode = (
+    <Button
+      variant="ghost"
+      type="button"
+      size="sm"
+      onClick={resetToDefault}
+      disabled={isAnyPending}
+      className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-all duration-200"
+    >
+      <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+      リセット
+    </Button>
+  );
+
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center w-full gap-3">
-      <Button
-        variant="ghost"
-        type="button"
-        onClick={resetToDefault}
-        disabled={isAnyPending}
-        className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 w-full sm:w-auto"
-      >
-        <RotateCcw className="w-4 h-4 mr-2" />
-        リセット
-      </Button>
+    <div className="flex flex-col gap-3 w-full pt-2">
+      <Separator className="bg-slate-100 dark:bg-slate-800" />
 
-      <div className="flex gap-2 items-center justify-end">
-        {onDelete && (
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center gap-2">
+          {onDelete ? (
+            <Button
+              type="button"
+              onClick={onDelete}
+              disabled={isAnyPending}
+              variant="ghost"
+              size="sm"
+              className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30 transition-all duration-200"
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-1.5" />
+              {isDeletePending ? '削除中...' : '削除'}
+            </Button>
+          ) : (
+            ResetButton
+          )}
+        </div>
+
+        <div className="flex items-center gap-2">
+          {onDelete && ResetButton}
+
           <Button
-            type="button"
-            onClick={onDelete}
+            type="submit"
+            size="sm"
             disabled={isAnyPending}
-            variant="outline"
-            className="border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/30 w-full sm:w-auto"
+            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 shadow-sm transition-all duration-200 min-w-24"
           >
-            <Trash2 className="w-4 h-4 mr-2" />
-            削除
+            <Save className="w-3.5 h-3.5 mr-1.5" />
+            {isPending ? '保存中...' : '保存'}
           </Button>
-        )}
-
-        <Button
-          type="submit"
-          disabled={isAnyPending}
-          className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-blue-500 dark:to-indigo-500 text-white shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
-        >
-          <Save className="w-4 h-4 mr-2" />
-          {isPending ? '保存中...' : '保存する'}
-        </Button>
+        </div>
       </div>
     </div>
   );
