@@ -46,7 +46,9 @@ export const getNationalHolidays = async ({
   month,
 }: GetNationalHolidaysParams): Promise<NationalHolidayDisplay[]> => {
   try {
-    const url = month ? `${URLS.API_HOLIDAYS}/${year}/${month}` : `${URLS.API_HOLIDAYS}/${year}`;
+    const url = month
+      ? `${URLS.API_HOLIDAYS}/${year}/${String(month).padStart(2, '0')}`
+      : `${URLS.API_HOLIDAYS}/${year}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('国民の祝日データ取得に失敗しました。');
