@@ -1,6 +1,7 @@
 import { HeaderStatusBadge } from '@/components/layout/HeaderStatusBadge';
-import { AttendanceButton } from '@/features/attendance/clock/components/AttendanceButton';
+import { DEVICE_VARIANT } from '@/consts/form';
 import { getTodayAttendanceStatus } from '@/features/attendance/clock/lib/getTodayAttendanceStatus';
+import { ClockButton } from './ClockButton';
 
 export const ClockSection = async () => {
   const todayStatus = await getTodayAttendanceStatus();
@@ -11,10 +12,10 @@ export const ClockSection = async () => {
         <HeaderStatusBadge initialStatus={todayStatus} />
       </div>
       <div className="hidden lg:block">
-        <AttendanceButton variant="desktop" initialStatus={todayStatus} />
+        <ClockButton variant={DEVICE_VARIANT.DESKTOP} initialStatus={todayStatus} />
       </div>
       <div className="lg:hidden">
-        <AttendanceButton variant="mobile" initialStatus={todayStatus} />
+        <ClockButton variant={DEVICE_VARIANT.MOBILE} initialStatus={todayStatus} />
       </div>
     </>
   );

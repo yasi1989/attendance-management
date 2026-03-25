@@ -6,11 +6,12 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { formatMinutesToTimeString } from '@/lib/dateClient';
 import { clockOut } from '../api/clockOut';
-import type { AttendanceStatus } from '../types/types';
-import { AttendanceConfirmDialog } from './AttendanceConfirmDialog';
+import { CLOCK_STATUS_TYPE } from '../consts/constants';
+import { ClockStatus } from '../types/types';
+import { ClockConfirmDialog } from './ClockConfirmDialog';
 
 interface ClockOutButtonProps {
-  onSuccess: (status: AttendanceStatus) => void;
+  onSuccess: (status: ClockStatus) => void;
 }
 
 export const ClockOutButton = ({ onSuccess }: ClockOutButtonProps) => {
@@ -21,7 +22,7 @@ export const ClockOutButton = ({ onSuccess }: ClockOutButtonProps) => {
       const result = await clockOut();
       if (result.success && result.endTime != null) {
         toast.success(`退勤しました（${formatMinutesToTimeString(result.endTime)}）`);
-        onSuccess({ type: 'clocked_out' });
+        onSuccess({ type: CLOCK_STATUS_TYPE.CLOCKED_OUT });
       } else {
         toast.error(result.error ?? '予期せぬエラーが発生しました');
       }
@@ -29,7 +30,7 @@ export const ClockOutButton = ({ onSuccess }: ClockOutButtonProps) => {
   };
 
   return (
-    <AttendanceConfirmDialog
+    <ClockConfirmDialog
       title="退勤しますか？"
       description="現在時刻で退勤を記録します。"
       onConfirm={handleEndTime}
@@ -43,6 +44,6 @@ export const ClockOutButton = ({ onSuccess }: ClockOutButtonProps) => {
         <LogOut className="h-3 w-3 mr-1" />
         {isPending ? '処理中...' : '退勤'}
       </Button>
-    </AttendanceConfirmDialog>
+    </ClockConfirmDialog>
   );
 };

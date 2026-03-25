@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-interface AttendanceConfirmDialogProps {
+interface ClockConfirmDialogProps {
   title: string;
   description: string;
   onConfirm: () => void;
@@ -20,13 +20,13 @@ interface AttendanceConfirmDialogProps {
   children: React.ReactNode;
 }
 
-export const AttendanceConfirmDialog = ({
+export const ClockConfirmDialog = ({
   title,
   description,
   onConfirm,
   disabled = false,
   children,
-}: AttendanceConfirmDialogProps) => (
+}: ClockConfirmDialogProps) => (
   <AlertDialog>
     <AlertDialogTrigger asChild disabled={disabled}>
       {children}

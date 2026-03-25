@@ -6,11 +6,12 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { formatMinutesToTimeString } from '@/lib/dateClient';
 import { clockIn } from '../api/clockIn';
-import { AttendanceStatus } from '../types/types';
-import { AttendanceConfirmDialog } from './AttendanceConfirmDialog';
+import { CLOCK_STATUS_TYPE } from '../consts/constants';
+import { ClockStatus } from '../types/types';
+import { ClockConfirmDialog } from './ClockConfirmDialog';
 
 interface ClockInButtonProps {
-  onSuccess: (status: AttendanceStatus) => void;
+  onSuccess: (status: ClockStatus) => void;
 }
 
 export const ClockInButton = ({ onSuccess }: ClockInButtonProps) => {
@@ -21,7 +22,7 @@ export const ClockInButton = ({ onSuccess }: ClockInButtonProps) => {
       const result = await clockIn();
       if (result.success && result.startTime != null) {
         toast.success(`出勤しました（${formatMinutesToTimeString(result.startTime)}）`);
-        onSuccess({ type: 'clocked_in', startTime: result.startTime });
+        onSuccess({ type: CLOCK_STATUS_TYPE.CLOCKED_IN, startTime: result.startTime });
       } else {
         toast.error(result.error ?? '予期せぬエラーが発生しました');
       }
@@ -29,7 +30,7 @@ export const ClockInButton = ({ onSuccess }: ClockInButtonProps) => {
   };
 
   return (
-    <AttendanceConfirmDialog
+    <ClockConfirmDialog
       title="出勤しますか？"
       description="現在時刻で出勤を記録します。"
       onConfirm={handleStartTime}
@@ -43,6 +44,6 @@ export const ClockInButton = ({ onSuccess }: ClockInButtonProps) => {
         <LogIn className="h-3 w-3 mr-1" />
         {isPending ? '処理中...' : '出勤'}
       </Button>
-    </AttendanceConfirmDialog>
+    </ClockConfirmDialog>
   );
 };

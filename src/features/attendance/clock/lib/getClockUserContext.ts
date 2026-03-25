@@ -1,11 +1,8 @@
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { roles, users } from '@/lib/db/schema';
-
-export type ClockUserContext =
-  | { type: 'system_admin' }
-  | { type: 'with_company'; userId: string; companyId: string }
-  | { type: 'personal'; userId: string };
+import { CLOCK_USER_TYPE } from '../consts/constants';
+import { ClockUserContext } from '../types/types';
 
 export const getClockUserContext = async (userId: string): Promise<ClockUserContext> => {
   const user = await db.query.users.findFirst({
@@ -13,15 +10,15 @@ export const getClockUserContext = async (userId: string): Promise<ClockUserCont
     columns: { companyId: true, roleId: true },
   });
 
-  if (!user?.roleId) return { type: 'personal', userId };
+  if (!user?.roleId) return { type: CLOCK_USER_TYPE.PERSONAL, userId };
 
   const role = await db.query.roles.findFirst({
     where: eq(roles.id, user.roleId),
     columns: { isSystemRole: true },
   });
 
-  if (role?.isSystemRole) return { type: 'system_admin' };
-  if (user.companyId) return { type: 'with_company', userId, companyId: user.companyId };
+  if (role?.isSystemRole) return { type: CLOCK_USER_TYPE.SYSTEM_ADMIN };
+  if (user.companyId) return { type: CLOCK_USER_TYPE.WITH_COMPANY, userId, companyId: user.companyId };
 
-  return { type: 'personal', userId };
+  return { type: CLOCK_USER_TYPE.PERSONAL, userId };
 };

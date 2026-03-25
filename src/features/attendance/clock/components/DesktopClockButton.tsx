@@ -2,25 +2,25 @@
 
 import { useRouter } from 'next/navigation';
 import { startTransition, useOptimistic } from 'react';
-import { LOCKED_STATUSES } from '../consts/constants';
-import { AttendanceStatus } from '../types/types';
+import { CLOCK_BUTTON_LOCKED_STATUSES, CLOCK_STATUS_TYPE } from '../consts/constants';
+import { ClockStatus } from '../types/types';
 import { ClockInButton } from './ClockInButton';
 import { ClockOutButton } from './ClockOutButton';
-import { LockedAttendanceBadge } from './LockedAttendanceBadge';
+import { LockedClockBadge } from './LockedClockBadge';
 
-interface DesktopAttendanceButtonProps {
-  initialStatus: AttendanceStatus;
-  onStatusChange?: (status: AttendanceStatus) => void;
+interface DesktopClockButtonProps {
+  initialStatus: ClockStatus;
+  onStatusChange?: (status: ClockStatus) => void;
 }
 
-export const DesktopAttendanceButton = ({ initialStatus, onStatusChange }: DesktopAttendanceButtonProps) => {
+export const DesktopClockButton = ({ initialStatus, onStatusChange }: DesktopClockButtonProps) => {
   const router = useRouter();
-  const [status, setOptimisticStatus] = useOptimistic<AttendanceStatus, AttendanceStatus>(
+  const [status, setOptimisticStatus] = useOptimistic<ClockStatus, ClockStatus>(
     initialStatus,
     (_current, next) => next,
   );
 
-  const handleStatusChange = (next: AttendanceStatus) => {
+  const handleStatusChange = (next: ClockStatus) => {
     startTransition(() => {
       setOptimisticStatus(next);
       onStatusChange?.(next);
@@ -28,11 +28,11 @@ export const DesktopAttendanceButton = ({ initialStatus, onStatusChange }: Deskt
     });
   };
 
-  if (LOCKED_STATUSES.has(status.type)) {
-    return <LockedAttendanceBadge status={status.type} />;
+  if (CLOCK_BUTTON_LOCKED_STATUSES.has(status.type)) {
+    return <LockedClockBadge status={status.type} />;
   }
 
-  const isNotStarted = status.type === 'not_started';
+  const isNotStarted = status.type === CLOCK_STATUS_TYPE.NOT_STARTED;
 
   return (
     <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-800 p-1 rounded border border-gray-200 dark:border-gray-700">
