@@ -1,10 +1,10 @@
 'use client';
 
-import type { AttendanceStatus } from '@/features/attendance/clock/types/types';
+import { ClockStatus } from '@/features/attendance/clock/types/types';
 import { formatMinutesToTimeString } from '@/lib/dateClient';
 
 interface HeaderStatusBadgeProps {
-  initialStatus: AttendanceStatus;
+  initialStatus: ClockStatus;
 }
 
 export const HeaderStatusBadge = ({ initialStatus }: HeaderStatusBadgeProps) => {
