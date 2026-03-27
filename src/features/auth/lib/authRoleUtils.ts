@@ -30,6 +30,7 @@ export const requireAttendanceAccess = async () => {
     ROLE.COMPANY_ADMIN,
     ROLE.GENERAL_USER,
     ROLE.PERSONAL_USER,
+    ROLE.SYSTEM_ADMIN,
   ])();
 
   if (result.user.role?.roleCode !== ROLE.PERSONAL_USER && !result.user.companyId) {
