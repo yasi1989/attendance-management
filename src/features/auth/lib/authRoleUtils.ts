@@ -1,22 +1,10 @@
-import { eq } from 'drizzle-orm';
 import { ROLE, RoleCodeType } from '@/consts/role';
-import { db } from '@/lib/db/drizzle';
-import { users } from '@/lib/db/schema';
+import { getUser } from '@/lib/user';
 import { requireAuth } from './authUtils';
 
 export const requireRole = (allowsRoles: RoleCodeType[]) => async () => {
   const session = await requireAuth();
-  const user = await db.query.users.findFirst({
-    columns: {
-      hashedPassword: false,
-      emailVerified: false,
-    },
-    where: eq(users.id, session.user.id),
-    with: { role: true },
-  });
-  if (!user) {
-    throw new Error('ユーザー情報が見つかりません。');
-  }
+  const user = await getUser(session.user.id);
   if (!user?.role) {
     throw new Error('ユーザーのロールが設定されていません。');
   }
@@ -37,10 +25,12 @@ export const requireCompanyAdmin = async () => {
 
 export const requireAttendanceAccess = async () => {
   const result = await requireRole([
+    ROLE.SYSTEM_ADMIN,
     ROLE.DEPARTMENT_ADMIN,
     ROLE.COMPANY_ADMIN,
     ROLE.GENERAL_USER,
     ROLE.PERSONAL_USER,
+    ROLE.SYSTEM_ADMIN,
   ])();
 
   if (result.user.role?.roleCode !== ROLE.PERSONAL_USER && !result.user.companyId) {

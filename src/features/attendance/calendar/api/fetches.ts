@@ -26,7 +26,14 @@ export const fetchMonthlyAttendance = async (
       getAllHolidays({ year, month, companyId: user.companyId ?? null }),
     ]);
 
-    const monthlyAttendanceSummary = calculateSummary(attendances, holidays, startDate, endDate);
+    const monthlyAttendanceSummary = calculateSummary(
+      attendances,
+      holidays,
+      startDate,
+      endDate,
+      user.role,
+      monthlyAttendanceApproval?.statusCode ?? null,
+    );
 
     return {
       attendances,
