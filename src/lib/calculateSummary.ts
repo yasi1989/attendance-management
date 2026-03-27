@@ -1,7 +1,8 @@
 import { ATTENDANCES, WORK_RULES } from '@/consts/attendance';
+import { ROLE } from '@/consts/role';
 import { STATUS } from '@/consts/status';
 import { HolidayDisplay } from '@/features/admin/holidays/type/holidaysDisplayType';
-import { Attendance } from '@/lib/actionTypes';
+import { Attendance, Role } from '@/lib/actionTypes';
 import { calculateWorkDays } from '@/lib/date';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { AttendanceAggregation, MonthlyAttendanceSummary, WorkTimeResult } from '@/types/attendance';
@@ -12,10 +13,11 @@ export const evaluateCanSubmit = (
   status: StatusType | null,
   workDayDates: string[],
   attendances: Attendance[],
+  role: Role | null,
 ): boolean => {
-  if (status === STATUS.SUBMITTED.value || status === STATUS.APPROVED.value) {
-    return false;
-  }
+  if (!role || role?.roleCode === ROLE.PERSONAL_USER || role?.roleCode === ROLE.SYSTEM_ADMIN) return false;
+
+  if (status === STATUS.SUBMITTED.value || status === STATUS.APPROVED.value) return false;
 
   const attendanceMap = new Map<string, Attendance>(attendances.map((a) => [formatDateForDisplay(a.workDate), a]));
   return findUnfilledWorkDays(workDayDates, attendanceMap).length === 0;
@@ -26,6 +28,7 @@ export const calculateSummary = (
   holidays: HolidayDisplay[],
   startDate: Date,
   endDate: Date,
+  role: Role | null,
   currentStatus: StatusType | null = null,
 ): MonthlyAttendanceSummary => {
   const holidayDatesSet = createHolidaySet(holidays);
@@ -40,7 +43,7 @@ export const calculateSummary = (
     overtimeHours: formatMinutesToHours(aggregation.overtimeMinutes),
     categoryBreakdown: aggregation.categoryBreakdown,
     issues: aggregation.issues.length > 0 ? aggregation.issues : null,
-    canSubmit: evaluateCanSubmit(currentStatus, workDays, attendances),
+    canSubmit: evaluateCanSubmit(currentStatus, workDays, attendances, role),
   };
 };
 
