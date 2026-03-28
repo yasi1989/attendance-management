@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { auth } from '@/auth';
+import { HeaderStatusBadgeSkeleton } from '@/components/layout/HeaderStatusBadgeSkeleton';
 import { URLS } from '@/consts/urls';
 import { ClockSection } from '@/features/attendance/clock/components/ClockSection';
 import Header from '@/features/dashboard/components/Header';
@@ -14,7 +16,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
     if (!user?.role) redirect(URLS.LOGIN);
     return (
       <SidebarLayout userRole={user.role}>
-        <Header clockSection={<ClockSection />} />
+        <Header
+          clockSection={
+            <Suspense fallback={<HeaderStatusBadgeSkeleton />}>
+              <ClockSection />
+            </Suspense>
+          }
+        />
         <main className="flex-1 bg-app-gradient" style={{ minHeight: 'calc(100svh - 4rem)' }}>
           <div className="container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 max-w-7xl">
             <div className="animate-in fade-in-0 duration-500 ease-out">{children}</div>
