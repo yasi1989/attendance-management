@@ -4,8 +4,12 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Role } from '@/lib/actionTypes';
+import { SidebarSkeleton } from './SidebarSkeleton';
 
-const AppSidebar = dynamic(() => import('./AppSidebar').then((mod) => mod.AppSidebar), { ssr: false });
+const AppSidebar = dynamic(() => import('./AppSidebar').then((mod) => mod.AppSidebar), {
+  ssr: false,
+  loading: () => <SidebarSkeleton />,
+});
 
 type SidebarLayoutProps = {
   userRole: Role;
