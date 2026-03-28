@@ -1,5 +1,5 @@
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { formatTimeForDisplay, parseTimestampInputTimeString } from '@/lib/dateClient';
 
@@ -15,6 +15,7 @@ type InputTimeFormFieldProps<T extends Record<string, unknown>> = {
   disabled?: boolean;
   baseDate?: Date;
 };
+
 const InputTimeFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -28,34 +29,32 @@ const InputTimeFormField = <T extends Record<string, unknown>>({
   baseDate = new Date(),
 }: InputTimeFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
+      render={({ field, fieldState }) => (
+        <Field>
+          <FieldLabel>
             {label} {required && <span className="text-destructive">*</span>}
-          </FormLabel>
-          <FormControl>
-            <div className="relative">
-              <Input
-                type="time"
-                placeholder={placeholder}
-                className={className}
-                disabled={disabled}
-                value={formatTimeForDisplay(field.value as number)}
-                onChange={(e) => {
-                  const timestamp = parseTimestampInputTimeString(e.target.value, baseDate);
-                  field.onChange(timestamp);
-                }}
-                onBlur={field.onBlur}
-              />
-            </div>
-          </FormControl>
-          {description && <FormDescription className="text-xs">{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
+          </FieldLabel>
+          <div className="relative">
+            <Input
+              type="time"
+              placeholder={placeholder}
+              className={className}
+              disabled={disabled}
+              value={formatTimeForDisplay(field.value as number)}
+              onChange={(e) => {
+                const timestamp = parseTimestampInputTimeString(e.target.value, baseDate);
+                field.onChange(timestamp);
+              }}
+              onBlur={field.onBlur}
+            />
+          </div>
+          {description && <FieldDescription className="text-xs">{description}</FieldDescription>}
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );

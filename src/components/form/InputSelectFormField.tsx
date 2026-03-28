@@ -1,5 +1,5 @@
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SELECT_EMPTY } from '@/consts/form';
 
@@ -15,6 +15,7 @@ type InputSelectFormFieldProps<T extends Record<string, unknown>> = {
   disabled?: boolean;
   onValueChange?: (value: string | null) => void;
 };
+
 const InputSelectFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -28,15 +29,15 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
   onValueChange,
 }: InputSelectFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
+      render={({ field, fieldState }) => (
+        <Field>
+          <FieldLabel>
             {label} {required && <span className="text-destructive">*</span>}
-          </FormLabel>
+          </FieldLabel>
           <Select
             onValueChange={(value) => {
               const resolved = value === SELECT_EMPTY.value ? null : value;
@@ -46,11 +47,9 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
             value={(field.value as string) ?? SELECT_EMPTY.value}
             disabled={disabled}
           >
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
             <SelectContent>
               {options.map((item) => (
                 <SelectItem key={item.value} value={item.value}>
@@ -59,9 +58,9 @@ const InputSelectFormField = <T extends Record<string, unknown>>({
               ))}
             </SelectContent>
           </Select>
-          {description && <FormDescription className="text-xs">{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
+          {description && <FieldDescription className="text-xs">{description}</FieldDescription>}
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );
