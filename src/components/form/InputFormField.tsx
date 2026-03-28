@@ -1,5 +1,5 @@
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 type InputFormFieldProps<T extends Record<string, unknown>> = {
@@ -16,6 +16,7 @@ type InputFormFieldProps<T extends Record<string, unknown>> = {
   description?: string;
   disabled?: boolean;
 };
+
 const InputFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -31,45 +32,43 @@ const InputFormField = <T extends Record<string, unknown>>({
   disabled = false,
 }: InputFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
+      render={({ field, fieldState }) => (
+        <Field>
+          <FieldLabel>
             {label} {required && <span className="text-destructive">*</span>}
-          </FormLabel>
-          <FormControl>
-            <div className="relative">
-              <Input
-                placeholder={placeholder}
-                type={type}
-                className={className}
-                disabled={disabled}
-                maxLength={maxLength}
-                value={
-                  type === 'number'
-                    ? field.value?.toString() || ''
-                    : (field.value as string | number | readonly string[] | undefined)
+          </FieldLabel>
+          <div className="relative">
+            <Input
+              placeholder={placeholder}
+              type={type}
+              className={className}
+              disabled={disabled}
+              maxLength={maxLength}
+              value={
+                type === 'number'
+                  ? field.value?.toString() || ''
+                  : (field.value as string | number | readonly string[] | undefined)
+              }
+              onChange={(e) => {
+                if (type === 'number') {
+                  const value = e.target.value;
+                  const numValue = value === '' ? 0 : Number.parseFloat(value);
+                  field.onChange(Number.isNaN(numValue) ? 0 : numValue);
+                } else {
+                  field.onChange(e.target.value);
                 }
-                onChange={(e) => {
-                  if (type === 'number') {
-                    const value = e.target.value;
-                    const numValue = value === '' ? 0 : Number.parseFloat(value);
-                    field.onChange(Number.isNaN(numValue) ? 0 : numValue);
-                  } else {
-                    field.onChange(e.target.value);
-                  }
-                }}
-                onBlur={field.onBlur}
-              />
-              {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
-            </div>
-          </FormControl>
-          {description && <FormDescription className="text-xs">{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
+              }}
+              onBlur={field.onBlur}
+            />
+            {moneyField && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">¥</span>}
+          </div>
+          {description && <FieldDescription className="text-xs">{description}</FieldDescription>}
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );

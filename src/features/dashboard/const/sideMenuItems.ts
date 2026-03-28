@@ -1,4 +1,4 @@
-import { CheckCircle, Clock, Settings, Users } from 'lucide-react';
+import { CheckCircle, Clock, CreditCard, Settings, Users } from 'lucide-react';
 import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
 import { SidebarData } from '../types/type';
@@ -25,7 +25,7 @@ export const data = {
     {
       title: '経費',
       url: '#',
-      icon: Clock,
+      icon: CreditCard,
       items: [
         {
           title: '経費申請',

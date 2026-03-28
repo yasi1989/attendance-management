@@ -1,5 +1,5 @@
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 
@@ -16,6 +16,7 @@ type InputTextFormFieldProps<T extends Record<string, unknown>> = {
   row?: number;
   disabled?: boolean;
 };
+
 const InputTextFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -30,35 +31,33 @@ const InputTextFormField = <T extends Record<string, unknown>>({
   disabled,
 }: InputTextFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
+      render={({ field, fieldState }) => (
+        <Field>
+          <FieldLabel>
             {label} {required && <span className="text-destructive">*</span>}
-          </FormLabel>
-          <FormControl>
-            <Textarea
-              placeholder={placeholder}
-              value={field.value as string | undefined}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              className={className}
-              maxLength={maxLength}
-              rows={row}
-              disabled={disabled}
-            />
-          </FormControl>
+          </FieldLabel>
+          <Textarea
+            placeholder={placeholder}
+            value={field.value as string | undefined}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            className={className}
+            maxLength={maxLength}
+            rows={row}
+            disabled={disabled}
+          />
           {maxLength && (
             <Label className="text-xs flex justify-end items-center">
               {String(field.value || 0).length}/{maxLength}文字
             </Label>
           )}
-          {description && <FormDescription className="text-xs">{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
+          {description && <FieldDescription className="text-xs">{description}</FieldDescription>}
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );

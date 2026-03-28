@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
@@ -15,6 +15,7 @@ type InputFileFormFieldProps<T extends Record<string, unknown>> = {
   disabled?: boolean;
   existingFile?: string;
 };
+
 const InputFileFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -27,14 +28,13 @@ const InputFileFormField = <T extends Record<string, unknown>>({
   existingFile,
 }: InputFileFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      render={({ field: { value: _value, onChange, ...fieldProps } }) => (
-        <FormItem>
-          <FormLabel className="flex gap-4 justify-start items-center">
+      render={({ field: { value: _value, onChange, ...fieldProps }, fieldState }) => (
+        <Field>
+          <FieldLabel className="flex gap-4 justify-start items-center">
             <div>
               {label} {required && <span className="text-destructive">*</span>}
             </div>
@@ -51,20 +51,18 @@ const InputFileFormField = <T extends Record<string, unknown>>({
                 </Link>
               </div>
             )}
-          </FormLabel>
-          <FormControl>
-            <Input
-              accept="image/*"
-              type="file"
-              onChange={(event) => onChange(event.target.files)}
-              {...fieldProps}
-              className={cn(className, 'cursor-pointer')}
-              disabled={disabled}
-            />
-          </FormControl>
-          {description && <FormDescription className="text-xs">{description}</FormDescription>}
-          <FormMessage />
-        </FormItem>
+          </FieldLabel>
+          <Input
+            accept="image/*"
+            type="file"
+            onChange={(event) => onChange(event.target.files)}
+            {...fieldProps}
+            className={cn(className, 'cursor-pointer')}
+            disabled={disabled}
+          />
+          {description && <FieldDescription className="text-xs">{description}</FieldDescription>}
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );
