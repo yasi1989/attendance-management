@@ -1,5 +1,5 @@
-import type { Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Controller, type Path, type RegisterOptions, type UseFormReturn } from 'react-hook-form';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Checkbox } from '../ui/checkbox';
 
 type InputCheckboxFormFieldProps<T extends Record<string, unknown>> = {
@@ -10,6 +10,7 @@ type InputCheckboxFormFieldProps<T extends Record<string, unknown>> = {
   rules?: RegisterOptions<T, Path<T>>;
   disabled?: boolean;
 };
+
 const InputCheckboxFormField = <T extends Record<string, unknown>>({
   form,
   name,
@@ -19,27 +20,23 @@ const InputCheckboxFormField = <T extends Record<string, unknown>>({
   disabled,
 }: InputCheckboxFormFieldProps<T>) => {
   return (
-    <FormField
+    <Controller
       control={form.control}
       name={name}
       rules={rules}
-      render={({ field }) => (
-        <FormItem className="flex items-center space-x-2">
-          <FormControl>
-            <Checkbox
-              onCheckedChange={(value) => {
-                field.onChange(value);
-                if (onValueChange) {
-                  onValueChange();
-                }
-              }}
-              checked={field.value as boolean}
-              disabled={disabled}
-            />
-          </FormControl>
-          <FormLabel>{label}</FormLabel>
-          <FormMessage />
-        </FormItem>
+      render={({ field, fieldState }) => (
+        <Field className="flex items-center space-x-2">
+          <Checkbox
+            onCheckedChange={(value) => {
+              field.onChange(value);
+              onValueChange?.();
+            }}
+            checked={field.value as boolean}
+            disabled={disabled}
+          />
+          <FieldLabel>{label}</FieldLabel>
+          <FieldError>{fieldState.error?.message}</FieldError>
+        </Field>
       )}
     />
   );
