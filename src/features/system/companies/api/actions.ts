@@ -3,17 +3,17 @@ import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireSystemAdmin } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { companies } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
 import { AddCompanySchema, EditCompanySchema } from '../lib/formSchema';
+import { requireTenantManagement } from '../lib/roleGuard';
 
 export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { companyName, domain } = values;
-    await requireSystemAdmin();
+    await requireTenantManagement();
     const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
     if (company) {
       return { success: false, error: 'ドメインが重複しています。' };
@@ -32,7 +32,7 @@ export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>)
 export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { id, companyName, domain } = values;
-    await requireSystemAdmin();
+    await requireTenantManagement();
     const [currentCompany, existingCompany] = await Promise.all([
       db.query.companies.findFirst({ where: (companies, { eq }) => eq(companies.id, id) }),
       db.query.companies.findFirst({
@@ -61,7 +61,7 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
 
 export const deleteCompanyAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireSystemAdmin();
+    await requireTenantManagement();
     const result = await db.delete(companies).where(eq(companies.id, id));
     if (result.rowCount === 0) {
       return { success: false, error: '会社が見つかりませんでした。' };

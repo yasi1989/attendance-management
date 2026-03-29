@@ -4,19 +4,19 @@ import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireAttendanceAccess } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { attendances } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
 import { ensureAttendanceOwner, ensureMonthlyStatusEditable } from '../dialog/lib/actionValidate';
 import { AttendanceFormSchema } from '../dialog/lib/formSchema';
+import { requireAttendanceManagement } from '../lib/roleGuard';
 
 export const createAttendanceAction = async (
   values: z.infer<typeof AttendanceFormSchema>,
 ): Promise<ActionStateResult> => {
   try {
-    const { user } = await requireAttendanceAccess();
+    const user = await requireAttendanceManagement();
     const { date, attendanceType, isHalfDay, halfDayType, startTime, endTime, breakTime, comment } = values;
 
     const statusError = await ensureMonthlyStatusEditable(user.id, user.companyId, date);
@@ -53,7 +53,7 @@ export const updateAttendanceAction = async (
   values: z.infer<typeof AttendanceFormSchema>,
 ): Promise<ActionStateResult> => {
   try {
-    const { user } = await requireAttendanceAccess();
+    const user = await requireAttendanceManagement();
     const { date, attendanceType, isHalfDay, halfDayType, startTime, endTime, breakTime, comment } = values;
 
     const ownerError = await ensureAttendanceOwner(attendanceId, user.id);
@@ -88,7 +88,7 @@ export const updateAttendanceAction = async (
 
 export const deleteAttendanceAction = async (attendanceId: string): Promise<ActionStateResult> => {
   try {
-    const { user } = await requireAttendanceAccess();
+    const user = await requireAttendanceManagement();
 
     const ownerError = await ensureAttendanceOwner(attendanceId, user.id);
     if (ownerError) return ownerError;

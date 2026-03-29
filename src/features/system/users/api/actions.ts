@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireSystemAdmin } from '@/features/auth/lib/authRoleUtils';
+import { requireUserManagement } from '@/features/system/users/lib/roleGuard';
 import { ActionStateResult } from '@/lib/actionTypes';
 import {
   ensureUserInCompany,
@@ -18,7 +18,7 @@ import { UserSchema } from '../lib/formSchema';
 export const editUserAction = async (values: z.infer<typeof UserSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, roleId, companyId } = values;
-    await requireSystemAdmin();
+    await requireUserManagement();
     const [currentUser, existingUser] = await Promise.all([
       db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
       db.query.users.findFirst({
@@ -49,7 +49,7 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
 
 export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireSystemAdmin();
+    await requireUserManagement();
 
     const userError = await ensureUserInCompany(id);
     if (userError) return userError;
