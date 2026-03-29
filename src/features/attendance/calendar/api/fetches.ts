@@ -1,10 +1,10 @@
 'use server';
 import { and, between, eq } from 'drizzle-orm';
 import { getAllHolidays } from '@/features/admin/holidays/lib/holidays';
-import { requireAttendanceAccess } from '@/features/auth/lib/authRoleUtils';
 import { calculateSummary } from '@/lib/calculateSummary';
 import { getYearMonthRange } from '@/lib/date';
 import { db } from '@/lib/db/drizzle';
+import { requireAttendanceManagement } from '../lib/roleGuard';
 import { FetchMonthlyAttendanceDataResponse } from '../types/fetchResultResponse';
 
 export const fetchMonthlyAttendance = async (
@@ -12,7 +12,7 @@ export const fetchMonthlyAttendance = async (
   month: number,
 ): Promise<FetchMonthlyAttendanceDataResponse> => {
   try {
-    const { user } = await requireAttendanceAccess();
+    const user = await requireAttendanceManagement();
     const { startDate, endDate } = getYearMonthRange(year, month);
 
     const [attendances, monthlyAttendanceApproval, holidays] = await Promise.all([

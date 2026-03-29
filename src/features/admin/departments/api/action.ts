@@ -3,7 +3,6 @@ import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { departments } from '@/lib/db/schema';
@@ -14,11 +13,12 @@ import {
   ensureValidParentDepartment,
 } from '../lib/actionValidate';
 import { DepartmentSchema } from '../lib/formSchema';
+import { requireDepartmentManagement } from '../lib/roleGuard';
 
 export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchema>): Promise<ActionStateResult> => {
   try {
     const { departmentName, parentDepartmentId, managerUserId } = values;
-    const { user } = await requireCompanyAdmin();
+    const user = await requireDepartmentManagement();
 
     const nameError = await ensureUniqueDepartmentNameInCompany(departmentName, user.companyId);
     if (nameError) return nameError;
@@ -43,7 +43,7 @@ export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchem
 export const editDepartmentAction = async (values: z.infer<typeof DepartmentSchema>): Promise<ActionStateResult> => {
   try {
     const { id, departmentName, parentDepartmentId, managerUserId } = values;
-    const { user } = await requireCompanyAdmin();
+    const user = await requireDepartmentManagement();
 
     const nameError = await ensureUniqueDepartmentNameInCompany(departmentName, user.companyId, id);
     if (nameError) return nameError;
@@ -69,7 +69,7 @@ export const editDepartmentAction = async (values: z.infer<typeof DepartmentSche
 
 export const deleteDepartmentAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    const { user } = await requireCompanyAdmin();
+    const user = await requireDepartmentManagement();
 
     const children = await db
       .select({ id: departments.id })

@@ -3,7 +3,6 @@ import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { URLS } from '@/consts/urls';
-import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { ActionStateResult } from '@/lib/actionTypes';
 import {
   ensureUserInCompany,
@@ -15,11 +14,12 @@ import { users } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
 import { checkDepartmentAssignable, ensureNonSystemAdminRole } from '../lib/actionValidate';
 import { EmployeeSchema } from '../lib/formSchema';
+import { requireEmployeeManagement } from '../lib/roleGuard';
 
 export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, departmentId, roleId } = values;
-    const { user } = await requireCompanyAdmin();
+    const user = await requireEmployeeManagement();
     const [deptError, roleError] = await Promise.all([
       checkDepartmentAssignable(departmentId, user.companyId),
       ensureNonSystemAdminRole(roleId, user.companyId),
@@ -59,7 +59,7 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
 
 export const deleteEmployeeAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    const { user } = await requireCompanyAdmin();
+    const user = await requireEmployeeManagement();
 
     const userError = await ensureUserInCompany(id, user.companyId);
     if (userError) return userError;

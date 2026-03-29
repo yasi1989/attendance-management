@@ -1,8 +1,9 @@
 import { eq } from 'drizzle-orm';
+import { PublicUserWithRole } from './actionTypes';
 import { db } from './db/drizzle';
 import { users } from './db/schema';
 
-export const getUser = async (userId: string) => {
+export const getUser = async (userId: string): Promise<PublicUserWithRole> => {
   const user = await db.query.users.findFirst({
     columns: {
       hashedPassword: false,
@@ -12,5 +13,6 @@ export const getUser = async (userId: string) => {
     with: { role: true },
   });
   if (!user) throw new Error('ユーザー情報が見つかりません。');
-  return user;
+  if (!user.role) throw new Error('ユーザーのロールが設定されていません。');
+  return user as PublicUserWithRole;
 };

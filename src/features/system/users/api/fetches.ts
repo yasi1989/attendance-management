@@ -1,9 +1,11 @@
 'use server';
 import { db } from '@/lib/db/drizzle';
+import { requireUserManagement } from '../lib/roleGuard';
 import { FetchUsersDataResponse } from '../type/fetchResultResponse';
 
 export const fetchUsers = async (): Promise<FetchUsersDataResponse> => {
   try {
+    await requireUserManagement();
     const [usersData, companies, roles] = await Promise.all([
       db.query.users.findMany({
         columns: {

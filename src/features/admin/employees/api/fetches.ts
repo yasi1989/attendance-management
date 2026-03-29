@@ -1,12 +1,12 @@
 'use server';
 import { ROLE } from '@/consts/role';
-import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { db } from '@/lib/db/drizzle';
+import { requireEmployeeManagement } from '../lib/roleGuard';
 import { FetchEmployeesDataResponse } from '../type/fetchResultResponse';
 
 export const fetchEmployees = async (): Promise<FetchEmployeesDataResponse> => {
   try {
-    const { user } = await requireCompanyAdmin();
+    const user = await requireEmployeeManagement();
     const [users, departments, roles] = await Promise.all([
       db.query.users.findMany({
         columns: {
