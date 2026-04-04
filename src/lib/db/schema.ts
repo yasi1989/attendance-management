@@ -178,7 +178,7 @@ export const groupExpenseApprovals = pgTable('group_expense_approvals', {
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
   statusCode: text('status_code', {
-    enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
+    enum: ['Pending', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
   submittedAt: timestamp('submitted_at', { mode: 'date' }),
   purpose: text('purpose'),
@@ -242,7 +242,7 @@ export const attendanceApprovalSteps = pgTable('attendance_approval_steps', {
     .notNull()
     .references(() => users.id),
   statusCode: text('status_code', {
-    enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
+    enum: ['Pending', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
   approvedAt: timestamp('approved_at', { mode: 'date' }),
   comment: text('comment'),
@@ -264,7 +264,7 @@ export const expenseGroupApprovalSteps = pgTable('expense_group_approval_steps',
     .notNull()
     .references(() => users.id),
   statusCode: text('status_code', {
-    enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
+    enum: ['Pending', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
   approvedAt: timestamp('approved_at', { mode: 'date' }),
   comment: text('comment'),

@@ -1,8 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { submitExpenseApprovalAction } from '../api/actions';
 import { BatchExpenseSchema, BatchExpenseType } from '../lib/formSchema';
 
-export const useBatchExpense = (onSubmit: (data: BatchExpenseType) => Promise<void>) => {
+export const useBatchExpense = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<BatchExpenseType>({
     resolver: zodResolver(BatchExpenseSchema),
     defaultValues: {
@@ -10,30 +14,18 @@ export const useBatchExpense = (onSubmit: (data: BatchExpenseType) => Promise<vo
     },
   });
 
-  const handleBatchExpense = async (selectedItemIds: string[]) => {
-    try {
-      if (selectedItemIds.length === 0) {
-        throw new Error('申請対象を選択してください');
-      }
+  const handleBatchSubmit = (selectedIds: string[]) => {
+    if (selectedIds.length === 0) return;
 
-      const formData = form.getValues();
-
-      const batchExpenseData: BatchExpenseType = {
-        ids: selectedItemIds,
-        comment: formData.comment,
-        userId: 'current-user-id',
-      };
-
-      await onSubmit(batchExpenseData);
+    startTransition(async () => {
+      await Promise.all(selectedIds.map((id) => submitExpenseApprovalAction(id)));
       form.reset();
-    } catch (error) {
-      console.error('一括承認処理でエラーが発生しました:', error);
-      throw error;
-    }
+    });
   };
 
   return {
     form,
-    handleBatchExpense,
+    isPending,
+    handleBatchSubmit,
   };
 };

@@ -3,48 +3,42 @@ import { useCallback, useEffect, useMemo, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { EXPENSE_CATEGORIES } from '@/consts/expense';
-import { ExpenseItem, RouteDetail } from '../../type/ExpenseType';
+import { createExpenseAction, updateExpenseAction } from '../api/actions';
 import { ExpenseFormSchema } from '../lib/formSchema';
+import { ExpenseItem, RouteDetail } from '../type/ExpenseType';
 
 type UseExpenseFormProps = {
+  groupExpenseApprovalId: string;
   expense?: ExpenseItem;
+  onSuccess?: () => void;
 };
-const INITIAL_ROUTE = { from: '', to: '', fare: 0 };
-const ROUTES_FIELD_NAME = 'routes';
-const AMOUNT_FIELD_NAME = 'amount';
 
-export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
-  const [isSubmitted, startTransition] = useTransition();
+const INITIAL_ROUTE = { from: '', to: '', fare: 0 } as const;
 
-  const defaultValues = useMemo(() => {
-    return expense
-      ? {
-          id: expense.id,
-          expenseType: expense.expenseType,
-          expenseDate: expense.expenseDate,
-          requestDate: expense.requestDate,
-          amount: expense.amount,
-          description: expense.description,
-          receiptFile: undefined,
-          routes: expense.routeDetails
-            ? expense.routeDetails.map((routeDetail: RouteDetail) => ({
-                from: routeDetail.from,
-                to: routeDetail.to,
-                fare: routeDetail.fare,
-              }))
-            : [INITIAL_ROUTE],
-        }
-      : {
-          id: '',
-          expenseType: EXPENSE_CATEGORIES.GENERAL.value,
-          expenseDate: new Date(),
-          requestDate: new Date(),
-          amount: 0,
-          description: '',
-          receiptFile: undefined,
-          routes: [INITIAL_ROUTE],
-        };
-  }, [expense]);
+const buildDefaultValues = (expense?: ExpenseItem) =>
+  expense
+    ? {
+        expenseType: expense.expenseType,
+        expenseDate: expense.expenseDate,
+        amount: expense.amount,
+        description: expense.description,
+        receiptUrl: expense.receiptUrl ?? undefined,
+        routes: expense.routeDetails?.map((r: RouteDetail) => ({ from: r.from, to: r.to, fare: r.fare })) ?? [
+          INITIAL_ROUTE,
+        ],
+      }
+    : {
+        expenseType: EXPENSE_CATEGORIES.GENERAL.value,
+        expenseDate: new Date(),
+        amount: 0,
+        description: '',
+        receiptUrl: undefined,
+        routes: [INITIAL_ROUTE],
+      };
+
+export const useExpenseForm = ({ groupExpenseApprovalId, expense, onSuccess }: UseExpenseFormProps) => {
+  const [isPending, startTransition] = useTransition();
+  const defaultValues = useMemo(() => buildDefaultValues(expense), [expense]);
 
   const form = useForm<z.infer<typeof ExpenseFormSchema>>({
     resolver: zodResolver(ExpenseFormSchema),
@@ -52,73 +46,61 @@ export const useExpenseForm = ({ expense }: UseExpenseFormProps) => {
     mode: 'onChange',
   });
 
-  const { fields, append, remove } = useFieldArray({
-    name: ROUTES_FIELD_NAME,
-    control: form.control,
-  });
-
+  const { fields, append, remove } = useFieldArray({ name: 'routes', control: form.control });
   const expenseType = form.watch('expenseType');
 
-  const onSubmit = useCallback((data: z.infer<typeof ExpenseFormSchema>) => {
-    startTransition(async () => {
-      const cleanedData = {
-        ...data,
-        routes: data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value ? data.routes : [],
-      };
-      console.log(cleanedData);
-    });
-  }, []);
+  const onSubmit = useCallback(
+    (data: z.infer<typeof ExpenseFormSchema>) => {
+      startTransition(async () => {
+        const isTransport = data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value;
+        const payload = { ...data, routeDetails: isTransport ? data.routes : [] };
+
+        const result = expense
+          ? await updateExpenseAction(expense.id, payload)
+          : await createExpenseAction(groupExpenseApprovalId, payload);
+
+        if (result.success) {
+          form.reset(defaultValues);
+          onSuccess?.();
+        }
+      });
+    },
+    [expense, groupExpenseApprovalId, defaultValues, onSuccess, form],
+  );
 
   const handleExpenseTypeChange = useCallback(
     (value: string | null) => {
       if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
-        form.setValue(ROUTES_FIELD_NAME, [INITIAL_ROUTE]);
-        form.setValue(AMOUNT_FIELD_NAME, 0);
+        form.setValue('routes', [INITIAL_ROUTE]);
+        form.setValue('amount', 0);
       }
     },
     [form],
   );
 
-  const handleAddRoute = useCallback(() => {
-    append(INITIAL_ROUTE);
-  }, [append]);
-  const handleRemoveRoute = useCallback(
-    (index: number) => {
-      remove(index);
-    },
-    [remove],
-  );
-
   const resetToDefault = useCallback(() => {
-    form.clearErrors();
     form.reset(defaultValues);
-
-    requestAnimationFrame(() => {
-      form.clearErrors();
-    });
+    requestAnimationFrame(() => form.clearErrors());
   }, [form, defaultValues]);
 
-  const { watch, setValue } = form;
   useEffect(() => {
-    if (expenseType === EXPENSE_CATEGORIES.TRANSPORT.value) {
-      const subscription = watch((value, { name }) => {
-        if (name?.startsWith(ROUTES_FIELD_NAME)) {
-          const routes = value.routes || [];
-          const totalFare = routes.reduce((sum, route) => sum + (Number(route?.fare) || 0), 0);
-          setValue(AMOUNT_FIELD_NAME, totalFare);
-        }
-      });
-      return () => subscription.unsubscribe();
-    }
-  }, [watch, setValue, expenseType]);
+    if (expenseType !== EXPENSE_CATEGORIES.TRANSPORT.value) return;
+
+    const subscription = form.watch((value, { name }) => {
+      if (!name?.startsWith('routes')) return;
+      const total = (value.routes ?? []).reduce((sum, r) => sum + (Number(r?.fare) || 0), 0);
+      form.setValue('amount', total);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, expenseType]);
 
   return {
     form,
     onSubmit,
-    isSubmitted,
+    isPending,
     fields,
-    handleAddRoute,
-    handleRemoveRoute,
+    handleAddRoute: () => append(INITIAL_ROUTE),
+    handleRemoveRoute: (index: number) => remove(index),
     expenseType,
     handleExpenseTypeChange,
     resetToDefault,
