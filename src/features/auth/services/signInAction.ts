@@ -13,7 +13,7 @@ export const signInAction = async (data: z.infer<typeof SignInSchema>): Promise<
     if (!submission.success) {
       return {
         isSuccess: false,
-        error: { message: submission.error.errors[0]?.message || 'バリデーションエラー' },
+        error: { message: submission.error.issues[0]?.message || 'バリデーションエラー' },
       };
     }
 
