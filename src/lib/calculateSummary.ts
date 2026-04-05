@@ -53,7 +53,7 @@ const findUnfilledWorkDays = (workDayDates: string[], attendanceMap: Map<string,
 const isUnfilledWorkDay = (dateStr: string, attendanceMap: Map<string, Attendance>): boolean => {
   const record = attendanceMap.get(dateStr);
   if (!record) return true;
-  if (record.attendanceType !== ATTENDANCES.WORK.value) return false;
+  if (!isWorkTimeTarget(record)) return false;
   return record.startTime == null || record.endTime == null;
 };
 
@@ -87,10 +87,14 @@ const aggregateAttendances = (attendances: Attendance[]): AttendanceAggregation 
 
 const buildCategoryBreakdown = (attendances: Attendance[]): Record<string, number> =>
   Object.fromEntries(
-    [...new Set(attendances.map((a) => a.attendanceType))].map((type) => [
-      type,
-      attendances.filter((a) => a.attendanceType === type).length,
-    ]),
+    [...new Set(attendances.map((a) => a.attendanceType))].map((type) => {
+      const filtered = attendances.filter((a) => a.attendanceType === type);
+      if (type === ATTENDANCES.PAID.value) {
+        const days = filtered.reduce((sum, a) => sum + (a.isHalfDay ? 0.5 : 1), 0);
+        return [type, days];
+      }
+      return [type, filtered.length];
+    }),
   );
 
 const calculateWorkTime = (attendance: Attendance): WorkTimeResult => {
