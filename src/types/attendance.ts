@@ -24,7 +24,7 @@ export type MonthlyAttendanceSummary = {
   totalWorkHours: string;
   regularHours: string;
   overtimeHours: string;
-  categoryBreakdown: unknown;
+  categoryBreakdown: Record<string, number>;
   issues: string[] | null;
   canSubmit: boolean;
 };
