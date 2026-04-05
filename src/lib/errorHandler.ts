@@ -4,7 +4,7 @@ import { ActionStateResult } from '@/lib/actionTypes';
 export function actionErrorHandler(error: unknown): ActionStateResult {
   if (error instanceof z.ZodError) {
     return {
-      error: error.errors.map((e) => e.message).join(','),
+      error: error.issues.map((e) => e.message).join(','),
       success: false,
     };
   }
