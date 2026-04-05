@@ -41,7 +41,7 @@ export const createAttendanceAction = async (
       comment,
     });
 
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ATTENDANCE_CALENDAR, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -79,7 +79,7 @@ export const updateAttendanceAction = async (
       return { success: false, error: '勤怠データが見つかりませんでした。' };
     }
 
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ATTENDANCE_CALENDAR, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -111,7 +111,7 @@ export const deleteAttendanceAction = async (attendanceId: string): Promise<Acti
       return { success: false, error: '勤怠データが見つかりませんでした。' };
     }
 
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ATTENDANCE_CALENDAR, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);

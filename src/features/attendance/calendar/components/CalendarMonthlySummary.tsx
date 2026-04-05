@@ -82,7 +82,7 @@ const CalendarMonthlySummary = ({ summary, className }: CalendarMonthlySummaryPr
 
   const leaveEntries = LEAVE_DISPLAY.map((item) => ({
     ...item,
-    count: (summary.categoryBreakdown as Record<string, number>)[item.value] ?? 0,
+    count: summary.categoryBreakdown[item.value] ?? 0,
   }));
   const totalLeaveDays = leaveEntries.reduce((sum, item) => sum + item.count, 0);
 

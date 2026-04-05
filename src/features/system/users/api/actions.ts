@@ -40,7 +40,7 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
         companyId,
       })
       .where(eq(users.id, id));
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.SYSTEM_USERS, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -64,7 +64,7 @@ export const deleteUserAction = async (id: string): Promise<ActionStateResult> =
     if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.SYSTEM_USERS, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
