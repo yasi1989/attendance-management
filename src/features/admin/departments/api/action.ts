@@ -33,7 +33,7 @@ export const addDepartmentAction = async (values: z.infer<typeof DepartmentSchem
       managerUserId: managerUserId ?? null,
       companyId: user.companyId,
     });
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ADMIN_DEPARTMENTS, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -60,7 +60,7 @@ export const editDepartmentAction = async (values: z.infer<typeof DepartmentSche
         managerUserId: managerUserId ?? null,
       })
       .where(and(eq(departments.id, id), eq(departments.companyId, user.companyId)));
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ADMIN_DEPARTMENTS, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
@@ -86,7 +86,7 @@ export const deleteDepartmentAction = async (id: string): Promise<ActionStateRes
       return { success: false, error: '部署が見つかりませんでした。' };
     }
 
-    revalidatePath(URLS.ROOT, 'layout');
+    revalidatePath(URLS.ADMIN_DEPARTMENTS, 'layout');
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
