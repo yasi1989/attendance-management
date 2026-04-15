@@ -14,16 +14,18 @@ import { requireHolidayManagement } from '../lib/roleGuard';
 export const addHolidayAction = async (values: z.infer<typeof HolidaySchema>): Promise<ActionStateResult> => {
   try {
     const { name, holidayDate } = values;
-    const user = await requireHolidayManagement();
+
+    const authResult = await requireHolidayManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+    const user = authResult.data;
+
     const existHoliday = await db.query.holidays.findFirst({
       where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate)),
     });
     if (existHoliday) {
-      return {
-        success: false,
-        error: 'この日付の祝日は既に登録されています。',
-      };
+      return { success: false, error: 'この日付の祝日は既に登録されています。' };
     }
+
     await db.insert(holidays).values({
       name,
       holidayDate,
@@ -40,16 +42,18 @@ export const addHolidayAction = async (values: z.infer<typeof HolidaySchema>): P
 export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, holidayDate } = values;
-    const user = await requireHolidayManagement();
+
+    const authResult = await requireHolidayManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+    const user = authResult.data;
+
     const existHoliday = await db.query.holidays.findFirst({
       where: and(eq(holidays.companyId, user.companyId), eq(holidays.holidayDate, holidayDate), ne(holidays.id, id)),
     });
     if (existHoliday) {
-      return {
-        success: false,
-        error: 'この日付の祝日は既に登録されています。',
-      };
+      return { success: false, error: 'この日付の祝日は既に登録されています。' };
     }
+
     await db
       .update(holidays)
       .set({ name, holidayDate, companyId: user.companyId, type: HOLIDAY_CATEGORIES.COMPANY.value })
@@ -63,11 +67,15 @@ export const editHolidayAction = async (values: z.infer<typeof HolidaySchema>): 
 
 export const deleteHolidayAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    const user = await requireHolidayManagement();
+    const authResult = await requireHolidayManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+    const user = authResult.data;
+
     const result = await db.delete(holidays).where(and(eq(holidays.id, id), eq(holidays.companyId, user.companyId)));
     if (result.rowCount === 0) {
       return { success: false, error: '祝日が見つかりませんでした。' };
     }
+
     revalidatePath(URLS.ADMIN_HOLIDAYS, 'layout');
     return { success: true };
   } catch (error) {

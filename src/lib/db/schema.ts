@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm';
 import { boolean, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 import { dateOnly } from './customTypes';
+import { RoleCodeType } from '@/consts/role';
 
 export const companies = pgTable('companies', {
   id: text('id')
@@ -35,7 +36,7 @@ export const roles = pgTable('roles', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  roleCode: text('role_code').notNull().unique(),
+  roleCode: text('role_code').$type<RoleCodeType>().notNull().unique(),
   roleName: text('role_name').notNull(),
   isPersonalRole: boolean('is_personal_role').notNull().default(false),
   isSystemRole: boolean('is_system_role').notNull().default(false),

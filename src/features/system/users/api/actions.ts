@@ -18,7 +18,10 @@ import { UserSchema } from '../lib/formSchema';
 export const editUserAction = async (values: z.infer<typeof UserSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, roleId, companyId } = values;
-    await requireUserManagement();
+
+    const authResult = await requireUserManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
     const [currentUser, existingUser] = await Promise.all([
       db.query.users.findFirst({ where: (users, { eq }) => eq(users.id, id) }),
       db.query.users.findFirst({
@@ -31,14 +34,10 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
     if (currentUser.email !== email && existingUser) {
       return { success: false, error: 'メールアドレスが重複しています。' };
     }
+
     await db
       .update(users)
-      .set({
-        name,
-        email,
-        roleId,
-        companyId,
-      })
+      .set({ name, email, roleId, companyId })
       .where(eq(users.id, id));
     revalidatePath(URLS.SYSTEM_USERS, 'layout');
     return { success: true };
@@ -49,7 +48,8 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
 
 export const deleteUserAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireUserManagement();
+    const authResult = await requireUserManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
 
     const userError = await ensureUserInCompany(id);
     if (userError) return userError;

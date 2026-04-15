@@ -7,13 +7,21 @@ import { ClockSection } from '@/features/attendance/clock/components/ClockSectio
 import Header from '@/features/dashboard/components/Header';
 import { SidebarLayout } from '@/features/dashboard/components/SidebarLayout';
 import { getUser } from '@/lib/user';
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect(URLS.LOGIN);
+
+  const userResult = await getUser(session.user.id);
+  if (!userResult.success) {
+    console.error('[DashboardLayout]', userResult.error);
+    redirect(URLS.LOGIN);
+  }
+
+  const { data: user } = userResult;
+
   try {
-    const user = await getUser(session.user.id);
-    if (!user?.role) redirect(URLS.LOGIN);
     return (
       <SidebarLayout userRole={user.role}>
         <Header
@@ -31,7 +39,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </SidebarLayout>
     );
   } catch (error) {
-    console.error(error);
+    if (isRedirectError(error)) throw error;
+    console.error('[DashboardLayout] Render error:', error);
     redirect(URLS.LOGIN);
   }
 }

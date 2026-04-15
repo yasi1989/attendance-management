@@ -1,15 +1,6 @@
-'use client';
-
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Role } from '@/lib/actionTypes';
-import { SidebarSkeleton } from './SidebarSkeleton';
-
-const AppSidebar = dynamic(() => import('./AppSidebar').then((mod) => mod.AppSidebar), {
-  ssr: false,
-  loading: () => <SidebarSkeleton />,
-});
+import { AppSidebar } from './AppSidebar';
 
 type SidebarLayoutProps = {
   userRole: Role;
@@ -21,7 +12,7 @@ export const SidebarLayout = ({ userRole, children }: SidebarLayoutProps) => {
     <SidebarProvider>
       <AppSidebar userRole={userRole} />
       <SidebarInset className="m-0! p-0!">
-        <Suspense>{children}</Suspense>
+        {children}
       </SidebarInset>
     </SidebarProvider>
   );
