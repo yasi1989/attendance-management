@@ -12,17 +12,24 @@ type HolidaysContainerProps = {
 const HolidaysContainer = async ({ year, category }: HolidaysContainerProps) => {
   const getHolidays = async (): Promise<HolidayDisplay[]> => {
     if (category === HOLIDAY_CATEGORIES_WITH_ALL.ALL.value) {
-      const [companyHolidays, nationalHolidays] = await Promise.all([
+      const [companyResult, nationalResult] = await Promise.all([
         fetchCompanyHolidays(year),
         fetchNationalHolidays(year),
       ]);
-      return [...companyHolidays, ...nationalHolidays].sort(
+      if (!companyResult.success) throw companyResult.error;
+      if (!nationalResult.success) throw nationalResult.error;
+
+      return [...companyResult.data, ...nationalResult.data].sort(
         (a, b) => a.holidayDate.getTime() - b.holidayDate.getTime(),
       );
     } else if (category === HOLIDAY_CATEGORIES_WITH_ALL.COMPANY.value) {
-      return fetchCompanyHolidays(year);
+      const result = await fetchCompanyHolidays(year);
+      if (!result.success) throw result.error;
+      return result.data;
     } else if (category === HOLIDAY_CATEGORIES_WITH_ALL.NATIONAL.value) {
-      return fetchNationalHolidays(year);
+      const result = await fetchNationalHolidays(year);
+      if (!result.success) throw result.error;
+      return result.data;
     }
     return [];
   };

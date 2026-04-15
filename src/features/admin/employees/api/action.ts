@@ -19,7 +19,11 @@ import { requireEmployeeManagement } from '../lib/roleGuard';
 export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>): Promise<ActionStateResult> => {
   try {
     const { id, name, email, departmentId, roleId } = values;
-    const user = await requireEmployeeManagement();
+
+    const authResult = await requireEmployeeManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+    const user = authResult.data;
+
     const [deptError, roleError] = await Promise.all([
       checkDepartmentAssignable(departmentId, user.companyId),
       ensureNonSystemAdminRole(roleId, user.companyId),
@@ -41,15 +45,12 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
     if (currentUser.email !== email && existingUser) {
       return { success: false, error: 'メールアドレスが重複しています。' };
     }
+
     await db
       .update(users)
-      .set({
-        name,
-        email,
-        departmentId,
-        roleId,
-      })
+      .set({ name, email, departmentId, roleId })
       .where(eq(users.id, id));
+
     revalidatePath(URLS.ADMIN_EMPLOYEES, 'layout');
     return { success: true };
   } catch (error) {
@@ -59,7 +60,9 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
 
 export const deleteEmployeeAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    const user = await requireEmployeeManagement();
+    const authResult = await requireEmployeeManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+    const user = authResult.data;
 
     const userError = await ensureUserInCompany(id, user.companyId);
     if (userError) return userError;
@@ -74,6 +77,7 @@ export const deleteEmployeeAction = async (id: string): Promise<ActionStateResul
     if (result.rowCount === 0) {
       return { success: false, error: 'ユーザーが見つかりませんでした。' };
     }
+
     revalidatePath(URLS.ADMIN_EMPLOYEES, 'layout');
     return { success: true };
   } catch (error) {

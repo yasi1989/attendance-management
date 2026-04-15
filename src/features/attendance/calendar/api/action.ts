@@ -16,7 +16,10 @@ export const createAttendanceAction = async (
   values: z.infer<typeof AttendanceFormSchema>,
 ): Promise<ActionStateResult> => {
   try {
-    const user = await requireAttendanceManagement();
+    const authResult = await requireAttendanceManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
+    const user = authResult.data;
     const { date, attendanceType, isHalfDay, halfDayType, startTime, endTime, breakTime, comment } = values;
 
     const statusError = await ensureMonthlyStatusEditable(user.id, user.companyId, date);
@@ -53,7 +56,10 @@ export const updateAttendanceAction = async (
   values: z.infer<typeof AttendanceFormSchema>,
 ): Promise<ActionStateResult> => {
   try {
-    const user = await requireAttendanceManagement();
+    const authResult = await requireAttendanceManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
+    const user = authResult.data;
     const { date, attendanceType, isHalfDay, halfDayType, startTime, endTime, breakTime, comment } = values;
 
     const ownerError = await ensureAttendanceOwner(attendanceId, user.id);
@@ -88,7 +94,10 @@ export const updateAttendanceAction = async (
 
 export const deleteAttendanceAction = async (attendanceId: string): Promise<ActionStateResult> => {
   try {
-    const user = await requireAttendanceManagement();
+    const authResult = await requireAttendanceManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
+    const user = authResult.data;
 
     const ownerError = await ensureAttendanceOwner(attendanceId, user.id);
     if (ownerError) return ownerError;

@@ -20,7 +20,7 @@ import { NavMain } from './NavMain';
 import { NavUser } from './NavUser';
 
 export function AppSidebar({ userRole, ...props }: React.ComponentProps<typeof Sidebar> & { userRole: Role }) {
-  const filterNav = filterNavByRole(data.navMain, userRole.roleCode as RoleCodeType);
+  const filterNav = filterNavByRole(data.navMain, userRole.roleCode);
   return (
     <Sidebar variant="inset" {...props} className="bg-sidebar-gradient">
       <SidebarHeader className="sidebar-header-gradient">
