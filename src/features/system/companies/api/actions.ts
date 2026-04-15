@@ -13,15 +13,15 @@ import { requireTenantManagement } from '../lib/roleGuard';
 export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { companyName, domain } = values;
-    await requireTenantManagement();
+
+    const authResult = await requireTenantManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
     const company = await db.query.companies.findFirst({ where: eq(companies.domain, domain) });
     if (company) {
       return { success: false, error: 'ドメインが重複しています。' };
     }
-    await db.insert(companies).values({
-      companyName,
-      domain,
-    });
+    await db.insert(companies).values({ companyName, domain });
     revalidatePath(URLS.SYSTEM_COMPANIES, 'layout');
     return { success: true };
   } catch (error) {
@@ -32,7 +32,10 @@ export const addCompanyAction = async (values: z.infer<typeof AddCompanySchema>)
 export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema>): Promise<ActionStateResult> => {
   try {
     const { id, companyName, domain } = values;
-    await requireTenantManagement();
+
+    const authResult = await requireTenantManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
     const [currentCompany, existingCompany] = await Promise.all([
       db.query.companies.findFirst({ where: (companies, { eq }) => eq(companies.id, id) }),
       db.query.companies.findFirst({
@@ -47,10 +50,7 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
     }
     await db
       .update(companies)
-      .set({
-        companyName,
-        domain,
-      })
+      .set({ companyName, domain })
       .where(eq(companies.id, id));
     revalidatePath(URLS.SYSTEM_COMPANIES, 'layout');
     return { success: true };
@@ -61,7 +61,9 @@ export const editCompanyAction = async (values: z.infer<typeof EditCompanySchema
 
 export const deleteCompanyAction = async (id: string): Promise<ActionStateResult> => {
   try {
-    await requireTenantManagement();
+    const authResult = await requireTenantManagement();
+    if (!authResult.success) return { success: false, error: authResult.error.message };
+
     const result = await db.delete(companies).where(eq(companies.id, id));
     if (result.rowCount === 0) {
       return { success: false, error: '会社が見つかりませんでした。' };
