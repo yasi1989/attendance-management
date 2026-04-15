@@ -13,6 +13,16 @@ export const HALF_DAYS = {
   PM: { value: 'Pm', label: '午後' },
 } as const;
 
-export const LEAVES_LIST = [...Object.values(LEAVES).map((status) => status.value)] as const;
-export const ATTENDANCES_LIST = [...Object.values(ATTENDANCES).map((status) => status.value)] as const;
-export const HALF_DAYS_LIST = [...Object.values(HALF_DAYS).map((status) => status.value)] as const;
+export const WORK_RULES = {
+  REGULAR_WORK_MINUTES: 8 * 60,
+  DEFAULT_BREAK_MINUTES: 0,
+
+  HALF_DAY_AM_START_MINUTES: 780,
+  HALF_DAY_AM_START_LABEL: '13:00',
+  HALF_DAY_PM_END_MINUTES: 780,
+  HALF_DAY_PM_END_LABEL: '13:00',
+} as const;
+
+export const LEAVES_LIST = [LEAVES.PAID.value, LEAVES.ABSENCE.value, LEAVES.SPECIAL.value] as const;
+export const ATTENDANCES_LIST = [ATTENDANCES.WORK.value, ...LEAVES_LIST] as const;
+export const HALF_DAYS_LIST = [HALF_DAYS.AM.value, HALF_DAYS.PM.value] as const;

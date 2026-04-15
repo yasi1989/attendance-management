@@ -1,14 +1,14 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import CalendarFooter from '@/features/attendance/calendar/components/CalendarFooter';
 import CalendarGrid from '@/features/attendance/calendar/components/CalendarGrig';
 import CalendarHeader from '@/features/attendance/calendar/components/CalendarHeader';
+import CalendarMonthlySummary from '@/features/attendance/calendar/components/CalendarMonthlySummary';
 import { useCalendarNavigation } from '@/features/attendance/calendar/hooks/useCalendarNavigation';
-import { AttendanceDataResponse } from '@/features/attendance/calendar/types/attendance';
+import { FetchMonthlyAttendanceDataResponse } from '@/features/attendance/calendar/types/fetchResultResponse';
 
 interface CalendarPresentationalProps {
-  initialData: AttendanceDataResponse;
+  initialData: FetchMonthlyAttendanceDataResponse;
   initialYear: number;
   initialMonth: number;
 }
@@ -20,7 +20,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
   );
 
   const currentDate = new Date(currentYear, currentMonth - 1, 1);
-  const monthlyStatus = initialData.monthlyAttendance.monthlyStatus;
+  const monthlyStatus = initialData.monthlyAttendanceApproval?.statusCode;
 
   return (
     <div className="relative">
@@ -31,7 +31,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
           nextMonth={nextMonth}
           goToToday={goToToday}
           monthlyStatus={monthlyStatus}
-          canSubmit={initialData.monthlyAttendance.canSubmit}
+          canSubmit={initialData.monthlyAttendanceSummary.canSubmit}
         />
         <CardContent className="p-0">
           <CalendarGrid
@@ -42,7 +42,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
             monthlyStatus={monthlyStatus}
           />
         </CardContent>
-        <CalendarFooter />
+        <CalendarMonthlySummary summary={initialData.monthlyAttendanceSummary} />
       </Card>
     </div>
   );

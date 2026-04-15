@@ -1,1 +1,0 @@
-ALTER TABLE "holidays" ADD COLUMN "type" text NOT NULL;

@@ -132,7 +132,7 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
     .notNull()
     .references(() => companies.id, { onDelete: 'cascade' }),
   statusCode: text('status_code', {
-    enum: ['Draft', 'Submitted', 'Approved', 'Rejected'],
+    enum: ['Pending', 'Submitted', 'Rejected', 'Approved'],
   }).notNull(),
   targetMonth: dateOnly('target_month').notNull(),
   submittedAt: timestamp('submitted_at', { mode: 'date' }),
@@ -149,9 +149,6 @@ export const attendances = pgTable('attendances', {
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  monthlyAttendanceApprovalId: text('monthly_attendance_approval_id').references(() => monthlyAttendanceApprovals.id, {
-    onDelete: 'cascade',
-  }),
   workDate: dateOnly('work_date').notNull(),
   startTime: integer('start_time'),
   endTime: integer('end_time'),
@@ -159,32 +156,11 @@ export const attendances = pgTable('attendances', {
   attendanceType: text('attendance_type', {
     enum: ['Work', 'Paid', 'Absence', 'Special'],
   }).notNull(),
-  isHalfDay: boolean('is_half_day').default(false),
+  isHalfDay: boolean('is_half_day').default(false).notNull(),
   halfDayType: text('half_day_type', {
     enum: ['Am', 'Pm'],
   }),
   comment: text('comment'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-});
-
-export const monthlyAttendanceSummaries = pgTable('monthly_attendance_summaries', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  monthlyAttendanceApprovalId: text('monthly_attendance_approval_id')
-    .notNull()
-    .references(() => monthlyAttendanceApprovals.id, { onDelete: 'cascade' }),
-  totalWorkDays: integer('total_work_days').notNull(),
-  actualWorkDays: integer('actual_work_days').notNull(),
-  totalWorkHours: decimal('total_work_hours', { precision: 10, scale: 2 }).notNull(),
-  regularHours: decimal('regular_hours', { precision: 10, scale: 2 }).notNull(),
-  overtimeHours: decimal('overtime_hours', { precision: 10, scale: 2 }).notNull(),
-  categoryBreakdown: jsonb('category_breakdown').notNull(),
-  issues: text('issues').array(),
-  calculatedAt: timestamp('calculated_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
@@ -383,10 +359,6 @@ export const attendancesRelations = relations(attendances, ({ one }) => ({
     fields: [attendances.userId],
     references: [users.id],
   }),
-  monthlyAttendanceApproval: one(monthlyAttendanceApprovals, {
-    fields: [attendances.monthlyAttendanceApprovalId],
-    references: [monthlyAttendanceApprovals.id],
-  }),
 }));
 
 export const expensesRelations = relations(expenses, ({ one }) => ({
@@ -400,25 +372,8 @@ export const expensesRelations = relations(expenses, ({ one }) => ({
   }),
 }));
 
-export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ one, many }) => ({
-  user: one(users, {
-    fields: [monthlyAttendanceApprovals.userId],
-    references: [users.id],
-  }),
-  company: one(companies, {
-    fields: [monthlyAttendanceApprovals.companyId],
-    references: [companies.id],
-  }),
-  attendances: many(attendances),
-  summary: one(monthlyAttendanceSummaries),
+export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ many, one }) => ({
   approvalSteps: many(attendanceApprovalSteps),
-}));
-
-export const monthlyAttendanceSummariesRelations = relations(monthlyAttendanceSummaries, ({ one }) => ({
-  monthlyAttendanceApproval: one(monthlyAttendanceApprovals, {
-    fields: [monthlyAttendanceSummaries.monthlyAttendanceApprovalId],
-    references: [monthlyAttendanceApprovals.id],
-  }),
 }));
 
 export const groupExpenseApprovalsRelations = relations(groupExpenseApprovals, ({ one, many }) => ({

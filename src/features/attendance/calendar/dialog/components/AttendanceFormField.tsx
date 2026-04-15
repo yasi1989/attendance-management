@@ -4,8 +4,8 @@ import z from 'zod';
 import InputCalendarFormField from '@/components/form/InputCalendarFormField';
 import InputSelectFormField from '@/components/form/InputSelectFormField';
 import InputTextFormField from '@/components/form/InputTextFormField';
+import { AttendanceType } from '@/types/attendance';
 import { ATTENDANCES } from '../../../../../consts/attendance';
-import { AttendanceType } from '../../types/attendance';
 import { AttendanceFormSchema } from '../lib/formSchema';
 import AttendanceHalfDayField from './AttendanceHalfDayField';
 import AttendanceTimeField from './AttendanceTimeField';
@@ -37,7 +37,7 @@ const AttendanceFormFields = ({
   const shouldShowTimeField =
     attendanceType === ATTENDANCES.WORK.value || (attendanceType === ATTENDANCES.PAID.value && isHalfDay);
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <InputCalendarFormField form={form} name="date" label="日付" placeholder="日付" disabled={true} />
       <InputSelectFormField
         form={form}

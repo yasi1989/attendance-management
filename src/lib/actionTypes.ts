@@ -1,5 +1,5 @@
 import { InferSelectModel } from 'drizzle-orm';
-import { companies, departments, holidays, roles, users } from './db/schema';
+import { attendances, companies, departments, holidays, monthlyAttendanceApprovals, roles, users } from './db/schema';
 
 export type ActionStateResult = {
   error?: string | undefined;
@@ -12,3 +12,5 @@ export type PublicUser = Omit<User, 'hashedPassword' | 'emailVerified'>;
 export type Role = InferSelectModel<typeof roles>;
 export type Department = InferSelectModel<typeof departments>;
 export type Holiday = InferSelectModel<typeof holidays>;
+export type Attendance = InferSelectModel<typeof attendances>;
+export type MonthlyAttendanceApproval = InferSelectModel<typeof monthlyAttendanceApprovals>;

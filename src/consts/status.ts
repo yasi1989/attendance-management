@@ -21,3 +21,4 @@ export const STATUS_ACTIONS = {
 
 export const STATUS_LIST = [...Object.values(STATUS).map((status) => status.value)] as const;
 export const STATUS_WITH_ALL_LIST = [...Object.values(STATUS_WITH_ALL).map((status) => status.value)] as const;
+export const ATTENDANCE_EDITABLE_STATUSES = [STATUS.PENDING.value, STATUS.REJECTED.value] as const;

@@ -11,7 +11,7 @@ type CalendarHeaderProps = {
   previousMonth: () => void;
   nextMonth: () => void;
   goToToday: () => void;
-  monthlyStatus: StatusType;
+  monthlyStatus?: StatusType;
   canSubmit: boolean;
 };
 
@@ -24,31 +24,30 @@ const CalendarHeader = ({
   canSubmit,
 }: CalendarHeaderProps) => {
   return (
-    <CardHeader className="border-b border-slate-200/30 dark:border-slate-700/30 bg-linear-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm px-6 py-6 transition-all duration-300">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center w-12 h-12 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
-            <Calendar className="h-6 w-6 text-white" />
+    <CardHeader className="border-b border-slate-200/30 dark:border-slate-700/30 bg-linear-to-r from-slate-50/90 to-blue-50/90 dark:from-slate-800/90 dark:to-indigo-900/90 backdrop-blur-sm px-4 pt-4 pb-3 transition-all duration-300">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-center justify-center w-9 h-9 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 rounded-lg shadow-sm shrink-0">
+            <Calendar className="h-4 w-4 text-white" />
           </div>
-          <div className="min-w-0 flex-1">
-            <CardTitle className="text-2xl font-semibold text-slate-900 dark:text-slate-100 truncate">
-              {formatDisplayYearMonth(currentDate)}
-            </CardTitle>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mt-2">
-              <span className="text-sm text-slate-500 dark:text-slate-400">申請状況:</span>
-              <StatusBadge status={monthlyStatus} useIcon={true} className="inline-flex gap-1.5 px-3 py-1.5 text-sm" />
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <CardTitle className="text-xl font-semibold text-slate-900 dark:text-slate-100 leading-none">
+                {formatDisplayYearMonth(currentDate)}
+              </CardTitle>
+              <StatusBadge status={monthlyStatus} useIcon={true} className="inline-flex gap-1 px-2 py-1 text-xs" />
             </div>
+            <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 leading-snug hidden sm:block">
+              日付をクリックして勤怠を入力・編集。月末に月次申請を行ってください。
+            </CardDescription>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex items-center gap-2 shrink-0 ml-auto">
           <AttendanceBulkDialog currentDate={currentDate} canSubmit={canSubmit} />
           <CalendarNavigation previousMonth={previousMonth} nextMonth={nextMonth} goToToday={goToToday} />
         </div>
       </div>
-      <CardDescription className="text-sm text-slate-600 dark:text-slate-400 mt-4">
-        日付をクリックして勤怠データを入力・編集できます。月末に月次申請を行ってください。
-      </CardDescription>
     </CardHeader>
   );
 };

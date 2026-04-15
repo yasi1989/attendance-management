@@ -1,6 +1,7 @@
-import { format, isValid, parse, parseISO, startOfDay } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
-import { VALIDATION_DATE, VALIDATION_DATE_FORMAT } from '@/consts/validate';
+
+const MINUTES_IN_HOUR = 60;
 
 const toDateObject = (date: Date | string | number | undefined | null): Date | null => {
   if (date == null) return null;
@@ -23,23 +24,16 @@ export const formatDateForDisplay = (date: Date | string | number | undefined, d
   return format(dateObj, dateFormat, { locale: ja });
 };
 
-export const formatTimeForDisplay = (date: Date | string | number | undefined, timeFormat = 'HH:mm'): string => {
-  const dateObj = toDateObject(date);
-  if (!dateObj) return '';
-  return format(dateObj, timeFormat, { locale: ja });
+export const formatMinutesToTimeString = (minutes: number | undefined | null): string => {
+  if (minutes == null) return '';
+  const hours = Math.floor(minutes / MINUTES_IN_HOUR);
+  const mins = minutes % MINUTES_IN_HOUR;
+  return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
 };
 
-export const parseTimestampInputTimeString = (
-  timeString: string,
-  baseDate: Date = new Date(VALIDATION_DATE.YEAR.MIN, VALIDATION_DATE.MONTH.MIN - 1, VALIDATION_DATE.DAY.MIN),
-): number | undefined => {
+export const parseTimeStringToMinutes = (timeString: string | undefined): number | undefined => {
   if (!timeString) return undefined;
-
-  const parseTime = VALIDATION_DATE_FORMAT.TIMES.map((format) => parse(timeString, format, startOfDay(baseDate))).find(
-    (date) => isValid(date),
-  );
-  if (parseTime) return parseTime.getTime();
-
-  const isoTime = parseISO(timeString);
-  return isValid(isoTime) ? isoTime.getTime() : undefined;
+  const [hours, minutes] = timeString.split(':').map(Number);
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) return undefined;
+  return hours * MINUTES_IN_HOUR + minutes;
 };
