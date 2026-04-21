@@ -3,14 +3,13 @@ import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Form } from '@/components/ui/form';
 import { useDialogState } from '@/hooks/useDialogState';
 import { formatCurrency } from '@/lib/currency';
-import { StatusType } from '@/types/statusType';
+import { type StatusType } from '@/types/statusType';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { IndividualApprovalType } from '../../lib/formSchema';
+import { type IndividualApprovalType } from '../../lib/formSchema';
 import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
-import { MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
+import { type MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
 import ApprovalActions from './ApprovalActions';
 
 type ExpenseDetailDialogProps = {
@@ -34,76 +33,74 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
   });
 
   return (
-    <Form {...form}>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="sm">
-            詳細
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
-          <form>
-            <DialogHeaderWithClose
-              title={`${expense.user.lastName}${expense.user.firstName} (${expense.targetMonth.getFullYear()}年${expense.targetMonth.getMonth() + 1}月)`}
-              onClose={handleCloseButtonClick}
-            />
-            <div className="flex flex-col space-y-4 mt-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium text-sm sm:text-base">申請サマリー</h4>
-                  <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>総額:</span>
-                      <span className="font-medium">{formatCurrency(expense.totalAmount)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>件数:</span>
-                      <span>{expense.itemCount}件</span>
-                    </div>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+          詳細
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <form>
+          <DialogHeaderWithClose
+            title={`${expense.user.lastName}${expense.user.firstName} (${expense.targetMonth.getFullYear()}年${expense.targetMonth.getMonth() + 1}月)`}
+            onClose={handleCloseButtonClick}
+          />
+          <div className="flex flex-col space-y-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm sm:text-base">申請サマリー</h4>
+                <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span>総額:</span>
+                    <span className="font-medium">{formatCurrency(expense.totalAmount)}</span>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-medium text-sm sm:text-base">経費内訳</h4>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded space-y-1 text-sm">
-                    {Object.entries(expense.categoryBreakdown).map(([category, data]) => (
-                      <div key={category} className="flex justify-between">
-                        <span>{data.name}:</span>
-                        <span className="text-right">
-                          <div className="font-medium">{formatCurrency(data.amount)}</div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400">({data.count}件)</div>
-                        </span>
-                      </div>
-                    ))}
+                  <div className="flex justify-between">
+                    <span>件数:</span>
+                    <span>{expense.itemCount}件</span>
                   </div>
                 </div>
               </div>
-
-              {expense.issues.length > 0 && (
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
-                  <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">注意事項</h4>
-                  <ul className="space-y-1 text-sm">
-                    {expense.issues.includes('high_amount') && (
-                      <li className="text-red-600 dark:text-red-400">⚠ 高額申請のため上位承認が必要です</li>
-                    )}
-                  </ul>
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm sm:text-base">経費内訳</h4>
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded space-y-1 text-sm">
+                  {Object.entries(expense.categoryBreakdown).map(([category, data]) => (
+                    <div key={category} className="flex justify-between">
+                      <span>{data.name}:</span>
+                      <span className="text-right">
+                        <div className="font-medium">{formatCurrency(data.amount)}</div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400">({data.count}件)</div>
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              )}
-
-              {status === 'Submitted' && (
-                <ApprovalActions
-                  form={form}
-                  handleIndividualApproval={(status) => handleIndividualApproval(status)}
-                  isSubmitted={isSubmitted}
-                />
-              )}
-
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                <DataTable columns={approvalStepsColumns} data={expense.approvalSteps} />
               </div>
             </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </Form>
+
+            {expense.issues.length > 0 && (
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
+                <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">注意事項</h4>
+                <ul className="space-y-1 text-sm">
+                  {expense.issues.includes('high_amount') && (
+                    <li className="text-red-600 dark:text-red-400">⚠ 高額申請のため上位承認が必要です</li>
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {status === 'Submitted' && (
+              <ApprovalActions
+                form={form}
+                handleIndividualApproval={(status) => handleIndividualApproval(status)}
+                isSubmitted={isSubmitted}
+              />
+            )}
+
+            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+              <DataTable columns={approvalStepsColumns} data={expense.approvalSteps} />
+            </div>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
