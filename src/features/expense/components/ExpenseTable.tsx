@@ -1,12 +1,12 @@
 import { useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
+import { ExpenseWithApproval } from '@/lib/actionTypes';
 import { expenseColumns } from '../table/ExpenseColumns';
-import { ExpenseItem } from '../type/ExpenseType';
 import ExpenseBulkForm from './ExpenseBulkForm';
 
 type ExpenseTableProps = {
-  expenseData: ExpenseItem[];
+  expenseData: ExpenseWithApproval[];
 };
 
 const ExpenseTable = ({ expenseData }: ExpenseTableProps) => {

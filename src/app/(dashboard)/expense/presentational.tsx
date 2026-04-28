@@ -7,12 +7,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import ExpenseFilterSelector from '@/features/expense/components/ExpenseFilterSelector';
 import ExpenseTable from '@/features/expense/components/ExpenseTable';
 import { ExpenseUpsertDialog } from '@/features/expense/dialogs/components/ExpenseUpsertDialog';
-import { ExpenseItem } from '@/features/expense/type/ExpenseType';
+import { ExpenseWithApproval } from '@/lib/actionTypes';
 import { ExpenseCategoryTypeWithAll } from '@/types/expense';
 import { StatusTypeWithAll } from '@/types/statusType';
 
 type ExpensePresentationalProps = {
-  expenseData: ExpenseItem[];
+  expenseData: ExpenseWithApproval[];
   currentYear: number;
   currentMonth: number;
   currentStatus: StatusTypeWithAll;
@@ -32,7 +32,7 @@ const ExpensePresentational = ({
         title="経費申請"
         description="交通費、一般経費の申請及び管理ができます。"
         icon={<DollarSign className="w-6 h-6 text-white" />}
-        actionDialog={<ExpenseUpsertDialog triggerContent={<AddButton label="経費申請" />} />}
+        actionDialog={<ExpenseUpsertDialog triggerContent={<AddButton label="経費作成" />} />}
       />
 
       <CardContent className="bg-linear-to-b from-white/80 to-slate-50/80 dark:from-slate-900/80 dark:to-slate-800/80 backdrop-blur-sm border-t border-slate-200/30 dark:border-slate-700/30 p-6 space-y-6">

@@ -58,14 +58,6 @@ const ExpenseBasicInfoField = ({ form, isDisabled, handleExpenseTypeChange }: Ex
           required
           disabled={isDisabled}
         />
-        <InputCalendarFormField
-          form={form}
-          name="requestDate"
-          label="申請日"
-          placeholder="日付を選択"
-          required
-          disabled={isDisabled}
-        />
         <div className="lg:col-span-3">
           <InputTextFormField
             form={form}

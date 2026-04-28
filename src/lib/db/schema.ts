@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm';
 import { boolean, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 import { RoleCodeType } from '@/consts/role';
+import { RouteDetail } from '@/features/expense/type/ExpenseType';
 import { dateOnly } from './customTypes';
 
 export const companies = pgTable('companies', {
@@ -206,7 +207,7 @@ export const expenses = pgTable('expenses', {
     enum: ['Transport', 'General'],
   }).notNull(),
   receiptUrl: text('receipt_url'),
-  routeDetails: jsonb('route_details'),
+  routeDetails: jsonb('route_details').$type<RouteDetail[]>(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()

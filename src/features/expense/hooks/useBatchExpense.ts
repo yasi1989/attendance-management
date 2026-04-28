@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { submitExpenseApprovalAction } from '../api/actions';
 import { BatchExpenseSchema, BatchExpenseType } from '../lib/formSchema';
 
 export const useBatchExpense = () => {
@@ -18,7 +17,7 @@ export const useBatchExpense = () => {
     if (selectedIds.length === 0) return;
 
     startTransition(async () => {
-      await Promise.all(selectedIds.map((id) => submitExpenseApprovalAction(id)));
+      //await Promise.all(selectedIds.map((id) => submitExpenseApprovalAction(id)));
       form.reset();
     });
   };

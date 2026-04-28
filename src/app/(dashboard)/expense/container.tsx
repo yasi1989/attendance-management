@@ -1,4 +1,4 @@
-import { fetchExpenses } from '@/features/expense/services/fetchExpense';
+import { fetchExpenses } from '@/features/expense/api/fetches';
 import { ExpenseCategoryTypeWithAll } from '@/types/expense';
 import { StatusTypeWithAll } from '@/types/statusType';
 import ExpensePresentational from './presentational';
@@ -11,10 +11,12 @@ type ExpenseContainerProps = {
 };
 
 const ExpenseContainer = async ({ year, month, status, expenseType }: ExpenseContainerProps) => {
-  const expenseData = await fetchExpenses(year, month, status, expenseType);
+  const result = await fetchExpenses(year, month, status, expenseType);
+  if (!result.success) throw new Error(result.error.message);
+
   return (
     <ExpensePresentational
-      expenseData={expenseData}
+      expenseData={result.data}
       currentYear={year}
       currentMonth={month}
       currentStatus={status}

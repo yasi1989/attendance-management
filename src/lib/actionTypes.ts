@@ -27,3 +27,4 @@ export type Attendance = InferSelectModel<typeof attendances>;
 export type MonthlyAttendanceApproval = InferSelectModel<typeof monthlyAttendanceApprovals>;
 export type Expense = InferSelectModel<typeof expenses>;
 export type GroupExpenseApproval = InferSelectModel<typeof groupExpenseApprovals>;
+export type ExpenseWithApproval = Expense & { groupExpenseApproval: GroupExpenseApproval | null };

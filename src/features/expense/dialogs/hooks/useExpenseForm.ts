@@ -1,26 +1,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback, useEffect, useMemo, useTransition } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import type { z } from 'zod';
 import { EXPENSE_CATEGORIES } from '@/consts/expense';
-import { createExpenseAction, updateExpenseAction } from '../api/actions';
+import { ERROR_MESSAGE } from '@/consts/validate';
+import { ExpenseWithApproval } from '@/lib/actionTypes';
+import { createExpenseAction, deleteExpenseAction, updateExpenseAction } from '../../api/expenseAction';
+import { RouteDetail } from '../../type/ExpenseType';
 import { ExpenseFormSchema } from '../lib/formSchema';
-import { ExpenseItem, RouteDetail } from '../type/ExpenseType';
 
 type UseExpenseFormProps = {
-  groupExpenseApprovalId: string;
-  expense?: ExpenseItem;
+  expense?: ExpenseWithApproval;
   onSuccess?: () => void;
 };
 
-const INITIAL_ROUTE = { from: '', to: '', fare: 0 } as const;
+const INITIAL_ROUTE = { from: '', to: '', fare: 0 };
 
-const buildDefaultValues = (expense?: ExpenseItem) =>
+const buildDefaultValues = (expense?: ExpenseWithApproval) =>
   expense
     ? {
         expenseType: expense.expenseType,
         expenseDate: expense.expenseDate,
-        amount: expense.amount,
+        amount: Number(expense.amount),
         description: expense.description,
         receiptUrl: expense.receiptUrl ?? undefined,
         routes: expense.routeDetails?.map((r: RouteDetail) => ({ from: r.from, to: r.to, fare: r.fare })) ?? [
@@ -36,7 +38,7 @@ const buildDefaultValues = (expense?: ExpenseItem) =>
         routes: [INITIAL_ROUTE],
       };
 
-export const useExpenseForm = ({ groupExpenseApprovalId, expense, onSuccess }: UseExpenseFormProps) => {
+export const useExpenseForm = ({ expense, onSuccess }: UseExpenseFormProps) => {
   const [isPending, startTransition] = useTransition();
   const defaultValues = useMemo(() => buildDefaultValues(expense), [expense]);
 
@@ -49,25 +51,6 @@ export const useExpenseForm = ({ groupExpenseApprovalId, expense, onSuccess }: U
   const { fields, append, remove } = useFieldArray({ name: 'routes', control: form.control });
   const expenseType = form.watch('expenseType');
 
-  const onSubmit = useCallback(
-    (data: z.infer<typeof ExpenseFormSchema>) => {
-      startTransition(async () => {
-        const isTransport = data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value;
-        const payload = { ...data, routeDetails: isTransport ? data.routes : [] };
-
-        const result = expense
-          ? await updateExpenseAction(expense.id, payload)
-          : await createExpenseAction(groupExpenseApprovalId, payload);
-
-        if (result.success) {
-          form.reset(defaultValues);
-          onSuccess?.();
-        }
-      });
-    },
-    [expense, groupExpenseApprovalId, defaultValues, onSuccess, form],
-  );
-
   const handleExpenseTypeChange = useCallback(
     (value: string | null) => {
       if (value !== EXPENSE_CATEGORIES.TRANSPORT.value) {
@@ -76,6 +59,37 @@ export const useExpenseForm = ({ groupExpenseApprovalId, expense, onSuccess }: U
       }
     },
     [form],
+  );
+
+  const onSubmit = useCallback(
+    (data: z.infer<typeof ExpenseFormSchema>) => {
+      startTransition(async () => {
+        try {
+          const isTransport = data.expenseType === EXPENSE_CATEGORIES.TRANSPORT.value;
+          const payload = { ...data, routeDetails: isTransport ? data.routes : [] };
+
+          const { success, error } = expense
+            ? await updateExpenseAction(expense.id, payload)
+            : await createExpenseAction(payload);
+
+          if (!success) {
+            toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+            return;
+          }
+
+          toast.success(expense ? '経費を更新しました。' : '経費を登録しました。');
+          form.reset(defaultValues);
+          onSuccess?.();
+        } catch (error) {
+          if (error instanceof Error) {
+            toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error.message}`);
+          } else {
+            toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+          }
+        }
+      });
+    },
+    [expense, defaultValues, onSuccess, form],
   );
 
   const resetToDefault = useCallback(() => {
@@ -105,4 +119,31 @@ export const useExpenseForm = ({ groupExpenseApprovalId, expense, onSuccess }: U
     handleExpenseTypeChange,
     resetToDefault,
   };
+};
+
+export const useDeleteExpense = (expenseId: string) => {
+  const [isPending, startTransition] = useTransition();
+
+  const onDelete = () => {
+    startTransition(async () => {
+      try {
+        const { success, error } = await deleteExpenseAction(expenseId);
+
+        if (!success) {
+          toast.error(`${ERROR_MESSAGE.APPLICATION_ERROR}: ${error}`);
+          return;
+        }
+
+        toast.success('経費を削除しました。');
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(`${ERROR_MESSAGE.UNEXPECTED_ERROR}: ${error.message}`);
+        } else {
+          toast.error(ERROR_MESSAGE.SYSTEM_ERROR);
+        }
+      }
+    });
+  };
+
+  return { onDelete, isPending };
 };
