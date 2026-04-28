@@ -1,8 +1,8 @@
 import { relations } from 'drizzle-orm';
 import { boolean, decimal, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
-import { dateOnly } from './customTypes';
 import { RoleCodeType } from '@/consts/role';
+import { dateOnly } from './customTypes';
 
 export const companies = pgTable('companies', {
   id: text('id')
@@ -181,7 +181,7 @@ export const groupExpenseApprovals = pgTable('group_expense_approvals', {
   statusCode: text('status_code', {
     enum: ['Pending', 'Submitted', 'Approved', 'Rejected'],
   }).notNull(),
-  submittedAt: timestamp('submitted_at', { mode: 'date' }),
+  submittedAt: timestamp('submitted_at', { mode: 'date' }).notNull(),
   purpose: text('purpose'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
@@ -207,24 +207,6 @@ export const expenses = pgTable('expenses', {
   }).notNull(),
   receiptUrl: text('receipt_url'),
   routeDetails: jsonb('route_details'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true })
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-});
-
-export const groupExpenseSummaries = pgTable('group_expense_summaries', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  groupExpenseApprovalId: text('group_expense_approval_id')
-    .notNull()
-    .references(() => groupExpenseApprovals.id, { onDelete: 'cascade' }),
-  totalAmount: decimal('total_amount', { precision: 10, scale: 2 }).notNull(),
-  itemCount: integer('item_count').notNull(),
-  categoryBreakdown: jsonb('category_breakdown').notNull(),
-  issues: text('issues').array(),
-  calculatedAt: timestamp('calculated_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
@@ -387,15 +369,7 @@ export const groupExpenseApprovalsRelations = relations(groupExpenseApprovals, (
     references: [companies.id],
   }),
   expenses: many(expenses),
-  summary: one(groupExpenseSummaries),
   approvalSteps: many(expenseGroupApprovalSteps),
-}));
-
-export const groupExpenseSummariesRelations = relations(groupExpenseSummaries, ({ one }) => ({
-  groupExpenseApproval: one(groupExpenseApprovals, {
-    fields: [groupExpenseSummaries.groupExpenseApprovalId],
-    references: [groupExpenseApprovals.id],
-  }),
 }));
 
 export const attendanceApprovalStepsRelations = relations(attendanceApprovalSteps, ({ one }) => ({

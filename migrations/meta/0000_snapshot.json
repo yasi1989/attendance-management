@@ -1,5 +1,5 @@
 {
-  "id": "7ee1f18a-f28f-4bcb-9e6c-df6b0f349041",
+  "id": "2525334c-2868-44bb-a272-0b618ec03622",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -669,7 +669,7 @@
           "name": "submitted_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "purpose": {
           "name": "purpose",
@@ -713,89 +713,6 @@
           "tableTo": "companies",
           "columnsFrom": [
             "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.group_expense_summaries": {
-      "name": "group_expense_summaries",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "group_expense_approval_id": {
-          "name": "group_expense_approval_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "total_amount": {
-          "name": "total_amount",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "item_count": {
-          "name": "item_count",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category_breakdown": {
-          "name": "category_breakdown",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "issues": {
-          "name": "issues",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "calculated_at": {
-          "name": "calculated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "group_expense_summaries_group_expense_approval_id_group_expense_approvals_id_fk": {
-          "name": "group_expense_summaries_group_expense_approval_id_group_expense_approvals_id_fk",
-          "tableFrom": "group_expense_summaries",
-          "tableTo": "group_expense_approvals",
-          "columnsFrom": [
-            "group_expense_approval_id"
           ],
           "columnsTo": [
             "id"
