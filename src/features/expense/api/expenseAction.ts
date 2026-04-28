@@ -1,5 +1,6 @@
 'use server';
 
+import { getDownloadUrl, put } from '@vercel/blob';
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -8,8 +9,24 @@ import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { expenses } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
+import { Result } from '@/lib/result';
 import { ExpenseFormSchema } from '../dialogs/lib/formSchema';
 import { requireExpenseAccess } from '../lib/roleGuard';
+
+const uploadReceipt = async (userId: string, file: FileList): Promise<string | null> => {
+  if (!file || file.length === 0) return null;
+
+  const receiptFile = file[0];
+  const timestamp = Date.now();
+  const filename = `receipts/${userId}/${timestamp}-${receiptFile.name}`;
+
+  const blob = await put(filename, receiptFile, {
+    access: 'private',
+    addRandomSuffix: true,
+  });
+
+  return blob.url;
+};
 
 export const createExpenseAction = async (values: z.infer<typeof ExpenseFormSchema>): Promise<ActionStateResult> => {
   try {
@@ -19,13 +36,15 @@ export const createExpenseAction = async (values: z.infer<typeof ExpenseFormSche
     const user = authResult.data;
     const { expenseType, expenseDate, amount, description, receiptFile, routes } = values;
 
+    const receiptUrl = receiptFile ? await uploadReceipt(user.id, receiptFile) : null;
+
     await db.insert(expenses).values({
       userId: user.id,
       expenseType,
       expenseDate,
       amount: String(amount),
       description,
-      receiptUrl: receiptFile ? URL.createObjectURL(receiptFile[0]) : null,
+      receiptUrl,
       routeDetails: routes ?? null,
     });
 
@@ -47,6 +66,8 @@ export const updateExpenseAction = async (
     const user = authResult.data;
     const { expenseType, expenseDate, amount, description, receiptFile, routes } = values;
 
+    const receiptUrl = receiptFile ? await uploadReceipt(user.id, receiptFile) : null;
+
     const result = await db
       .update(expenses)
       .set({
@@ -54,7 +75,7 @@ export const updateExpenseAction = async (
         expenseDate,
         amount: String(amount),
         description,
-        receiptUrl: receiptFile ? URL.createObjectURL(receiptFile[0]) : null,
+        ...(receiptUrl !== null && { receiptUrl }),
         routeDetails: routes ?? null,
       })
       .where(and(eq(expenses.id, expenseId), eq(expenses.userId, user.id)));
@@ -67,6 +88,19 @@ export const updateExpenseAction = async (
     return { success: true };
   } catch (error) {
     return actionErrorHandler(error);
+  }
+};
+
+export const getReceiptUrlAction = async (receiptUrl: string): Promise<Result<string>> => {
+  try {
+    const authResult = await requireExpenseAccess();
+    if (!authResult.success) return { success: false, error: authResult.error };
+
+    const downloadUrl = getDownloadUrl(receiptUrl);
+    return { success: true, data: downloadUrl };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: new Error('ダウンロードURLの取得に失敗しました。') };
   }
 };
 

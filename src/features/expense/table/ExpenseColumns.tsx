@@ -3,7 +3,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { compareAsc } from 'date-fns';
 import { ArrowUpDown, Calendar, Check, DollarSign, FileText, Navigation, Receipt } from 'lucide-react';
 import { EditButton } from '@/components/actionButton/EditButton';
-import { ViewButton } from '@/components/actionButton/ViewButton';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,6 +12,7 @@ import { formatDateForDisplay } from '@/lib/dateClient';
 import { getExpenseTypeName } from '@/lib/expense';
 import { canPerformRequest, getStatusByValue } from '@/lib/status';
 import { truncate } from '@/lib/utils';
+import ExpenseReceiptButton from '../components/ExpenseReceiptButton';
 import ExpenseTypeBadge from '../components/ExpenseTypeBadge';
 import ExpenseDeleteDialog from '../dialogs/components/ExpenseDeleteDialog';
 import { ExpenseUpsertDialog } from '../dialogs/components/ExpenseUpsertDialog';
@@ -236,7 +236,9 @@ export const expenseColumns: ColumnDef<ExpenseWithApproval>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        {row.original.receiptUrl && row.original.receiptUrl !== '' && <ViewButton href={row.original.receiptUrl} />}
+        {row.original.receiptUrl && row.original.receiptUrl !== '' && (
+          <ExpenseReceiptButton receiptUrl={row.original.receiptUrl} />
+        )}
       </div>
     ),
   },
