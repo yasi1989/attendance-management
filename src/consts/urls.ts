@@ -10,6 +10,7 @@ export const URLS = {
   SYSTEM_USERS: '/system/users',
   SYSTEM_COMPANIES: '/system/companies',
   API_AUTH: '/api/auth',
+  API_RECEIPT: '/api/receipt',
   API_HOLIDAYS: 'https://api.national-holidays.jp',
   AUTH_ERROR: '/error',
 };
