@@ -1,6 +1,6 @@
 'use server';
 
-import { getDownloadUrl, put } from '@vercel/blob';
+import { head, put } from '@vercel/blob';
 import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -96,8 +96,8 @@ export const getReceiptUrlAction = async (receiptUrl: string): Promise<Result<st
     const authResult = await requireExpenseAccess();
     if (!authResult.success) return { success: false, error: authResult.error };
 
-    const downloadUrl = getDownloadUrl(receiptUrl);
-    return { success: true, data: downloadUrl };
+    const blobDetails = await head(receiptUrl);
+    return { success: true, data: blobDetails.downloadUrl };
   } catch (error) {
     console.error(error);
     return { success: false, error: new Error('ダウンロードURLの取得に失敗しました。') };

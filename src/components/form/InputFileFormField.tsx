@@ -53,7 +53,7 @@ const InputFileFormField = <T extends Record<string, unknown>>({
             )}
           </FieldLabel>
           <Input
-            accept="image/*"
+            accept="image/*,application/pdf"
             type="file"
             onChange={(event) => onChange(event.target.files)}
             {...fieldProps}
