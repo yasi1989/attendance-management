@@ -1,5 +1,15 @@
 import { InferSelectModel } from 'drizzle-orm';
-import { attendances, companies, departments, holidays, monthlyAttendanceApprovals, roles, users } from './db/schema';
+import {
+  attendances,
+  companies,
+  departments,
+  expenses,
+  groupExpenseApprovals,
+  holidays,
+  monthlyAttendanceApprovals,
+  roles,
+  users,
+} from './db/schema';
 
 export type ActionStateResult = {
   error?: string | undefined;
@@ -15,3 +25,5 @@ export type Department = InferSelectModel<typeof departments>;
 export type Holiday = InferSelectModel<typeof holidays>;
 export type Attendance = InferSelectModel<typeof attendances>;
 export type MonthlyAttendanceApproval = InferSelectModel<typeof monthlyAttendanceApprovals>;
+export type Expense = InferSelectModel<typeof expenses>;
+export type GroupExpenseApproval = InferSelectModel<typeof groupExpenseApprovals>;
