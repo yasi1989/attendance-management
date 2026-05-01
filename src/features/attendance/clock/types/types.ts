@@ -6,11 +6,9 @@ export type ClockStatus =
   | { type: typeof CLOCK_STATUS_TYPE.CLOCKED_IN; startTime: number }
   | { type: typeof CLOCK_STATUS_TYPE.CLOCKED_OUT }
   | { type: typeof CLOCK_STATUS_TYPE.SUBMITTED }
-  | { type: typeof CLOCK_STATUS_TYPE.APPROVED }
-  | { type: typeof CLOCK_STATUS_TYPE.SYSTEM_ADMIN };
+  | { type: typeof CLOCK_STATUS_TYPE.APPROVED };
 
 export type ClockUserContext =
-  | { type: typeof CLOCK_USER_TYPE.SYSTEM_ADMIN }
   | { type: typeof CLOCK_USER_TYPE.WITH_COMPANY; userId: string; companyId: string }
   | { type: typeof CLOCK_USER_TYPE.PERSONAL; userId: string };
 

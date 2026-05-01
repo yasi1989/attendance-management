@@ -44,7 +44,7 @@ const AttendanceStatusInformation = ({ holidayInfo, isWeekend, isDisabled }: Att
           <div className="flex items-start space-x-2">
             <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 pt-1" />
             <p className="text-xs text-red-800 dark:text-red-300">
-              通常は勤務日ではありません。特別な事情がある場合のみ申請してください。
+              通常は勤務日ではありません。特別な事情がある場合のみ入力してください。
             </p>
           </div>
         </div>
