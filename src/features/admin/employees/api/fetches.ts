@@ -1,12 +1,17 @@
 'use server';
 import { ROLE } from '@/consts/role';
-import { requireCompanyAdmin } from '@/features/auth/lib/authRoleUtils';
 import { db } from '@/lib/db/drizzle';
+import { Result } from '@/lib/result';
+import { requireEmployeeManagement } from '../lib/roleGuard';
 import { FetchEmployeesDataResponse } from '../type/fetchResultResponse';
 
-export const fetchEmployees = async (): Promise<FetchEmployeesDataResponse> => {
+export const fetchEmployees = async (): Promise<Result<FetchEmployeesDataResponse>> => {
+  const authResult = await requireEmployeeManagement();
+  if (!authResult.success) return { success: false, error: authResult.error };
+
+  const user = authResult.data;
+
   try {
-    const { user } = await requireCompanyAdmin();
     const [users, departments, roles] = await Promise.all([
       db.query.users.findMany({
         columns: {
@@ -31,12 +36,11 @@ export const fetchEmployees = async (): Promise<FetchEmployeesDataResponse> => {
     ]);
 
     return {
-      users,
-      departments,
-      roles,
+      success: true,
+      data: { users, departments, roles },
     };
   } catch (error) {
     console.error('データ取得に失敗しました。', error);
-    throw error;
+    return { success: false, error: error instanceof Error ? error : new Error('データ取得に失敗しました。') };
   }
 };

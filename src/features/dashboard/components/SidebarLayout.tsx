@@ -1,19 +1,19 @@
-'use client';
-
-import dynamic from 'next/dynamic';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-
-const AppSidebarClient = dynamic(() => import('./AppSidebar').then((mod) => mod.AppSidebar), { ssr: false });
+import { Role } from '@/lib/actionTypes';
+import { AppSidebar } from './AppSidebar';
 
 type SidebarLayoutProps = {
+  userRole: Role;
   children: React.ReactNode;
 };
 
-export const SidebarLayout = ({ children }: SidebarLayoutProps) => {
+export const SidebarLayout = ({ userRole, children }: SidebarLayoutProps) => {
   return (
     <SidebarProvider>
-      <AppSidebarClient />
-      <SidebarInset className="m-0! p-0!">{children}</SidebarInset>
+      <AppSidebar userRole={userRole} />
+      <SidebarInset className="m-0! p-0!">
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 };

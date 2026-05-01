@@ -1,5 +1,7 @@
-import { CheckCircle, Clock, Settings, Users } from 'lucide-react';
+import { CheckCircle, Clock, CreditCard, Settings, Users } from 'lucide-react';
+import { ROLE } from '@/consts/role';
 import { URLS } from '@/consts/urls';
+import { SidebarData } from '../types/type';
 
 export const data = {
   user: {
@@ -9,7 +11,7 @@ export const data = {
   },
   navMain: [
     {
-      title: '勤怠・経費',
+      title: '勤怠',
       url: '#',
       icon: Clock,
       items: [
@@ -17,11 +19,20 @@ export const data = {
           title: '勤怠入力',
           url: URLS.ATTENDANCE_CALENDAR,
         },
+      ],
+      roles: [ROLE.COMPANY_ADMIN, ROLE.DEPARTMENT_ADMIN, ROLE.GENERAL_USER, ROLE.PERSONAL_USER, ROLE.SYSTEM_ADMIN],
+    },
+    {
+      title: '経費',
+      url: '#',
+      icon: CreditCard,
+      items: [
         {
           title: '経費申請',
           url: URLS.EXPENSE,
         },
       ],
+      roles: [ROLE.COMPANY_ADMIN, ROLE.DEPARTMENT_ADMIN, ROLE.GENERAL_USER],
     },
     {
       title: '承認業務',
@@ -33,6 +44,7 @@ export const data = {
           url: URLS.APPROVAL,
         },
       ],
+      roles: [ROLE.COMPANY_ADMIN, ROLE.DEPARTMENT_ADMIN],
     },
     {
       title: '組織管理',
@@ -52,6 +64,7 @@ export const data = {
           url: URLS.ADMIN_HOLIDAYS,
         },
       ],
+      roles: [ROLE.COMPANY_ADMIN, ROLE.DEPARTMENT_ADMIN],
     },
     {
       title: 'システム管理',
@@ -67,6 +80,7 @@ export const data = {
           url: URLS.SYSTEM_COMPANIES,
         },
       ],
+      roles: [ROLE.SYSTEM_ADMIN],
     },
   ],
-};
+} as SidebarData;
