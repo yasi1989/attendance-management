@@ -2,7 +2,7 @@ import { Calendar } from 'lucide-react';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusType } from '@/types/statusType';
-import AttendanceBulkDialog from '../dialog/components/AttendanceBulkDialog';
+import AttendanceMonthlySubmitDialog from '../dialog/components/AttendanceMonthlySubmitDialog';
 import { formatDisplayYearMonth } from '../lib/calendarUtils';
 import CalendarNavigation from './CalendarNavigation';
 
@@ -12,6 +12,7 @@ type CalendarHeaderProps = {
   nextMonth: () => void;
   goToToday: () => void;
   monthlyStatus?: StatusType;
+  showMonthlySubmit: boolean;
   canSubmit: boolean;
 };
 
@@ -21,6 +22,7 @@ const CalendarHeader = ({
   nextMonth,
   goToToday,
   monthlyStatus,
+  showMonthlySubmit,
   canSubmit,
 }: CalendarHeaderProps) => {
   return (
@@ -38,13 +40,13 @@ const CalendarHeader = ({
               <StatusBadge status={monthlyStatus} useIcon={true} className="inline-flex gap-1 px-2 py-1 text-xs" />
             </div>
             <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5 leading-snug hidden sm:block">
-              日付をクリックして勤怠を入力・編集。月末に月次申請を行ってください。
+              日付をクリックして勤怠を入力・編集。{showMonthlySubmit ? '月末に月次申請を行ってください。' : ''}
             </CardDescription>
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0 ml-auto">
-          <AttendanceBulkDialog currentDate={currentDate} canSubmit={canSubmit} />
+          {showMonthlySubmit && <AttendanceMonthlySubmitDialog currentDate={currentDate} canSubmit={canSubmit} />}
           <CalendarNavigation previousMonth={previousMonth} nextMonth={nextMonth} goToToday={goToToday} />
         </div>
       </div>

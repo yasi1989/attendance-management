@@ -1,6 +1,6 @@
 import { ROLE, RoleCodeType } from '@/consts/role';
 import { checkHasCompany, requireRole } from '@/features/auth/lib/authGuard';
-import { PublicUserWithRole } from '@/lib/actionTypes';
+import { PublicUserWithRole, Role } from '@/lib/actionTypes';
 import { Result } from '@/lib/result';
 
 const ROLES_WITHOUT_COMPANY: RoleCodeType[] = [ROLE.PERSONAL_USER, ROLE.SYSTEM_ADMIN];
@@ -15,7 +15,9 @@ export const requireAttendanceManagement = async (): Promise<Result<PublicUserWi
   ]);
   if (!roleResult.success) return { success: false, error: roleResult.error };
 
-  const { data: { user } } = roleResult;
+  const {
+    data: { user },
+  } = roleResult;
 
   if (!ROLES_WITHOUT_COMPANY.includes(user.role.roleCode)) {
     const companyResult = checkHasCompany(user);
@@ -23,4 +25,9 @@ export const requireAttendanceManagement = async (): Promise<Result<PublicUserWi
   }
 
   return { success: true, data: user };
+};
+
+export const canShowMonthlySubmit = (role: Role | null): boolean => {
+  if (!role) return false;
+  return role.roleCode !== ROLE.PERSONAL_USER && role.roleCode !== ROLE.SYSTEM_ADMIN;
 };

@@ -18,10 +18,6 @@ export const clockIn = async (): Promise<ClockInResult> => {
 
   const context = await getClockUserContext(session.user.id);
 
-  if (context.type === CLOCK_USER_TYPE.SYSTEM_ADMIN) {
-    return { success: false, error: '認証エラーが発生しました' };
-  }
-
   const today = todayJST();
 
   if (context.type === CLOCK_USER_TYPE.WITH_COMPANY) {

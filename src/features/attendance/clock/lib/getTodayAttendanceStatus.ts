@@ -14,8 +14,6 @@ export const getTodayAttendanceStatus = async (): Promise<ClockStatus> => {
 
   const context = await getClockUserContext(session.user.id);
 
-  if (context.type === CLOCK_USER_TYPE.SYSTEM_ADMIN) return { type: CLOCK_STATUS_TYPE.SYSTEM_ADMIN };
-
   const today = todayJST();
 
   if (context.type === CLOCK_USER_TYPE.WITH_COMPANY) {

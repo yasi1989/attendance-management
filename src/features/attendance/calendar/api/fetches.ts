@@ -5,7 +5,7 @@ import { calculateSummary } from '@/lib/calculateSummary';
 import { getYearMonthRange } from '@/lib/date';
 import { db } from '@/lib/db/drizzle';
 import { Result } from '@/lib/result';
-import { requireAttendanceManagement } from '../lib/roleGuard';
+import { canShowMonthlySubmit, requireAttendanceManagement } from '../lib/roleGuard';
 import { FetchMonthlyAttendanceDataResponse } from '../types/fetchResultResponse';
 
 export const fetchMonthlyAttendance = async (
@@ -21,13 +21,11 @@ export const fetchMonthlyAttendance = async (
   try {
     const [attendances, monthlyAttendanceApproval, holidays] = await Promise.all([
       db.query.attendances.findMany({
-        where: (attendances) =>
-          and(eq(attendances.userId, user.id), between(attendances.workDate, startDate, endDate)),
+        where: (attendances) => and(eq(attendances.userId, user.id), between(attendances.workDate, startDate, endDate)),
         orderBy: (attendances, { asc }) => [asc(attendances.workDate)],
       }),
       db.query.monthlyAttendanceApprovals.findFirst({
-        where: (approvals) =>
-          and(eq(approvals.userId, user.id), eq(approvals.targetMonth, startDate)),
+        where: (approvals) => and(eq(approvals.userId, user.id), eq(approvals.targetMonth, startDate)),
       }),
       getAllHolidays({ year, month, companyId: user.companyId ?? null }),
     ]);
@@ -37,7 +35,6 @@ export const fetchMonthlyAttendance = async (
       holidays,
       startDate,
       endDate,
-      user.role,
       monthlyAttendanceApproval?.statusCode ?? null,
     );
 
@@ -48,6 +45,7 @@ export const fetchMonthlyAttendance = async (
         monthlyAttendanceApproval: monthlyAttendanceApproval ?? null,
         monthlyAttendanceSummary,
         holidays,
+        showMonthlySubmit: canShowMonthlySubmit(user.role),
       },
     };
   } catch (error) {
