@@ -7,4 +7,5 @@ export type FetchMonthlyAttendanceDataResponse = {
   monthlyAttendanceApproval: MonthlyAttendanceApproval | null;
   monthlyAttendanceSummary: MonthlyAttendanceSummary;
   holidays: HolidayDisplay[];
+  showMonthlySubmit: boolean;
 };

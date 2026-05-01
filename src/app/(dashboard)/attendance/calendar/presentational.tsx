@@ -31,6 +31,7 @@ const CalendarPresentational = ({ initialData, initialYear, initialMonth }: Cale
           nextMonth={nextMonth}
           goToToday={goToToday}
           monthlyStatus={monthlyStatus}
+          showMonthlySubmit={initialData.showMonthlySubmit}
           canSubmit={initialData.monthlyAttendanceSummary.canSubmit}
         />
         <CardContent className="p-0">
