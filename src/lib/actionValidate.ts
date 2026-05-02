@@ -1,3 +1,4 @@
+import { ROLE } from '@/consts/role';
 import { ActionStateResult } from './actionTypes';
 import { db } from './db/drizzle';
 
@@ -53,5 +54,45 @@ export const ensureUserNotDepartmentManager = async (
     };
   }
 
+  return null;
+};
+
+export const ensureCompanyAdminHasCompany = async (
+  roleId: string | null | undefined,
+  companyId: string | null | undefined,
+): Promise<ActionStateResult | null> => {
+  if (!roleId) return null;
+
+  const role = await db.query.roles.findFirst({
+    where: (r, { eq }) => eq(r.id, roleId),
+  });
+
+  if (role?.roleCode !== ROLE.COMPANY_ADMIN) return null;
+
+  if (!companyId) {
+    return { success: false, error: '会社管理者には会社の設定が必要です' };
+  }
+
+  return null;
+};
+
+export const ensureUniqueCompanyAdmin = async (
+  roleId: string | null | undefined,
+  companyId: string,
+  excludeUserId: string,
+): Promise<ActionStateResult | null> => {
+  if (!roleId) return null;
+
+  const role = await db.query.roles.findFirst({
+    where: (r, { eq }) => eq(r.id, roleId),
+  });
+
+  if (role?.roleCode !== ROLE.COMPANY_ADMIN) return null;
+
+  const existing = await db.query.users.findFirst({
+    where: (u, { and, eq, ne }) => and(eq(u.companyId, companyId), eq(u.roleId, roleId), ne(u.id, excludeUserId)),
+  });
+
+  if (existing) return { success: false, error: '会社管理者はすでに存在します。1社に1人までです。' };
   return null;
 };

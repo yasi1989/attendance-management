@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { URLS } from '@/consts/urls';
 import { ActionStateResult } from '@/lib/actionTypes';
 import {
+  ensureUniqueCompanyAdmin,
   ensureUserInCompany,
   ensureUserNotDepartmentManager,
   ensureUserNotInApprovalFlows,
@@ -24,12 +25,14 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
     if (!authResult.success) return { success: false, error: authResult.error.message };
     const user = authResult.data;
 
-    const [deptError, roleError] = await Promise.all([
+    const [deptError, roleError, companyAdminError] = await Promise.all([
       checkDepartmentAssignable(departmentId, user.companyId),
-      ensureNonSystemAdminRole(roleId, user.companyId),
+      ensureNonSystemAdminRole(roleId),
+      ensureUniqueCompanyAdmin(roleId, user.companyId, id),
     ]);
     if (deptError) return deptError;
     if (roleError) return roleError;
+    if (companyAdminError) return companyAdminError;
 
     const [currentUser, existingUser] = await Promise.all([
       db.query.users.findFirst({
@@ -46,10 +49,7 @@ export const editEmployeeAction = async (values: z.infer<typeof EmployeeSchema>)
       return { success: false, error: 'メールアドレスが重複しています。' };
     }
 
-    await db
-      .update(users)
-      .set({ name, email, departmentId, roleId })
-      .where(eq(users.id, id));
+    await db.update(users).set({ name, email, departmentId, roleId }).where(eq(users.id, id));
 
     revalidatePath(URLS.ADMIN_EMPLOYEES, 'layout');
     return { success: true };

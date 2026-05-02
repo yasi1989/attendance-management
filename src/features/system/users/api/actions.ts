@@ -6,6 +6,8 @@ import { URLS } from '@/consts/urls';
 import { requireUserManagement } from '@/features/system/users/lib/roleGuard';
 import { ActionStateResult } from '@/lib/actionTypes';
 import {
+  ensureCompanyAdminHasCompany,
+  ensureUniqueCompanyAdmin,
   ensureUserInCompany,
   ensureUserNotDepartmentManager,
   ensureUserNotInApprovalFlows,
@@ -28,17 +30,22 @@ export const editUserAction = async (values: z.infer<typeof UserSchema>): Promis
         where: (users, { eq, and, ne }) => and(eq(users.email, email), ne(users.id, id)),
       }),
     ]);
-    if (!currentUser) {
-      return { success: false, error: 'ユーザーが見つかりませんでした。' };
-    }
+
+    if (!currentUser) return { success: false, error: 'ユーザーが見つかりませんでした。' };
     if (currentUser.email !== email && existingUser) {
       return { success: false, error: 'メールアドレスが重複しています。' };
     }
 
-    await db
-      .update(users)
-      .set({ name, email, roleId, companyId })
-      .where(eq(users.id, id));
+    const companyRequiredError = await ensureCompanyAdminHasCompany(roleId, companyId);
+    if (companyRequiredError) return companyRequiredError;
+
+    if (companyId && roleId) {
+      const companyAdminError = await ensureUniqueCompanyAdmin(roleId, companyId, id);
+      if (companyAdminError) return companyAdminError;
+    }
+
+    await db.update(users).set({ name, email, roleId, companyId }).where(eq(users.id, id));
+
     revalidatePath(URLS.SYSTEM_USERS, 'layout');
     return { success: true };
   } catch (error) {

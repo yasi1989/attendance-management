@@ -2,8 +2,8 @@ import { useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
 import { ExpenseWithApproval } from '@/lib/actionTypes';
+import ExpenseBulkForm from '../submission/components/ExpenseBulkForm';
 import { expenseColumns } from '../table/ExpenseColumns';
-import ExpenseBulkForm from './ExpenseBulkForm';
 
 type ExpenseTableProps = {
   expenseData: ExpenseWithApproval[];
@@ -26,6 +26,7 @@ const ExpenseTable = ({ expenseData }: ExpenseTableProps) => {
       enableSelection
       renderBulkActions={renderBulkActions}
       filterKey={filterKey}
+      getRowId={(item) => (item as ExpenseWithApproval).id}
     />
   );
 };

@@ -1,21 +1,14 @@
 import { AlertTriangle, Send } from 'lucide-react';
-import { useTransition } from 'react';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import { Button } from '@/components/ui/button';
-import { useBatchExpense } from '../hooks/useBatchExpense';
-import { type BatchExpenseType } from '../lib/formSchema';
+import { useExpenseSubmit } from '../hooks/useBatchExpense';
 
 type ExpenseBulkFormProps = {
   selectedIds: string[];
 };
 
 const ExpenseBulkForm = ({ selectedIds }: ExpenseBulkFormProps) => {
-  const [isSubmitted, startTransition] = useTransition();
-  const { form, handleBatchExpense } = useBatchExpense(async (data: BatchExpenseType) => {
-    startTransition(async () => {
-      console.log(data);
-    });
-  });
+  const { form, onSubmit, isPending } = useExpenseSubmit();
 
   return (
     <form className="space-y-4">
@@ -27,7 +20,7 @@ const ExpenseBulkForm = ({ selectedIds }: ExpenseBulkFormProps) => {
           className="min-h-[100px] resize-none border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all"
           maxLength={500}
           label="申請コメント"
-          disabled={isSubmitted}
+          disabled={isPending}
         />
         <div className="flex items-center justify-between mt-2">
           <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -41,10 +34,10 @@ const ExpenseBulkForm = ({ selectedIds }: ExpenseBulkFormProps) => {
           type="button"
           size="lg"
           className="flex-1 bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-          disabled={isSubmitted}
-          onClick={() => handleBatchExpense(selectedIds)}
+          disabled={isPending || selectedIds.length === 0}
+          onClick={() => onSubmit(selectedIds)}
         >
-          {isSubmitted ? (
+          {isPending ? (
             <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
           ) : (
             <Send className="h-5 w-5 mr-2" />

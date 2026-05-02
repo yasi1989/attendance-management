@@ -16,7 +16,6 @@ export const checkDepartmentAssignable = async (
 
 export const ensureNonSystemAdminRole = async (
   roleId: string | null | undefined,
-  _companyId: string,
 ): Promise<ActionStateResult | null> => {
   if (!roleId) return null;
   const role = await db.query.roles.findFirst({
