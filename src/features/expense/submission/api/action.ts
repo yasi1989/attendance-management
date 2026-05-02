@@ -5,11 +5,11 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { STATUS } from '@/consts/status';
 import { URLS } from '@/consts/urls';
-import { resolveApprover } from '@/features/approval/lib/resolveApprover';
 import { ActionStateResult } from '@/lib/actionTypes';
 import { db } from '@/lib/db/drizzle';
 import { expenseGroupApprovalSteps, expenses, groupExpenseApprovals } from '@/lib/db/schema';
 import { actionErrorHandler } from '@/lib/errorHandler';
+import { resolveApprover } from '@/lib/resolveApprover';
 import { requireExpenseAccess } from '../../lib/roleGuard';
 import { BatchExpenseSchema } from '../lib/formSchema';
 

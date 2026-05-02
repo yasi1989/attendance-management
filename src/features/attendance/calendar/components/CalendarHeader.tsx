@@ -2,8 +2,8 @@ import { Calendar } from 'lucide-react';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusType } from '@/types/statusType';
-import AttendanceMonthlySubmitDialog from '../dialog/components/AttendanceMonthlySubmitDialog';
 import { formatDisplayYearMonth } from '../lib/calendarUtils';
+import AttendanceMonthlySubmitDialog from '../submission/components/AttendanceMonthlySubmitDialog';
 import CalendarNavigation from './CalendarNavigation';
 
 type CalendarHeaderProps = {

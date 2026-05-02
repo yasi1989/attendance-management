@@ -13,6 +13,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { formatDisplayYearMonth } from '../../lib/calendarUtils';
+import { useMonthlySubmit } from '../../submission/hooks/useMonthlySubmit';
 
 type AttendanceMonthlySubmitDialogProps = {
   currentDate: Date;
@@ -20,33 +21,20 @@ type AttendanceMonthlySubmitDialogProps = {
 };
 
 const AttendanceMonthlySubmitDialog = ({ currentDate, canSubmit }: AttendanceMonthlySubmitDialogProps) => {
-  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async () => {
-    setIsSubmitted(true);
-
-    try {
-      console.log('月次勤怠申請を提出:', {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        comment,
-      });
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      setIsSubmitDialogOpen(false);
+  const { onSubmit, isPending } = useMonthlySubmit({
+    year: currentDate.getFullYear(),
+    month: currentDate.getMonth() + 1,
+    onSuccess: () => {
+      setIsOpen(false);
       setComment('');
-    } catch (error) {
-      console.error('申請エラー:', error);
-    } finally {
-      setIsSubmitted(false);
-    }
-  };
+    },
+  });
 
   return (
-    <Dialog open={isSubmitDialogOpen} onOpenChange={setIsSubmitDialogOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
           size="lg"
@@ -76,15 +64,15 @@ const AttendanceMonthlySubmitDialog = ({ currentDate, canSubmit }: AttendanceMon
                 placeholder="申請に関するコメントや補足事項があれば入力してください...&#10;例：月次勤怠データを確認し、適切であることを確認しました。"
                 className="min-h-[100px] resize-none border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all"
                 maxLength={500}
-                disabled={isSubmitted}
+                disabled={isPending}
               />
             </div>
-
             <div className="flex items-center justify-between mt-2">
               <p className="text-xs text-slate-500 dark:text-slate-400">このコメントは月次勤怠申請に添付されます</p>
               <span className="text-xs text-slate-400 dark:text-slate-500">{comment.length}/500</span>
             </div>
           </div>
+
           <div className="bg-linear-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
@@ -103,19 +91,19 @@ const AttendanceMonthlySubmitDialog = ({ currentDate, canSubmit }: AttendanceMon
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={() => setIsSubmitDialogOpen(false)}
+            onClick={() => setIsOpen(false)}
             className="border-gray-300 dark:border-gray-600"
-            disabled={isSubmitted}
+            disabled={isPending}
           >
             キャンセル
           </Button>
           <Button
-            onClick={handleSubmit}
+            onClick={() => onSubmit(comment)}
             size="lg"
             className="bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-            disabled={isSubmitted}
+            disabled={isPending}
           >
-            {isSubmitted ? (
+            {isPending ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
             ) : (
               <Send className="h-4 w-4 mr-2" />
