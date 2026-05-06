@@ -1,3 +1,4 @@
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { auth } from '@/auth';
@@ -7,7 +8,6 @@ import { ClockSection } from '@/features/attendance/clock/components/ClockSectio
 import Header from '@/features/dashboard/components/Header';
 import { SidebarLayout } from '@/features/dashboard/components/SidebarLayout';
 import { getUser } from '@/lib/user';
-import { isRedirectError } from 'next/dist/client/components/redirect-error';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -23,7 +23,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   try {
     return (
-      <SidebarLayout userRole={user.role}>
+      <SidebarLayout
+        userRole={user.role}
+        navUser={{
+          name: user.name,
+          email: user.email,
+          avatar: user.image ?? '',
+        }}
+      >
         <Header
           clockSection={
             <Suspense fallback={<HeaderStatusBadgeSkeleton />}>

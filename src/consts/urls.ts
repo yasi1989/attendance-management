@@ -1,6 +1,7 @@
 export const URLS = {
   ROOT: '/',
   LOGIN: '/login',
+  ACCOUNT: '/account',
   ATTENDANCE_CALENDAR: '/attendance/calendar',
   EXPENSE: '/expense',
   APPROVAL: '/approval',
@@ -10,7 +11,7 @@ export const URLS = {
   SYSTEM_USERS: '/system/users',
   SYSTEM_COMPANIES: '/system/companies',
   API_AUTH: '/api/auth',
-  API_RECEIPT: '/api/receipt',
+  API_BLOB: '/api/blob',
   API_HOLIDAYS: 'https://api.national-holidays.jp',
   AUTH_ERROR: '/error',
 };

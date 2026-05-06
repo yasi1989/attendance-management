@@ -22,3 +22,9 @@ export type SidebarData = {
   };
   navMain: NavGroup[];
 };
+
+export type NavUser = {
+  name: string;
+  email: string;
+  avatar: string;
+};

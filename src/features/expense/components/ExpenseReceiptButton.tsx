@@ -14,7 +14,7 @@ const ExpenseReceiptButton = ({ receiptUrl }: ExpenseReceiptButtonProps) => {
 
   const handleClick = () => {
     startTransition(async () => {
-      const url = new URL(URLS.API_RECEIPT, window.location.origin);
+      const url = new URL(URLS.API_BLOB, window.location.origin);
       const pathname = new URL(receiptUrl).pathname.slice(1);
       url.searchParams.set('pathname', pathname);
       window.open(url.toString(), '_blank', 'noopener noreferrer');

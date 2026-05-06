@@ -12,15 +12,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { RoleCodeType } from '@/consts/role';
 import { Role } from '@/lib/actionTypes';
 import { data } from '../const/sideMenuItems';
 import { filterNavByRole } from '../lib/nav';
+import { NavUser as NavUserType } from '../types/type';
 import { NavMain } from './NavMain';
 import { NavUser } from './NavUser';
 
-export function AppSidebar({ userRole, ...props }: React.ComponentProps<typeof Sidebar> & { userRole: Role }) {
+export function AppSidebar({
+  userRole,
+  navUser,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { userRole: Role; navUser: NavUserType }) {
   const filterNav = filterNavByRole(data.navMain, userRole.roleCode);
+
   return (
     <Sidebar variant="inset" {...props} className="bg-sidebar-gradient">
       <SidebarHeader className="sidebar-header-gradient">
@@ -42,7 +47,7 @@ export function AppSidebar({ userRole, ...props }: React.ComponentProps<typeof S
         <NavMain items={filterNav} />
       </SidebarContent>
       <SidebarFooter className="sidebar-footer-gradient">
-        <NavUser user={data.user} />
+        <NavUser user={navUser} />
       </SidebarFooter>
     </Sidebar>
   );

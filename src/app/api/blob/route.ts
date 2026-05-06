@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
   if (!result) {
     return new NextResponse('Not found', { status: 404 });
   }
+
   return new NextResponse(result.stream, {
     headers: {
       'Content-Type': result.blob.contentType ?? 'application/octet-stream',
