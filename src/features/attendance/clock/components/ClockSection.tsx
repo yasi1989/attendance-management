@@ -1,6 +1,7 @@
 import { HeaderStatusBadge } from '@/components/layout/HeaderStatusBadge';
 import { DEVICE_VARIANT } from '@/consts/form';
 import { getTodayAttendanceStatus } from '@/features/attendance/clock/lib/getTodayAttendanceStatus';
+import { CLOCK_STATUS_TYPE } from '../consts/constants';
 import { ClockButton } from './ClockButton';
 
 export const ClockSection = async () => {
@@ -9,7 +10,10 @@ export const ClockSection = async () => {
   return (
     <>
       <div className="hidden md:block">
-        <HeaderStatusBadge initialStatus={todayStatus} />
+        <HeaderStatusBadge
+          isClockedIn={todayStatus.type === CLOCK_STATUS_TYPE.CLOCKED_IN}
+          startTime={todayStatus.type === CLOCK_STATUS_TYPE.CLOCKED_IN ? todayStatus.startTime : undefined}
+        />
       </div>
       <div className="hidden lg:block">
         <ClockButton variant={DEVICE_VARIANT.DESKTOP} initialStatus={todayStatus} />
