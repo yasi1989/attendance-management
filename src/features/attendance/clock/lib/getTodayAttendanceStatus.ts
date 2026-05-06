@@ -12,7 +12,9 @@ export const getTodayAttendanceStatus = async (): Promise<ClockStatus> => {
   const session = await auth();
   if (!session?.user?.id) return { type: CLOCK_STATUS_TYPE.NOT_STARTED };
 
-  const context = await getClockUserContext(session.user.id);
+  const contextResult = await getClockUserContext(session.user.id);
+  if (!contextResult.success) return { type: CLOCK_STATUS_TYPE.NOT_STARTED };
+  const context = contextResult.data;
 
   const today = todayJST();
 
