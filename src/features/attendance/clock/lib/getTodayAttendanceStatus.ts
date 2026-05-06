@@ -1,18 +1,20 @@
 import { and, eq } from 'drizzle-orm';
 import { auth } from '@/auth';
 import { STATUS } from '@/consts/status';
+import { thisMonthJST, todayJST } from '@/lib/date';
 import { db } from '@/lib/db/drizzle';
 import { attendances, monthlyAttendanceApprovals } from '@/lib/db/schema';
 import { CLOCK_STATUS_TYPE, CLOCK_USER_TYPE } from '../consts/constants';
 import { ClockStatus } from '../types/types';
-import { thisMonthJST, todayJST } from './dateUtils';
 import { getClockUserContext } from './getClockUserContext';
 
 export const getTodayAttendanceStatus = async (): Promise<ClockStatus> => {
   const session = await auth();
   if (!session?.user?.id) return { type: CLOCK_STATUS_TYPE.NOT_STARTED };
 
-  const context = await getClockUserContext(session.user.id);
+  const contextResult = await getClockUserContext(session.user.id);
+  if (!contextResult.success) return { type: CLOCK_STATUS_TYPE.NOT_STARTED };
+  const context = contextResult.data;
 
   const today = todayJST();
 

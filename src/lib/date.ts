@@ -1,6 +1,33 @@
-import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval, startOfMonth } from 'date-fns';
+import { format as formatTZ, toZonedTime } from 'date-fns-tz';
+import { JST } from '@/consts/date';
 import { VALIDATION_DATE } from '@/consts/validate';
 import { formatDateForDisplay } from './dateClient';
+
+const MINUTES_IN_HOUR = 60;
+
+const jstStringToDate = (dateStr: string): Date => {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return toZonedTime(new Date(Date.UTC(y, m - 1, d)), JST);
+};
+
+export const todayJST = (): Date => {
+  const now = new Date();
+  const jst = toZonedTime(now, JST);
+  const dateStr = formatTZ(jst, 'yyyy-MM-dd', { timeZone: JST });
+  return jstStringToDate(dateStr);
+};
+
+export const thisMonthJST = (): Date => {
+  const today = todayJST();
+  return startOfMonth(today);
+};
+
+export const nowToMinutes = (): number => {
+  const now = new Date();
+  const jst = toZonedTime(now, JST);
+  return jst.getHours() * MINUTES_IN_HOUR + jst.getMinutes();
+};
 
 export const getYearOptions = (currentYear: number, length: number, offset: number): number[] => {
   return Array.from({ length }, (_, i) => currentYear - offset + i);
@@ -31,17 +58,18 @@ export function isValidMinute(minute: number): boolean {
 }
 
 export const getYearMonthRange = (year: number, month: number): { startDate: Date; endDate: Date } => {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 0);
-
-  return { startDate, endDate };
+  const lastDay = new Date(year, month, 0).getDate();
+  return {
+    startDate: jstStringToDate(`${year}-${String(month).padStart(2, '0')}-01`),
+    endDate: jstStringToDate(`${year}-${String(month).padStart(2, '0')}-${lastDay}`),
+  };
 };
 
 export const getYearRange = (year: number): { startDate: Date; endDate: Date } => {
-  const startDate = new Date(year, 0, 1);
-  const endDate = new Date(year, 11, 31);
-
-  return { startDate, endDate };
+  return {
+    startDate: jstStringToDate(`${year}-01-01`),
+    endDate: jstStringToDate(`${year}-12-31`),
+  };
 };
 
 export function calculateWorkDays(startDate: Date, endDate: Date, holidayDatesSet: Set<string>): string[] {

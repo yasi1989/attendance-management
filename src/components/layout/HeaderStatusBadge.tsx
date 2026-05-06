@@ -1,15 +1,13 @@
 'use client';
 
-import { ClockStatus } from '@/features/attendance/clock/types/types';
 import { formatMinutesToTimeString } from '@/lib/dateClient';
 
 interface HeaderStatusBadgeProps {
-  initialStatus: ClockStatus;
+  isClockedIn: boolean;
+  startTime?: number;
 }
 
-export const HeaderStatusBadge = ({ initialStatus }: HeaderStatusBadgeProps) => {
-  const isClockedIn = initialStatus.type === 'clocked_in';
-
+export const HeaderStatusBadge = ({ isClockedIn, startTime }: HeaderStatusBadgeProps) => {
   return (
     <div
       className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm backdrop-blur-sm shadow-sm transition-all duration-200 ${
@@ -22,8 +20,8 @@ export const HeaderStatusBadge = ({ initialStatus }: HeaderStatusBadgeProps) => 
         className={`w-2 h-2 rounded-full ${isClockedIn ? 'bg-green-500 dark:bg-green-400' : 'bg-slate-400 dark:bg-slate-500'}`}
       />
       <span className="font-medium">{isClockedIn ? '勤務中' : '退勤中'}</span>
-      {isClockedIn && initialStatus.type === 'clocked_in' && (
-        <span className="text-xs opacity-80">({formatMinutesToTimeString(initialStatus.startTime)}〜)</span>
+      {isClockedIn && startTime != null && (
+        <span className="text-xs opacity-80">({formatMinutesToTimeString(startTime)}〜)</span>
       )}
     </div>
   );
