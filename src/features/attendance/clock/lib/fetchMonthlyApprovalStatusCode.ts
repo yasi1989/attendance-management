@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm';
+import { thisMonthJST } from '@/lib/date';
 import { db } from '@/lib/db/drizzle';
 import { monthlyAttendanceApprovals } from '@/lib/db/schema';
-import { thisMonthJST } from './dateUtils';
 
 export const fetchMonthlyApprovalStatusCode = async (userId: string, companyId: string): Promise<string | null> => {
   const thisMonth = thisMonthJST();
