@@ -1,21 +1,25 @@
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
-import { useTransition } from 'react';
 import InputTextFormField from '@/components/form/InputTextFormField';
 import { Button } from '@/components/ui/button';
+import { REQUEST_CATEGORIES, RequestCategoryType } from '@/consts/requestsCategory';
 import { STATUS } from '@/consts/status';
+import { batchApproveAttendanceAction } from '../api/attendanceApprovalAction';
+import { batchApproveExpenseAction } from '../api/expenseApprovalAction';
 import { useBatchApproval } from '../hooks/useApprovalForm';
-import { BatchApprovalType } from '../lib/formSchema';
 
 type ApprovalBulkFormProps = {
   selectedIds: string[];
+  target: RequestCategoryType;
 };
 
-const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
-  const [isSubmitted, startTransition] = useTransition();
-  const { form, handleBatchApproval } = useBatchApproval(async (data: BatchApprovalType) => {
-    startTransition(async () => {
-      console.log(data);
-    });
+const ApprovalBulkForm = ({ selectedIds, target }: ApprovalBulkFormProps) => {
+  const { form, handleBatchApproval, isPending } = useBatchApproval(async (action, ids, comment) => {
+    const result =
+      target === REQUEST_CATEGORIES.ATTENDANCE.value
+        ? await batchApproveAttendanceAction({ ids, action, comment })
+        : await batchApproveExpenseAction({ ids, action, comment });
+
+    if (!result.success) throw new Error(result.error);
   });
 
   return (
@@ -41,10 +45,10 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
           type="button"
           size="lg"
           className="flex-1 bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-          disabled={isSubmitted}
+          disabled={isPending || selectedIds.length === 0}
           onClick={() => handleBatchApproval(STATUS.APPROVED.value, selectedIds)}
         >
-          {isSubmitted ? (
+          {isPending ? (
             <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
           ) : (
             <CheckCircle className="h-5 w-5 mr-2" />
@@ -57,10 +61,10 @@ const ApprovalBulkForm = ({ selectedIds }: ApprovalBulkFormProps) => {
           variant="outline"
           size="lg"
           className="flex-1 bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-          disabled={isSubmitted}
+          disabled={isPending || selectedIds.length === 0}
           onClick={() => handleBatchApproval(STATUS.REJECTED.value, selectedIds)}
         >
-          {isSubmitted ? (
+          {isPending ? (
             <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
           ) : (
             <XCircle className="h-5 w-5 mr-2" />

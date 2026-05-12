@@ -1,15 +1,18 @@
-import { useTransition } from 'react';
+'use client';
+
+import { Suspense, useState } from 'react';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
-import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { ATTENDANCES } from '@/consts/attendance';
 import { STATUS } from '@/consts/status';
 import { useDialogState } from '@/hooks/useDialogState';
+import { approveAttendanceAction } from '../../api/attendanceApprovalAction';
+import { fetchAttendanceApprovalSteps } from '../../api/fetchApprovalSteps';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
 import { AttendanceApprovalRow } from '../../type/approvalType';
 import ApprovalActions from './ApprovalActions';
+import ApprovalStepsTable from './ApprovalStepsTable';
 
 type AttendanceDetailDialogProps = {
   status: string;
@@ -17,17 +20,25 @@ type AttendanceDetailDialogProps = {
 };
 
 export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailDialogProps) => {
-  const [isSubmitted, startTransition] = useTransition();
-  const { form, handleApproval } = useIndividualApproval(
-    attendance.attendanceApprovalStep.id,
-    async (action, comment) => {
-      startTransition(async () => {
-        console.log(action, comment);
-      });
-    },
-  );
+  const [stepsPromise, setStepsPromise] = useState<ReturnType<typeof fetchAttendanceApprovalSteps> | null>(null);
 
-  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+  const { form, handleApproval, isPending } = useIndividualApproval(async (action, comment) => {
+    const result = await approveAttendanceAction({
+      id: attendance.attendanceApprovalStep.id,
+      action,
+      comment,
+    });
+    if (!result.success) throw new Error(result.error);
+  });
+
+  const { open, handleOpenChange: dialogHandleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !stepsPromise) {
+      setStepsPromise(fetchAttendanceApprovalSteps(attendance.monthlyAttendanceApproval.id));
+    }
+    dialogHandleOpenChange(newOpen);
+  };
 
   const approval = attendance.monthlyAttendanceApproval;
   const summary = attendance.summary;
@@ -98,16 +109,12 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
             )}
 
             {status === STATUS.SUBMITTED.value && (
-              <ApprovalActions
-                form={form}
-                handleIndividualApproval={(action) => handleApproval(action)}
-                isSubmitted={isSubmitted}
-              />
+              <ApprovalActions form={form} handleIndividualApproval={handleApproval} isSubmitted={isPending} />
             )}
 
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-              <DataTable columns={approvalStepsColumns} data={[attendance.attendanceApprovalStep]} />
-            </div>
+            <Suspense fallback={<div className="text-sm text-slate-500">読み込み中...</div>}>
+              {stepsPromise && <ApprovalStepsTable stepsPromise={stepsPromise} />}
+            </Suspense>
           </div>
         </form>
       </DialogContent>

@@ -1,15 +1,18 @@
-import { useTransition } from 'react';
+'use client';
+
+import { Suspense, useState } from 'react';
 import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
-import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { STATUS } from '@/consts/status';
 import { useDialogState } from '@/hooks/useDialogState';
 import { formatCurrency } from '@/lib/currency';
+import { approveExpenseAction } from '../../api/expenseApprovalAction';
+import { fetchExpenseApprovalSteps } from '../../api/fetchApprovalSteps';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
 import { ExpenseApprovalRow } from '../../type/approvalType';
 import ApprovalActions from './ApprovalActions';
+import ApprovalStepsTable from './ApprovalStepsTable';
 
 type ExpenseDetailDialogProps = {
   status: string;
@@ -17,17 +20,25 @@ type ExpenseDetailDialogProps = {
 };
 
 export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProps) => {
-  const [isSubmitted, startTransition] = useTransition();
-  const { form, handleApproval } = useIndividualApproval(
-    expense.expenseGroupApprovalStep.id,
-    async (action, comment) => {
-      startTransition(async () => {
-        console.log(action, comment);
-      });
-    },
-  );
+  const [stepsPromise, setStepsPromise] = useState<ReturnType<typeof fetchExpenseApprovalSteps> | null>(null);
 
-  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+  const { form, handleApproval, isPending } = useIndividualApproval(async (action, comment) => {
+    const result = await approveExpenseAction({
+      id: expense.expenseGroupApprovalStep.id,
+      action,
+      comment,
+    });
+    if (!result.success) throw new Error(result.error);
+  });
+
+  const { open, handleOpenChange: dialogHandleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (newOpen && !stepsPromise) {
+      setStepsPromise(fetchExpenseApprovalSteps(expense.groupExpenseApproval.id));
+    }
+    dialogHandleOpenChange(newOpen);
+  };
 
   const approval = expense.groupExpenseApproval;
 
@@ -82,16 +93,12 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
             </div>
 
             {status === STATUS.SUBMITTED.value && (
-              <ApprovalActions
-                form={form}
-                handleIndividualApproval={(action) => handleApproval(action)}
-                isSubmitted={isSubmitted}
-              />
+              <ApprovalActions form={form} handleIndividualApproval={handleApproval} isSubmitted={isPending} />
             )}
 
-            <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-              <DataTable columns={approvalStepsColumns} data={[expense.expenseGroupApprovalStep]} />
-            </div>
+            <Suspense fallback={<div className="text-sm text-slate-500">読み込み中...</div>}>
+              {stepsPromise && <ApprovalStepsTable stepsPromise={stepsPromise} />}
+            </Suspense>
           </div>
         </form>
       </DialogContent>

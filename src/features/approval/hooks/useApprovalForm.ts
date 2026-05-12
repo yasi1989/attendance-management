@@ -6,10 +6,7 @@ import { STATUS } from '@/consts/status';
 import { ERROR_MESSAGE } from '@/consts/validate';
 import { ActionStatusType, ApprovalCommentSchema, type ApprovalCommentType } from '../lib/formSchema';
 
-export const useIndividualApproval = (
-  _stepId: string,
-  onSubmit: (action: ActionStatusType, comment?: string) => Promise<void>,
-) => {
+export const useIndividualApproval = (onSubmit: (action: ActionStatusType, comment?: string) => Promise<void>) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ApprovalCommentType>({
@@ -51,7 +48,7 @@ export const useBatchApproval = (
     startTransition(async () => {
       try {
         if (selectedIds.length === 0) {
-          toast.error('承認対象を選択してください');
+          toast.error(`${action === STATUS.APPROVED.value ? '承認' : '却下'}対象を選択してください`);
           return;
         }
         const { comment } = form.getValues();

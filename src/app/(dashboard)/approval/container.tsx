@@ -2,7 +2,7 @@ import {
   fetchApprovalDepartments,
   fetchAttendanceApprovals,
   fetchExpenseApprovals,
-} from '@/features/approval/api/fetches';
+} from '@/features/approval/api/fetchesApprovals';
 import { StatusTypeWithAll } from '@/types/statusType';
 import ApprovalPresentational from './presentational';
 

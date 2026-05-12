@@ -20,6 +20,7 @@ import {
 } from '@/lib/db/schema';
 import { Result } from '@/lib/result';
 import { StatusTypeWithAll } from '@/types/statusType';
+import { requireApprovalManagement } from '../lib/roleGuard';
 import { AttendanceApprovalRow, ExpenseApprovalRow } from '../type/approvalType';
 
 export const fetchAttendanceApprovals = async (
@@ -28,14 +29,14 @@ export const fetchAttendanceApprovals = async (
   status: StatusTypeWithAll,
 ): Promise<Result<AttendanceApprovalRow[]>> => {
   try {
-    const authResult = await requireExpenseAccess();
+    const authResult = await requireApprovalManagement();
     if (!authResult.success) return { success: false, error: authResult.error };
 
     const user = authResult.data;
     const { startDate, endDate } = getYearMonthRange(year, month);
 
     const conditions = and(
-      between(monthlyAttendanceApprovals.submittedAt, startDate, endDate),
+      between(monthlyAttendanceApprovals.targetMonth, startDate, endDate),
       eq(attendanceApprovalSteps.approverId, user.id),
       status !== STATUS_WITH_ALL.ALL.value ? eq(monthlyAttendanceApprovals.statusCode, status) : undefined,
     );
@@ -103,7 +104,7 @@ export const fetchExpenseApprovals = async (
   status: StatusTypeWithAll,
 ): Promise<Result<ExpenseApprovalRow[]>> => {
   try {
-    const authResult = await requireExpenseAccess();
+    const authResult = await requireApprovalManagement();
     if (!authResult.success) return { success: false, error: authResult.error };
 
     const user = authResult.data;

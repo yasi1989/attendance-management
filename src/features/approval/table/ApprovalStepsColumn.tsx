@@ -2,14 +2,13 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Calendar, CheckCircle2, MessageCircle, User } from 'lucide-react';
 import StatusBadge from '@/components/layout/StatusBadge';
 import { Button } from '@/components/ui/button';
-import { ApprovalStepType } from '@/features/approval/type/approvalStepType';
 import { formatDateForDisplay } from '@/lib/dateClient';
 import { truncate } from '@/lib/utils';
+import { ApprovalStepType } from '../type/approvalStepType';
 
 export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
   {
-    accessorKey: 'approver',
-    id: 'approver',
+    id: 'approverName',
     header: () => (
       <div className="flex items-center justify-center">
         <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
@@ -21,16 +20,12 @@ export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div
-        className="font-semibold text-slate-900 dark:text-slate-100 truncate min-w-[80px]"
-        title={`${row.original.approver.lastName} ${row.original.approver.firstName}`}
-      >
-        {`${row.original.approver.lastName} ${row.original.approver.firstName}`}
+      <div className="font-semibold text-slate-900 dark:text-slate-100 truncate min-w-[80px]">
+        {row.original.approverName}
       </div>
     ),
   },
   {
-    accessorKey: 'status',
     id: 'status',
     header: () => (
       <div className="flex items-center justify-center">
@@ -44,12 +39,11 @@ export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
-        <StatusBadge status={row.original.status} />
+        <StatusBadge status={row.original.statusCode} />
       </div>
     ),
   },
   {
-    accessorKey: 'approvedAt',
     id: 'approvedAt',
     header: () => (
       <div className="flex items-center justify-center">
@@ -62,17 +56,17 @@ export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
       </div>
     ),
     cell: ({ row }) => (
-      <div
-        className="text-slate-900 dark:text-slate-100 min-w-[70px] flex items-center justify-center"
-        title={`${row.original.approvedAt}`}
-      >
-        <span className="block md:hidden">{formatDateForDisplay(row.original.approvedAt, 'MM/dd')}</span>
-        <span className="hidden md:block">{formatDateForDisplay(row.original.approvedAt)}</span>
+      <div className="text-slate-900 dark:text-slate-100 min-w-[70px] flex items-center justify-center">
+        <span className="block md:hidden">
+          {row.original.approvedAt ? formatDateForDisplay(row.original.approvedAt, 'MM/dd') : '-'}
+        </span>
+        <span className="hidden md:block">
+          {row.original.approvedAt ? formatDateForDisplay(row.original.approvedAt) : '-'}
+        </span>
       </div>
     ),
   },
   {
-    accessorKey: 'comment',
     id: 'comment',
     header: () => (
       <div className="flex items-center justify-center">
@@ -87,10 +81,10 @@ export const approvalStepsColumns: ColumnDef<ApprovalStepType>[] = [
     cell: ({ row }) => (
       <div
         className="text-slate-900 dark:text-slate-100 min-w-[100px] md:min-w-[150px] truncate"
-        title={`${row.original.comment || ''}`}
+        title={row.original.comment ?? ''}
       >
-        <span className="block md:hidden">{truncate(row.original.comment || '', 10)}</span>
-        <span className="hidden md:block">{row.original.comment || '-'}</span>
+        <span className="block md:hidden">{truncate(row.original.comment ?? '', 10)}</span>
+        <span className="hidden md:block">{row.original.comment ?? '-'}</span>
       </div>
     ),
   },

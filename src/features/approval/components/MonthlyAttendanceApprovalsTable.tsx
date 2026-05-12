@@ -1,5 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/table/DataTable';
+import { REQUEST_CATEGORIES } from '@/consts/requestsCategory';
 import { URL_PARAMS } from '@/consts/urls';
 import { Department } from '@/lib/actionTypes';
 import { createAttendanceApprovalsColumns } from '../table/CreateAttendanceApprovalsColumns';
@@ -16,7 +17,11 @@ const MonthlyAttendanceApprovalsTable = ({ attendances, departments }: MonthlyAt
   const currentYear = searchParams.get(URL_PARAMS.approval.YEAR);
   const currentMonth = searchParams.get(URL_PARAMS.approval.MONTH);
   const currentStatus = searchParams.get(URL_PARAMS.approval.STATUS);
-  const renderBulkActions = (selectedIds: string[]) => <ApprovalBulkForm selectedIds={selectedIds} />;
+
+  const renderBulkActions = (selectedIds: string[]) => (
+    <ApprovalBulkForm selectedIds={selectedIds} target={REQUEST_CATEGORIES.ATTENDANCE.value} />
+  );
+
   const filterKey = `${currentYear}-${currentMonth}-${currentStatus}`;
 
   return (
