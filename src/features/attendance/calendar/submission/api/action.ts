@@ -1,5 +1,6 @@
 'use server';
 
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { STATUS } from '@/consts/status';
 import { URLS } from '@/consts/urls';
@@ -38,7 +39,14 @@ export const submitMonthlyAttendanceAction = async ({
     });
 
     if (existing) {
-      return { success: false, error: 'この月はすでに申請済みです。' };
+      if (existing.statusCode === STATUS.SUBMITTED.value || existing.statusCode === STATUS.APPROVED.value) {
+        return { success: false, error: 'この月はすでに申請済みです。' };
+      }
+
+      await db
+        .update(monthlyAttendanceApprovals)
+        .set({ statusCode: STATUS.SUBMITTED.value, submittedAt: new Date() })
+        .where(eq(monthlyAttendanceApprovals.id, existing.id));
     }
 
     const approvers = await resolveApprover(user);
