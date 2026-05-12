@@ -1,0 +1,1 @@
+ALTER TABLE "monthly_attendance_approvals" ALTER COLUMN "submitted_at" SET NOT NULL;

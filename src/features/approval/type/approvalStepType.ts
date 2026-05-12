@@ -1,11 +1,8 @@
-import { UserType } from '@/features/system/users/type/userType';
-import { StatusType } from '@/types/statusType';
-
 export type ApprovalStepType = {
+  id: string;
   stepOrder: number;
   approverId: string;
-  approver: UserType;
-  status: StatusType;
-  approvedAt?: Date;
-  comment?: string;
+  statusCode: string;
+  approvedAt: Date | null;
+  comment: string | null;
 };

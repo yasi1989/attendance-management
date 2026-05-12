@@ -3,34 +3,34 @@ import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { ATTENDANCES } from '@/consts/attendance';
 import { STATUS } from '@/consts/status';
 import { useDialogState } from '@/hooks/useDialogState';
-import { type StatusType } from '@/types/statusType';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { type IndividualApprovalType } from '../../lib/formSchema';
 import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
-import { type MonthlyAttendanceApprovalItem } from '../../type/monthlyAttendanceApprovalType';
+import { AttendanceApprovalRow } from '../../type/approvalType';
 import ApprovalActions from './ApprovalActions';
 
 type AttendanceDetailDialogProps = {
-  status: StatusType;
-  attendance: MonthlyAttendanceApprovalItem;
+  status: string;
+  attendance: AttendanceApprovalRow;
 };
 
 export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailDialogProps) => {
   const [isSubmitted, startTransition] = useTransition();
-  const { form, handleIndividualApproval } = useIndividualApproval(
-    attendance.id,
-    async (approvalData: IndividualApprovalType) => {
+  const { form, handleApproval } = useIndividualApproval(
+    attendance.attendanceApprovalStep.id,
+    async (action, comment) => {
       startTransition(async () => {
-        console.log(approvalData);
+        console.log(action, comment);
       });
     },
   );
 
-  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({
-    form,
-  });
+  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+
+  const approval = attendance.monthlyAttendanceApproval;
+  const summary = attendance.summary;
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -42,7 +42,7 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
       <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
         <form>
           <DialogHeaderWithClose
-            title={`${attendance.user.lastName}${attendance.user.firstName} (${attendance.targetMonth.getFullYear()}年${attendance.targetMonth.getMonth() + 1}月)`}
+            title={`${attendance.user.name} (${new Date(approval.targetMonth).getFullYear()}年${new Date(approval.targetMonth).getMonth() + 1}月)`}
             onClose={handleCloseButtonClick}
           />
           <div className="flex flex-col space-y-4 mt-4">
@@ -53,17 +53,17 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
                   <div className="flex justify-between">
                     <span>出勤日数:</span>
                     <span>
-                      {attendance.actualWorkDays}/{attendance.totalWorkDays}日
+                      {summary.actualWorkDays}/{summary.totalWorkDays}日
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>総労働時間:</span>
-                    <span>{attendance.totalWorkHours}時間</span>
+                    <span>{summary.totalWorkHours}時間</span>
                   </div>
                   <div className="flex justify-between">
                     <span>残業時間:</span>
-                    <span className={attendance.overtimeHours > 15 ? 'text-red-600 font-medium' : ''}>
-                      {attendance.overtimeHours}時間
+                    <span className={parseFloat(summary.overtimeHours) > 15 ? 'text-red-600 font-medium' : ''}>
+                      {summary.overtimeHours}時間
                     </span>
                   </div>
                 </div>
@@ -71,26 +71,28 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
               <div className="space-y-2">
                 <h4 className="font-medium text-sm sm:text-base">勤怠内訳</h4>
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded space-y-1 text-sm">
-                  {Object.entries(attendance.categoryBreakdown).map(([category, item]) => (
-                    <div key={category} className="flex justify-between">
-                      <span>{item.name}:</span>
-                      <span>{item.count}日</span>
-                    </div>
-                  ))}
+                  {Object.entries(summary.categoryBreakdown).map(([category, count]) => {
+                    const label = Object.values(ATTENDANCES).find((a) => a.value === category)?.label ?? category;
+                    return (
+                      <div key={category} className="flex justify-between">
+                        <span>{label}:</span>
+                        <span>{count}日</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {attendance.issues?.length > 0 && (
+            {summary.issues && summary.issues.length > 0 && (
               <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
                 <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">注意事項</h4>
                 <ul className="space-y-1 text-sm">
-                  {attendance.issues.includes('excessive_overtime') && (
-                    <li className="text-red-600 dark:text-red-400">⚠ 残業時間が15時間を超えています</li>
-                  )}
-                  {attendance.issues.includes('insufficient_hours') && (
-                    <li className="text-yellow-600 dark:text-yellow-400">⚠ 所定労働時間に達していません</li>
-                  )}
+                  {summary.issues.map((issue) => (
+                    <li key={issue} className="text-yellow-600 dark:text-yellow-400">
+                      ⚠ {issue}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -98,13 +100,13 @@ export const AttendanceDetailDialog = ({ status, attendance }: AttendanceDetailD
             {status === STATUS.SUBMITTED.value && (
               <ApprovalActions
                 form={form}
-                handleIndividualApproval={(status) => handleIndividualApproval(status)}
+                handleIndividualApproval={(action) => handleApproval(action)}
                 isSubmitted={isSubmitted}
               />
             )}
 
             <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-              <DataTable columns={approvalStepsColumns} data={attendance.approvalSteps} />
+              <DataTable columns={approvalStepsColumns} data={[attendance.attendanceApprovalStep]} />
             </div>
           </div>
         </form>

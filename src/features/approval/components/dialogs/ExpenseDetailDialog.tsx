@@ -3,34 +3,33 @@ import DialogHeaderWithClose from '@/components/dialog/DialogHeaderWithClose';
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { STATUS } from '@/consts/status';
 import { useDialogState } from '@/hooks/useDialogState';
 import { formatCurrency } from '@/lib/currency';
-import { type StatusType } from '@/types/statusType';
 import { useIndividualApproval } from '../../hooks/useApprovalForm';
-import { type IndividualApprovalType } from '../../lib/formSchema';
 import { approvalStepsColumns } from '../../table/ApprovalStepsColumn';
-import { type MonthlyExpenseApprovalItem } from '../../type/monthlyExpenseApprovalType';
+import { ExpenseApprovalRow } from '../../type/approvalType';
 import ApprovalActions from './ApprovalActions';
 
 type ExpenseDetailDialogProps = {
-  status: StatusType;
-  expense: MonthlyExpenseApprovalItem;
+  status: string;
+  expense: ExpenseApprovalRow;
 };
 
 export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProps) => {
   const [isSubmitted, startTransition] = useTransition();
-  const { form, handleIndividualApproval } = useIndividualApproval(
-    expense.id,
-    async (approvalData: IndividualApprovalType) => {
+  const { form, handleApproval } = useIndividualApproval(
+    expense.expenseGroupApprovalStep.id,
+    async (action, comment) => {
       startTransition(async () => {
-        console.log(approvalData);
+        console.log(action, comment);
       });
     },
   );
 
-  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({
-    form,
-  });
+  const { open, handleOpenChange, handleCloseButtonClick } = useDialogState({ form });
+
+  const approval = expense.groupExpenseApproval;
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -42,7 +41,7 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
       <DialogContent className="[&>button]:hidden w-full sm:max-w-3xl lg:max-w-4xl max-h-[90vh] overflow-y-auto">
         <form>
           <DialogHeaderWithClose
-            title={`${expense.user.lastName}${expense.user.firstName} (${expense.targetMonth.getFullYear()}年${expense.targetMonth.getMonth() + 1}月)`}
+            title={`${expense.user.name} (${new Date(approval.submittedAt).getFullYear()}年${new Date(approval.submittedAt).getMonth() + 1}月)`}
             onClose={handleCloseButtonClick}
           />
           <div className="flex flex-col space-y-4 mt-4">
@@ -58,6 +57,12 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
                     <span>件数:</span>
                     <span>{expense.itemCount}件</span>
                   </div>
+                  {approval.purpose && (
+                    <div className="flex justify-between">
+                      <span>申請目的:</span>
+                      <span>{approval.purpose}</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="space-y-2">
@@ -76,27 +81,16 @@ export const ExpenseDetailDialog = ({ status, expense }: ExpenseDetailDialogProp
               </div>
             </div>
 
-            {expense.issues.length > 0 && (
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
-                <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">注意事項</h4>
-                <ul className="space-y-1 text-sm">
-                  {expense.issues.includes('high_amount') && (
-                    <li className="text-red-600 dark:text-red-400">⚠ 高額申請のため上位承認が必要です</li>
-                  )}
-                </ul>
-              </div>
-            )}
-
-            {status === 'Submitted' && (
+            {status === STATUS.SUBMITTED.value && (
               <ApprovalActions
                 form={form}
-                handleIndividualApproval={(status) => handleIndividualApproval(status)}
+                handleIndividualApproval={(action) => handleApproval(action)}
                 isSubmitted={isSubmitted}
               />
             )}
 
             <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-              <DataTable columns={approvalStepsColumns} data={expense.approvalSteps} />
+              <DataTable columns={approvalStepsColumns} data={[expense.expenseGroupApprovalStep]} />
             </div>
           </div>
         </form>

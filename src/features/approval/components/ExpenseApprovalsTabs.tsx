@@ -1,10 +1,10 @@
 import { DollarSign } from 'lucide-react';
 import { Department } from '@/lib/actionTypes';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import { ExpenseApprovalRow } from '../type/approvalType';
 import MonthlyExpenseApprovalsTable from './MonthlyExpenseApprovalsTable';
 
 type ExpenseApprovalsTabsProps = {
-  expenses: MonthlyExpenseApprovalItem[];
+  expenses: ExpenseApprovalRow[];
   myCompanyDepartments: Department[];
 };
 

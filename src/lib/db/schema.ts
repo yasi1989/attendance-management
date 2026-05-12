@@ -137,7 +137,7 @@ export const monthlyAttendanceApprovals = pgTable('monthly_attendance_approvals'
     enum: ['Pending', 'Submitted', 'Rejected', 'Approved'],
   }).notNull(),
   targetMonth: dateOnly('target_month').notNull(),
-  submittedAt: timestamp('submitted_at', { mode: 'date' }),
+  submittedAt: timestamp('submitted_at', { mode: 'date' }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true })
     .defaultNow()
@@ -357,6 +357,10 @@ export const expensesRelations = relations(expenses, ({ one }) => ({
 }));
 
 export const monthlyAttendanceApprovalsRelations = relations(monthlyAttendanceApprovals, ({ many, one }) => ({
+  user: one(users, {
+    fields: [monthlyAttendanceApprovals.userId],
+    references: [users.id],
+  }),
   approvalSteps: many(attendanceApprovalSteps),
 }));
 

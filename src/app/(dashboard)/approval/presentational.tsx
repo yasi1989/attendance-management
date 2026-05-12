@@ -5,14 +5,13 @@ import CommonPageHeader from '@/components/layout/CommonPageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import ApprovalExpenseItemsTab from '@/features/approval/components/ApprovalExpenseItemsTab';
 import ApprovalFilterSelector from '@/features/approval/components/ApprovalFilterSelector';
-import { MonthlyAttendanceApprovalItem } from '@/features/approval/type/monthlyAttendanceApprovalType';
-import { MonthlyExpenseApprovalItem } from '@/features/approval/type/monthlyExpenseApprovalType';
+import { AttendanceApprovalRow, ExpenseApprovalRow } from '@/features/approval/type/approvalType';
 import { Department } from '@/lib/actionTypes';
 import { StatusTypeWithAll } from '@/types/statusType';
 
 type ApprovalPresentationalProps = {
-  attendances: MonthlyAttendanceApprovalItem[];
-  expenses: MonthlyExpenseApprovalItem[];
+  attendances: AttendanceApprovalRow[];
+  expenses: ExpenseApprovalRow[];
   myCompanyDepartments: Department[];
   currentYear: number;
   currentMonth: number;

@@ -4,14 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { REQUEST_CATEGORIES } from '@/consts/requestsCategory';
 import { Department } from '@/lib/actionTypes';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import { AttendanceApprovalRow, ExpenseApprovalRow } from '../type/approvalType';
 import AttendanceApprovalsTabs from './AttendanceApprovalsTabs';
 import ExpenseApprovalsTabs from './ExpenseApprovalsTabs';
 
 type ApprovalExpenseItemsTabProps = {
-  attendances: MonthlyAttendanceApprovalItem[];
-  expenses: MonthlyExpenseApprovalItem[];
+  attendances: AttendanceApprovalRow[];
+  expenses: ExpenseApprovalRow[];
   myCompanyDepartments: Department[];
 };
 

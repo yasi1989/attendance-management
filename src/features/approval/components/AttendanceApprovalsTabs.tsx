@@ -1,10 +1,10 @@
 import { Clock } from 'lucide-react';
 import { Department } from '@/lib/actionTypes';
-import { MonthlyAttendanceApprovalItem } from '../type/monthlyAttendanceApprovalType';
+import { AttendanceApprovalRow } from '../type/approvalType';
 import MonthlyAttendanceApprovalsTable from './MonthlyAttendanceApprovalsTable';
 
 type AttendanceApprovalsTabsProps = {
-  attendances: MonthlyAttendanceApprovalItem[];
+  attendances: AttendanceApprovalRow[];
   myCompanyDepartments: Department[];
 };
 

@@ -9,7 +9,7 @@ import { formatCurrency } from '@/lib/currency';
 import { canPerformApprovalOrRejection } from '@/lib/status';
 import ApprovalStatusBadge from '../../../components/layout/StatusBadge';
 import { ExpenseDetailDialog } from '../components/dialogs/ExpenseDetailDialog';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import { ExpenseApprovalRow } from '../type/approvalType';
 
 type ExpenseApprovalsColumnsProps = {
   departments: Department[];
@@ -17,23 +17,23 @@ type ExpenseApprovalsColumnsProps = {
 
 export const createExpenseApprovalsColumns = ({
   departments,
-}: ExpenseApprovalsColumnsProps): ColumnDef<MonthlyExpenseApprovalItem>[] => {
+}: ExpenseApprovalsColumnsProps): ColumnDef<ExpenseApprovalRow>[] => {
   return [
     {
       id: 'select',
       header: ({ table }) => {
-        const SubmittedRows = table
+        const submittedRows = table
           .getRowModel()
-          .rows.filter((row) => canPerformApprovalOrRejection(row.original.status));
-        const allSubmittedSelected = SubmittedRows.length > 0 && SubmittedRows.every((row) => row.getIsSelected());
-        const someSubmittedSelected = SubmittedRows.some((row) => row.getIsSelected());
+          .rows.filter((row) => canPerformApprovalOrRejection(row.original.groupExpenseApproval.statusCode));
+        const allSubmittedSelected = submittedRows.length > 0 && submittedRows.every((row) => row.getIsSelected());
+        const someSubmittedSelected = submittedRows.some((row) => row.getIsSelected());
 
         return (
           <div className="flex items-center justify-center">
             <Checkbox
               checked={allSubmittedSelected || (someSubmittedSelected && 'indeterminate')}
               onCheckedChange={(value) => {
-                SubmittedRows.forEach((row) => {
+                submittedRows.forEach((row) => {
                   row.toggleSelected(!!value);
                 });
               }}
@@ -43,25 +43,21 @@ export const createExpenseApprovalsColumns = ({
           </div>
         );
       },
-      cell: ({ row }) => {
-        const status = row.original.status;
-        return (
-          <div className="flex items-center justify-center">
-            <Checkbox
-              disabled={!canPerformApprovalOrRejection(status)}
-              checked={row.getIsSelected()}
-              onCheckedChange={(value) => row.toggleSelected(!!value)}
-              aria-label="Select row"
-              className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-            />
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center">
+          <Checkbox
+            disabled={!canPerformApprovalOrRejection(row.original.groupExpenseApproval.statusCode)}
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+            className="border-slate-400 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+          />
+        </div>
+      ),
       enableSorting: false,
       enableHiding: false,
     },
     {
-      accessorKey: 'name',
       id: 'name',
       header: () => (
         <div className="flex items-center justify-center">
@@ -72,43 +68,33 @@ export const createExpenseApprovalsColumns = ({
         </div>
       ),
       cell: ({ row }) => (
-        <div
-          className="font-semibold text-slate-900 dark:text-slate-100"
-          title={`${row.original.user.lastName} ${row.original.user.firstName}`}
-        >
-          {`${row.original.user.lastName} ${row.original.user.firstName}`}
+        <div className="font-semibold text-slate-900 dark:text-slate-100" title={row.original.user.name}>
+          {row.original.user.name}
         </div>
       ),
       meta: {
         enableColumnFilter: true,
         japaneseLabel: '従業員',
       },
-      filterFn: (row, _id, filterValue) => {
-        const name = `${row.original.user.lastName} ${row.original.user.firstName}`;
-        return name.includes(filterValue);
-      },
+      filterFn: (row, _id, filterValue) => row.original.user.name.includes(filterValue),
     },
     {
-      accessorKey: 'status',
       id: 'status',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <Check />
-              状態
-            </Button>
-          </div>
-        );
-      },
+      header: () => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">
+            <Check />
+            状態
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="text-center">
-          <ApprovalStatusBadge status={row.original.status} />
+          <ApprovalStatusBadge status={row.original.groupExpenseApproval.statusCode} />
         </div>
       ),
     },
     {
-      accessorKey: 'departmentName',
       id: 'departmentName',
       header: () => (
         <div className="flex items-center justify-center">
@@ -119,7 +105,7 @@ export const createExpenseApprovalsColumns = ({
         </div>
       ),
       cell: ({ row }) => {
-        const departmentPath = getDepartmentPath(departments, row.original.user.departmentId);
+        const departmentPath = getDepartmentPath(departments, row.original.user.departmentId ?? undefined);
         const pathParts = departmentPath.split(' > ');
 
         return (
@@ -147,25 +133,22 @@ export const createExpenseApprovalsColumns = ({
       },
       filterFn: (row, _id, filterValue) => {
         const department = departments.find((d: Department) => d.id === row.original.user.departmentId);
-        const departmentPath = getDepartmentPath(departments, row.original.user.departmentId);
+        const departmentPath = getDepartmentPath(departments, row.original.user.departmentId ?? undefined);
         return department
           ? department.departmentName.includes(filterValue) || departmentPath.includes(filterValue)
           : false;
       },
     },
     {
-      accessorKey: 'totalAmount',
       id: 'totalAmount',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <Clock />
-              申請金額
-            </Button>
-          </div>
-        );
-      },
+      header: () => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">
+            <Clock />
+            申請金額
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-slate-900 dark:text-slate-100">{formatCurrency(row.original.totalAmount)}</div>
@@ -177,18 +160,15 @@ export const createExpenseApprovalsColumns = ({
       },
     },
     {
-      accessorKey: 'itemCount',
       id: 'itemCount',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <Timer />
-              件数
-            </Button>
-          </div>
-        );
-      },
+      header: () => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">
+            <Timer />
+            件数
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="text-center">
           <div className="text-slate-900 dark:text-slate-100">{row.original.itemCount}</div>
@@ -196,18 +176,15 @@ export const createExpenseApprovalsColumns = ({
       ),
     },
     {
-      accessorKey: 'categoryBreakdown',
       id: 'categoryBreakdown',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <List />
-              内訳
-            </Button>
-          </div>
-        );
-      },
+      header: () => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">
+            <List />
+            内訳
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="text-center">
           <div className="flex flex-wrap gap-1">
@@ -226,23 +203,19 @@ export const createExpenseApprovalsColumns = ({
     },
     {
       id: 'actions',
-      header: () => {
-        return (
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
-              <Settings />
-              操作
-            </Button>
-          </div>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center justify-center">
-            <ExpenseDetailDialog status={row.original.status} expense={row.original} />
-          </div>
-        );
-      },
+      header: () => (
+        <div className="flex items-center justify-center">
+          <Button variant="ghost">
+            <Settings />
+            操作
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center">
+          <ExpenseDetailDialog status={row.original.groupExpenseApproval.statusCode} expense={row.original} />
+        </div>
+      ),
     },
   ];
 };

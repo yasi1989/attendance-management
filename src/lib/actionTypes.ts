@@ -1,8 +1,10 @@
 import { InferSelectModel } from 'drizzle-orm';
 import {
+  attendanceApprovalSteps,
   attendances,
   companies,
   departments,
+  expenseGroupApprovalSteps,
   expenses,
   groupExpenseApprovals,
   holidays,
@@ -28,3 +30,5 @@ export type MonthlyAttendanceApproval = InferSelectModel<typeof monthlyAttendanc
 export type Expense = InferSelectModel<typeof expenses>;
 export type GroupExpenseApproval = InferSelectModel<typeof groupExpenseApprovals>;
 export type ExpenseWithApproval = Expense & { groupExpenseApproval: GroupExpenseApproval | null };
+export type AttendanceApprovalStep = InferSelectModel<typeof attendanceApprovalSteps>;
+export type ExpenseApprovalStep = InferSelectModel<typeof expenseGroupApprovalSteps>;

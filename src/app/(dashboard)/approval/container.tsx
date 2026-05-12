@@ -1,4 +1,8 @@
-import { fetchMonthlyApprovals } from '@/features/approval/services/fetchMonthlyApprovals';
+import {
+  fetchApprovalDepartments,
+  fetchAttendanceApprovals,
+  fetchExpenseApprovals,
+} from '@/features/approval/api/fetches';
 import { StatusTypeWithAll } from '@/types/statusType';
 import ApprovalPresentational from './presentational';
 
@@ -9,13 +13,21 @@ type ApprovalContainerProps = {
 };
 
 const ApprovalContainer = async ({ year, month, status }: ApprovalContainerProps) => {
-  const { attendances, expenses, myCompanyDepartments } = await fetchMonthlyApprovals({ year, month, status });
+  const [attendanceResult, expenseResult, departmentResult] = await Promise.all([
+    fetchAttendanceApprovals(year, month, status),
+    fetchExpenseApprovals(year, month, status),
+    fetchApprovalDepartments(),
+  ]);
+
+  if (!attendanceResult.success) throw attendanceResult.error;
+  if (!expenseResult.success) throw expenseResult.error;
+  if (!departmentResult.success) throw departmentResult.error;
 
   return (
     <ApprovalPresentational
-      attendances={attendances}
-      expenses={expenses}
-      myCompanyDepartments={myCompanyDepartments}
+      attendances={attendanceResult.data}
+      expenses={expenseResult.data}
+      myCompanyDepartments={departmentResult.data}
       currentYear={year}
       currentMonth={month}
       currentStatus={status}

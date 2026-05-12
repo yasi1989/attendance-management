@@ -3,11 +3,11 @@ import { DataTable } from '@/components/table/DataTable';
 import { URL_PARAMS } from '@/consts/urls';
 import { Department } from '@/lib/actionTypes';
 import { createExpenseApprovalsColumns } from '../table/CreateExpenseApprovalsColumns';
-import { MonthlyExpenseApprovalItem } from '../type/monthlyExpenseApprovalType';
+import { ExpenseApprovalRow } from '../type/approvalType';
 import ApprovalBulkForm from './ApprovalBulkForm';
 
 type MonthlyExpenseApprovalsTableProps = {
-  expenses: MonthlyExpenseApprovalItem[];
+  expenses: ExpenseApprovalRow[];
   departments: Department[];
 };
 
