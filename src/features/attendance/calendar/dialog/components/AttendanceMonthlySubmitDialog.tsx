@@ -14,12 +14,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { formatDisplayYearMonth } from '../../lib/calendarUtils';
 
-type AttendanceBulkDialogProps = {
+type AttendanceMonthlySubmitDialogProps = {
   currentDate: Date;
   canSubmit: boolean;
 };
 
-const AttendanceBulkDialog = ({ currentDate, canSubmit }: AttendanceBulkDialogProps) => {
+const AttendanceMonthlySubmitDialog = ({ currentDate, canSubmit }: AttendanceMonthlySubmitDialogProps) => {
   const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false);
   const [comment, setComment] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -128,4 +128,4 @@ const AttendanceBulkDialog = ({ currentDate, canSubmit }: AttendanceBulkDialogPr
   );
 };
 
-export default AttendanceBulkDialog;
+export default AttendanceMonthlySubmitDialog;
