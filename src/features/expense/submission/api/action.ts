@@ -31,14 +31,22 @@ export const submitExpensesAction = async (
 
     const targetExpenses = await db.query.expenses.findMany({
       where: and(eq(expenses.userId, user.id), inArray(expenses.id, expenseIds)),
+      with: {
+        groupExpenseApproval: true,
+      },
     });
 
     if (targetExpenses.length !== expenseIds.length) {
       return { success: false, error: '申請対象の経費が見つかりませんでした' };
     }
 
-    const alreadySubmitted = targetExpenses.some((e) => e.groupExpenseApprovalId !== null);
-    if (alreadySubmitted) return { success: false, error: '申請済みの経費が含まれています' };
+    const hasNonRejected = targetExpenses.some(
+      (e) =>
+        e.groupExpenseApproval !== null &&
+        (e.groupExpenseApproval.statusCode === STATUS.SUBMITTED.value ||
+          e.groupExpenseApproval.statusCode === STATUS.APPROVED.value),
+    );
+    if (hasNonRejected) return { success: false, error: '申請済みの経費が含まれています' };
 
     const approvers = await resolveApprover(user);
     if (approvers.length === 0) {
